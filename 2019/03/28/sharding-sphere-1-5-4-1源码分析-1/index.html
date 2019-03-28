@@ -98,24 +98,24 @@
 
 
 
-  <meta name="description" content="关于Spring这是一篇关于Spring的文章">
+  <meta name="description" content="分析从官方提供的example开始查看sharding-jdbc-example-jdbc模块的Main函数.这句代码最关键，创建datasource。通过datasource应用程序和数据库打交道。中间件sharding-jdbc使用datasource与应用程序交互，完全屏蔽的底层中间件和数据库交互的部分。使得应用程序可以像使用普通数据库一样，使用sharding-jdbc。getShardi">
 <meta property="og:type" content="article">
-<meta property="og:title" content="关于Spring">
-<meta property="og:url" content="http://yoursite.com/2019/03/15/关于Spring/index.html">
+<meta property="og:title" content="sharding-sphere-1.5.4.1源码分析(1)">
+<meta property="og:url" content="http://yoursite.com/2019/03/28/sharding-sphere-1-5-4-1源码分析-1/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="关于Spring这是一篇关于Spring的文章">
+<meta property="og:description" content="分析从官方提供的example开始查看sharding-jdbc-example-jdbc模块的Main函数.这句代码最关键，创建datasource。通过datasource应用程序和数据库打交道。中间件sharding-jdbc使用datasource与应用程序交互，完全屏蔽的底层中间件和数据库交互的部分。使得应用程序可以像使用普通数据库一样，使用sharding-jdbc。getShardi">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-03-19T02:19:47.263Z">
+<meta property="og:updated_time" content="2019-03-28T11:54:16.263Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="关于Spring">
-<meta name="twitter:description" content="关于Spring这是一篇关于Spring的文章">
+<meta name="twitter:title" content="sharding-sphere-1.5.4.1源码分析(1)">
+<meta name="twitter:description" content="分析从官方提供的example开始查看sharding-jdbc-example-jdbc模块的Main函数.这句代码最关键，创建datasource。通过datasource应用程序和数据库打交道。中间件sharding-jdbc使用datasource与应用程序交互，完全屏蔽的底层中间件和数据库交互的部分。使得应用程序可以像使用普通数据库一样，使用sharding-jdbc。getShardi">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/15/关于Spring/">
+  <link rel="canonical" href="http://yoursite.com/2019/03/28/sharding-sphere-1-5-4-1源码分析-1/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>关于Spring | Hexo</title>
+  <title>sharding-sphere-1.5.4.1源码分析(1) | Hexo</title>
   
 
 
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/15/关于Spring/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/sharding-sphere-1-5-4-1源码分析-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -358,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">关于Spring
+          <h1 class="post-title" itemprop="name headline">sharding-sphere-1.5.4.1源码分析(1)
 
               
             
@@ -384,24 +384,12 @@
                 
               
 
-              <time title="Created: 2019-03-15 17:47:05" itemprop="dateCreated datePublished" datetime="2019-03-15T17:47:05+08:00">2019-03-15</time>
+              <time title="Created: 2019-03-28 17:56:12 / Modified: 19:54:16" itemprop="dateCreated datePublished" datetime="2019-03-28T17:56:12+08:00">2019-03-28</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-03-19 10:19:47" itemprop="dateModified" datetime="2019-03-19T10:19:47+08:00">2019-03-19</time>
               
             
           </span>
@@ -435,7 +423,8 @@
       
 
       
-        <h2 id="关于Spring"><a href="#关于Spring" class="headerlink" title="关于Spring"></a>关于Spring</h2><h4 id="这是一篇关于Spring的文章"><a href="#这是一篇关于Spring的文章" class="headerlink" title="这是一篇关于Spring的文章"></a>这是一篇关于Spring的文章</h4>
+        <p>分析从官方提供的example开始<br>查看sharding-jdbc-example-jdbc模块的Main函数.这句代码最关键，创建datasource。通过datasource应用程序和数据库打交道。中间件sharding-jdbc使用datasource与应用程序交互，完全屏蔽的底层中间件和数据库交互的部分。使得应用程序可以像使用普通数据库一样，使用sharding-jdbc。<br>getShardingDataSource返回hardingDataSource（继承DataSource接口）<br>DataSource dataSource = getShardingDataSource();<br>初始化dataSource主要由此段代码完成。<br>1 new ShardingDataSource(shardingRule)；<br>    1.1 shardingRule需要dataSourceRule，tableRule, bindingTableRules, databaseShardingStrategy, tableShardingStrategy作为建造者函数的输入才能够创建。<br>        1.1.1 dataSourceRule存储多个数据库的信息，以map&lt;key,value&gt;形式存储。<br>        1.1.2 tableRule存储各个逻辑表与物理表的映射关系。<br>        1.1.3 bindingTableRules存储着具有绑定关系的表集合。他们的特点是，具有逻辑表与实际表之间的映射关系是相同的。这样简化了join查询。<br>        1.1.4 databaseShardingStrategy制定了database的选择策略。比如：按照userid取模，选择1库还是2库。<br>        1.1.5 tableShardingStrategy制定了table的逻辑表到物理表的选择策略。比如：按照orderid取模，选择1表还是2表。<br>        1.1.5.1 ModuloTableShardingAlgorith作为tableShardingStrategy的输入参数。ModuloTableShardingAlgorith主要功能是通过分片键和算法（比如，取模算法）得到标记编码组合逻辑表，得到物理表名（比如：逻辑表_编码，table_1）。它提供了三个函数doEqualSharding，doInSharding，doBetweenSharding。分别针对分片键出现在where子句中的=,in,beween时，也就是满足条件的分片键（1个或者多个）。<br>        1.1.5.1.1 这三个Sharding函数都用两个共同的输入，物理表集合和ShardingValue。ShardingValue包含：逻辑表名、列名、分片键的值。<br>        1.1.5.2 ShardingStrategy.java中的doSharding()方法调用。ModuloTableShardingAlgorithm继承自SingleKeyShardingAlgorithm。ShardingStrategy内部会针对算法的不同：NoneKeyShardingAlgorithm，SingleKeyShardingAlgorithm，MultipleKeysShardingAlgorithm做不同的分片逻辑。</p>
+
       
     </div>
 
@@ -465,8 +454,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/15/hello-world/" rel="next" title="Hello World">
-                <i class="fa fa-chevron-left"></i> Hello World
+              <a href="/2019/03/28/关于高并发/" rel="next" title="关于高并发">
+                <i class="fa fa-chevron-left"></i> 关于高并发
               </a>
             
           </div>
@@ -474,10 +463,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/27/关于sharding-sphere/" rel="prev" title="sharding-sphere源码分析(1)">
-                sharding-sphere源码分析(1) <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -521,17 +506,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap">
-            Table of Contents
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview-wrap">
-            Overview
-          </li>
-        </ul>
-      
 
-      <div class="site-overview-wrap sidebar-panel">
+      <div class="site-overview-wrap sidebar-panel sidebar-panel-active">
         <div class="site-overview">
           <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
             
@@ -605,23 +581,6 @@
         </div>
       </div>
 
-      
-      <!--noindex-->
-        <div class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-            
-            
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#关于Spring"><span class="nav-number">1.</span> <span class="nav-text">关于Spring</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#这是一篇关于Spring的文章"><span class="nav-number">1.0.1.</span> <span class="nav-text">这是一篇关于Spring的文章</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </div>
-      <!--/noindex-->
       
 
       
