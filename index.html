@@ -338,6 +338,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/sharding-sphere-1-5-4-1源码分析-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/03/29/sharding-sphere-1-5-4-1源码分析-2/" class="post-title-link" itemprop="url">sharding-sphere-1-5-4-1源码分析-2</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-03-29 11:31:10 / Modified: 12:38:28" itemprop="dateCreated datePublished" datetime="2019-03-29T11:31:10+08:00">2019-03-29</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>通过分析sharding-jdbc-config-parent模块，学习如何通过YAML配置或者spring配置创建ShardingDataSource；sharding-jdbc-config-parent模块包含了三个子模块，关系如下图所示：<br>sharding-jdbc-config-parent<br>|_sharding-jdbc-config-common<br>|_sharding-jdbc-config-spring<br>|_sharding-jdbc-config-yaml<br>无论是yaml方式还是spring方式配置ShardingDataSource，最终都会转化为sharding-jdbc-config-common中定义的对象</p>
+<p><strong>使用yaml方式创建datasource</strong><br>YamlShardingDataSource继承自ShardingDateSource位于sharding-jdbc-config-yaml模块<br>1.YamlShardingDataSource构造函数，调用ShardingDataSource(final ShardingRule shardingRule, final Properties props)完成初始化，得到ymalShardingDataSource(继承自datasource）。<br>1.1 调用ShardingDataSource构造函数内部，完成对shardingProperties，executorEngine，shardingContext，databaseType(这个来自父类)的初始化。这几个成员分别都具有怎样的作用？？</p>
+<p><strong>使用spirng配置创建datasource</strong><br>通过ApplicationContext applicationContext = new ClassPathXmlApplicationContext(“META-INF/applicationContextWithAssignedDataSource.xml”);来加载配置文件，文件中rdb节点就是sharding-jdbc定义节点部分。<br>通过sharding-jdbc-config-spring模块中spring.handlers里的配置<a href="http://www.dangdang.com/schema/ddframe/rdb=com.dangdang.ddframe.rdb.sharding.spring.namespace.handler.ShardingJdbcNamespaceHandler可知，spring.xml中的" target="_blank" rel="noopener">http://www.dangdang.com/schema/ddframe/rdb=com.dangdang.ddframe.rdb.sharding.spring.namespace.handler.ShardingJdbcNamespaceHandler可知，spring.xml中的</a><rdb>节点由ShardingJdbcNamespaceHandler进行解析</rdb></p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/28/sharding-sphere-1-5-4-1源码分析-1/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -400,7 +545,7 @@
                 
                   <span class="post-meta-item-text">Edited on</span>
                 
-                <time title="Modified: 2019-03-29 11:25:39" itemprop="dateModified" datetime="2019-03-29T11:25:39+08:00">2019-03-29</time>
+                <time title="Modified: 2019-03-29 11:29:43" itemprop="dateModified" datetime="2019-03-29T11:29:43+08:00">2019-03-29</time>
               
             
           </span>
@@ -1104,7 +1249,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">5</span>
+                    <span class="site-state-item-count">6</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
