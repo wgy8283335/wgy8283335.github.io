@@ -338,6 +338,151 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/02/sharding-sphere-1-5-4-1源码分析-3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content>
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                
+                <a href="/2019/04/02/sharding-sphere-1-5-4-1源码分析-3/" class="post-title-link" itemprop="url">sharding-sphere-1.5.4.1源码分析-3</a>
+              
+            
+          </h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+
+            
+            
+            
+
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">Posted on</span>
+              
+
+              
+                
+              
+
+              <time title="Created: 2019-04-02 08:48:23 / Modified: 10:08:12" itemprop="dateCreated datePublished" datetime="2019-04-02T08:48:23+08:00">2019-04-02</time>
+            
+
+            
+              
+
+              
+            
+          </span>
+
+          
+
+          
+            
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在依赖了shardingjdbc后，通过下面的三个步骤来执行sql。<br><code>String sql = &quot;SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.user_id=? AND o.order_id=?&quot;;</code><br><code>PreparedStatement preparedStatement = conn.prepareStatement(sql);</code><br><code>preparedStatement.executeQuery();</code><br>其中preparedStatement.executeQuery()即是调用ShardingPreparedStatement的executeQuery()方法。这里面的执行过程就是SQL查询的两个核心：路由和结果合并。<br>1.通过调用route()来解析SQL如何路由执行。<br>1.1里面调用了<code>routingEngine.route(getParameters());</code>内部调用PreparedStatementRoutingEngine中的route()方法，route()方法调用sqlRouter.route(logicSQL, parameters, sqlStatement)<br>1.1.1SQLRouter接口有两个实现类：DatabaseHintSQLRouter和ParsingSQLRouter，由于这里没有用hint语法强制执行某个库，所以调用ParsingSQLRouter中的route()方法。如果sql中只有一个表名，或者多个表名之间是绑定表关系，或者所有表都在默认数据源指定的数据库中（即不参与分库分表的表），那么用SimpleRoutingEngine作为路由判断引擎；否则使用ComplexRoutingEngine<br>1.1.1.1SimpleRoutingEngine。根据逻辑表的名字取到相关的tablerule（数据源路由策略和表路由策略），然后根据tablerule得到查找得到相应的数据源，在数据源内再应用tablerule得到相应的物理表。将得到的路由数据源和表信息封装到RoutingResult中，RoutingResult中有个TableUnits类型属性，TableUnits类中有个List<tableunit> tableUnits属性，TableUnit包含三个属性：dataSourceName–数据源名称，logicTableName–逻辑表名称，actualTableName–实际表名称，例如：TableUnit:{dataSourceName:ds_jdbc_1, logicTableName:t_order, actualTableName: t_order_1}</tableunit></p>
+<p>1.1.1.2ComplexRoutingEngine</p>
+<p>2.根据路由信息执行SQL。</p>
+
+          
+        
+      
+    </div>
+
+    
+
+    
+    
+    
+
+    
+
+    
+      
+    
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/Disruptor/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1392,7 +1537,7 @@
                 
                   <a href="/archives/">
                 
-                    <span class="site-state-item-count">7</span>
+                    <span class="site-state-item-count">8</span>
                     <span class="site-state-item-name">posts</span>
                   </a>
                 </div>
