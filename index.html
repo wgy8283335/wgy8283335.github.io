@@ -338,7 +338,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/03/sharding-sphere-1-5-4-1源码分析-4/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/04/sharding-sphere-1-5-4-1源码分析-分布式id-4/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -358,7 +358,7 @@
           <h1 class="post-title" itemprop="name headline">
                 
                 
-                <a href="/2019/04/03/sharding-sphere-1-5-4-1源码分析-4/" class="post-title-link" itemprop="url">sharding-sphere-1-5-4-1源码分析-4</a>
+                <a href="/2019/04/04/sharding-sphere-1-5-4-1源码分析-分布式id-4/" class="post-title-link" itemprop="url"> sharding-sphere-1.5.4.1源码分析-分布式id-4</a>
               
             
           </h1>
@@ -383,9 +383,13 @@
                 
               
 
-              <time title="Created: 2019-04-03 09:03:28" itemprop="dateCreated datePublished" datetime="2019-04-03T09:03:28+08:00">2019-04-03</time>
+              <time title="Created: 2019-04-04 08:33:02 / Modified: 08:45:16" itemprop="dateCreated datePublished" datetime="2019-04-04T08:33:02+08:00">2019-04-04</time>
             
 
+            
+              
+
+              
             
           </span>
 
@@ -420,7 +424,12 @@
       
         
           
-            
+            <p>一个逻辑表分库分表后生成多个物理表，他们之间的主键唯一性成为一个问题。目前有许多第三方解决方案可以完美解决这个问题，比如UUID等依靠特定算法自生成不重复键（由于InnoDB采用的B+Tree索引特性，UUID生成的主键插入性能较差），或者通过引入Id生成服务等。 但也正因为这种多样性导致了Sharding-JDBC如果强依赖于任何一种方案就会限制其自身的发展。<br>基于以上的原因，最终采用了以JDBC接口来实现对于生成Id的访问，而将底层具体的Id生成实现分离出来。<br>sharding-jdbc的分布式ID采用twitter开源的snowflake算法，不需要依赖任何第三方组件，这样其扩展性和维护性得到最大的简化；但是snowflake算法的缺陷（强依赖时间，如果时钟回拨，就会生成重复的ID），sharding-jdbc没有给出解决方案，如果用户想要强化，需要自行扩展；目前美团的leaf算法解决了始终回退的问题，在新版本中也似乎会有支持。<br>sharding-jdbc-core模块中的com.dangdang.ddframe.rdb.sharding.keygen.DefaultKeyGenerator.java是snowflake算法具体实现。<br>生成key需要获取workerId。获取workerId的方式有三种。<br>1.根据机器名最后的数字编号获取工作进程Id.如果线上机器命名有统一规范,建议使用此种方式.<br>  例如机器的HostName为:dangdang-db-sharding-dev-01(公司名-部门名-服务名-环境名-编号)<br>  ,会截取HostName最后的编号01作为workerId.</p>
+<ol start="2">
+<li>根据机器IP获取工作进程Id,如果线上机器的IP二进制表示的最后10位不重复,建议使用此种方式<br>,列如机器的IP为192.168.1.108,二进制表示:11000000 10101000 00000001 01101100<br>,截取最后10位 01 01101100,转为十进制364,设置workerId为364.</li>
+<li>根据机器IP获取工作进程ID，感觉对服务器IP后10位（特别是IPV6）数值比较约束.<br>有以下优化思路：<br>因为workerId最大限制是2^10，我们生成的workerId只要满足小于最大workerId即可。<br>1.针对IPV4:<br>….IP最大 255.255.255.255。而（255+255+255+255) &lt; 1024。<br>….因此采用IP段数值相加即可生成唯一的workerId，不受IP位限制。<br>2.针对IPV6:<br>….IP最大ffff:ffff:ffff:ffff:ffff:ffff:ffff:ffff<br>….为了保证相加生成出的workerId &lt; 1024,思路是将每个bit位的后6位相加。这样在一定程度上也可以满足workerId不重复的问题。<br>使用这种IP生成workerId的方法,必须保证IP段相加不能重复</li>
+</ol>
+
           
         
       
