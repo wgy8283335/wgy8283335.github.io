@@ -98,24 +98,24 @@
 
 
 
-  <meta name="description" content="路由：将原SQL转换成在真实数据库真实表中可执行SQL的过程。例如：SELECT * FROM t_order WHERE order_id IN (1, 2); 路由后成为SELECT * FROM t_order_0 WHERE order_id IN (1, 2);SELECT * FROM t_order_1 WHERE order_id IN (1, 2); 分片路由 标准路由 单片路">
+  <meta name="description" content="分布式服务场景下，业务系统对于数据库中主键ID的需求主要有以下：1.全局唯一性：不能出现重复的ID号。2.趋势递增：在MySQL InnoDB引擎中使用的是聚集索引，由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。3.单调递增：保证下一个ID一定大于上一个ID，例如事务版本号、IM增量消息、排序等特殊需求。4.信息安全：如果ID是">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sharding-sphere路由概念">
-<meta property="og:url" content="http://yoursite.com/2019/03/29/sharding-sphere路由概念详解/index.html">
+<meta property="og:title" content="Leaf-分布式ID生成系统">
+<meta property="og:url" content="http://yoursite.com/2019/04/17/Leaf-分布式ID生成系统/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="路由：将原SQL转换成在真实数据库真实表中可执行SQL的过程。例如：SELECT * FROM t_order WHERE order_id IN (1, 2); 路由后成为SELECT * FROM t_order_0 WHERE order_id IN (1, 2);SELECT * FROM t_order_1 WHERE order_id IN (1, 2); 分片路由 标准路由 单片路">
+<meta property="og:description" content="分布式服务场景下，业务系统对于数据库中主键ID的需求主要有以下：1.全局唯一性：不能出现重复的ID号。2.趋势递增：在MySQL InnoDB引擎中使用的是聚集索引，由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。3.单调递增：保证下一个ID一定大于上一个ID，例如事务版本号、IM增量消息、排序等特殊需求。4.信息安全：如果ID是">
 <meta property="og:locale" content="default">
-<meta property="og:updated_time" content="2019-04-10T02:52:29.140Z">
+<meta property="og:updated_time" content="2019-04-17T05:38:48.847Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="sharding-sphere路由概念">
-<meta name="twitter:description" content="路由：将原SQL转换成在真实数据库真实表中可执行SQL的过程。例如：SELECT * FROM t_order WHERE order_id IN (1, 2); 路由后成为SELECT * FROM t_order_0 WHERE order_id IN (1, 2);SELECT * FROM t_order_1 WHERE order_id IN (1, 2); 分片路由 标准路由 单片路">
+<meta name="twitter:title" content="Leaf-分布式ID生成系统">
+<meta name="twitter:description" content="分布式服务场景下，业务系统对于数据库中主键ID的需求主要有以下：1.全局唯一性：不能出现重复的ID号。2.趋势递增：在MySQL InnoDB引擎中使用的是聚集索引，由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。3.单调递增：保证下一个ID一定大于上一个ID，例如事务版本号、IM增量消息、排序等特殊需求。4.信息安全：如果ID是">
 
 
 
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2019/03/29/sharding-sphere路由概念详解/">
+  <link rel="canonical" href="http://yoursite.com/2019/04/17/Leaf-分布式ID生成系统/">
 
 
 
@@ -125,7 +125,7 @@
   };
 </script>
 
-  <title>sharding-sphere路由概念 | Hexo</title>
+  <title>Leaf-分布式ID生成系统 | Hexo</title>
   
 
 
@@ -341,7 +341,7 @@
   
   
   <div class="post-block">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/sharding-sphere路由概念详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/17/Leaf-分布式ID生成系统/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="John Doe">
@@ -358,7 +358,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">sharding-sphere路由概念
+          <h1 class="post-title" itemprop="name headline">Leaf-分布式ID生成系统
 
               
             
@@ -384,24 +384,12 @@
                 
               
 
-              <time title="Created: 2019-03-29 17:01:22" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
+              <time title="Created: 2019-04-17 09:53:37 / Modified: 13:38:48" itemprop="dateCreated datePublished" datetime="2019-04-17T09:53:37+08:00">2019-04-17</time>
             
 
             
               
 
-              
-                
-                <span class="post-meta-divider">|</span>
-                
-
-                <span class="post-meta-item-icon">
-                  <i class="fa fa-calendar-check-o"></i>
-                </span>
-                
-                  <span class="post-meta-item-text">Edited on</span>
-                
-                <time title="Modified: 2019-04-10 10:52:29" itemprop="dateModified" datetime="2019-04-10T10:52:29+08:00">2019-04-10</time>
               
             
           </span>
@@ -435,37 +423,12 @@
       
 
       
-        <ul>
-<li>路由：将原SQL转换成在真实数据库真实表中可执行SQL的过程。例如：<br><code>SELECT * FROM t_order WHERE order_id IN (1, 2);</code></li>
-<li>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 WHERE order_id IN (1, 2);</code></li>
-<li>分片路由<ul>
-<li>标准路由<ul>
-<li>单片路由：原SQL分片键的操作符是等号，映射后只有一条可执行SQL。例如：<br><code>SELECT * FROM t_order WHERE order_id=2;</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id=2;</code></li>
-<li>多片路由：原SQL分片键的操作符是IN，映射后有多条可执行SQL。例如：<br><code>SELECT * FROM t_order WHERE order_id IN (1, 2);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 WHERE order_id IN (1, 2);</code></li>
-<li>范围路由：原SQL分片键的操作符是BETWEEN，映射后有多条可执行SQL。<br><code>SELECT * FROM t_order WHERE order_id BETWEEN (1, 12);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id BETWEEN (1, 12);</code><br><code>SELECT * FROM t_order_1 WHERE order_id BETWEEN (1, 12);</code></li>
-<li>带有绑定表的多片路由：绑定表指分片规则一致的主表和子表。例如：t_order表和t_order_item表，均按照order_id分片，则此两张表互为绑定表关系。绑定表之间的多表关联查询不会出现笛卡尔积关联，关联查询效率将大大提升。<br><code>SELECT * FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code></li>
-</ul>
-</li>
-<li>直接路由<ul>
-<li>Hint路由<br>它需要通过Hint（使用HintAPI直接指定路由至库表）方式分片，并且是只分库不分表的前提下，则可以避免SQL解析和之后的结果归并。直接路由还可以用于分片键不在SQL中的场景。<br>例如，设置用于数据库分片的键为3<code>hintManager.setDatabaseShardingValue(3)</code>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String sql = &quot;SELECT * FROM t_order&quot;;</span><br><span class="line">try (HintManager hintManager = HintManager.getInstance();</span><br><span class="line">Connection conn = dataSource.getConnection();</span><br><span class="line">PreparedStatement preparedStatement = conn.prepareStatement(sql)) &#123;</span><br><span class="line">	hintManager.setDatabaseShardingValue(3);</span><br><span class="line">    try (ResultSet rs = preparedStatement.executeQuery()) &#123;</span><br><span class="line">        while (rs.next()) &#123;</span><br><span class="line">            //...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-</li>
-</ul>
-</li>
-</ul>
-</li>
-</ul>
-<p>路由算法为’value%2‘。当一个逻辑库order_database对应2个真实库order_database_0,order_databse_1时，路由后sql将在order_databse_1上执行。</p>
-<ul>
-<li>笛卡尔路由<br>是指在关联查询中，各个表的分片键不同，没有绑定表。导致转换后的可执行SQL时，真实表之间需要进行笛卡尔积组合生成大量SQL。例如：<br>假设分片键order_id将数值10路由至第0片，将数值11路由至第1片，那么路由后的SQL应该为4条，它们呈现为笛卡尔积：<br><code>SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br>路由后成为<br><code>SELECT i.* FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_0 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_1 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><ul>
-<li>广播路由</li>
-</ul>
-</li>
-<li>全库路由<br>用于处理对数据库的操作，包括用于库设置的SET类型的数据库管理命令，以及TCL这样的事务控制语句。在这种情况下，会根据逻辑库的名字遍历所有符合名字匹配的真实库，并在真实库中执行该命令。<br>例如 <code>set autocommit=0</code><br>在order_database中执行,order_database有两个真实库。则实际会在order_database_0,order_database_1上都执行这个命令。</li>
-<li>全库表路由<br>用于处理对数据库中与其逻辑表相关的所有真实表的操作，主要包括不带分片键的DQL和DML，以及DDL等<br>例如 <code>SELECT * FROM t_order WHERE good_prority IN (1, 10);</code><br>则会遍历所有数据库中的所有表，逐一匹配逻辑表和真实表名，能够匹配得上则执行。<br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_1 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_2 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_3 WHERE good_prority IN (1, 10);</code></li>
-<li>全实例路由<br>用于DCL操作，授权语句针对的是数据库的实例。无论一个实例中包含多少个Schema，每个数据库的实例执行一次。<br>例如：<br><code>create user customer@10.98.17.138 identified by &#39;123&#39;;</code><br>这个命令将在所有的真实数据库实例中执行，以确保customer用户可以访问每一个实例。</li>
-<li>单播路由<br>用于获取某一真实表信息的场景，它仅需要从任意库中的任意真实表中获取数据即可。<br>例如：<br><code>DESCRIBE t_order;</code><br>t_order的两个真实表t_order_0,t_order_1的描述结构相同，所以这个命令在任意真实表上选择执行一次。</li>
-<li>阻断路由<br>用于屏蔽SQL对数据库的操作。<br>例如：<code>USE order_db;</code><br>这个命令不会在真实数据库中执行，因为ShardingSphere采用的是逻辑Schema的方式，无需将切换数据库Schema的命令发送至数据库中。</li>
-</ul>
+        <p>分布式服务场景下，业务系统对于数据库中主键ID的需求主要有以下：<br>1.全局唯一性：不能出现重复的ID号。<br>2.趋势递增：在MySQL InnoDB引擎中使用的是聚集索引，由于多数RDBMS使用B-tree的数据结构来存储索引数据，在主键的选择上面我们应该尽量使用有序的主键保证写入性能。<br>3.单调递增：保证下一个ID一定大于上一个ID，例如事务版本号、IM增量消息、排序等特殊需求。<br>4.信息安全：如果ID是连续的，恶意用户的扒取工作就非常容易做了，直接按照顺序下载指定URL即可；如果是订单号就更危险了，竞对可以直接知道我们一天的单量。所以在一些应用场景下，会需要ID无规则、不规则。<br>5.可靠性：业务还对ID号生成系统的可用性要求极高，如果ID生成系统瘫痪，整个业务系统都将瘫痪。</p>
+<p>针对上述需求，ID生成系统的目标应为：<br>1.平均延迟和TP999延迟都要尽可能低；<br>2.可用性5个9；<br>3.高QPS。<br>leaf-segment方案和leaf-snowflake方案分别实现了：1235和1245.</p>
+<ol>
+<li>leaf-segment方案<br>1.1该方案需要数据库有一个专用的表来存储各个主键的相关信息。<br>biz_tag,max_id,step,desc,update_time。重要字段说明：biz_tag用来区分业务，max_id表示该biz_tag目前所被分配的ID号段的最大值，step表示每次分配的号段长度。原来获取ID每次都需要写数据库，现在只需要把step设置得足够大，比如1000。<br>例如：biz_tag=order,max_id=3000,step=1000.代表order表的主键目前已经使用的id到达3000，下一次再获取1000个id后，则max_id为4000。proxy-server每次从数据库取1000个id，然后用来相应业务服务的id请求。<br>1.2<br>proxy-server采用双buffer。当号段消费到某个点时就异步的把下一个号段加载到内存中。而不需要等到号段用尽的时候才去更新号段，不需要在DB取号段的时候阻塞请求线程。这样做就可以很大程度上的降低系统的TP999指标。<br>Leaf服务内部有两个号段缓存区segment。当前号段已下发10%时，如果下一个号段未更新，则另启一个更新线程去更新下一个号段。当前号段全部下发完后，如果下个号段准备好了则切换到下个号段为当前segment接着下发，循环往复。<br>每个biz-tag都有消费速度监控，通常推荐segment长度设置为服务高峰期发号QPS的600倍（10分钟），这样即使DB宕机，Leaf仍能持续发号10-20分钟不受影响。<br>每次请求来临时都会判断下个号段的状态，从而更新此号段，所以偶尔的网络抖动不会影响下个号段的更新。</li>
+</ol>
+<p>1.3这种模式有以下优缺点：<br>优点：<br>Leaf服务可以很方便的线性扩展，性能完全能够支撑大多数业务场景。<br>ID号码是趋势递增的8byte的64位数字，满足上述数据库存储的主键要求。<br>容灾性高：Leaf服务内部有号段缓存，即使DB宕机，短时间内Leaf仍能正常对外提供服务。<br>可以自定义max_id的大小，非常方便业务从原有的ID方式上迁移过来。<br>缺点：<br>ID号码不够随机，能够泄露发号数量的信息，不太安全。<br>DB宕机会造成整个系统不可用。<br>2 leaf-snowflake方案<br>2.1Leaf-snowflake方案完全沿用snowflake方案的bit位设计，即是“1+41+10+12”的方式组装ID号。对于workerID的分配，当服务集群数量较小的情况下，完全可以手动配置。Leaf服务规模较大，动手配置成本太高。所以使用Zookeeper持久顺序节点的特性自动对snowflake节点配置wokerID。Leaf-snowflake是按照下面几个步骤启动的：<br>启动Leaf-snowflake服务，连接Zookeeper，在leaf_forever父节点下检查自己是否已经注册过（是否有该顺序子节点）。<br>如果有注册过直接取回自己的workerID（zk顺序节点生成的int类型ID号），启动服务。<br>如果没有注册过，就在该父节点下面创建一个持久顺序节点，创建成功后取回顺序号当做自己的workerID号，启动服务。<br>2.2对于，时钟回退问题，系统予以了充分的考虑，设计如下逻辑处理。<br>服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点：<br>若写过，则用自身系统时间与leaf_forever/${self}节点记录时间做比较，若小于leaf_forever/${self}时间则认为机器时间发生了大步长回拨，服务启动失败并报警。<br>若未写过，证明是新服务节点，直接创建持久节点leaf_forever/${self}并写入自身系统时间，接下来综合对比其余Leaf节点的系统时间来判断自身系统时间是否准确，具体做法是取leaf_temporary下的所有临时节点(所有运行中的Leaf-snowflake节点)的服务IP：Port，然后通过RPC请求得到所有节点的系统时间，计算sum(time)/nodeSize。<br>若abs( 系统时间-sum(time)/nodeSize ) &lt; 阈值，认为当前系统时间准确，正常启动服务，同时写临时节点leaf_temporary/${self} 维持租约。<br>否则认为本机系统时间发生大步长偏移，启动失败并报警。<br>每隔一段时间(3s)上报自身系统时间写入leaf_forever/${self}。<br>由于强依赖时钟，对时间的要求比较敏感，在机器工作时NTP同步也会造成秒级别的回退，建议可以直接关闭NTP同步。要么在时钟回拨的时候直接不提供服务直接返回ERROR_CODE，等时钟追上即可。或者做一层重试，然后上报报警系统，更或者是发现有时钟回拨之后自动摘除本身节点并报警</p>
 
       
     </div>
@@ -496,8 +459,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2019/03/29/高并发与高可用/" rel="next" title="高并发与高可用">
-                <i class="fa fa-chevron-left"></i> 高并发与高可用
+              <a href="/2019/04/09/spark和hadoop共性/" rel="next" title="spark和hadoop共性">
+                <i class="fa fa-chevron-left"></i> spark和hadoop共性
               </a>
             
           </div>
@@ -505,10 +468,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2019/03/29/Disruptor/" rel="prev" title="Disruptor">
-                Disruptor <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
