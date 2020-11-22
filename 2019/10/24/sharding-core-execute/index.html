@@ -1,23 +1,377 @@
-{% extends '_layout.swig' %}
-{% import '_macro/post.swig' as post_template %}
-{% import '_macro/sidebar.swig' as sidebar_template %}
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
 
-{% block title %}{{ page.title }} | {{ title }}{% endblock %}
 
-{% block page_class %}page-post-detail{% endblock %}
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
 
-{% block content %}
+<link rel="stylesheet" href="/css/main.css">
 
-  <div id="posts" class="posts-expand">
-    {{ post_template.render(page) }}
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="模块结构sharding-core-execute的主要功能是将路由和改写生成的RoutingUnit对象（RoutingUnit内部含有SQLUnit），产生执行QueryResult。按功能分类可以分成四个部分：   org.apache.shardingsphere.core.execute.hook。在执行的关键操作过程中，发送事件，用于跟踪和事务。 org.apache.shardin">
+<meta property="og:type" content="article">
+<meta property="og:title" content="sharding-core-execute">
+<meta property="og:url" content="http://yoursite.com/2019/10/24/sharding-core-execute/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="模块结构sharding-core-execute的主要功能是将路由和改写生成的RoutingUnit对象（RoutingUnit内部含有SQLUnit），产生执行QueryResult。按功能分类可以分成四个部分：   org.apache.shardingsphere.core.execute.hook。在执行的关键操作过程中，发送事件，用于跟踪和事务。 org.apache.shardin">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute.png">
+<meta property="og:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute-flow-graph.jpg">
+<meta property="article:published_time" content="2019-10-24T11:11:30.000Z">
+<meta property="article:modified_time" content="2020-11-15T05:11:23.698Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2019/10/24/sharding-core-execute/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>sharding-core-execute | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
   </div>
 
-{% endblock %}
+  <div class="site-meta">
 
-{% block sidebar %}
-  {{ sidebar_template.render(true) }}
-{% endblock %}
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
 
-{% block script_extra %}
-  {% include '_scripts/pages/post-details.swig' %}
-{% endblock %}
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-overview-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">15</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/24/sharding-core-execute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          sharding-core-execute
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-24 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-24T19:11:30+08:00">2019-10-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-15 13:11:23" itemprop="dateModified" datetime="2020-11-15T13:11:23+08:00">2020-11-15</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <ul>
+<li>模块结构<br>sharding-core-execute的主要功能是将路由和改写生成的RoutingUnit对象（RoutingUnit内部含有SQLUnit），产生执行QueryResult。按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.execute.hook。在执行的关键操作过程中，发送事件，用于跟踪和事务。</li>
+<li>org.apache.shardingsphere.core.execute.metadata。主要提供了加载获取TableMetaData的功能，主要存储表的元数据信息，如表中的列名，数据类，列是否为主键。</li>
+<li>org.apache.shardingsphere.core.execute.sql。主要有两个子包：prepare和execute。prepare的作用是在执行前搜集信息，产生ShardingExecuteGroup的集合。<br>execute的作用是将ShardingExecuteGroup中StatementExecuteUnit发送到数据库进行执行。</li>
+<li>org.apache.shardingsphere.core.execute。 包含ShardingExecuteEngine、SharidngExecuteCallback等重要类，是整个执行模块的核心部分。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="../images/sharding-core-execute.png"></li>
+<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从sharding-jdbc-core的StatementExecutor开始的，真正执行的部分位于sharding-core-execute中，以查询为例，主要逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="../images/sharding-core-execute-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>模板方法<br>SQLExecuteCallback类的execute(final Collection statementExecuteUnits, final boolean isTrunkThread, final Map shardingExecuteDataMap)方法使用了模板方法模式，父类SQLExecuteCallback定义了整个算法的骨架，让子类去实现具体的细节。executeSQL(RouteUnit routeUnit, Statement statement, ConnectionMode connectionMode)就是留给子类自定义的细节部分，使得子类在不变更整体算法的情况下，就可以重新定义该算法的特定步骤。</li>
+<li>依赖倒转原则<br>SQLExecutePrepareCallback是一个接口类。BatchPreparedStatementExecutor和PreparedStatementExecutor对与这个类有依赖，由于这个类是个接口，所以调用者可以，在使用前根据实际情况，再定义接口中的抽象方法。这种使用方式对于调用者更加灵活，可以依据场景和需求，自定义相关抽象方法。</li>
+</ol>
+<ul>
+<li>Java编程技巧</li>
+</ul>
+<ol>
+<li>com.google.common.collect.Lists<br>SQLExecutePrepareTemplate.getSQLExecuteGroups()方法中使用了Lists，<code>Lists.partition(sqlUnits, desiredPartitionSize);</code>，可以将原本的List切分成多个List。</li>
+<li>com.google.common.util.concurrent<br>ShardingExecutorService.ShardingExecutorService(final int executorSize, final String nameFormat)方法中，使用了异步回调线程池。同时，设定了JVM关闭时线程池采用的动作。<br>在多线程编程中异步回调使得原本需要阻塞等待的异步结果，因为回调的存在而不用等待。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">executorService &#x3D; MoreExecutors.listeningDecorator(getExecutorService(executorSize, nameFormat));</span><br><span class="line">MoreExecutors.addDelayedShutdownHook(executorService, 60, TimeUnit.SECONDS);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+</li>
+</ol>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2019/10/22/sharding-core-rewrite/" rel="prev" title="sharding-core-rewrite">
+                  <i class="fa fa-chevron-left"></i> sharding-core-rewrite
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2019/10/26/sharding-core-entry/" rel="next" title="sharding-core-entry">
+                  sharding-core-entry <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>
