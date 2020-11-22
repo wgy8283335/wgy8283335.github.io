@@ -30,13 +30,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="模块结构sharding-core-execute的主要功能是将路由和改写生成的RoutingUnit对象（RoutingUnit内部含有SQLUnit），产生执行QueryResult。按功能分类可以分成四个部分：   org.apache.shardingsphere.core.execute.hook。在执行的关键操作过程中，发送事件，用于跟踪和事务。 org.apache.shardin">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute.png">
-<meta property="og:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute-flow-graph.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-execute.png">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-execute-flow-graph.jpg">
 <meta property="article:published_time" content="2019-10-24T11:11:30.000Z">
-<meta property="article:modified_time" content="2020-11-15T05:11:23.698Z">
+<meta property="article:modified_time" content="2020-11-22T06:14:30.287Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/24/images/sharding-core-execute.png">
+<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-execute.png">
 
 
 <link rel="canonical" href="http://yoursite.com/2019/10/24/sharding-core-execute/">
@@ -232,7 +232,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-15 13:11:23" itemprop="dateModified" datetime="2020-11-15T13:11:23+08:00">2020-11-15</time>
+        <time title="Modified: 2020-11-22 14:14:30" itemprop="dateModified" datetime="2020-11-22T14:14:30+08:00">2020-11-22</time>
       </span>
 
   
@@ -255,8 +255,8 @@
 <li>org.apache.shardingsphere.core.execute。 包含ShardingExecuteEngine、SharidngExecuteCallback等重要类，是整个执行模块的核心部分。</li>
 </ol>
 <ul>
-<li>模块结构图<br><img src="../images/sharding-core-execute.png"></li>
-<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从sharding-jdbc-core的StatementExecutor开始的，真正执行的部分位于sharding-core-execute中，以查询为例，主要逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="../images/sharding-core-execute-flow-graph.jpg"></li>
+<li>模块结构图<br><img src="/images/sharding-core-execute.png"></li>
+<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从sharding-jdbc-core的StatementExecutor开始的，真正执行的部分位于sharding-core-execute中，以查询为例，主要逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-execute-flow-graph.jpg"></li>
 <li>设计模式和设计原则</li>
 </ul>
 <ol>

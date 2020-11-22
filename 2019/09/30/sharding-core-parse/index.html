@@ -30,13 +30,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="模块结构sharding-core-parse的主要功能是将sql语句执行分片或加密操作生成最后的SQLStatement对象，供后面的模块调用。内部有7个子模块，按功能分类可以分成四个部分：   sharding-core-parse-common，实现了SQL解析的主要功能。 sharding-core-parse-mysql,sharding-core-parse-oracle,shard">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2019/09/30/images/sharding-core-parse.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/09/30/images/sharding-core-parse-flow-graph.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-parse.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-parse-flow-graph.jpg">
 <meta property="article:published_time" content="2019-09-30T09:01:22.000Z">
-<meta property="article:modified_time" content="2020-11-15T05:11:23.738Z">
+<meta property="article:modified_time" content="2020-11-22T06:14:27.075Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/09/30/images/sharding-core-parse.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-parse.jpg">
 
 
 <link rel="canonical" href="http://yoursite.com/2019/09/30/sharding-core-parse/">
@@ -232,7 +232,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-15 13:11:23" itemprop="dateModified" datetime="2020-11-15T13:11:23+08:00">2020-11-15</time>
+        <time title="Modified: 2020-11-22 14:14:27" itemprop="dateModified" datetime="2020-11-22T14:14:27+08:00">2020-11-22</time>
       </span>
 
   
@@ -255,8 +255,8 @@
 <li>sharding-core-parse-test，主要包含了对sharding-core-parse模块内部主要功能的测试，使用jaxb技术来定义测试用例和测试结果。</li>
 </ol>
 <ul>
-<li>模块结构图<br><img src="../images/sharding-core-parse.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-parse的主要逻辑是从SQLParseEngine.parse()开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="../images/sharding-core-parse-flow-graph.jpg"></li>
+<li>模块结构图<br><img src="/images/sharding-core-parse.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-parse的主要逻辑是从SQLParseEngine.parse()开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-parse-flow-graph.jpg"></li>
 <li>设计模式和设计原则</li>
 </ul>
 <ol>

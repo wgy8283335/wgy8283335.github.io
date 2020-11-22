@@ -30,13 +30,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="模块结构sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：   org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/images/sharding-core-rewrite.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/10/22/images/sharding-core-rewrite-flow-graph.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-rewrite.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-rewrite-flow-graph.jpg">
 <meta property="article:published_time" content="2019-10-22T11:11:30.000Z">
-<meta property="article:modified_time" content="2020-11-15T05:11:23.746Z">
+<meta property="article:modified_time" content="2020-11-22T06:14:24.207Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/22/images/sharding-core-rewrite.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-rewrite.jpg">
 
 
 <link rel="canonical" href="http://yoursite.com/2019/10/22/sharding-core-rewrite/">
@@ -232,7 +232,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-15 13:11:23" itemprop="dateModified" datetime="2020-11-15T13:11:23+08:00">2020-11-15</time>
+        <time title="Modified: 2020-11-22 14:14:24" itemprop="dateModified" datetime="2020-11-22T14:14:24+08:00">2020-11-22</time>
       </span>
 
   
@@ -257,8 +257,8 @@
 <li>org.apache.shardingsphere.core.rewrite.encrypt。EncryptRewriterDecorator为主要功能类。EncryptParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。</li>
 </ol>
 <ul>
-<li>模块结构图<br><img src="../images/sharding-core-rewrite.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-rewrite的主要逻辑是从SQLRewriteEngine.generateSQLgenerateSQL(final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="../images/sharding-core-rewrite-flow-graph.jpg"></li>
+<li>模块结构图<br><img src="/images/sharding-core-rewrite.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-rewrite的主要逻辑是从SQLRewriteEngine.generateSQLgenerateSQL(final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-rewrite-flow-graph.jpg"></li>
 <li>设计模式和设计原则</li>
 </ul>
 <ol>

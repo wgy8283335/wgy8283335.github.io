@@ -30,13 +30,13 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="模块结构sharding-core-preprocess的主要功能是对SQLStatment对象进行预处理生成SQLStatementContext对象，为路由提供必要信息。按功能分类可以分成三个部分：   org.apache.shardingsphere.core.optimize。SQLStatementContextFactory类，主要作用根据传入的SQLStatement类型创建相应">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/images/sharding-core-preprocessor.jpg">
-<meta property="og:image" content="http://yoursite.com/2019/10/18/images/sharding-core-preprocessor-flow-graph.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-preprocessor.jpg">
+<meta property="og:image" content="http://yoursite.com/images/sharding-core-preprocessor-flow-graph.jpg">
 <meta property="article:published_time" content="2019-10-18T11:11:30.000Z">
-<meta property="article:modified_time" content="2020-11-15T05:11:23.718Z">
+<meta property="article:modified_time" content="2020-11-22T06:14:25.583Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2019/10/18/images/sharding-core-preprocessor.jpg">
+<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-preprocessor.jpg">
 
 
 <link rel="canonical" href="http://yoursite.com/2019/10/18/sharding-core-preprocess/">
@@ -232,7 +232,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-15 13:11:23" itemprop="dateModified" datetime="2020-11-15T13:11:23+08:00">2020-11-15</time>
+        <time title="Modified: 2020-11-22 14:14:25" itemprop="dateModified" datetime="2020-11-22T14:14:25+08:00">2020-11-22</time>
       </span>
 
   
@@ -254,8 +254,8 @@
 <li>org.apache.shardingsphere.core.optimize.segment。内部分insert、select、table三种类型，包含segment对应的context。</li>
 </ol>
 <ul>
-<li>模块结构图<br><img src="../images/sharding-core-preprocessor.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-preprocess的主要逻辑是从SQLStatementContextFactory.newInstance()方法开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="../images/sharding-core-preprocessor-flow-graph.jpg"></li>
+<li>模块结构图<br><img src="/images/sharding-core-preprocessor.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-preprocess的主要逻辑是从SQLStatementContextFactory.newInstance()方法开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-preprocessor-flow-graph.jpg"></li>
 <li>设计模式和设计原则</li>
 </ul>
 <ol>

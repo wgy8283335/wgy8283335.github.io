@@ -30,12 +30,12 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="spi 使用首先，通过一张图来看，完成 spi 的实现，需要哪些操作，需要遵循哪些规范？ 1.代码编写既然是 spi，那么就必须先定义好接口。其次，就是定义好接口的实现类。 2.创建一个文件夹在项目的\src\main\resources\下创建\META-INF\services 目录(笔者在网上找了很多文章，很多都没有告知具体这个文件夹放在哪，放在其他位置下无法加载得到) 3.文件夹下增加配置">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2020/11/22/images/spi-1.png">
+<meta property="og:image" content="http://yoursite.com/images/spi-1.png">
 <meta property="article:published_time" content="2020-11-22T04:01:22.000Z">
-<meta property="article:modified_time" content="2020-11-22T04:25:12.788Z">
+<meta property="article:modified_time" content="2020-11-22T06:12:51.047Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/11/22/images/spi-1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/spi-1.png">
 
 
 <link rel="canonical" href="http://yoursite.com/2020/11/22/Java%E7%9A%84SPI/">
@@ -226,7 +226,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-11-22 12:01:22 / Modified: 12:25:12" itemprop="dateCreated datePublished" datetime="2020-11-22T12:01:22+08:00">2020-11-22</time>
+      <time title="Created: 2020-11-22 12:01:22 / Modified: 14:12:51" itemprop="dateCreated datePublished" datetime="2020-11-22T12:01:22+08:00">2020-11-22</time>
     </span>
 
   
@@ -245,7 +245,7 @@
 <h2 id="3-文件夹下增加配置文件"><a href="#3-文件夹下增加配置文件" class="headerlink" title="3.文件夹下增加配置文件"></a>3.文件夹下增加配置文件</h2><p>在上面 META-INF<br>\services 的目录下再增加一个配置文件，这个文件必须以接口的全限定类名保持一致，例如：com.jiaboyan.test.HelloService</p>
 <h2 id="4-配置文件增加描述"><a href="#4-配置文件增加描述" class="headerlink" title="4.配置文件增加描述"></a>4.配置文件增加描述</h2><p>上面介绍 spi 时说道，除了代码上的接口实现之外，你还需要把该实现的描述提供给 JDK。那么，此步骤就是在配置文件中撰写接口实现描述。很简单，就是在配置文件中写入具体实现类的全限定类名，如有多个便换行写入。</p>
 <h2 id="5-使用-JDK-来载入"><a href="#5-使用-JDK-来载入" class="headerlink" title="5.使用 JDK 来载入"></a>5.使用 JDK 来载入</h2><p>编写 main()方法，输出测试接口。使用 JDK 提供的 ServiceLoader.load()来加载配置文件中的描述信息，完成类加载操作。</p>
-<p><img src="../images/spi-1.png"></p>
+<p><img src="/images/spi-1.png"></p>
 <p>接口定义：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloService &#123;</span><br><span class="line"></span><br><span class="line">    void hello();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
