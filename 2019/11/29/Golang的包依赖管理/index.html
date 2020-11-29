@@ -23,20 +23,20 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Golang 的包管理机制在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH&#x2F;src&#x2F;vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易">
+<meta name="description" content="在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH&#x2F;src&#x2F;vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易造成资源重复，Go ven">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Hexo">
-<meta property="og:url" content="http://yoursite.com/2020/11/28/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/index.html">
+<meta property="og:title" content="Golang 的包管理机制">
+<meta property="og:url" content="http://yoursite.com/2019/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Golang 的包管理机制在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH&#x2F;src&#x2F;vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易">
+<meta property="og:description" content="在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH&#x2F;src&#x2F;vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易造成资源重复，Go ven">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-11-28T06:51:10.425Z">
-<meta property="article:modified_time" content="2020-11-28T08:21:11.879Z">
+<meta property="article:published_time" content="2019-11-29T08:07:30.000Z">
+<meta property="article:modified_time" content="2020-11-29T08:08:21.907Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://yoursite.com/2020/11/28/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
+<link rel="canonical" href="http://yoursite.com/2019/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
 
 
 <script class="page-configurations">
@@ -48,7 +48,7 @@
     lang   : 'default'
   };
 </script>
-<title> | Hexo</title>
+<title>Golang 的包管理机制 | Hexo</title>
   
 
 
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Golang-%E7%9A%84%E5%8C%85%E7%AE%A1%E7%90%86%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">Golang 的包管理机制</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#dep-govendor-%E6%9C%BA%E5%88%B6"><span class="nav-number">1.1.</span> <span class="nav-text">dep&#x2F;govendor 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6"><span class="nav-number">1.1.0.1.</span> <span class="nav-text">vendor 使用限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E7%9B%AE%E5%BD%95%E5%92%8C-json-%E6%96%87%E4%BB%B6"><span class="nav-number">1.1.0.2.</span> <span class="nav-text">vendor 目录和 json 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E6%9C%BA%E5%88%B6%E4%B8%8B%EF%BC%8C%E5%A6%82%E4%BD%95%E6%90%9C%E7%B4%A2%E5%8C%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.1.0.3.</span> <span class="nav-text">vendor 机制下，如何搜索包依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F%E4%BD%BF%E7%94%A8-GOPATH-%E5%8E%BB%E5%AD%98%E5%82%A8-packages-%E4%BA%86%EF%BC%8C%E9%97%AE%E4%BB%80%E4%B9%88%E8%BF%98%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8-vendor-%E7%9B%AE%E5%BD%95%E5%91%A2%EF%BC%9F"><span class="nav-number">1.1.0.4.</span> <span class="nav-text">如果我们已经使用 GOPATH 去存储 packages 了，问什么还需要使用 vendor 目录呢？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#module-%E6%9C%BA%E5%88%B6"><span class="nav-number">1.2.</span> <span class="nav-text">module 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-module-%E7%89%B9%E6%80%A7"><span class="nav-number">1.2.0.1.</span> <span class="nav-text">开启 module 特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-GOAPTH-src-%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.2.0.2.</span> <span class="nav-text">在$GOAPTH&#x2F;src 中创建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-GOPATH-src-%E5%A4%96%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">1.2.0.3.</span> <span class="nav-text">在$GOPATH&#x2F;src 外也可以创建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.0.4.</span> <span class="nav-text">调用第三方模块</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8-vendor-%E5%92%8C-module-%E6%9C%BA%E5%88%B6%E6%97%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%89%8B%E5%8A%A8%E4%B8%8B%E8%BD%BD%E6%89%80%E6%9C%89%E4%BE%9D%E8%B5%96"><span class="nav-number">1.3.</span> <span class="nav-text">不使用 vendor 和 module 机制时，可以手动下载所有依赖</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#dep-govendor-%E6%9C%BA%E5%88%B6"><span class="nav-number">1.</span> <span class="nav-text">dep&#x2F;govendor 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E4%BD%BF%E7%94%A8%E9%99%90%E5%88%B6"><span class="nav-number">1.0.1.</span> <span class="nav-text">vendor 使用限制</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E7%9B%AE%E5%BD%95%E5%92%8C-json-%E6%96%87%E4%BB%B6"><span class="nav-number">1.0.2.</span> <span class="nav-text">vendor 目录和 json 文件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#vendor-%E6%9C%BA%E5%88%B6%E4%B8%8B%EF%BC%8C%E5%A6%82%E4%BD%95%E6%90%9C%E7%B4%A2%E5%8C%85%E4%BE%9D%E8%B5%96"><span class="nav-number">1.0.3.</span> <span class="nav-text">vendor 机制下，如何搜索包依赖</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%A6%82%E6%9E%9C%E6%88%91%E4%BB%AC%E5%B7%B2%E7%BB%8F%E4%BD%BF%E7%94%A8-GOPATH-%E5%8E%BB%E5%AD%98%E5%82%A8-packages-%E4%BA%86%EF%BC%8C%E9%97%AE%E4%BB%80%E4%B9%88%E8%BF%98%E9%9C%80%E8%A6%81%E4%BD%BF%E7%94%A8-vendor-%E7%9B%AE%E5%BD%95%E5%91%A2%EF%BC%9F"><span class="nav-number">1.0.4.</span> <span class="nav-text">如果我们已经使用 GOPATH 去存储 packages 了，问什么还需要使用 vendor 目录呢？</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#module-%E6%9C%BA%E5%88%B6"><span class="nav-number">2.</span> <span class="nav-text">module 机制</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-module-%E7%89%B9%E6%80%A7"><span class="nav-number">2.0.1.</span> <span class="nav-text">开启 module 特性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-GOAPTH-src-%E4%B8%AD%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.0.2.</span> <span class="nav-text">在$GOAPTH&#x2F;src 中创建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9C%A8-GOPATH-src-%E5%A4%96%E4%B9%9F%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BA%E9%A1%B9%E7%9B%AE"><span class="nav-number">2.0.3.</span> <span class="nav-text">在$GOPATH&#x2F;src 外也可以创建项目</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E7%AC%AC%E4%B8%89%E6%96%B9%E6%A8%A1%E5%9D%97"><span class="nav-number">2.0.4.</span> <span class="nav-text">调用第三方模块</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%8D%E4%BD%BF%E7%94%A8-vendor-%E5%92%8C-module-%E6%9C%BA%E5%88%B6%E6%97%B6%EF%BC%8C%E5%8F%AF%E4%BB%A5%E6%89%8B%E5%8A%A8%E4%B8%8B%E8%BD%BD%E6%89%80%E6%9C%89%E4%BE%9D%E8%B5%96"><span class="nav-number">3.</span> <span class="nav-text">不使用 vendor 和 module 机制时，可以手动下载所有依赖</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -199,7 +199,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/28/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -212,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          
+          Golang 的包管理机制
         </h1>
 
         <div class="post-meta-container">
@@ -222,10 +222,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2020-11-28 14:51:10 / Modified: 16:21:11" itemprop="dateCreated datePublished" datetime="2020-11-28T14:51:10+08:00">2020-11-28</time>
+      <time title="Created: 2019-11-29 16:07:30" itemprop="dateCreated datePublished" datetime="2019-11-29T16:07:30+08:00">2019-11-29</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-29 16:08:21" itemprop="dateModified" datetime="2020-11-29T16:08:21+08:00">2020-11-29</time>
+      </span>
 
   
 </div>
@@ -237,7 +243,7 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="Golang-的包管理机制"><a href="#Golang-的包管理机制" class="headerlink" title="Golang 的包管理机制"></a>Golang 的包管理机制</h1><p>在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH/src/vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易造成资源重复，Go vendor 出现了几种主流的管理工具，包括 godep、govendor、golide 等。</p>
+        <p>在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH/src/vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易造成资源重复，Go vendor 出现了几种主流的管理工具，包括 godep、govendor、golide 等。</p>
 <p>在 Go1.11 之前，GOPATH 是开发时的工作目录，其中包含三个子目录：</p>
 <p>src 目录：存放 go 项目源码和依赖源码，包括使用 go get 下载的包<br>bin 目录：通过使用 go install 命令将 go build 编译出的二进制可执行文件存放于此<br>pkg 目录：go 源码包编译生成的 lib 文件存储的地方<br>在 Go1.11 之前，import 包时的搜索路径</p>
 <p>GOROOT/src: 该目录保存了 Go 标准库代码(首先搜寻导入包的地方)<br>GOPATH/src: 该目录保存了应用自身的各个包代码和第三方依赖的代码<br>./vendor ：vendor 方式第三方依赖包（如果支持 Vendor）<br>在 Unix 和类 Unix 系统上，GOPATH 默认值是 $HOME/go，Go1.11 版本后，开启 GO Modules 后，GOPATH 的作用仅仅为存放依赖的目录了。</p>
@@ -307,13 +313,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/11/22/Java%E7%9A%84SPI/" rel="prev" title="SPI">
-                  <i class="fa fa-chevron-left"></i> SPI
+                <a href="/2019/11/29/git%E7%9B%B8%E5%85%B3/" rel="prev" title="Git相关">
+                  <i class="fa fa-chevron-left"></i> Git相关
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/11/29/git%E7%9B%B8%E5%85%B3/" rel="next" title="">
-                   <i class="fa fa-chevron-right"></i>
+                <a href="/2020/11/22/Java%E7%9A%84SPI/" rel="next" title="JAVA SPI">
+                  JAVA SPI <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>
