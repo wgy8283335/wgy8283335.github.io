@@ -23,20 +23,20 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="LMAX Disruptor交易系统吞吐量快的关键原因。为什么我们要将其开源？我们意识到对高性能编程领域的一些传统观点有点不对劲。尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。1.首先介绍ringbuffer1.1ringbuffer是一个环，换上的每个元素都有一个序号，序号随着元素的写入而递增（一直">
+<meta name="description" content="实例入门在安装完 antlr 之后，可以编写简单的 g4 文件 1234grammar Hello;r:&#39;hello&#39; ID ;ID:[a-z]+ ;WS:[\t\r\n]+ -&gt; skip;  运行如下命令  antlr Hello.g4 javac *.java alias grun&#x3D;‘java org.antlr.v4.runtime.misc.TestRig’ Tes">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Disruptor">
-<meta property="og:url" content="http://yoursite.com/2019/03/29/Disruptor/index.html">
+<meta property="og:title" content="Antlr相关">
+<meta property="og:url" content="http://yoursite.com/2020/11/29/ANTLR/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="LMAX Disruptor交易系统吞吐量快的关键原因。为什么我们要将其开源？我们意识到对高性能编程领域的一些传统观点有点不对劲。尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。1.首先介绍ringbuffer1.1ringbuffer是一个环，换上的每个元素都有一个序号，序号随着元素的写入而递增（一直">
+<meta property="og:description" content="实例入门在安装完 antlr 之后，可以编写简单的 g4 文件 1234grammar Hello;r:&#39;hello&#39; ID ;ID:[a-z]+ ;WS:[\t\r\n]+ -&gt; skip;  运行如下命令  antlr Hello.g4 javac *.java alias grun&#x3D;‘java org.antlr.v4.runtime.misc.TestRig’ Tes">
 <meta property="og:locale">
-<meta property="article:published_time" content="2019-03-29T09:01:22.000Z">
-<meta property="article:modified_time" content="2019-03-29T11:47:23.924Z">
+<meta property="article:published_time" content="2020-11-29T08:07:30.000Z">
+<meta property="article:modified_time" content="2020-11-30T14:21:36.270Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://yoursite.com/2019/03/29/Disruptor/">
+<link rel="canonical" href="http://yoursite.com/2020/11/29/ANTLR/">
 
 
 <script class="page-configurations">
@@ -48,7 +48,7 @@
     lang   : 'default'
   };
 </script>
-<title>Disruptor | Hexo</title>
+<title>Antlr相关 | Hexo</title>
   
 
 
@@ -133,7 +133,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -146,6 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">实例入门</span></a></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -198,7 +199,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/Disruptor/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/29/ANTLR/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -211,7 +212,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Disruptor
+          Antlr相关
         </h1>
 
         <div class="post-meta-container">
@@ -221,10 +222,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2019-03-29 17:01:22 / Modified: 19:47:23" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
+      <time title="Created: 2020-11-29 16:07:30" itemprop="dateCreated datePublished" datetime="2020-11-29T16:07:30+08:00">2020-11-29</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-30 22:21:36" itemprop="dateModified" datetime="2020-11-30T22:21:36+08:00">2020-11-30</time>
+      </span>
 
   
 </div>
@@ -236,7 +243,22 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <p>LMAX Disruptor交易系统吞吐量快的关键原因。为什么我们要将其开源？我们意识到对高性能编程领域的一些传统观点有点不对劲。<br>尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。<br><strong>1.首先介绍ringbuffer</strong><br>1.1ringbuffer是一个环，换上的每个元素都有一个序号，序号随着元素的写入而递增（一直增加，绕过环以后继续增加），底层使用数组存储。它与常见队列的区别是：它不删除元素而是覆盖元素；他只有头指针没有尾指针。<br>1.1它比链表快，容易预测的访问模式（数组元素在内存连续存储）；它缓存命中率高，因为根据CPU的缓存加载原则，会将元素附近64字节的内容一次性加载到缓存，这样相邻元素被加载到缓存后，下次访问则可以直接在缓存中取得。<br>1.2预先为数组分配内存，使得数组对象一直存在，避免了垃圾回收，节省了时间。不需要像链表那样，增删节点时都有内存操作，产生垃圾回收现象。<br><strong>2.ConsummerBarrier与消费者</strong><br><strong>2.1 ComsummerBarrier</strong>由RingBuffer创建，代表消费者与RingBuffer进行交互。消费者调用Barrier.waitFor，传递它需要的下一个序号，比如9。消费者相当于告诉Barrier：你打到的数字比我这个要大的时候请告诉我。<br><code>final long availableSeq = consumerBarrier.waitFor(nextSequence);</code><br>当数据写入后，消费者会收到来自Barrier的通知。实际消费者是通过waitStrategy来获得通知的。通知9，10，11，12都已写入。现在序号12到了，消费者通过Barrier获得批量数据。<br>当多个消费者同时消费时，不需要锁机制。<br><strong>3.ProducerBarrier与生产者</strong><br>ProducerBarrier作为Producer与RingBuffer交流的媒介。同时，为了减轻Ringbuffer的复杂度，ProducerBarrier负责记录消费者分别消费到的序列号，所以ProducerBarrier也直接与Consumer通信。<br><strong>3.1ProducerBarrier</strong>作为既知道Consumer消费到的序列号，又知道生产者想写入的序列号。它在整个Disruptor的访问控制上起到了十分关键的作用。由于每个消费者消费速率不同，有的快有的慢。会出现生产者要写入的节点位置，刚好还在被消费者消费，此时则需要等待。当消费者批量消费完以后，会通知ProducerBarrier，然后它则取到之前等待的节点Entry，然后交给Producer进行写入。Producer写入后要求ProducerBarrier进行提交。ProducerBarrier更新Ringbuffer上的游标到刚才更新的节点的序号。最后Producer通知Consumer的waitStrategy。<br>但是，要补充一下，其实整个对提交的管理是ProducerBarrier委托ClaimStrategy来做的。<br>ProducerBarrier通过ClaimStrategy来获取RingBuffer的游标。而且它还负责给Producer分发序号，以及追踪哪些序号被使用。在commit的时候，其实<strong>ClaimStrategy</strong>要等待游标到达待提交节点的上一个节点，才能进行提交。比如：游标在12，Prodcuer在14上先提取请求，此时并不能commit，需要等到13提交请求，然后游标更新到13，然后14才能commit。你会看到，尽管生产者在不同的时间完成数据写入，但是 Ring Buffer 的内容顺序总是会遵循 nextEntry() 的初始调用顺序。也就是说，如果一个生产者在写入 Ring Buffer 的时候暂停了，只有当它解除暂停后，其他等待中的提交才会立即执行<br><strong>3.2ProducerBarrier上的批处理</strong><br>因为它知道当前RingBuffer游标的位置，也知道各个消费者的消费到的位置，所以就知道哪些节点是可以写入的。<br>。</p>
+        <h1 id="实例入门"><a href="#实例入门" class="headerlink" title="实例入门"></a>实例入门</h1><p>在安装完 antlr 之后，可以编写简单的 g4 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grammar Hello;</span><br><span class="line">r:&#39;hello&#39; ID ;</span><br><span class="line">ID:[a-z]+ ;</span><br><span class="line">WS:[\t\r\n]+ -&gt; skip;</span><br></pre></td></tr></table></figure>
+
+<p>运行如下命令</p>
+<ul>
+<li><code>antlr Hello.g4</code></li>
+<li><code>javac *.java</code></li>
+<li><code>alias grun=‘java org.antlr.v4.runtime.misc.TestRig’</code> TestRig 是一个调试工具，使用 alias 给它起了一个别名。直接执行<code>grun</code>可以得到帮助信息。</li>
+<li><code>grun Hello r -tokens</code></li>
+<li><code>hello parrt</code></li>
+<li><code>EOF</code></li>
+</ul>
+<p>得到如下结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[@0,0:4&#x3D;&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0]</span><br><span class="line">[@1,6:10&#x3D;&#39;parrt&#39;,&lt;ID&gt;,1:6]</span><br><span class="line">[@2,12:11&#x3D;&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span><br></pre></td></tr></table></figure>
+
+<p>解析结果：比如 parrt。@1 表明该词法符号在第 2 个位置，parrt 位于第 6 个到第 10 个位置之间，词法符号类型是 ID，位于输入文本的第 1 行，第 6 个位置处。</p>
 
     </div>
 
@@ -250,13 +272,13 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/03/29/sharding-sphere%E8%B7%AF%E7%94%B1%E6%A6%82%E5%BF%B5%E8%AF%A6%E8%A7%A3/" rel="prev" title="sharding-sphere路由概念">
-                  <i class="fa fa-chevron-left"></i> sharding-sphere路由概念
+                <a href="/2020/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/" rel="prev" title="Golang 的包管理机制">
+                  <i class="fa fa-chevron-left"></i> Golang 的包管理机制
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019/04/09/spark%E5%92%8Chadoop%E5%85%B1%E6%80%A7/" rel="next" title="spark和hadoop共性">
-                  spark和hadoop共性 <i class="fa fa-chevron-right"></i>
+                <a href="/2020/11/29/tmux/" rel="next" title="">
+                   <i class="fa fa-chevron-right"></i>
                 </a>
             </div>
           </div>

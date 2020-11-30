@@ -1,0 +1,394 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="tmux 是 Linux 中窗口管理程序，适用于终端复用，尤其适合远程连接。最近，我正苦闷与 ssh 自动超时退出和 broken pipe，决定投入 tmux 怀抱。使用 tmux 最直接的好处，便是可以在一个远程连接中开启多个控制台，而不用浪费额外的终端来连接远程主机。更不用说 tmux 方便的 attach&#x2F;detach,随时保存工作状态，还有方便的复制粘贴功能。 基本使用tmux 的主要元">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Hexo">
+<meta property="og:url" content="http://yoursite.com/2020/11/29/tmux/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="tmux 是 Linux 中窗口管理程序，适用于终端复用，尤其适合远程连接。最近，我正苦闷与 ssh 自动超时退出和 broken pipe，决定投入 tmux 怀抱。使用 tmux 最直接的好处，便是可以在一个远程连接中开启多个控制台，而不用浪费额外的终端来连接远程主机。更不用说 tmux 方便的 attach&#x2F;detach,随时保存工作状态，还有方便的复制粘贴功能。 基本使用tmux 的主要元">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-11-29T08:59:30.960Z">
+<meta property="article:modified_time" content="2020-11-29T09:01:20.970Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/11/29/tmux/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title> | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Copy-and-paste-like-in-vim"><span class="nav-number">1.</span> <span class="nav-text">Copy and paste like in vim</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8A%E5%89%8D%E7%BC%80%E9%94%AE%E4%BB%8E-C-b-%E6%9B%B4%E6%94%B9%E4%B8%BA-C-a"><span class="nav-number">2.</span> <span class="nav-text">把前缀键从 C-b 更改为 C-a</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%87%8A%E6%94%BE%E4%B9%8B%E5%89%8D%E7%9A%84-Ctrl-b-%E5%89%8D%E7%BC%80%E5%BF%AB%E6%8D%B7%E9%94%AE"><span class="nav-number">3.</span> <span class="nav-text">释放之前的 Ctrl-b 前缀快捷键</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E5%AE%9A%E5%89%8D%E7%BC%80%E9%94%AE%E5%92%8C%E5%91%BD%E4%BB%A4%E9%94%AE%E4%B9%8B%E9%97%B4%E7%9A%84%E5%BB%B6%E6%97%B6"><span class="nav-number">4.</span> <span class="nav-text">设定前缀键和命令键之间的延时</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E7%A1%AE%E4%BF%9D%E5%8F%AF%E4%BB%A5%E5%90%91%E5%85%B6%E5%AE%83%E7%A8%8B%E5%BA%8F%E5%8F%91%E9%80%81-Ctrl-A"><span class="nav-number">5.</span> <span class="nav-text">确保可以向其它程序发送 Ctrl-A</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8A%E7%AA%97%E5%8F%A3%E7%9A%84%E5%88%9D%E5%A7%8B%E7%B4%A2%E5%BC%95%E5%80%BC%E4%BB%8E-0-%E6%94%B9%E4%B8%BA-1"><span class="nav-number">6.</span> <span class="nav-text">把窗口的初始索引值从 0 改为 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8A%E9%9D%A2%E6%9D%BF%E7%9A%84%E5%88%9D%E5%A7%8B%E7%B4%A2%E5%BC%95%E5%80%BC%E4%BB%8E-0-%E6%94%B9%E4%B8%BA-1"><span class="nav-number">7.</span> <span class="nav-text">把面板的初始索引值从 0 改为 1</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-Prefix-r-%E9%87%8D%E6%96%B0%E5%8A%A0%E8%BD%BD%E9%85%8D%E7%BD%AE%E6%96%87%E4%BB%B6"><span class="nav-number">8.</span> <span class="nav-text">使用 Prefix r 重新加载配置文件</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%88%86%E5%89%B2%E9%9D%A2%E6%9D%BF"><span class="nav-number">9.</span> <span class="nav-text">分割面板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8%E9%9D%A2%E6%9D%BF%E4%B9%8B%E9%97%B4%E7%A7%BB%E5%8A%A8"><span class="nav-number">10.</span> <span class="nav-text">在面板之间移动</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BF%AB%E9%80%9F%E9%80%89%E6%8B%A9%E9%9D%A2%E6%9D%BF"><span class="nav-number">11.</span> <span class="nav-text">快速选择面板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%B0%83%E6%95%B4%E9%9D%A2%E6%9D%BF%E5%A4%A7%E5%B0%8F"><span class="nav-number">12.</span> <span class="nav-text">调整面板大小</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E9%BC%A0%E6%A0%87%E6%94%AF%E6%8C%81-%E5%A6%82%E6%9E%9C%E4%BD%A0%E6%83%B3%E4%BD%BF%E7%94%A8%E7%9A%84%E8%AF%9D%E6%8A%8A-off-%E6%94%B9%E4%B8%BA-on"><span class="nav-number">13.</span> <span class="nav-text">鼠标支持 - 如果你想使用的话把 off 改为 on</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%BB%98%E8%AE%A4%E7%9A%84%E7%BB%88%E7%AB%AF%E6%A8%A1%E5%BC%8F%E4%B8%BA-256-%E8%89%B2%E6%A8%A1%E5%BC%8F"><span class="nav-number">14.</span> <span class="nav-text">设置默认的终端模式为 256 色模式</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%90%AF%E6%B4%BB%E5%8A%A8%E9%80%9A%E7%9F%A5"><span class="nav-number">15.</span> <span class="nav-text">开启活动通知</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%8A%B6%E6%80%81%E6%A0%8F%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">16.</span> <span class="nav-text">设置状态栏的颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%AA%97%E5%8F%A3%E5%88%97%E8%A1%A8%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">17.</span> <span class="nav-text">设置窗口列表的颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E6%B4%BB%E5%8A%A8%E7%AA%97%E5%8F%A3%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">18.</span> <span class="nav-text">设置活动窗口的颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E9%9D%A2%E6%9D%BF%E5%92%8C%E6%B4%BB%E5%8A%A8%E9%9D%A2%E6%9D%BF%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">19.</span> <span class="nav-text">设置面板和活动面板的颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E5%91%BD%E4%BB%A4%E8%A1%8C%E6%88%96%E6%B6%88%E6%81%AF%E7%9A%84%E9%A2%9C%E8%89%B2"><span class="nav-number">20.</span> <span class="nav-text">设置命令行或消息的颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%8A%B6%E6%80%81%E6%A0%8F%E5%B7%A6%E4%BE%A7%E7%9A%84%E5%86%85%E5%AE%B9%E5%92%8C%E9%A2%9C%E8%89%B2"><span class="nav-number">21.</span> <span class="nav-text">设置状态栏左侧的内容和颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%8A%B6%E6%80%81%E6%A0%8F%E5%8F%B3%E4%BE%A7%E7%9A%84%E5%86%85%E5%AE%B9%E5%92%8C%E9%A2%9C%E8%89%B2"><span class="nav-number">22.</span> <span class="nav-text">设置状态栏右侧的内容和颜色</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#15-28-Nov-18-15"><span class="nav-number">23.</span> <span class="nav-text">15% | 28 Nov 18:15</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%AF%8F-60-%E7%A7%92%E6%9B%B4%E6%96%B0%E4%B8%80%E6%AC%A1%E7%8A%B6%E6%80%81%E6%A0%8F"><span class="nav-number">24.</span> <span class="nav-text">每 60 秒更新一次状态栏</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AE%BE%E7%BD%AE%E7%AA%97%E5%8F%A3%E5%88%97%E8%A1%A8%E5%B1%85%E4%B8%AD%E6%98%BE%E7%A4%BA"><span class="nav-number">25.</span> <span class="nav-text">设置窗口列表居中显示</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%BC%80%E5%90%AF-vi-%E6%8C%89%E9%94%AE"><span class="nav-number">26.</span> <span class="nav-text">开启 vi 按键</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%9C%A8%E7%9B%B8%E5%90%8C%E7%9B%AE%E5%BD%95%E4%B8%8B%E4%BD%BF%E7%94%A8-tmux-panes-%E8%84%9A%E6%9C%AC%E5%BC%80%E5%90%AF%E9%9D%A2%E6%9D%BF"><span class="nav-number">27.</span> <span class="nav-text">在相同目录下使用 tmux-panes 脚本开启面板</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%B8%B4%E6%97%B6%E6%9C%80%E5%A4%A7%E5%8C%96%E9%9D%A2%E6%9D%BF%E6%88%96%E6%81%A2%E5%A4%8D%E9%9D%A2%E6%9D%BF%E5%A4%A7%E5%B0%8F"><span class="nav-number">28.</span> <span class="nav-text">临时最大化面板或恢复面板大小</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%8A%8A%E6%97%A5%E5%BF%97%E8%BE%93%E5%87%BA%E5%88%B0%E6%8C%87%E5%AE%9A%E6%96%87%E4%BB%B6"><span class="nav-number">29.</span> <span class="nav-text">把日志输出到指定文件</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">19</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/29/tmux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-11-29 16:59:30 / Modified: 17:01:20" itemprop="dateCreated datePublished" datetime="2020-11-29T16:59:30+08:00">2020-11-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <p>tmux 是 Linux 中窗口管理程序，适用于终端复用，尤其适合远程连接。最近，我正苦闷与 ssh 自动超时退出和 broken pipe，决定投入 tmux 怀抱。<br>使用 tmux 最直接的好处，便是可以在一个远程连接中开启多个控制台，而不用浪费额外的终端来连接远程主机。更不用说 tmux 方便的 attach/detach,随时保存工作状态，还有方便的复制粘贴功能。</p>
+<p>基本使用<br>tmux 的主要元素分为三层：</p>
+<p>Session: 一组窗口的集合，通常用来概括同一个任务。session 可以有自己的名字便于任务之间的切换。<br>Window: 单个可见窗口。Windows 有自己的编号，也可以认为和 ITerm2 中的 Tab 类似。<br>Pane: 窗格，被划分成小块的窗口，类似于 Vim 中 C-w +v 后的效果。</p>
+<p>在安装好 tmux 后，直接在终端中输入 tmux 并回车，就进入了一个全新的 tmux 会话，输入 exit 即可退出。<br>可以在一台计算机上创建多个会话，并且通过为每个会话指定一个唯一的名称来管理它们：<br>tmux new-session -s basic<br>此命令可简化为：tmux new -s basic。<br>由于我们的程序是在 tmux 环境里运行的，因此需要一种方式来告诉 tmux 当前所输入的命令是为了让 tmux 去执行而不是 tmux 里的应用程序去执行，这就是命令前缀的作用。tmux 中默认的命令前缀是 CTRL-b 组合键，但 CTRL-b 组合键使用不是很方便，可将其修改为 CTRL-a 组合键。按下命令前缀组合键，松开，再按相应键，即发送 tmux 命令。</p>
+<p>tmux 创建会话</p>
+<ul>
+<li>tmux new-session 创建一个未命名的会话。可以简写为 tmux new 或者就一个简单的 tmux</li>
+<li>tmux new -s development 创建一个名为 development 的会话</li>
+<li>tmux new -s development -n editor 创建一个名为 development 的会话并把该会话的第一个窗口命名为 editor</li>
+<li>tmux attach -t development 连接到一个名为 development 的会话</li>
+</ul>
+<p>tmux 会话、窗口和面板的默认快捷键</p>
+<ul>
+<li>PREFIX d 从一个会话中分离，让该会话在后台运行。</li>
+<li>PREFIX : 进入命令模式</li>
+<li>PREFIX c 在当前 tmux 会话创建一个新的窗口，是 new-window 命令的简写</li>
+<li>PREFIX 0…9 根据窗口的编号选择窗口</li>
+<li>PREFIX w 显示当前会话中所有窗口的可选择列表</li>
+<li>PREFIX , 显示一个提示符来重命名一个窗口</li>
+<li>PREFIX &amp; 杀死当前窗口，带有确认提示</li>
+<li>PREFIX % 把当前窗口垂直地一分为二，分割后的两个面板各占 50% 大小</li>
+<li>PREFIX “ 把当前窗口水平地一分为二，分割后的两个面板各占 50% 大小</li>
+<li>PREFIX o 在已打开的面板之间循环移动当前焦点</li>
+<li>PREFIX q 短暂地显示每个面板的编号</li>
+<li>PREFIX x 关闭当前面板，带有确认提示</li>
+<li>PREFIX SPACE 循环地使用 tmux 的几个默认面板布局</li>
+</ul>
+<p>tmux 复制粘贴</p>
+<ul>
+<li>PREFIX [ 进入复制模式</li>
+<li>PREFIX ] 粘贴<br>进入复制模式后，可以用 vi 风格的快捷键进行移动（按上文的设置）。按下 sapce 就可以选择文本。回车键进行复制。然后再通过]进行粘贴。<br>也可以将复制粘贴设置为类似 vi 的模式，使用 esc 进入复制模式，v 进入粘贴模式，选择后 y 进行复制。Prefix-p 进行粘贴。</li>
+</ul>
+<h1 id="Copy-and-paste-like-in-vim"><a href="#Copy-and-paste-like-in-vim" class="headerlink" title="Copy and paste like in vim"></a>Copy and paste like in vim</h1><p>unbind [<br>bind Escape copy-mode<br>unbind p<br>bind p paste-buffer<br>bind -t vi-copy ‘v’ begin-selection<br>bind -t vi-copy ‘y’ copy-selection</p>
+<p>所有的复制都会被记录到缓冲区，输入#或者 tmux list-buffers 查看缓冲区,同时也进入了复制模式。也可以使用”=”来选择并粘贴缓冲区内容。tmux 的缓冲区和系统剪贴板是完全独立的。</p>
+<p>自主配置</p>
+<h1 id="把前缀键从-C-b-更改为-C-a"><a href="#把前缀键从-C-b-更改为-C-a" class="headerlink" title="把前缀键从 C-b 更改为 C-a"></a>把前缀键从 C-b 更改为 C-a</h1><p>set -g prefix C-a</p>
+<h1 id="释放之前的-Ctrl-b-前缀快捷键"><a href="#释放之前的-Ctrl-b-前缀快捷键" class="headerlink" title="释放之前的 Ctrl-b 前缀快捷键"></a>释放之前的 Ctrl-b 前缀快捷键</h1><p>unbind C-b</p>
+<h1 id="设定前缀键和命令键之间的延时"><a href="#设定前缀键和命令键之间的延时" class="headerlink" title="设定前缀键和命令键之间的延时"></a>设定前缀键和命令键之间的延时</h1><p>set -sg escape-time 1</p>
+<h1 id="确保可以向其它程序发送-Ctrl-A"><a href="#确保可以向其它程序发送-Ctrl-A" class="headerlink" title="确保可以向其它程序发送 Ctrl-A"></a>确保可以向其它程序发送 Ctrl-A</h1><p>bind C-a send-prefix</p>
+<h1 id="把窗口的初始索引值从-0-改为-1"><a href="#把窗口的初始索引值从-0-改为-1" class="headerlink" title="把窗口的初始索引值从 0 改为 1"></a>把窗口的初始索引值从 0 改为 1</h1><p>set -g base-index 1</p>
+<h1 id="把面板的初始索引值从-0-改为-1"><a href="#把面板的初始索引值从-0-改为-1" class="headerlink" title="把面板的初始索引值从 0 改为 1"></a>把面板的初始索引值从 0 改为 1</h1><p>setw -g pane-base-index 1</p>
+<h1 id="使用-Prefix-r-重新加载配置文件"><a href="#使用-Prefix-r-重新加载配置文件" class="headerlink" title="使用 Prefix r 重新加载配置文件"></a>使用 Prefix r 重新加载配置文件</h1><p>bind r source-file ~/.tmux.conf ; display “Reloaded!”</p>
+<h1 id="分割面板"><a href="#分割面板" class="headerlink" title="分割面板"></a>分割面板</h1><p>bind | split-window -h<br>bind - split-window -v</p>
+<h1 id="在面板之间移动"><a href="#在面板之间移动" class="headerlink" title="在面板之间移动"></a>在面板之间移动</h1><p>bind h select-pane -L<br>bind j select-pane -D<br>bind k select-pane -U<br>bind l select-pane -R</p>
+<h1 id="快速选择面板"><a href="#快速选择面板" class="headerlink" title="快速选择面板"></a>快速选择面板</h1><p>bind -r C-h select-window -t :-<br>bind -r C-l select-window -t :+</p>
+<h1 id="调整面板大小"><a href="#调整面板大小" class="headerlink" title="调整面板大小"></a>调整面板大小</h1><p>bind -r H resize-pane -L 5<br>bind -r J resize-pane -D 5<br>bind -r K resize-pane -U 5<br>bind -r L resize-pane -R 5</p>
+<h1 id="鼠标支持-如果你想使用的话把-off-改为-on"><a href="#鼠标支持-如果你想使用的话把-off-改为-on" class="headerlink" title="鼠标支持 - 如果你想使用的话把 off 改为 on"></a>鼠标支持 - 如果你想使用的话把 off 改为 on</h1><p>setw -g mode-mouse off<br>set -g mouse-select-pane off<br>set -g mouse-resize-pane off<br>set -g mouse-select-window off</p>
+<h1 id="设置默认的终端模式为-256-色模式"><a href="#设置默认的终端模式为-256-色模式" class="headerlink" title="设置默认的终端模式为 256 色模式"></a>设置默认的终端模式为 256 色模式</h1><p>set -g default-terminal “screen-256color”</p>
+<h1 id="开启活动通知"><a href="#开启活动通知" class="headerlink" title="开启活动通知"></a>开启活动通知</h1><p>setw -g monitor-activity on<br>set -g visual-activity on</p>
+<h1 id="设置状态栏的颜色"><a href="#设置状态栏的颜色" class="headerlink" title="设置状态栏的颜色"></a>设置状态栏的颜色</h1><p>set -g status-fg white<br>set -g status-bg black</p>
+<h1 id="设置窗口列表的颜色"><a href="#设置窗口列表的颜色" class="headerlink" title="设置窗口列表的颜色"></a>设置窗口列表的颜色</h1><p>setw -g window-status-fg cyan<br>setw -g window-status-bg default<br>setw -g window-status-attr dim</p>
+<h1 id="设置活动窗口的颜色"><a href="#设置活动窗口的颜色" class="headerlink" title="设置活动窗口的颜色"></a>设置活动窗口的颜色</h1><p>setw -g window-status-current-fg white<br>setw -g window-status-current-bg red<br>setw -g window-status-current-attr bright</p>
+<h1 id="设置面板和活动面板的颜色"><a href="#设置面板和活动面板的颜色" class="headerlink" title="设置面板和活动面板的颜色"></a>设置面板和活动面板的颜色</h1><p>set -g pane-border-fg green<br>set -g pane-border-bg black<br>set -g pane-active-border-fg white<br>set -g pane-active-border-bg yellow</p>
+<h1 id="设置命令行或消息的颜色"><a href="#设置命令行或消息的颜色" class="headerlink" title="设置命令行或消息的颜色"></a>设置命令行或消息的颜色</h1><p>set -g message-fg white<br>set -g message-bg black<br>set -g message-attr bright</p>
+<h1 id="设置状态栏左侧的内容和颜色"><a href="#设置状态栏左侧的内容和颜色" class="headerlink" title="设置状态栏左侧的内容和颜色"></a>设置状态栏左侧的内容和颜色</h1><p>set -g status-left-length 40<br>set -g status-left “#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P”<br>set -g status-utf8 on</p>
+<h1 id="设置状态栏右侧的内容和颜色"><a href="#设置状态栏右侧的内容和颜色" class="headerlink" title="设置状态栏右侧的内容和颜色"></a>设置状态栏右侧的内容和颜色</h1><h1 id="15-28-Nov-18-15"><a href="#15-28-Nov-18-15" class="headerlink" title="15% | 28 Nov 18:15"></a>15% | 28 Nov 18:15</h1><p>set -g status-right “#(~/battery Discharging) | #[fg=cyan]%d %b %R”</p>
+<h1 id="每-60-秒更新一次状态栏"><a href="#每-60-秒更新一次状态栏" class="headerlink" title="每 60 秒更新一次状态栏"></a>每 60 秒更新一次状态栏</h1><p>set -g status-interval 60</p>
+<h1 id="设置窗口列表居中显示"><a href="#设置窗口列表居中显示" class="headerlink" title="设置窗口列表居中显示"></a>设置窗口列表居中显示</h1><p>set -g status-justify centre</p>
+<h1 id="开启-vi-按键"><a href="#开启-vi-按键" class="headerlink" title="开启 vi 按键"></a>开启 vi 按键</h1><p>setw -g mode-keys vi</p>
+<h1 id="在相同目录下使用-tmux-panes-脚本开启面板"><a href="#在相同目录下使用-tmux-panes-脚本开启面板" class="headerlink" title="在相同目录下使用 tmux-panes 脚本开启面板"></a>在相同目录下使用 tmux-panes 脚本开启面板</h1><p>unbind v<br>unbind n<br>bind v send-keys “ ~/tmux-panes -h” C-m<br>bind n send-keys “ ~/tmux-panes -v” C-m</p>
+<h1 id="临时最大化面板或恢复面板大小"><a href="#临时最大化面板或恢复面板大小" class="headerlink" title="临时最大化面板或恢复面板大小"></a>临时最大化面板或恢复面板大小</h1><p>unbind Up<br>bind Up new-window -d -n tmp ; swap-pane -s tmp.1 ; select-window -t tmp<br>unbind Down<br>bind Down last-window ; swap-pane -s tmp.1 ; kill-window -t tmp</p>
+<h1 id="把日志输出到指定文件"><a href="#把日志输出到指定文件" class="headerlink" title="把日志输出到指定文件"></a>把日志输出到指定文件</h1><p>bind P pipe-pane -o “cat &gt;&gt;~/#W.log” ; display “Toggled logging to ~/#W.log”</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/11/29/ANTLR/" rel="prev" title="Antlr相关">
+                  <i class="fa fa-chevron-left"></i> Antlr相关
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>
