@@ -1,0 +1,410 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="“被调用者保存”和“调用者保存”寄存器编译器的设计中有个概念叫做“被调用者保存”和“调用者保存”，可以近似的按子函数保存和父函数保存对应来理解，这一概念的出现完全是由于寄存器资源个数有限造成的。当父函数在调用子函数时，由于子函数可能访问到父函数用于保存数值的寄存器，为了互不干扰和造成覆盖，编译器就制定了相应的规则，%eax、%edx 和%ecx 被划分为“调用者保存”寄存器，顾名思义，这些寄存器上">
+<meta property="og:type" content="article">
+<meta property="og:title" content="汇编">
+<meta property="og:url" content="http://yoursite.com/2020/12/13/%E6%B1%87%E7%BC%96/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="“被调用者保存”和“调用者保存”寄存器编译器的设计中有个概念叫做“被调用者保存”和“调用者保存”，可以近似的按子函数保存和父函数保存对应来理解，这一概念的出现完全是由于寄存器资源个数有限造成的。当父函数在调用子函数时，由于子函数可能访问到父函数用于保存数值的寄存器，为了互不干扰和造成覆盖，编译器就制定了相应的规则，%eax、%edx 和%ecx 被划分为“调用者保存”寄存器，顾名思义，这些寄存器上">
+<meta property="og:locale">
+<meta property="article:published_time" content="2020-12-13T08:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-13T07:15:19.127Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/12/13/%E6%B1%87%E7%BC%96/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>汇编 | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E2%80%9C%E8%A2%AB%E8%B0%83%E7%94%A8%E8%80%85%E4%BF%9D%E5%AD%98%E2%80%9D%E5%92%8C%E2%80%9C%E8%B0%83%E7%94%A8%E8%80%85%E4%BF%9D%E5%AD%98%E2%80%9D%E5%AF%84%E5%AD%98%E5%99%A8"><span class="nav-number">1.</span> <span class="nav-text">“被调用者保存”和“调用者保存”寄存器</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.</span> <span class="nav-text">七种寻址方式</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#1-%E7%AB%8B%E5%8D%B3%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.1.</span> <span class="nav-text">1 立即寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#2-%E5%AF%84%E5%AD%98%E5%99%A8%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.2.</span> <span class="nav-text">2 寄存器寻址方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#3-%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F-%E7%9B%B4%E6%8E%A5%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.3.</span> <span class="nav-text">3 七种寻址方式(直接寻址方式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#4-%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F-%E5%AF%84%E5%AD%98%E5%99%A8%E9%97%B4%E6%8E%A5%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.4.</span> <span class="nav-text">4 七种寻址方式(寄存器间接寻址方式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#5-%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%EF%BC%88%E5%AF%84%E5%AD%98%E5%99%A8%E7%9B%B8%E5%AF%B9%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F%EF%BC%89"><span class="nav-number">2.5.</span> <span class="nav-text">5 七种寻址方式（寄存器相对寻址方式）</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#6-%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F-%E5%9F%BA%E5%9D%80%E5%8A%A0%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.6.</span> <span class="nav-text">6 七种寻址方式(基址加变址寻址方式)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#7-%E4%B8%83%E7%A7%8D%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F-%E7%9B%B8%E5%AF%B9%E5%9F%BA%E5%9D%80%E5%8A%A0%E5%8F%98%E5%9D%80%E5%AF%BB%E5%9D%80%E6%96%B9%E5%BC%8F"><span class="nav-number">2.7.</span> <span class="nav-text">7 七种寻址方式(相对基址加变址寻址方式)</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/%E6%B1%87%E7%BC%96/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          汇编
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-12-13 16:00:00 / Modified: 15:15:19" itemprop="dateCreated datePublished" datetime="2020-12-13T16:00:00+08:00">2020-12-13</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="“被调用者保存”和“调用者保存”寄存器"><a href="#“被调用者保存”和“调用者保存”寄存器" class="headerlink" title="“被调用者保存”和“调用者保存”寄存器"></a>“被调用者保存”和“调用者保存”寄存器</h2><p>编译器的设计中有个概念叫做“被调用者保存”和“调用者保存”，可以近似的按子函数保存和父函数保存对应来理解，这一概念的出现完全是由于寄存器资源个数有限造成的。当父函数在调用子函数时，由于子函数可能访问到父函数用于保存数值的寄存器，为了互不干扰和造成覆盖，编译器就制定了相应的规则，%eax、%edx 和%ecx 被划分为“调用者保存”寄存器，顾名思义，这些寄存器上面存储的值，需要调用者（父函数）自己想办法先备份好，否则过会子函数直接使用这些寄存器时将无情的覆盖。如何备份？当然是事先压入栈中，等子函数调用完，再通过出栈恢复这些寄存器原本在父函数运行时的旧值；另外三个寄存器%ebx、%esi、%edi 被划分为“被调用者保存”寄存器，同样的，这些寄存器上有值，在使用前需要被调用者（子函数）自己想办法帮调用者（父函数）进行备份，具体方法就是子函数在覆盖他们之前，先进行入栈备份，等子函数返回时，再出栈还原父函数运行时这些寄存器上的旧值。</p>
+<h2 id="七种寻址方式"><a href="#七种寻址方式" class="headerlink" title="七种寻址方式"></a>七种寻址方式</h2><h3 id="1-立即寻址方式"><a href="#1-立即寻址方式" class="headerlink" title="1 立即寻址方式"></a>1 立即寻址方式</h3><p>操作数作为指令的一部分而直接写在指令中，这种操作数称为立即数，这种寻址方式也就称为立即数寻址方式。</p>
+<p>立即数可以是 8 位、16 位或 32 位，该数值紧跟在操作码之后。如果立即数为 16 位或 32 位，那么，它将按“高高低低”的原则进行存储。例如：</p>
+<p>MOV AH, 80H 　　　 ADD AX, 1234H 　　　 MOV ECX, 123456H<br>MOV B1, 12H 　　　 MOV W1, 3456H 　　 ADD D1, 32123456H</p>
+<p>其中：B1、W1 和 D1 分别是字节、字和双字单元。</p>
+<p>以上指令中的第二操作数都是立即数，在汇编语言中，规定：立即数不能作为指令中的第二操作数。该规定与高级语言中“赋值语句的左边不能是常量”的规定相一致。</p>
+<p>立即数寻址方式通常用于对通用寄存器或内存单元赋初值。图是指令“MOV AX, 4576H”存储形式和执行示意图。</p>
+<h3 id="2-寄存器寻址方式"><a href="#2-寄存器寻址方式" class="headerlink" title="2 寄存器寻址方式"></a>2 寄存器寻址方式</h3><p>指令所要的操作数已存储在某寄存器中，或把目标操作数存入寄存器。把在指令中指出所使用寄存器(即：寄存器的助忆符)的寻址方式称为寄存器寻址方式。<br>指令中可以引用的寄存器及其符号名称如下：<br>　　 8 位寄存器有：AH、AL、BH、BL、CH、CL、DH 和 DL 等；<br>　　 16 位寄存器有：AX、BX、CX、DX、SI、DI、SP、BP 和段寄存器等；<br>　　 32 位寄存器有：EAX、EBX、ECX、EDX、ESI、EDI、ESP 和 EBP 等。<br>寄存器寻址方式是一种简单快捷的寻址方式，源和目的操作数都可以是寄存器。</p>
+<p>1、源操作数是寄存器寻址方式<br>　　如：ADD VARD, EAX 　　 ADD VARW, AX 　　　 MOV VARB, BH 等。<br>　　其中：VARD、VARW 和 VARB 是双字，字和字节类型的内存变量。在第 4 章将会学到如何定义它们。</p>
+<p>2、目的操作数是寄存器寻址方式<br>　　如：ADD BH, 78h 　　　　 ADD AX, 1234h 　　　 MOV EBX, 12345678H 等。</p>
+<p>3、源和目的操作数都是寄存器寻址方式<br>　　如：MOV EAX, EBX 　　　 MOV AX, BX 　　　　 MOV DH, BL 等。</p>
+<p>由于指令所需的操作数已存储在寄存器中，或操作的结果存入寄存器，这样，在指令执行过程中，会减少读/写存储器单元的次数，所以，使用寄存器寻址方式的指令具有较快的执行速度。通常情况下，我们提倡在编写汇编语言程序时，应尽可能地使用寄存器寻址方式，但也不要把它绝对化。</p>
+<h3 id="3-七种寻址方式-直接寻址方式"><a href="#3-七种寻址方式-直接寻址方式" class="headerlink" title="3 七种寻址方式(直接寻址方式)"></a>3 七种寻址方式(直接寻址方式)</h3><p>指令所要的操作数存放在内存中，在指令中直接给出该操作数的有效地址，这种寻址方式为直接寻址方式。</p>
+<p>在通常情况下，操作数存放在数据段中，所以，其物理地址将由数据段寄存器 DS 和指令中给出的有效地址直接形成，但如果使用段超越前缀，那么，操作数可存放在其它段。</p>
+<p>例：假设有指令：MOV BX, [1234H]，在执行时，(DS)=2000H，内存单元 21234H 的值为 5213H。问该指令执行后，BX 的值是什么？</p>
+<p>解：根据直接寻址方式的寻址规则，把该指令的具体执行过程用下图来表示。</p>
+<p>从图中，可看出执行该指令要分三部分：</p>
+<p>由于 1234H 是一个直接地址，它紧跟在指令的操作码之后，随取指令而被读出；</p>
+<p>访问数据段的段寄存器是 DS，所以，用 DS 的值和偏移量 1234H 相加，得存储单元的物理地址：21234H；</p>
+<p>取单元 21234H 的值 5213H，并按“高高低低”的原则存入寄存器 BX 中。</p>
+<p>所以，在执行该指令后，BX 的值就为 5213H。</p>
+<p>由于数据段的段寄存器默认为 DS，如果要指定访问其它段内的数据，可在指令中用段前缀的方式显式地书写出来。</p>
+<p>下面指令的目标操作数就是带有段前缀的直接寻址方式。</p>
+<p>MOV 　 ES:[1000H], AX</p>
+<p>直接寻址方式常用于处理内存单元的数据，其操作数是内存变量的值，该寻址方式可在 64K 字节的段内进行寻址。</p>
+<p>注意：立即寻址方式和直接寻址方式的书写格式的不同，直接寻址的地址要写在括号“[”，“]”内。在程序中，直接地址通常用内存变量名来表示，如：MOV BX, VARW，其中，VARW 是内存字变量。</p>
+<p>试比较下列指令中源操作数的寻址方式(VARW 是内存字变量)：<br>　　 MOV 　 AX, 1234H MOV 　 AX, [1234H] ;前者是立即寻址，后者是直接寻址<br>　　 MOV 　 AX, VARW MOV 　 AX, [VARW] ;两者是等效的，均为直接寻址</p>
+<h3 id="4-七种寻址方式-寄存器间接寻址方式"><a href="#4-七种寻址方式-寄存器间接寻址方式" class="headerlink" title="4 七种寻址方式(寄存器间接寻址方式)"></a>4 七种寻址方式(寄存器间接寻址方式)</h3><p>操作数在存储器中，操作数的有效地址用 SI、DI、BX 和 BP 等四个寄存器之一来指定，称这种寻址方式为寄存器间接寻址方式。该寻址方式物理地址的计算方法如下：</p>
+<p>寄存器间接寻址方式读取存储单元的原理如图所示。</p>
+<p>在不使用段超越前缀的情况下，有下列规定：</p>
+<p>若有效地址用 SI、DI 和 BX 等之一来指定，则其缺省的段寄存器为 DS；<br>若有效地址用 BP 来指定，则其缺省的段寄存器为 SS(即：堆栈段)。</p>
+<p>例:假设有指令：MOV BX,[DI]，在执行时，(DS)=1000H，(DI)=2345H，存储单元 12345H 的内容是 4354H。问执行指令后，BX 的值是什么？</p>
+<p>解：根据寄存器间接寻址方式的规则，在执行本例指令时，寄存器 DI 的值不是操作数，而是操作数的地址。该操作数的物理地址应由 DS 和 DI 的值形成，即：</p>
+<p>PA=(DS)<em>16+DI=1000H</em>16+2345H=12345H。</p>
+<p>所以，该指令的执行效果是：把从物理地址为 12345H 开始的一个字的值传送给 BX。</p>
+<p>其执行过程如图所示。</p>
+<h3 id="5-七种寻址方式（寄存器相对寻址方式）"><a href="#5-七种寻址方式（寄存器相对寻址方式）" class="headerlink" title="5 七种寻址方式（寄存器相对寻址方式）"></a>5 七种寻址方式（寄存器相对寻址方式）</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)或变址寄存器(SI、D</p>
+<p>I)的内容和指令中的 8 位/16 位偏移量之和。其有效地址的计算公式如公式所示。</p>
+<p>在不使用段超越前缀的情况下，有下列规定：</p>
+<pre><code>若有效地址用SI、DI和BX等之一来指定，则其缺省的段寄存器为DS；
+
+若有效地址用BP来指定，则其缺省的段寄存器为SS。</code></pre>
+<p>指令中给出的 8 位/16 位偏移量用补码表示。在计算有效地址时，如果偏移量是 8 位，则进行符号扩展成 16 位。当所得的有效地址超过 0FFFFH，则取其 64K 的模。</p>
+<p>例:假设指令：MOV BX, [SI+100H]，在执行它时，(DS)=1000H，(SI)=2345H，内存单元 12445H 的内容为 2715H，问该指令执行后，BX 的值是什么？</p>
+<p>解：根据寄存器相对寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
+<p>EA=(SI)+100H=2345H+100H=2445H</p>
+<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
+<p>PA=(DS)<em>16+EA=1000H</em>16+2445H=12445H。</p>
+<p>所以，该指令的执行效果是：把从物理地址为 12445H 开始的一个字的值传送给 BX。</p>
+<p>其执行过程如图所示。</p>
+<h3 id="6-七种寻址方式-基址加变址寻址方式"><a href="#6-七种寻址方式-基址加变址寻址方式" class="headerlink" title="6 七种寻址方式(基址加变址寻址方式)"></a>6 七种寻址方式(基址加变址寻址方式)</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)和一个变址寄存器(SI、DI)的内容之和。其有效地址的计算公式如公式所示。</p>
+<p>在不使用段超越前缀的情况下，规定：如果有效地址中含有 BP，则缺省的段寄存器为 SS；否则，缺省的段寄存器为 DS。</p>
+<p>例:假设指令：MOV BX, [BX+SI]，在执行时，(DS)=1000H，(BX)=2100H，(SI)=0011H，内存单元 12111H 的内容为 1234H。问该指令执行后，BX 的值是什么？</p>
+<p>解：根据基址加变址寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
+<p>EA=(BX)+(SI)=2100H+0011H=2111H</p>
+<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
+<p>PA=(DS)<em>16+EA=1000H</em>16+2111H=12111H</p>
+<p>所以，该指令的执行效果是：把从物理地址为 12111H 开始的一个字的值传送给 BX。</p>
+<p>其执行过程如图所示。</p>
+<h3 id="7-七种寻址方式-相对基址加变址寻址方式"><a href="#7-七种寻址方式-相对基址加变址寻址方式" class="headerlink" title="7 七种寻址方式(相对基址加变址寻址方式)"></a>7 七种寻址方式(相对基址加变址寻址方式)</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)的值、一个变址寄存器(SI、DI)的值和指令中的 8 位/16 位偏移量之和。其有效地址的计算公式如公式所示。</p>
+<p>在不使用段超越前缀的情况下，规定：如果有效地址中含有 BP，则其缺省的段寄存器为 SS；否则，其缺省的段寄存器为 DS。</p>
+<p>指令中给出的 8 位/16 位偏移量用补码表示。在计算有效地址时，如果偏移量是 8 位，则进行符号扩展成 16 位。当所得的有效地址超过 0FFFFH，则取其 64K 的模。</p>
+<p>例:假设指令：MOV AX, [BX+SI+200H]，在执行时，(DS)=1000H，(BX)=2100H，(SI)=0010H，内存单元 12310H 的内容为 1234H。问该指令执行后，AX 的值是什么？</p>
+<p>解：根据相对基址加变址寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
+<p>EA=(BX)+(SI)+200H=2100H+0010H+200H=2310H</p>
+<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
+<p>PA=(DS)<em>16+EA=1000H</em>16+2310H=12310H</p>
+<p>所以，该指令的执行效果是：把从物理地址为 12310H 开始的一个字的值传送给 AX。其执行过程如图所示。</p>
+<p>从相对基址加变址这种寻址方式来看，由于它的可变因素较多，看起来就显得复杂些，但正因为其可变因素多，它的灵活性也就很高。比如：</p>
+<p>用 D1[i]来访问一维数组 D1 的第 i 个元素，它的寻址有一个自由度，用 D2[i][j]来访问二维数组 D2 的第 i 行、第 j 列的元素，其寻址有二个自由度。多一个可变的量，其寻址方式的灵活度也就相应提高了。</p>
+<p>相对基址加变址寻址方式有多种等价的书写方式，下面的书写格式都是正确的，并且其寻址含义也是一致的。</p>
+<p>MOV 　 AX, [BX+SI+1000H]　　　 MOV 　 AX, 1000H[BX+SI]<br>MOV 　 AX, 1000H[BX][si]　　　 MOV 　 AX, 1000H[SI][bx]</p>
+<p>但书写格式 BX [1000+SI]和 SI[1000H+BX]等是错误的，即所用寄存器不能在“[“，”]”之外，该限制对寄存器相对寻址方式的书写也同样起作用。</p>
+<p>相对基址加变址寻址方式是以上 7 种寻址方式中最复杂的一种寻址方式，它可变形为其它类型的存储器寻址方式。下表列举出该寻址方式与其它寻址方式之间的变形关系。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/07/KAFKA/" rel="prev" title="KAFKA">
+                  <i class="fa fa-chevron-left"></i> KAFKA
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>
