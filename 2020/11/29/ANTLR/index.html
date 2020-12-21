@@ -30,15 +30,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="实例入门在安装完 antlr 之后，可以编写简单的 g4 文件 1234grammar Hello;r:&#39;hello&#39; ID ;ID:[a-z]+ ;WS:[\t\r\n]+ -&gt; skip;  运行如下命令  antlr Hello.g4 javac *.java alias grun&#x3D;‘java org.antlr.v4.runtime.misc.TestRig’ Tes">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-2.png">
-<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-3.png">
-<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-5.png">
-<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-6.png">
+<meta property="og:image" content="http://yoursite.com/images/antlr/2-2.png">
+<meta property="og:image" content="http://yoursite.com/images/antlr/2-3.png">
+<meta property="og:image" content="http://yoursite.com/images/antlr/2-5.png">
+<meta property="og:image" content="http://yoursite.com/images/antlr/2-6.png">
 <meta property="article:published_time" content="2020-11-29T08:07:30.000Z">
-<meta property="article:modified_time" content="2020-12-21T02:35:39.414Z">
+<meta property="article:modified_time" content="2020-12-21T13:55:43.228Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/2020/11/29/images/antlr/2-2.png">
+<meta name="twitter:image" content="http://yoursite.com/images/antlr/2-2.png">
 
 
 <link rel="canonical" href="http://yoursite.com/2020/11/29/ANTLR/">
@@ -239,7 +239,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-12-21 10:35:39" itemprop="dateModified" datetime="2020-12-21T10:35:39+08:00">2020-12-21</time>
+        <time title="Modified: 2020-12-21 21:55:43" itemprop="dateModified" datetime="2020-12-21T21:55:43+08:00">2020-12-21</time>
       </span>
 
   
@@ -280,11 +280,11 @@
 <h2 id="语法分析树"><a href="#语法分析树" class="headerlink" title="语法分析树"></a>语法分析树</h2><p>语法分析树的建造过程：词法分析器处理字符序列并将生成的词法符号提供给语法分析器，语法分析器随即根据这些细信息来检查语法的正确性并建造出一颗语法分析树。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CharStream-&gt;(Lexer)-&gt;TokenStream-&gt;(Parser)-&gt;ParseTree(RuleNode子类+TerminalNode)</span><br></pre></td></tr></table></figure>
 
-<p><img src="../images/antlr/2-2.png"><br><img src="../images/antlr/2-3.png"></p>
+<p><img src="/images/antlr/2-2.png"><br><img src="/images/antlr/2-3.png"></p>
 <p>ANTLR 使用共享数据结构节约内存，具体办法是：语法分析树中的叶子节点仅仅是盛放词法符号流中的词法符号的容器。每个词法符号都记录了自己在字符序列中的开始位置和结束位置，而非保存子字符串的拷贝。<br>ParseTree 有两个子类：RuleNode 的子类（非叶子） 和 TerminalNode（叶子）。 RuleNode 的子类包括：StatContext 和 ExprContext.Context 对象知道自己识别的词组中，开始和结束位置处的词法符号，同时提供访问该词组全部元素的方法比如 statContext 类有 ID（）和 expr()方法。有了这些方法，我们就可以遍历并操作树中节点。实际上遍历树的机制都是由 ANTLR 生成的代码</p>
 <h2 id="语法分析树的访问-监听器、访问器"><a href="#语法分析树的访问-监听器、访问器" class="headerlink" title="语法分析树的访问-监听器、访问器"></a>语法分析树的访问-监听器、访问器</h2><p>为了构建一个语言类应用程序，语法分析器需要在遇到特定的输入语句、词组或者词法符号时触发特定的行为。这样的词组-&gt;行为的集合构成了我们的语言类应用程序，或者，至少担任了语法和外围程序间接口的角色。<br>监听器和访问器的区别在于，监听器方法不负责显示调用子节点的访问方法。访问器必须显式触发对子节点的访问，树的遍历过程才能正常进行，所以访问器可以控制访问的顺序以及节点被访问的次数。</p>
-<h3 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h3><p>ANTLR 提供了 ParseTree-Walker 类，自动遍历树然后生成事件并调用监听器。<br>每个语法文件都会生成一个 ParseTreeLisener 的子类，里面每个规则都有对应的 enter 方法和 exit 方法()，这些方法也称为”事件方法”。这些方法的入参是 ×××Context，提供该方法所需要的所有信息。监听器的操作逻辑在这些 enter 和 exit 方法内添加。下图显示了 ParseTreeWalker 对监听器方法的完整的调用顺序。<br><img src="../images/antlr/2-5.png"></p>
-<h3 id="访问器"><a href="#访问器" class="headerlink" title="访问器"></a>访问器</h3><p>有时候我们希望手动控制遍历数的过程，通过显示的方法调用来访问子节点。在命令行中加入-visitor 选项可以指示 ANTLR 为一个语法生成访问器接口，语法中的每条规则对应接口中的一个 visit 方法。ANTRL 提供了访问器接口和一个默认实现类，这样我们自己只需要覆盖接口中我们感兴趣的方法。<br><img src="../images/antlr/2-6.png"></p>
+<h3 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h3><p>ANTLR 提供了 ParseTree-Walker 类，自动遍历树然后生成事件并调用监听器。<br>每个语法文件都会生成一个 ParseTreeLisener 的子类，里面每个规则都有对应的 enter 方法和 exit 方法()，这些方法也称为”事件方法”。这些方法的入参是 ×××Context，提供该方法所需要的所有信息。监听器的操作逻辑在这些 enter 和 exit 方法内添加。下图显示了 ParseTreeWalker 对监听器方法的完整的调用顺序。<br><img src="/images/antlr/2-5.png"></p>
+<h3 id="访问器"><a href="#访问器" class="headerlink" title="访问器"></a>访问器</h3><p>有时候我们希望手动控制遍历数的过程，通过显示的方法调用来访问子节点。在命令行中加入-visitor 选项可以指示 ANTLR 为一个语法生成访问器接口，语法中的每条规则对应接口中的一个 visit 方法。ANTRL 提供了访问器接口和一个默认实现类，这样我们自己只需要覆盖接口中我们感兴趣的方法。<br><img src="/images/antlr/2-6.png"></p>
 <p>调用方式如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ParseTree tree &#x3D; ...;&#x2F;&#x2F;语法分析数</span><br><span class="line">MyVisitor v &#x3D; new MyVisitor();&#x2F;&#x2F;访问器接口的实现类</span><br><span class="line">v.visit(tree);&#x2F;&#x2F;visitor访问tree</span><br></pre></td></tr></table></figure>
 
