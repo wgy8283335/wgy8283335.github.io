@@ -30,10 +30,15 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="实例入门在安装完 antlr 之后，可以编写简单的 g4 文件 1234grammar Hello;r:&#39;hello&#39; ID ;ID:[a-z]+ ;WS:[\t\r\n]+ -&gt; skip;  运行如下命令  antlr Hello.g4 javac *.java alias grun&#x3D;‘java org.antlr.v4.runtime.misc.TestRig’ Tes">
 <meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-2.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-3.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-5.png">
+<meta property="og:image" content="http://yoursite.com/2020/11/29/images/antlr/2-6.png">
 <meta property="article:published_time" content="2020-11-29T08:07:30.000Z">
-<meta property="article:modified_time" content="2020-11-30T14:30:37.439Z">
+<meta property="article:modified_time" content="2020-12-21T02:35:39.414Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/2020/11/29/images/antlr/2-2.png">
 
 
 <link rel="canonical" href="http://yoursite.com/2020/11/29/ANTLR/">
@@ -146,7 +151,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">实例入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">语法分析器</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AE%9E%E4%BE%8B%E5%85%A5%E9%97%A8"><span class="nav-number">1.</span> <span class="nav-text">实例入门</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E5%99%A8"><span class="nav-number">2.</span> <span class="nav-text">语法分析器</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%BA%E5%BA%8F%E8%A7%A3%E6%9E%90"><span class="nav-number">2.1.</span> <span class="nav-text">顺序解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%A4%9A%E5%88%86%E6%94%AF%E8%A7%A3%E6%9E%90"><span class="nav-number">2.2.</span> <span class="nav-text">多分支解析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%A7%E4%B9%89"><span class="nav-number">2.3.</span> <span class="nav-text">歧义</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%A0%91"><span class="nav-number">2.4.</span> <span class="nav-text">语法分析树</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%AF%AD%E6%B3%95%E5%88%86%E6%9E%90%E6%A0%91%E7%9A%84%E8%AE%BF%E9%97%AE-%E7%9B%91%E5%90%AC%E5%99%A8%E3%80%81%E8%AE%BF%E9%97%AE%E5%99%A8"><span class="nav-number">2.5.</span> <span class="nav-text">语法分析树的访问-监听器、访问器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%9B%91%E5%90%AC%E5%99%A8"><span class="nav-number">2.5.1.</span> <span class="nav-text">监听器</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%AE%BF%E9%97%AE%E5%99%A8"><span class="nav-number">2.5.2.</span> <span class="nav-text">访问器</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -234,7 +239,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-30 22:30:37" itemprop="dateModified" datetime="2020-11-30T22:30:37+08:00">2020-11-30</time>
+        <time title="Modified: 2020-12-21 10:35:39" itemprop="dateModified" datetime="2020-12-21T10:35:39+08:00">2020-12-21</time>
       </span>
 
   
@@ -263,7 +268,26 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[@0,0:4&#x3D;&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0]</span><br><span class="line">[@1,6:10&#x3D;&#39;parrt&#39;,&lt;ID&gt;,1:6]</span><br><span class="line">[@2,12:11&#x3D;&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span><br></pre></td></tr></table></figure>
 
 <p>解析结果：比如 parrt。@1 表明该词法符号在第 2 个位置，parrt 位于第 6 个到第 10 个位置之间，词法符号类型是 ID，位于输入文本的第 1 行，第 6 个位置处。</p>
-<h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1>
+<h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1><p>Antlr 依据我们定义的语法规则，产生一个递归下降的语法分析器。下降过程就是从语法分析树的根节点开始，朝着叶节点进行解析的过程。递归下降的语法分析其实际是若干方法的结合，每个方法对应一条规则。递归下降属于自上而下的语法分析器的一种实现。<br>首先调用的规则，即语义符号的起始点，就会成为语法分析树的根节点。比如：调用上面的 r()方法，作为起始点。<br>语法分析数的构造过程：识别匹配的规则，将对应规则的方法映射到语法分析树中。<br>一般规则分为：单一分支，多分支。例如：多个规则 assign，ifstat<br>单一分支，如：<code>stat: assign;</code><br>多分支，如:<code>stat: assign|ifstat;</code></p>
+<h2 id="顺序解析"><a href="#顺序解析" class="headerlink" title="顺序解析"></a>顺序解析</h2><p>单一分支，只需要顺序匹配词汇符号。</p>
+<h2 id="多分支解析"><a href="#多分支解析" class="headerlink" title="多分支解析"></a>多分支解析</h2><p>多分支，需要检查下一个词法符号或者多个词法符号，来决定选择哪个备选分支。这个过程成为预测或语法分析决策。<br>如果在预测过程中，发现多个分支都匹配的话，则出现了规则的定义出现了歧义，需要解决。</p>
+<h2 id="歧义"><a href="#歧义" class="headerlink" title="歧义"></a>歧义</h2><p>例如下面这个语法就存在歧义</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stat: expr &#39;;&#39;</span><br><span class="line">    | ID &#39;(&#39; &#39;)&#39; &#39;;&#39;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">expr: ID &#39;(&#39; &#39;)&#39;</span><br><span class="line">    | INT</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
+
+<p>一般情况下要确保语法分析器能够选择唯一匹配的备选分支。不过当存在多个备选分支时，ANTLR 会选取备选分支中的第一条。比如本例中就会选择<code>expr &#39;;&#39;</code><br>如下存在词法歧义,begin 是一个关键字，同时也是一个标识符。<br>词法分析器会匹配最长字符串，如果输入文本 beginner 只会匹配上例中的 ID 这条词法规则。ANTLR 词法分析器不会把它匹配为关键字 BEGIN 后跟着标识符 ner</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BEGIN : &#39;begin&#39; ;</span><br><span class="line">ID    : [a-z]+ ;</span><br></pre></td></tr></table></figure>
+
+<h2 id="语法分析树"><a href="#语法分析树" class="headerlink" title="语法分析树"></a>语法分析树</h2><p>语法分析树的建造过程：词法分析器处理字符序列并将生成的词法符号提供给语法分析器，语法分析器随即根据这些细信息来检查语法的正确性并建造出一颗语法分析树。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CharStream-&gt;(Lexer)-&gt;TokenStream-&gt;(Parser)-&gt;ParseTree(RuleNode子类+TerminalNode)</span><br></pre></td></tr></table></figure>
+
+<p><img src="../images/antlr/2-2.png"><br><img src="../images/antlr/2-3.png"></p>
+<p>ANTLR 使用共享数据结构节约内存，具体办法是：语法分析树中的叶子节点仅仅是盛放词法符号流中的词法符号的容器。每个词法符号都记录了自己在字符序列中的开始位置和结束位置，而非保存子字符串的拷贝。<br>ParseTree 有两个子类：RuleNode 的子类（非叶子） 和 TerminalNode（叶子）。 RuleNode 的子类包括：StatContext 和 ExprContext.Context 对象知道自己识别的词组中，开始和结束位置处的词法符号，同时提供访问该词组全部元素的方法比如 statContext 类有 ID（）和 expr()方法。有了这些方法，我们就可以遍历并操作树中节点。实际上遍历树的机制都是由 ANTLR 生成的代码</p>
+<h2 id="语法分析树的访问-监听器、访问器"><a href="#语法分析树的访问-监听器、访问器" class="headerlink" title="语法分析树的访问-监听器、访问器"></a>语法分析树的访问-监听器、访问器</h2><p>为了构建一个语言类应用程序，语法分析器需要在遇到特定的输入语句、词组或者词法符号时触发特定的行为。这样的词组-&gt;行为的集合构成了我们的语言类应用程序，或者，至少担任了语法和外围程序间接口的角色。<br>监听器和访问器的区别在于，监听器方法不负责显示调用子节点的访问方法。访问器必须显式触发对子节点的访问，树的遍历过程才能正常进行，所以访问器可以控制访问的顺序以及节点被访问的次数。</p>
+<h3 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h3><p>ANTLR 提供了 ParseTree-Walker 类，自动遍历树然后生成事件并调用监听器。<br>每个语法文件都会生成一个 ParseTreeLisener 的子类，里面每个规则都有对应的 enter 方法和 exit 方法()，这些方法也称为”事件方法”。这些方法的入参是 ×××Context，提供该方法所需要的所有信息。监听器的操作逻辑在这些 enter 和 exit 方法内添加。下图显示了 ParseTreeWalker 对监听器方法的完整的调用顺序。<br><img src="../images/antlr/2-5.png"></p>
+<h3 id="访问器"><a href="#访问器" class="headerlink" title="访问器"></a>访问器</h3><p>有时候我们希望手动控制遍历数的过程，通过显示的方法调用来访问子节点。在命令行中加入-visitor 选项可以指示 ANTLR 为一个语法生成访问器接口，语法中的每条规则对应接口中的一个 visit 方法。ANTRL 提供了访问器接口和一个默认实现类，这样我们自己只需要覆盖接口中我们感兴趣的方法。<br><img src="../images/antlr/2-6.png"></p>
+<p>调用方式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ParseTree tree &#x3D; ...;&#x2F;&#x2F;语法分析数</span><br><span class="line">MyVisitor v &#x3D; new MyVisitor();&#x2F;&#x2F;访问器接口的实现类</span><br><span class="line">v.visit(tree);&#x2F;&#x2F;visitor访问tree</span><br></pre></td></tr></table></figure>
+
     </div>
 
     
