@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">22</span>
+          <span class="site-state-item-count">23</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,94 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/sharding-sql-test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/27/sharding-sql-test/" class="post-title-link" itemprop="url">sharding-sql-test</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-27 14:58:30" itemprop="dateCreated datePublished" datetime="2019-10-27T14:58:30+08:00">2019-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:20" itemprop="dateModified" datetime="2020-11-22T14:14:20+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-sql-test的主要功能是对sql测试用例xml文件进行加载，生成测试用例封装在SQLCases对象中，JAXB 实现java对象与xml之间互相转换<br>。包含三个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.test.sql.loader。对外提供了SQL Cases的三种注册中心，里面含有SQLCasesLoader属性来读取配置文件。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCase。对应与xml里部分的实体类，包含属性：id,value,databaseTypes和sqlType。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCases。对应与xml里部分的实体类，包含属性：databaseTypes和sqlCases。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCaseType。定义两种SQL类型，Literal是指值已经写在sql语句中，Placeholder是指sql语句使用?来做parameter的占位符。</li>
+</ol>
+<ul>
+<li><p>模块结构图<br><img src="/images/sharding-sql-test.png"></p>
+</li>
+<li><p>设计模式和设计原则</p>
+</li>
+</ul>
+<ol>
+<li>单例模式<br>EncryptSQLCasesRegistry,ShardingSQLCasesRegistry,ShardingUnsupportedSQLCasesRegistry这三个都采用了单例模式。内部只有一个属性<code>private SQLCasesLoader sqlCasesLoader;</code>用于加载测试用例文件。<br>保证一个类仅有一个实例，并提供一个访问它的全局访问点。避免一个全局使用的类频繁地创建与销毁，此外单个实例还节省了内存资源。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -960,71 +1048,6 @@
 <p>2.7可扩展性<br>按照定义，MapReduce和Spark都可以使用HDFS来扩展。那么，Hadoop集群能变得多大呢?<br>据称雅虎有一套42000个节点组成的Hadoop集群，可以说扩展无极限。最大的已知Spark集群是8000个节点，不过随着大数据增多，预计集群规模也会随之变大，以便继续满足吞吐量方面的预期。</p>
 <p><strong>2.8安全</strong><br>Hadoop支持Kerberos身份验证，这管理起来有麻烦。然而，第三方厂商让企业组织能够充分利用活动目录Kerberos和LDAP用于身份验证。同样那些第三方厂商还为传输中数据和静态数据提供数据加密。<br>Hadoop分布式文件系统支持访问控制列表(ACL)和传统的文件权限模式。Hadoop为任务提交中的用户控制提供了服务级授权(Service Level Authorization)，这确保客户拥有正确的权限。<br>Spark的安全性弱一点，目前只支持通过共享密钥(密码验证)的身份验证。Spark在安全方面带来的好处是，如果你在HDFS上运行Spark，它可以使用HDFS ACL和文件级权限。此外，Spark可以在YARN上运行，因而能够使用Kerberos身份验证。</p>
 <p>总结<br>Spark与MapReduce是一种相互共生的关系。Hadoop提供了Spark所没有的功能特性，比如分布式文件系统，而Spark 为需要它的那些数据集提供了实时内存处理。完美的大数据场景正是设计人员当初预想的那样：让Hadoop和Spark在同一个团队里面协同运行。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/Disruptor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/29/Disruptor/" class="post-title-link" itemprop="url">Disruptor</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2019-03-29 17:01:22 / Modified: 19:47:23" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>LMAX Disruptor交易系统吞吐量快的关键原因。为什么我们要将其开源？我们意识到对高性能编程领域的一些传统观点有点不对劲。<br>尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。<br><strong>1.首先介绍ringbuffer</strong><br>1.1ringbuffer是一个环，换上的每个元素都有一个序号，序号随着元素的写入而递增（一直增加，绕过环以后继续增加），底层使用数组存储。它与常见队列的区别是：它不删除元素而是覆盖元素；他只有头指针没有尾指针。<br>1.1它比链表快，容易预测的访问模式（数组元素在内存连续存储）；它缓存命中率高，因为根据CPU的缓存加载原则，会将元素附近64字节的内容一次性加载到缓存，这样相邻元素被加载到缓存后，下次访问则可以直接在缓存中取得。<br>1.2预先为数组分配内存，使得数组对象一直存在，避免了垃圾回收，节省了时间。不需要像链表那样，增删节点时都有内存操作，产生垃圾回收现象。<br><strong>2.ConsummerBarrier与消费者</strong><br><strong>2.1 ComsummerBarrier</strong>由RingBuffer创建，代表消费者与RingBuffer进行交互。消费者调用Barrier.waitFor，传递它需要的下一个序号，比如9。消费者相当于告诉Barrier：你打到的数字比我这个要大的时候请告诉我。<br><code>final long availableSeq = consumerBarrier.waitFor(nextSequence);</code><br>当数据写入后，消费者会收到来自Barrier的通知。实际消费者是通过waitStrategy来获得通知的。通知9，10，11，12都已写入。现在序号12到了，消费者通过Barrier获得批量数据。<br>当多个消费者同时消费时，不需要锁机制。<br><strong>3.ProducerBarrier与生产者</strong><br>ProducerBarrier作为Producer与RingBuffer交流的媒介。同时，为了减轻Ringbuffer的复杂度，ProducerBarrier负责记录消费者分别消费到的序列号，所以ProducerBarrier也直接与Consumer通信。<br><strong>3.1ProducerBarrier</strong>作为既知道Consumer消费到的序列号，又知道生产者想写入的序列号。它在整个Disruptor的访问控制上起到了十分关键的作用。由于每个消费者消费速率不同，有的快有的慢。会出现生产者要写入的节点位置，刚好还在被消费者消费，此时则需要等待。当消费者批量消费完以后，会通知ProducerBarrier，然后它则取到之前等待的节点Entry，然后交给Producer进行写入。Producer写入后要求ProducerBarrier进行提交。ProducerBarrier更新Ringbuffer上的游标到刚才更新的节点的序号。最后Producer通知Consumer的waitStrategy。<br>但是，要补充一下，其实整个对提交的管理是ProducerBarrier委托ClaimStrategy来做的。<br>ProducerBarrier通过ClaimStrategy来获取RingBuffer的游标。而且它还负责给Producer分发序号，以及追踪哪些序号被使用。在commit的时候，其实<strong>ClaimStrategy</strong>要等待游标到达待提交节点的上一个节点，才能进行提交。比如：游标在12，Prodcuer在14上先提取请求，此时并不能commit，需要等到13提交请求，然后游标更新到13，然后14才能commit。你会看到，尽管生产者在不同的时间完成数据写入，但是 Ring Buffer 的内容顺序总是会遵循 nextEntry() 的初始调用顺序。也就是说，如果一个生产者在写入 Ring Buffer 的时候暂停了，只有当它解除暂停后，其他等待中的提交才会立即执行<br><strong>3.2ProducerBarrier上的批处理</strong><br>因为它知道当前RingBuffer游标的位置，也知道各个消费者的消费到的位置，所以就知道哪些节点是可以写入的。<br>。</p>
 
       
     </div>
