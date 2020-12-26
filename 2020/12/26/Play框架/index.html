@@ -23,16 +23,16 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="Play 框架架构当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 &#x2F;use&#x2F;1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。  1234567891011121314# Routes# This file defines all application routes (Higher pr">
+<meta name="description" content="Play 框架架构当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 &#x2F;use&#x2F;1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。 这里的路由规则分为了两个部分:请求动态数据或静态资源。浏览器一般先请求获得 html 页面，然后 html 内容如果有 ajax 则会再发送请求过来，请求动态数据">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Play框架">
 <meta property="og:url" content="http://yoursite.com/2020/12/26/Play%E6%A1%86%E6%9E%B6/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="Play 框架架构当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 &#x2F;use&#x2F;1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。  1234567891011121314# Routes# This file defines all application routes (Higher pr">
+<meta property="og:description" content="Play 框架架构当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 &#x2F;use&#x2F;1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。 这里的路由规则分为了两个部分:请求动态数据或静态资源。浏览器一般先请求获得 html 页面，然后 html 内容如果有 ajax 则会再发送请求过来，请求动态数据">
 <meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/web/play01.png">
 <meta property="article:published_time" content="2020-12-26T13:00:00.000Z">
-<meta property="article:modified_time" content="2020-12-26T13:09:57.115Z">
+<meta property="article:modified_time" content="2020-12-26T14:09:50.280Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/web/play01.png">
@@ -160,7 +160,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -229,7 +229,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-12-26 21:00:00 / Modified: 21:09:57" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
+      <time title="Created: 2020-12-26 21:00:00 / Modified: 22:09:50" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
     </span>
 
   
@@ -243,7 +243,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <p>Play 框架架构<br>当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 /use/1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。</p>
-<p><img src="/images/web/play01.png"></p>
+<p><img src="/images/web/play01.png"><br>这里的路由规则分为了两个部分:请求动态数据或静态资源。<br>浏览器一般先请求获得 html 页面，然后 html 内容如果有 ajax 则会再发送请求过来，请求动态数据。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Routes</span><br><span class="line"># This file defines all application routes (Higher priority routes first)</span><br><span class="line"># ~~~~</span><br><span class="line"></span><br><span class="line"># Home page</span><br><span class="line">GET         &#x2F;                    controllers.ApplicationController.index</span><br><span class="line">POST        &#x2F;user                controllers.ApplicationController.addUser</span><br><span class="line">GET         &#x2F;delete&#x2F;:id          controllers.ApplicationController.deleteUser(id : Long)</span><br><span class="line">GET         &#x2F;user&#x2F;:id            controllers.ApplicationController.getUser(id : Long)</span><br><span class="line">GET         &#x2F;api&#x2F;user&#x2F;:id        controllers.ApiController.getUser(id : Long)</span><br><span class="line">POST        &#x2F;api&#x2F;user            controllers.ApiController.createUser</span><br><span class="line"></span><br><span class="line"># Map static resources from the &#x2F;public folder to the &#x2F;assets URL path</span><br><span class="line">GET         &#x2F;assets&#x2F;*file        controllers.Assets.versioned(path&#x3D;&quot;&#x2F;public&quot;, file: Asset)</span><br></pre></td></tr></table></figure>
 
 <p>随后在我们的 ApiController 中会有一个对应的 getUser 的方法来处理，如下所示：</p>
@@ -269,8 +269,8 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/12/21/ANTLR/" rel="prev" title="Antlr相关">
-                  <i class="fa fa-chevron-left"></i> Antlr相关
+                <a href="/2020/12/26/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" rel="prev" title="函数式编程与面向对象编程">
+                  <i class="fa fa-chevron-left"></i> 函数式编程与面向对象编程
                 </a>
             </div>
             <div class="post-nav-item">

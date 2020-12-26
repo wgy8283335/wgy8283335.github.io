@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">24</span>
+          <span class="site-state-item-count">25</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -319,7 +319,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-12-26 21:00:00 / Modified: 21:09:57" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
+      <time title="Created: 2020-12-26 21:00:00 / Modified: 22:09:50" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
     </span>
 
   
@@ -333,7 +333,7 @@
     
     <div class="post-body" itemprop="articleBody">
           <p>Play 框架架构<br>当请求从浏览器发到服务端时，会有 Routes 来处理，如我们请求 /use/1 的 URL 时。这个请求将在 Routes 找到对应的函数来处理，在 Django 中处理请求的函数叫做 URL Dispatcher。</p>
-<p><img src="/images/web/play01.png"></p>
+<p><img src="/images/web/play01.png"><br>这里的路由规则分为了两个部分:请求动态数据或静态资源。<br>浏览器一般先请求获得 html 页面，然后 html 内容如果有 ajax 则会再发送请求过来，请求动态数据。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line"># Routes</span><br><span class="line"># This file defines all application routes (Higher priority routes first)</span><br><span class="line"># ~~~~</span><br><span class="line"></span><br><span class="line"># Home page</span><br><span class="line">GET         &#x2F;                    controllers.ApplicationController.index</span><br><span class="line">POST        &#x2F;user                controllers.ApplicationController.addUser</span><br><span class="line">GET         &#x2F;delete&#x2F;:id          controllers.ApplicationController.deleteUser(id : Long)</span><br><span class="line">GET         &#x2F;user&#x2F;:id            controllers.ApplicationController.getUser(id : Long)</span><br><span class="line">GET         &#x2F;api&#x2F;user&#x2F;:id        controllers.ApiController.getUser(id : Long)</span><br><span class="line">POST        &#x2F;api&#x2F;user            controllers.ApiController.createUser</span><br><span class="line"></span><br><span class="line"># Map static resources from the &#x2F;public folder to the &#x2F;assets URL path</span><br><span class="line">GET         &#x2F;assets&#x2F;*file        controllers.Assets.versioned(path&#x3D;&quot;&#x2F;public&quot;, file: Asset)</span><br></pre></td></tr></table></figure>
 
 <p>随后在我们的 ApiController 中会有一个对应的 getUser 的方法来处理，如下所示：</p>
@@ -346,6 +346,120 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">object Users &#123;</span><br><span class="line"></span><br><span class="line">  val dbConfig &#x3D; DatabaseConfigProvider.get[JdbcProfile](Play.current)</span><br><span class="line"></span><br><span class="line">  val users &#x3D; TableQuery[UserTableDef]</span><br><span class="line"></span><br><span class="line">  def add(user: User): Future[String] &#x3D; &#123;</span><br><span class="line">    dbConfig.db.run(users +&#x3D; user).map(res &#x3D;&gt; user.toString()).recover &#123;</span><br><span class="line">      case ex: Exception &#x3D;&gt; ex.getCause.getMessage</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">  def get(id: Long): Future[Option[User]] &#x3D; &#123;</span><br><span class="line">    dbConfig.db.run(users.filter(_.id &#x3D;&#x3D;&#x3D; id).result.headOption)</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>然后我们就取到了这个用户。如果只是从这个过程上来说，我觉得和一般的 MVC 框架并没有太大的区别。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/26/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/26/%E5%87%BD%E6%95%B0%E5%BC%8F%E7%BC%96%E7%A8%8B%E4%B8%8E%E9%9D%A2%E5%90%91%E5%AF%B9%E8%B1%A1%E7%BC%96%E7%A8%8B/" class="post-title-link" itemprop="url">函数式编程与面向对象编程</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-12-26 21:00:00 / Modified: 22:51:32" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="编程的本质"><a href="#编程的本质" class="headerlink" title="编程的本质"></a>编程的本质</h1><p>当写过许许多多程序后，接触了那么多编程模式、设计模式、框架、语言、算法、数据结构以后，就会发现编程的本质万变不离其宗就是，操纵一坨数据。当然操纵的方式有许多，存储的方式也五花八门，但是本质不变，就是访问数据（读取以及改变）。</p>
+<p>下面谈一谈我对两种编程方式的理解，就是面向对象编程，以及函数式编程。我用 JavaScript 这种神奇的语言来解释，因为 JavaScript 既可以面向对象编程，也可以函数式编程。</p>
+<h1 id="数据存放方式"><a href="#数据存放方式" class="headerlink" title="数据存放方式"></a>数据存放方式</h1><p>1、对于 OO（面向对象，下同），数据存放在对象的属性（成员变量）里面，以及静态成员（全局变量）</p>
+<p>2、对于函数式，数据存放在闭包（各级作用域）里面，作用域包括全局作用域。</p>
+<h1 id="数据访问方式"><a href="#数据访问方式" class="headerlink" title="数据访问方式"></a>数据访问方式</h1><p>数据存放方式决定了访问的方式。</p>
+<p>1、对于 OO 来说，访问数据（全局变量除外）需要先获取对象的引用，然后再进行操作（直接访问——公共属性，或者调用成员函数/方法访问——私有属性）</p>
+<p>2、对于函数式，访问数据是直接访问（通过函数入参或者作用域链查找）</p>
+<p>下面上一段代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;OO</span><br><span class="line">class Foo &#123;</span><br><span class="line">constructor()&#123;</span><br><span class="line">this.bar &#x3D; 0</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">let foo &#x3D; new Foo()</span><br><span class="line">foo.bar ++</span><br></pre></td></tr></table></figure>
+
+<p>//函数式</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">let bar &#x3D; 0</span><br><span class="line">function foo()&#123;</span><br><span class="line">bar ++</span><br><span class="line">&#125;</span><br><span class="line">foo()</span><br></pre></td></tr></table></figure>
+
+<p>这是随便写了一些没有用代码，只是为了展示两种风格的编程方式。</p>
+<p>从中我们可以看出一些东西，OO 是通过持有，以及传递对象的方式去让别的对象来操作数据，而对象也会是其他对象的成员，层层嵌套。当你想要访问某一个数据的时候，就需要顺着对象的引用链条去找，一步步去操作。</p>
+<p>函数式传递的则是函数，调用函数即操作数据，传递函数的时候其实隐含着传递了函数创建的时候所附带的作用域，这个在表面上看不出来，在底层是有的。</p>
+<p>OO 所谓的对象，本质上就是函数式中的作用域。</p>
+<p>为了理解这句话，我们来看高阶函数的本质</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">function foo(x)&#123;</span><br><span class="line">let bar &#x3D; x</span><br><span class="line">return function()&#123;</span><br><span class="line">return bar</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">let Bar &#x3D; foo(1)</span><br><span class="line">console.log(Bar())&#x2F;&#x2F;1</span><br></pre></td></tr></table></figure>
+
+<p>当调用 foo(1)的时候返回一个函数，这个函数可以访问 foo 函数内部的 bar 变量，这就是高阶函数。如果翻译成 OO 思想大家就知道怎么回事了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">class Foo&#123;</span><br><span class="line">constructor(x)&#123;</span><br><span class="line">this.bar &#x3D; x</span><br><span class="line">&#125;</span><br><span class="line">Bar()&#123;</span><br><span class="line">return this.bar</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">let foo &#x3D; new Foo(1)</span><br><span class="line">console.log(foo.Bar())</span><br></pre></td></tr></table></figure>
+
+<p>看上去是不是差不多。其实在 C#中对 lambda 表达式的编译就是这个原理。会内部创建一些类。</p>
+<p>当然高阶函数的写法肯定不会这么啰嗦，会写的比较优雅。(这就是本质区别）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">let foo &#x3D; bar&#x3D;&gt;()&#x3D;&gt;bar</span><br><span class="line">let Bar &#x3D; foo(1)</span><br><span class="line">console.log(Bar())&#x2F;&#x2F;1</span><br></pre></td></tr></table></figure>
+
+<p>所以 OO 编程，是面向作用域编程，而函数式编程，是面向功能编程。</p>
+<p>函数式编程有一个巨大的优势，就是作用域链，也就是说函数可以访问的变量范围要远远大于 OO，灵活性就成几何级数上升。换句话也可以说 OO 的约束性更强。</p>
+<h1 id="FP-适合数据处理，OOP-适合外包业务领域"><a href="#FP-适合数据处理，OOP-适合外包业务领域" class="headerlink" title="FP 适合数据处理，OOP 适合外包业务领域"></a>FP 适合数据处理，OOP 适合外包业务领域</h1><p>函数式编程（FP）和面向对象编程（OOP）直接相比是一种常见的误解。这种比较应该是 FP 和 OOP 支持者之间互相怼的产物。</p>
+<p>事实上，FP 和 OOP 是两种不同的看待事物的方式。FP 强调“everything is lambda”，并且强调在逻辑处理中不变性的重要性。不变到什么地步呢？原教旨主义的 FP 就连普通的循环都不可以写（因为循环都有个变化的 idx 或者条件之类的变量），必须用递归实现。这样做的结果就是把一切“状态”都消除。任何“状态”都是由确定的输入经过确定的一组函数处理得到的最终结果。 FP 适合的领域是处理数据。</p>
+<p>OOP 强调“everything is object”，以及 object 之间的消息传递。通过消息传递改变每个 Object 的内部状态。OOP 之父 Alan Kay 表示”OOP is all about messaging”。利用 OOP 建模，都会通过某种消息机制来模拟一些场景的处理。比如交易=下单 Object，支付 Object，积分 Object 等之间进行交互当然，实际的 OOP 的程序运行时为了效率一般会用方法调用，而不是真的传递一个物理消息。OOP 适合的领域是企业 ERP，外包业务等。</p>
+<p>如果你看懂了上面两个概念，就会发现他们说的事情压根就不在一个频道里。因此各自的好处也不能证明另一方有缺点。</p>
+<p>现在经常看到文章表达 FP 如何如何优于 OOP，大概原因有这么两点：第一点是，OOP 早期不切实际的吹牛皮，吹爆了。很多人谈起 OOP，都会有“用了 OOP，代码耦合就小了，就容易维护了，扩展就方便了，代码就更容易复用了等等“的第一印象。但实际上这并不一定发生。软件设计并非因为 OOP 就直接自动变好了。因此很多程序员在趟坑多年后可能会感觉“我擦，学了这么多年，全是假的“。更进一步的，像 Java 这样的“纯 OOP”语言迫使程序员并不需要 OOP 的情况下也得照着 OOP 的方式去写代码，结果啰嗦又臃肿。所以很多人越来越讨厌 OOP 其实是可以理解的。（比如这篇 Goodbye, Objected Oriented Programming)。现在的 Java 程序大量使用反射、lambda 等技术，已经不是早期那个单纯 OOP 语言了。第二点是现代程序开始往并发发展。而 FP 的不可变，没有副作用等特性恰好让并发编程变得不容易出错。并且配合多种并发模型（如 CSP、Map Reduce、Fork &amp; Join、Promise 等），可以解决很多高并发的问题，显得高、大、上、酷。</p>
+<p>但是，我非常赞同《人月神话》的著名论断——没有银弹。不论 OOP 还是 FP，用好了都可以发挥作用，用不好一样吃瘪。</p>
+<p>举几个例子，一个业务领域建模，其实模拟的就是现实当中的不同角色的人/机构的工作方式。因为如果是人/机构互相协作，就是通过消息来协作的。比如博士生想发文章，先得自己写，写了老板审阅，完事发给期刊编辑，编辑找同行评议，完事发表，发表的结果会收录到某个文献索引数据库。这个过程就是多个独立的“对象”在相互协作的结果。因此 OOP 在这个层面上对这个流程进行抽象是很合适的。当然你也可以说，这时我用 FP 的各种动作函数的组织来描述这个过程，也是可以的。但是如果比较一下，这个场景用 FP 和 OOP 建模，哪个更容易理解呢？</p>
+<p>再比如，对一组数据做加工，先查询，然后聚合，聚合后排序，再 join，再排序，再聚合，再转换（map）得到最终的结果。这个过程，用 FP 的函数就很自然，因为这一看就是 result = func1(func2(func3…funcN(x))))这时用 OOP 呢？给每一个步骤建一个 class？然后把排序、聚合等操作放在 class 里？抽象个基类？或者弄个 XXXUtils 的静态方法集合类？当然都可以做，但是很明显这不是个好的设计。再再比如，一个业务流程，就是一组步骤：第一步如何如何，第二部如何如何……。这时用 FP 和 OOP 都不能很好的表达问题（可能 FP 接近点）。这其实是典型的“指令式编程“。如果业务逻辑如此，那么就照着一步一步做就是最好的，而不是抽取函数和不变状态；或者定义一些根本无意义的 class。</p>
+<p>说了这么多，其实希望表达的意思是：到底用哪种编程模式，要看问题本身适合哪个。哪个用起来自然，和问题本身特质搭配，那就用哪个。用对了，事半功倍；用错了，就各种纠结拧巴。你希望你一个东西模拟为 Object，前提是这个东西本身容易抽象成一个 Object；你希望你一个数据可以抽象为一组函数执行的组合，前提是这样理解更自然，更舒服。此外，同一个问题可以拆解为不同的层次，不同的层次可以使用各自适合的方式。比如高层的可以 OOP，具体到某个执行逻辑里可以用 FP 或者指令编程。</p>
+<h1 id="对比面向过程，面向对象，函数式编程"><a href="#对比面向过程，面向对象，函数式编程" class="headerlink" title="对比面向过程，面向对象，函数式编程"></a>对比面向过程，面向对象，函数式编程</h1><p>函数式编程、面向对象编程和面向过程编程都是思维方式，具体语言的语法不构成限制。这三者可以当作是一条光谱上不同的颜色，一头是命令式风格，一头是声明式风格。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">               ↓&lt;过程式&gt;           ↓&lt;面向对象&gt;       ↓&lt;函数式&gt;</span><br><span class="line">[命令式风格] o----------------------------------------------------&gt; [声明式风格]</span><br></pre></td></tr></table></figure>
+
+<p>箭头从左到右抽象程度逐渐上升。过程式风格有函数的概念，和纯粹的指令相比可以用简短的函数替代一段指令；面向对象风格包装了一层 class 这样的概念，允许打包的一组数据自己持有一些信息，使用者调用方法前不需要知道所有的事情；函数式风格允许把“处理过程”本身当作参数，传入的处理过程的参数就代表具体操作时遇到的实体。<br>函数式编程就是用函数的组合来解决问题，面向对象是建很多对象来互相交互解决问题，面向过程就是下一步下一步下一步。</p>
+<h2 id="例子"><a href="#例子" class="headerlink" title="例子"></a>例子</h2><p>输入十个整数，输出大于平均值的数，然后输出排序后的十个数面向过程/<em>C</em>/</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">int input[10];</span><br><span class="line">int sum &#x3D; 0;</span><br><span class="line">int tmp;</span><br><span class="line">double average;</span><br><span class="line">for (int i &#x3D; 0; i &lt; 10; i++)</span><br><span class="line">&#123;</span><br><span class="line">  scanf(&quot;%d&quot;, &amp;input[i]);</span><br><span class="line">  sum +&#x3D; input[i];</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">average &#x3D; sum &#x2F; 10.0;</span><br><span class="line">for (int i &#x3D; 0; i &lt; 10; i++)</span><br><span class="line">&#123;</span><br><span class="line">  if (input[i] &gt; average)</span><br><span class="line">  &#123;</span><br><span class="line">    printf(&quot;%d\n&quot;, input[i]);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line">&#x2F;_Bubble Sort_&#x2F;</span><br><span class="line">for (int i &#x3D; 0; i &lt; 9; i++)</span><br><span class="line">&#123;</span><br><span class="line">  for (int j &#x3D; 0; j &lt; 9 - i; j++)</span><br><span class="line">  &#123;</span><br><span class="line">    if (input[j] &gt; input[j + 1])</span><br><span class="line">    &#123;</span><br><span class="line">      tmp &#x3D; input[j];</span><br><span class="line">      input[j] &#x3D; input[j + 1];</span><br><span class="line">      input[j + 1] &#x3D; tmp;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">for (int i &#x3D; 0; i &lt; 10; i++)</span><br><span class="line">&#123;</span><br><span class="line">  printf(&quot;%d\n&quot;, input[i]);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>面向对象//C++</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">class solve</span><br><span class="line">&#123;</span><br><span class="line">  public:</span><br><span class="line">    solve() noexcept;</span><br><span class="line">    void sort();</span><br><span class="line">    void show();&#x2F;&#x2F;输出大于均值的数</span><br><span class="line">    void print();&#x2F;&#x2F;打印数组</span><br><span class="line">  private:</span><br><span class="line">    int input[10];</span><br><span class="line">    int sum;</span><br><span class="line">    double average;</span><br><span class="line">&#125;;</span><br><span class="line">&#x2F;&#x2F;具体实现省略</span><br><span class="line">int main()</span><br><span class="line">&#123;</span><br><span class="line">  auto test &#x3D; new solve();</span><br><span class="line">  test-&gt;show();</span><br><span class="line">  test-&gt;sort();</span><br><span class="line">  test-&gt;print();</span><br><span class="line">  return 0;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>函数式编程#Python</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">array &#x3D; [int(input()) for i in range(10)]</span><br><span class="line">average &#x3D; sum(array) &#x2F; 10;</span><br><span class="line">print(list(filter(lambda x: x &gt; average, array)))</span><br><span class="line">print(sorted(array))</span><br></pre></td></tr></table></figure>
 
       
     </div>
@@ -1259,126 +1373,6 @@ public void shorthand()&#123;
 <li>git revert 是用一次新的 commit 来回滚之前的 commit，此次提交之前的 commit 都会被保留；</li>
 <li>git reset 是回到某次提交，提交及之前的 commit 都会被保留，但是此 commit id 之后的修改都会被删除</li>
 </ul>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/22/Java%E7%9A%84SPI/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/11/22/Java%E7%9A%84SPI/" class="post-title-link" itemprop="url">JAVA SPI</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-11-22 12:01:22" itemprop="dateCreated datePublished" datetime="2020-11-22T12:01:22+08:00">2020-11-22</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-29 16:08:28" itemprop="dateModified" datetime="2020-11-29T16:08:28+08:00">2020-11-29</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="spi-使用"><a href="#spi-使用" class="headerlink" title="spi 使用"></a>spi 使用</h1><p>首先，通过一张图来看，完成 spi 的实现，需要哪些操作，需要遵循哪些规范？</p>
-<h2 id="1-代码编写"><a href="#1-代码编写" class="headerlink" title="1.代码编写"></a>1.代码编写</h2><p>既然是 spi，那么就必须先定义好接口。其次，就是定义好接口的实现类。</p>
-<h2 id="2-创建一个文件夹"><a href="#2-创建一个文件夹" class="headerlink" title="2.创建一个文件夹"></a>2.创建一个文件夹</h2><p>在项目的\src\main\resources\下创建\META-INF<br>\services 目录(笔者在网上找了很多文章，很多都没有告知具体这个文件夹放在哪，放在其他位置下无法加载得到)</p>
-<h2 id="3-文件夹下增加配置文件"><a href="#3-文件夹下增加配置文件" class="headerlink" title="3.文件夹下增加配置文件"></a>3.文件夹下增加配置文件</h2><p>在上面 META-INF<br>\services 的目录下再增加一个配置文件，这个文件必须以接口的全限定类名保持一致，例如：com.jiaboyan.test.HelloService</p>
-<h2 id="4-配置文件增加描述"><a href="#4-配置文件增加描述" class="headerlink" title="4.配置文件增加描述"></a>4.配置文件增加描述</h2><p>上面介绍 spi 时说道，除了代码上的接口实现之外，你还需要把该实现的描述提供给 JDK。那么，此步骤就是在配置文件中撰写接口实现描述。很简单，就是在配置文件中写入具体实现类的全限定类名，如有多个便换行写入。</p>
-<h2 id="5-使用-JDK-来载入"><a href="#5-使用-JDK-来载入" class="headerlink" title="5.使用 JDK 来载入"></a>5.使用 JDK 来载入</h2><p>编写 main()方法，输出测试接口。使用 JDK 提供的 ServiceLoader.load()来加载配置文件中的描述信息，完成类加载操作。</p>
-<p><img src="/images/spi-1.png"></p>
-<p>接口定义：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public interface HelloService &#123;</span><br><span class="line"></span><br><span class="line">    void hello();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>接口实现：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">public class HelloService1Impl implements HelloService &#123;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void hello() &#123;</span><br><span class="line">        System.out.println(&quot;hello jiaboyan&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class HelloService2Impl implements HelloService &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void hello() &#123;</span><br><span class="line">        System.out.println(&quot;hello world&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>添加 JDK 描述，在 META-INF\services 目录下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">com.jiaboyan.test.impl.HelloService1Impl</span><br><span class="line">com.jiaboyan.test.impl.HelloService2Impl</span><br></pre></td></tr></table></figure>
-
-<p>编写 main()方法：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">public class Test &#123;</span><br><span class="line"></span><br><span class="line">    public static void main(String[] agrs) &#123;</span><br><span class="line">        ServiceLoader&lt;HelloService&gt; loaders &#x3D; ServiceLoader.load(HelloService.class);</span><br><span class="line">        for (HelloService helloService : loaders) &#123;</span><br><span class="line">            helloService.hello();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h1 id="SPI-机制"><a href="#SPI-机制" class="headerlink" title="SPI-机制"></a>SPI-机制</h1><p>SPI 全称为 Service Provider Interface，是 JDK 内置的一种服务提供发现机制。简单来说，它就是一种动态替换发现机制。例如：有个接口想在运行时才发现具体的实现类，那么你只需要在程序运行前添加一个实现即可，并把新加的实现描述给 JDK 即可。此外，在程序的运行过程中，也可以随时对该描述进行修改，完成具体实现的替换。</p>
-<p>Java 提供了很多服务提供者接口（Service Provider Interface，SPI），允许第三方为这些接口提供实现。常见的 SPI 有 JDBC、JCE、JNDI、JAXP 和 JBI 等。</p>
-<p>这些 SPI 的接口是由 Java 核心库来提供，而 SPI 的实现则是作为 Java 应用所依赖的 jar 包被包含进类路径（CLASSPATH）中。例如：JDBC 的实现 mysql 就是通过 maven 被依赖进来。</p>
-<p>那么问题来了，SPI 的接口是 Java 核心库的一部分，是由引导类加载器(Bootstrap Classloader)来加载的。SPI 的实现类是由系统类加载器(System ClassLoader)来加载的。</p>
-<p>引导类加载器在加载时是无法找到 SPI 的实现类的，因为双亲委派模型中规定，引导类加载器 BootstrapClassloader 无法委派系统类加载器 AppClassLoader 来加载。这时候，该如何解决此问题？</p>
-<p>线程上下文类加载由此诞生，它的出现也破坏了类加载器的双亲委派模型，使得程序可以进行逆向类加载</p>
-<h2 id="线程上下文类加载器"><a href="#线程上下文类加载器" class="headerlink" title="线程上下文类加载器"></a>线程上下文类加载器</h2><p>通过名字可知，线程上下文类加载，就是当前线程所拥有的类加载器，可通过 Thread.currentThread()获取当前线程。</p>
-<p>线程上下文类加载器（Thread Context ClassLoader）可以通过 java.lang.Thread 类的 setContextClassLoader()方法设置，创建线程时候未指定的话，则默认从父线程中继承。</p>
-<p>那父线程中也没指定呢？那么会默认为应用程序的类加载器。例如：main 方法的线程上下文类加载器就是 sun.misc.Launcher$AppClassLoader。</p>
-<p>前两篇文章中，我们讲解了类加载器的双亲委派模型，该模型的实现是通过类加载器中的 parent 属性(父加载器)来完成的，默认统一交给最上层类加载器去尝试加载。</p>
-<p>那，这个线程上下文类加载器又是干啥的？</p>
-<p>在介绍线程上下文类加载前，我们先了解下 Java 的 SPI 机制。</p>
-<h2 id="线程上下文类加载实现"><a href="#线程上下文类加载实现" class="headerlink" title="线程上下文类加载实现"></a>线程上下文类加载实现</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">public class JVMTest6 &#123;</span><br><span class="line"></span><br><span class="line">   public static void main(String[] agrs) throws ClassNotFoundException &#123;</span><br><span class="line">       ClassLoader loader &#x3D; JVMTest6.class.getClassLoader();</span><br><span class="line">       System.out.println(loader); &#x2F;&#x2F;默认是应用类加载器</span><br><span class="line"></span><br><span class="line">       &#x2F;&#x2F;此时获得上下文类加载器：</span><br><span class="line">       ClassLoader loader2 &#x3D; Thread.currentThread().getContextClassLoader();</span><br><span class="line">       System.out.println(loader2);&#x2F;&#x2F;默认也是应用类加载器</span><br><span class="line"></span><br><span class="line">       &#x2F;&#x2F;设置为自定义类加载器：</span><br><span class="line">       Thread.currentThread().setContextClassLoader(</span><br><span class="line">               new ClassLoaderTest(&quot;d:&#x2F;&quot;));</span><br><span class="line">       System.out.println(Thread.currentThread().getContextClassLoader());</span><br><span class="line"></span><br><span class="line">       &#x2F;&#x2F;使用自定义类加载器加载：</span><br><span class="line">       Class c &#x3D; Thread.currentThread().getContextClassLoader().loadClass(&quot;HelloWorld&quot;);</span><br><span class="line">       System.out.println(c.getClassLoader());&#x2F;&#x2F;线程上下文类加载器</span><br><span class="line"></span><br><span class="line">       ClassLoader loader3 &#x3D; String.class.getClassLoader();</span><br><span class="line">       System.out.println(loader3);&#x2F;&#x2F;启动类加载器 &#x3D; null</span><br><span class="line">   &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>测试结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">sun.misc.Launcher$AppClassLoader@41dee0d7</span><br><span class="line">sun.misc.Launcher$AppClassLoader@41dee0d7</span><br><span class="line">ClassLoaderTest@516a4aef</span><br><span class="line">ClassLoaderTest@516a4aef</span><br><span class="line">null</span><br></pre></td></tr></table></figure>
-
-<h2 id="spi-具体实现："><a href="#spi-具体实现：" class="headerlink" title="spi 具体实现："></a>spi 具体实现：</h2><p>在下面代码中，通过 SPI 方式来完成 java.sql.Driver 接口实现类的类加载操作。</p>
-<p>java.sql.DriverManager 包中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">AccessController.doPrivileged(new PrivilegedAction&lt;Void&gt;() &#123;</span><br><span class="line">    public Void run() &#123;</span><br><span class="line">        &#x2F;&#x2F;通过SPI方式，读取META-INF&#x2F;services下文件中的类名：</span><br><span class="line">        ServiceLoader&lt;Driver&gt; loadedDrivers &#x3D; ServiceLoader.load(Driver.class);</span><br><span class="line">        Iterator driversIterator &#x3D; loadedDrivers.iterator();</span><br><span class="line">        try&#123;</span><br><span class="line">            while(driversIterator.hasNext()) &#123;</span><br><span class="line">                driversIterator.next();</span><br><span class="line">            &#125;</span><br><span class="line">        &#125; catch(Throwable t) &#123;&#125;</span><br><span class="line">        return null;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;);</span><br></pre></td></tr></table></figure>
-
-<p>获取到 ServiceLoader 对象后，进行遍历操作，遍历出所有 META-INF/services 文件夹下的实现类名称，之后再进行 Class.forName(“”)类加载操作。类加载操作在 driversIterator.next()中完成。</p>
-<p>java.util.ServiceLoader 包中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br></pre></td><td class="code"><pre><span class="line">public static &lt;S&gt; ServiceLoader&lt;S&gt; load(Class&lt;S&gt; service) &#123;</span><br><span class="line">    &#x2F;&#x2F;获取线程上下文类加载器：</span><br><span class="line">    ClassLoader cl &#x3D; Thread.currentThread().getContextClassLoader();</span><br><span class="line">    &#x2F;&#x2F;生成ServiceLoader对象：</span><br><span class="line">    return ServiceLoader.load(service, cl);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public static &lt;S&gt; ServiceLoader&lt;S&gt; load(Class&lt;S&gt; service,</span><br><span class="line">                                        ClassLoader loader)&#123;</span><br><span class="line">    return new ServiceLoader&lt;&gt;(service, loader);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private ServiceLoader(Class&lt;S&gt; svc, ClassLoader cl) &#123;</span><br><span class="line">    service &#x3D; svc;</span><br><span class="line">    loader &#x3D; cl;</span><br><span class="line">    reload();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>在获取 ServiceLoader 对象时，获取了此时线程上下文中的类加载器，将此类加载赋值给 ServiceLoader 类中的 loader 成员变量。在后续类加载过程中，都是使用的此类加载来完成。这一步的操作，直接打破了双亲委派模型，实现了逆向类加载。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">try&#123;</span><br><span class="line">    while(driversIterator.hasNext()) &#123;</span><br><span class="line">        driversIterator.next();</span><br><span class="line">    &#125;</span><br><span class="line">&#125; catch(Throwable t) &#123;&#125;</span><br></pre></td></tr></table></figure>
-
-<p>通过 debug 发现，driversIterator.next()方法内部会调用 Class c = Class.forName(cn, false, loader)方法进行类加载操作。而此时传递的 loader 就是之前获取的线程上下文类加载器，传递的 cn 就是 META-INF/services 文件中的具体实现类。</p>
-<p>由于笔者是通过本地的 test 进行测试，所以上文中涉及到的类加载器都是 AppClassLoader 系统类加载器。</p>
-<p>作者：贾博岩<br>链接：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/e4262536000d">https://www.jianshu.com/p/e4262536000d</a><br>来源：简书<br>著作权归作者所有。商业转载请联系作者获得授权，非商业转载请注明出处。</p>
 
       
     </div>
