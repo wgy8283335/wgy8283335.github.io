@@ -327,7 +327,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-12-27 13:01:22 / Modified: 18:34:11" itemprop="dateCreated datePublished" datetime="2020-12-27T13:01:22+08:00">2020-12-27</time>
+      <time title="Created: 2020-12-27 13:01:22 / Modified: 18:37:15" itemprop="dateCreated datePublished" datetime="2020-12-27T13:01:22+08:00">2020-12-27</time>
     </span>
 
   
@@ -376,7 +376,7 @@
 <h2 id="DispatcherServlet-与-SpringMVC"><a href="#DispatcherServlet-与-SpringMVC" class="headerlink" title="DispatcherServlet 与 SpringMVC"></a>DispatcherServlet 与 SpringMVC</h2><p>tomcat 是一个 Servlet 容器，这个容器内可以存在多个 servlet，处理不同的请求。<br>加入 springmvc，它提供了一个 Servlet，可以处理.do 结尾的请求，还有静态资源的请求和其它请求。如果，我们为 springmvc 在 web.xml 配置的映射 url 为/*则代表所有请求都要走 springmvc，tomcat 中的 DefaultServlet 和 JSPServlet 都无法得到请求。因为这个两个 servlet 是在 tomcat 的 conf/web.xml 中配置的，这个 web.xml 的配置会被各个应用自己的 web.xml 覆盖，最终 tomcat 按照应用定义的 web.xml 来做映射。<br>SpringMVC 的核心控制器叫 DispatcherServlet，映射原理和我们上面山寨版的一样，因为本质还是个 Servlet。但 SpringMVC 提供了一个标签，解决上面/无法读取静态资源的问题：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- 静态资源处理  css js imgs --&gt;</span><br><span class="line">&lt;mvc:resources location&#x3D;&quot;&#x2F;resources&#x2F;**&quot; mapping&#x3D;&quot;&#x2F;resources&quot;&#x2F;&gt;</span><br></pre></td></tr></table></figure>
 
-<p>其他的我也不说了，一张图，大家体会一下 DispatcherServlet 与 SpringMVC 到底是什么关系：<br><img src="/images/web/servlet-6.jpg"></p>
+<p>其他的我也不说了，一张图，大家体会一下 DispatcherServlet 与 SpringMVC 到底是什么关系：<br><img src="/images/web/servlet-6.jpg"><br>DispatcherServlet 确实是一个 Servlet，但它只是入口，SpringMVC 要比想象的庞大。DispatcherServlet 只是 Springmvc 的一个入口，Springmvc 内部是十分复杂的。</p>
 
       
     </div>
