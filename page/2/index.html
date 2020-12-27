@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,127 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/11/29/Golang%E7%9A%84%E5%8C%85%E4%BE%9D%E8%B5%96%E7%AE%A1%E7%90%86/" class="post-title-link" itemprop="url">Golang 的包管理机制</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-11-29 16:07:30 / Modified: 16:30:30" itemprop="dateCreated datePublished" datetime="2020-11-29T16:07:30+08:00">2020-11-29</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>在 Go1.5 之前用 GOPATH 以及 GOROOT 这两个环境变量来管理包的位置，GOROOT 为 Go 的安装目录，以及编译过程中使用到的系统库存放位置，如 fmt。Go1.5 到 Go1.7 开始稳定到 Vendor 方式，即依赖包需要放到 $GOPATH/src/vendor 目录下，这样每个项目都有自己的 vendor 目录，但是如果依赖同样的三方包，很容易造成资源重复，Go vendor 出现了几种主流的管理工具，包括 godep、govendor、golide 等。</p>
+<p>在 Go1.11 之前，GOPATH 是开发时的工作目录，其中包含三个子目录：</p>
+<p>src 目录：存放 go 项目源码和依赖源码，包括使用 go get 下载的包<br>bin 目录：通过使用 go install 命令将 go build 编译出的二进制可执行文件存放于此<br>pkg 目录：go 源码包编译生成的 lib 文件存储的地方<br>在 Go1.11 之前，import 包时的搜索路径</p>
+<p>GOROOT/src: 该目录保存了 Go 标准库代码(首先搜寻导入包的地方)<br>GOPATH/src: 该目录保存了应用自身的各个包代码和第三方依赖的代码<br>./vendor ：vendor 方式第三方依赖包（如果支持 Vendor）<br>在 Unix 和类 Unix 系统上，GOPATH 默认值是 $HOME/go，Go1.11 版本后，开启 GO Modules 后，GOPATH 的作用仅仅为存放依赖的目录了。</p>
+<p>在 Go 的 1.11 版本之前，GOPATH 是必需的，且所有的 Go 项目代码都要保存在 GOPATH/src 目录下，也就是如果想引用本地的包，你需要将包放在 $GOPATH/src 目录下才能找得到。Go 的 1.11 版本之后，GO 官方引入了 Go Modules，不仅仅方便的使用我们的依赖，而且还对依赖的版本进行了管理。</p>
+<p>在 Go1.11 后通过 go mod vendor 和 -mod=vendor 来实现 Vendor 管理依赖方式。本来在 vgo 项目(Go Modules 前身)是要完全放弃 vendor，但是在社区反馈下还是保留了。总之就是在 Go.1.11 之后需要开启 Go Modules 条件下才能使用 Vendor，具体地感兴趣或还沿用了 Vendor 的朋友可以去了解下，不过建议以后仅使用 Go Modules 包管理方式了。</p>
+<h2 id="dep-govendor-机制"><a href="#dep-govendor-机制" class="headerlink" title="dep/govendor 机制"></a>dep/govendor 机制</h2><h4 id="vendor-使用限制"><a href="#vendor-使用限制" class="headerlink" title="vendor 使用限制"></a>vendor 使用限制</h4><p>使用 vendor 来管理包的项目，必须位于$GOPATH/src 下面。</p>
+<h4 id="vendor-目录和-json-文件"><a href="#vendor-目录和-json-文件" class="headerlink" title="vendor 目录和 json 文件"></a>vendor 目录和 json 文件</h4><p>该工具将项目依赖的外部包拷贝到项目下的 vendor 目录下，并通过 vendor.json 文件来记录依赖包的版本，方便用户使用相对稳定的依赖。</p>
+<h4 id="vendor-机制下，如何搜索包依赖"><a href="#vendor-机制下，如何搜索包依赖" class="headerlink" title="vendor 机制下，如何搜索包依赖"></a>vendor 机制下，如何搜索包依赖</h4><p>那么查找依赖包路径的解决方案如下：</p>
+<ul>
+<li>当前包下的 vendor 目录。</li>
+<li>向上级目录查找，直到找到 src 下的 vendor 目录。</li>
+<li>在 GOPATH 下面查找依赖包。</li>
+<li>在 GOROOT 目录下查找</li>
+</ul>
+<h4 id="如果我们已经使用-GOPATH-去存储-packages-了，问什么还需要使用-vendor-目录呢？"><a href="#如果我们已经使用-GOPATH-去存储-packages-了，问什么还需要使用-vendor-目录呢？" class="headerlink" title="如果我们已经使用 GOPATH 去存储 packages 了，问什么还需要使用 vendor 目录呢？"></a>如果我们已经使用 GOPATH 去存储 packages 了，问什么还需要使用 vendor 目录呢？</h4><p>这是一个很实战的问题。假如多个应用使用一个依赖包的不同版本？这个问题不只是 Go 应用，其他语言也会有这个问题。<br>vendor 目录允许不同的代码库拥有它自己的依赖包，并且不同于其他代码库的版本，这就很好的做到了工程的隔离。<br>每个项目都有各自的 vendor，每个 vendor 可以存放不同版本的依赖包。</p>
+<h2 id="module-机制"><a href="#module-机制" class="headerlink" title="module 机制"></a>module 机制</h2><p>在 go1.11 版本中，新增了 module 管理模块功能，用来管理依赖包。要知道，在这个之前，想要对 go 语言包进行管理，只能依赖第三方库实现，比如 Vendor,GoVendor,GoDep,Dep,Glide 等等，对于初学者来说，真的是选择困难症。</p>
+<h4 id="开启-module-特性"><a href="#开启-module-特性" class="headerlink" title="开启 module 特性"></a>开启 module 特性</h4><p>要开始使用 go module 的特性， 需要先设置 GO111MODULE 环境变量。<br>开启 GO111MODULE。<br>要使用 go module,首先要设置 GO111MODULE=on,这没什么可说的，如果没设置，执行命令的时候会有提示，这个大家应该都了解了</p>
+<h4 id="在-GOAPTH-src-中创建项目"><a href="#在-GOAPTH-src-中创建项目" class="headerlink" title="在$GOAPTH/src 中创建项目"></a>在$GOAPTH/src 中创建项目</h4><p>在$GOPATH/src 目录下创建 github.com/cnwyt/mytest 目录，mytest 为项目目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">mkdir -p $GOPATH&#x2F;src&#x2F;github.com&#x2F;cnwyt&#x2F;mytest</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ export GO111MODULE&#x3D;on</span><br><span class="line">$ go mod init github.com&#x2F;cnwyt&#x2F;mytest</span><br><span class="line">go: creating new go.mod: module github.com&#x2F;cnwyt&#x2F;mytest</span><br></pre></td></tr></table></figure>
+
+<p>当然这个 go 模块可以创建在任意位置，不强制邀请放在 GOPATH 路径下。</p>
+<h4 id="在-GOPATH-src-外也可以创建项目"><a href="#在-GOPATH-src-外也可以创建项目" class="headerlink" title="在$GOPATH/src 外也可以创建项目"></a>在$GOPATH/src 外也可以创建项目</h4><p>在 GOPATH 以外的模块，创建一个 helloworld 目录，用来调用刚刚创建的 mytest 模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">$ mkdir helloworld &amp;&amp; cd helloworld</span><br><span class="line">$ vi main.go</span><br></pre></td></tr></table></figure>
+
+<p>创建一个 main.go 文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">package main</span><br><span class="line"></span><br><span class="line">import &quot;fmt&quot;</span><br><span class="line">&#x2F;&#x2F;import &quot;github.com&#x2F;cnwyt&#x2F;mytest&quot;</span><br><span class="line"></span><br><span class="line">func main() &#123;</span><br><span class="line">    fmt.Println(&quot;Hello, World!&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F;mytest.ShowTest1()</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>初始化该模块，引入 github.com/cnwyt/mytest 模块，指定版本为 latest:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go mod init helloworld</span><br><span class="line">$ go mod edit -require github.com&#x2F;cnwyt&#x2F;mytest@latest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>初始化后，会生成一个 go.mod 文件，类似 npm 里的 package.json 或者 composer 的 composer.json 的一个文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">module helloworld</span><br><span class="line"></span><br><span class="line">require github.com&#x2F;cnwyt&#x2F;mytest v0.0.0</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这样直接执行 go test 或者 go run main.go 会报错:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">$ go test</span><br><span class="line">build helloworld: cannot find module for path github.com&#x2F;cnwyt&#x2F;mytest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>这是为啥呢？ 这是因为我们虽然创建了一个名为 github.com/cnwyt/mytest 模块，在 GOPATH 路径里也有这个模块。但是，GO 模块去 Github 去找这个模块，而不是在 GOPATH 路径里去找，所以找不到。</p>
+<p>那该怎么办呢?<br>有两个解决办法：<br>第一个办法，很简单，就是直接将 cnwyt/mytest 模块推送的 GitHub 上。<br>但是，如果我要修改 cnwyt/mytest 里的代码，都得先推送到 GitHub 上，才能生效，实在太麻烦了。<br>那就直接使用第二个办法， 使用 go replace:</p>
+<p>直接修改 go.mod，新增一行 replace:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">module helloworld</span><br><span class="line"></span><br><span class="line">require github.com&#x2F;cnwyt&#x2F;mytest v0.0.0</span><br><span class="line"></span><br><span class="line">replace github.com&#x2F;cnwyt&#x2F;mytest &#x3D;&gt; &#x2F;Users&#x2F;wangtom&#x2F;goworkspace&#x2F;mytest</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>注意版本号必须填写，可以填 v0.0.0 或者 latest.</p>
+<h4 id="调用第三方模块"><a href="#调用第三方模块" class="headerlink" title="调用第三方模块"></a>调用第三方模块</h4><p>比如项目中会用到比较流行的路由模块 gorilla/mux:</p>
+<p>直接修改 go.mod，新增一行 require，不指定版本可以直接写 latest 获取最新版本:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">require github.com&#x2F;gorilla&#x2F;mux latest</span><br></pre></td></tr></table></figure>
+
+<p>运行 go build 或 go test 会自动从 GitHub 下载模块，并会修改 go.mod 文件。</p>
+<p>比如运行后会把 latest 直接修改成目前最新的版本 v1.6.2 :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">module helloworld</span><br><span class="line"></span><br><span class="line">require github.com&#x2F;cnwyt&#x2F;mytest v0.0.0</span><br><span class="line">require github.com&#x2F;gorilla&#x2F;mux v1.6.2</span><br><span class="line"></span><br><span class="line">replace github.com&#x2F;cnwyt&#x2F;mytest &#x3D;&gt; &#x2F;Users&#x2F;wangtom&#x2F;goworkspace&#x2F;godict</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>可以看到模块 gorilla/mux 代码会下载到 $GOPATH/pkg/mod/ 模块下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">$ ll &#x2F;Users&#x2F;wangtom&#x2F;goworkspace&#x2F;pkg&#x2F;mod&#x2F;github.com&#x2F;gorilla</span><br><span class="line">total 0</span><br><span class="line">dr-xr-xr-x  22 wangtom  staff 704B 12 24 22:14 mux@v1.6.2</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="不使用-vendor-和-module-机制时，可以手动下载所有依赖"><a href="#不使用-vendor-和-module-机制时，可以手动下载所有依赖" class="headerlink" title="不使用 vendor 和 module 机制时，可以手动下载所有依赖"></a>不使用 vendor 和 module 机制时，可以手动下载所有依赖</h2><p>在不使用 vendor 和 module 的情况下，可以使用较原始的方式，将代码中依赖的内容全部下载并编译在$GOPATH 路径下。<br>在项目目录下，执行如下命令：<br>go get -d -v ./…</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1058,95 +1179,6 @@
 </li>
 <li><p>依赖倒转<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。org.apache.shardingsphere.core.route.type包内的RoutingEngine接口和若干实现类。方便以后新增路由引擎和修改路由引擎。</p>
 </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/sharding-core-parse/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/09/30/sharding-core-parse/" class="post-title-link" itemprop="url">sharding-core-parse</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-09-30 17:01:22" itemprop="dateCreated datePublished" datetime="2019-09-30T17:01:22+08:00">2019-09-30</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:27" itemprop="dateModified" datetime="2020-11-22T14:14:27+08:00">2020-11-22</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>模块结构<br>sharding-core-parse的主要功能是将sql语句执行分片或加密操作生成最后的SQLStatement对象，供后面的模块调用。内部有7个子模块，按功能分类可以分成四个部分：</li>
-</ul>
-<ol>
-<li>sharding-core-parse-common，实现了SQL解析的主要功能。</li>
-<li>sharding-core-parse-mysql,sharding-core-parse-oracle,sharding-core-parse-postgresql,sharding-core-parse-sqlserver。这四个模块分别对应四个不同的数据库类型，里面包含该类型数据库特有的一些实现类。</li>
-<li>sharding-core-parse-spi，主要定义了两个接口。SQLParser，抽象了antlr4生成的语法解析器的解析方法execute()。SQLParserEntry,抽象了获取antlr4生成的词法解析器和语法解析器的方法。</li>
-<li>sharding-core-parse-test，主要包含了对sharding-core-parse模块内部主要功能的测试，使用jaxb技术来定义测试用例和测试结果。</li>
-</ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-parse.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-parse的主要逻辑是从SQLParseEngine.parse()开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-parse-flow-graph.jpg"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li>享元模式<br>SQLParseEngineFactory的功能是创建SQLParseEngine。它使用了享元模式，避免大量实例化相同类的开销，通过共享大幅度地减少单个实例的数目。SQLParseEngineFactory的<code>getSQLParseEngine()</code>方法显示了享元模式的主要逻辑，首先判断ENGINES（Map类型）里面是否含有<code>databaseType.getName()</code>相应的元素，如果有则直接返回，否则根据databaseType来创建SQLParseEngine对象，缓存在ENGINES中，并返回此对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParseEngine getSQLParseEngine(final DatabaseType databaseType) &#123;</span><br><span class="line">    if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">        return ENGINES.get(databaseType.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    synchronized (ENGINES) &#123;</span><br><span class="line">        if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">            return ENGINES.get(databaseType.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        SQLParseEngine result &#x3D; new SQLParseEngine(databaseType);</span><br><span class="line">        ENGINES.put(databaseType.getName(), result);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
-<li>依赖倒转原则<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。<code>org.apache.shardingsphere.core.parse.core.filler</code>，<code>org.apache.shardingsphere.core.parse.core.extractor</code>，<code>org.apache.shardingsphere.core.parse.sql.segment</code>，<code>org.apache.shardingsphere.core.parse.sql.statement</code>等。这些包的内部结构体现了这一原则。比如SQLStatementFillerEngine类的fill()方法内部调用SQLSegmentFiller接口，SQLSegmentFiller接口的实现类定义在<code>impl</code>包中。<br>依赖倒转还体现在不同的数据库模块的实现。<code>sharding-core-parse-common</code>定义了SQLSegmentExtractor和SQLSegmentFiller接口,<code>sharding-core-parse-spi</code>定义了SQLParser接口和SQLParserEntry接口。，<code>sharding-core-parse-mysql</code>,<code>sharding-core-parse-oracle</code>,<code>sharding-core-parse-postgresql</code>,<code>sharding-core-parse-sqlserver</code>这四个模块会不同程度地实现上面的接口，不同的数据库都有各自特点，需要实现自身独有的实现类。依赖倒转为此提供了便捷，使得不同数据库只关注自身的实现。</li>
-<li>工厂模式<br>SQLParserFactory类的<code>newInstance()</code>体现了简单工厂的设计思想。它将对象的创建和使用分离开，对使用者屏蔽了复杂的创建过程。相关代码和注释如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParser newInstance(final DatabaseType databaseType, final String sql) &#123;</span><br><span class="line">    &#x2F;&#x2F;NewInstanceServiceLoader.newServiceInstances()返回一个装满SQLParserEntry类型对象的List</span><br><span class="line">    &#x2F;&#x2F;for循环遍历这个List</span><br><span class="line">    for (SQLParserEntry each : NewInstanceServiceLoader.newServiceInstances(SQLParserEntry.class)) &#123;</span><br><span class="line">        &#x2F;&#x2F;DatabaseTypes.getActualDatabaseType()根据名字返回对应databaseType，如果each的databaseType能够与传入的参数databaseType匹配则进行下面的计算</span><br><span class="line">        if (DatabaseTypes.getActualDatabaseType(each.getDatabaseType()) &#x3D;&#x3D; databaseType) &#123;</span><br><span class="line">            &#x2F;&#x2F;创建SQLParser对象</span><br><span class="line">            return createSQLParser(sql, each);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    throw new UnsupportedOperationException(String.format(&quot;Cannot support database type &#39;%s&#39;&quot;, databaseType));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
 </ol>
 
       

@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">26</span>
+          <span class="site-state-item-count">27</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,95 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/sharding-core-parse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/09/30/sharding-core-parse/" class="post-title-link" itemprop="url">sharding-core-parse</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-09-30 17:01:22" itemprop="dateCreated datePublished" datetime="2019-09-30T17:01:22+08:00">2019-09-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:27" itemprop="dateModified" datetime="2020-11-22T14:14:27+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-parse的主要功能是将sql语句执行分片或加密操作生成最后的SQLStatement对象，供后面的模块调用。内部有7个子模块，按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>sharding-core-parse-common，实现了SQL解析的主要功能。</li>
+<li>sharding-core-parse-mysql,sharding-core-parse-oracle,sharding-core-parse-postgresql,sharding-core-parse-sqlserver。这四个模块分别对应四个不同的数据库类型，里面包含该类型数据库特有的一些实现类。</li>
+<li>sharding-core-parse-spi，主要定义了两个接口。SQLParser，抽象了antlr4生成的语法解析器的解析方法execute()。SQLParserEntry,抽象了获取antlr4生成的词法解析器和语法解析器的方法。</li>
+<li>sharding-core-parse-test，主要包含了对sharding-core-parse模块内部主要功能的测试，使用jaxb技术来定义测试用例和测试结果。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-parse.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-parse的主要逻辑是从SQLParseEngine.parse()开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-parse-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>享元模式<br>SQLParseEngineFactory的功能是创建SQLParseEngine。它使用了享元模式，避免大量实例化相同类的开销，通过共享大幅度地减少单个实例的数目。SQLParseEngineFactory的<code>getSQLParseEngine()</code>方法显示了享元模式的主要逻辑，首先判断ENGINES（Map类型）里面是否含有<code>databaseType.getName()</code>相应的元素，如果有则直接返回，否则根据databaseType来创建SQLParseEngine对象，缓存在ENGINES中，并返回此对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParseEngine getSQLParseEngine(final DatabaseType databaseType) &#123;</span><br><span class="line">    if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">        return ENGINES.get(databaseType.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    synchronized (ENGINES) &#123;</span><br><span class="line">        if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">            return ENGINES.get(databaseType.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        SQLParseEngine result &#x3D; new SQLParseEngine(databaseType);</span><br><span class="line">        ENGINES.put(databaseType.getName(), result);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>依赖倒转原则<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。<code>org.apache.shardingsphere.core.parse.core.filler</code>，<code>org.apache.shardingsphere.core.parse.core.extractor</code>，<code>org.apache.shardingsphere.core.parse.sql.segment</code>，<code>org.apache.shardingsphere.core.parse.sql.statement</code>等。这些包的内部结构体现了这一原则。比如SQLStatementFillerEngine类的fill()方法内部调用SQLSegmentFiller接口，SQLSegmentFiller接口的实现类定义在<code>impl</code>包中。<br>依赖倒转还体现在不同的数据库模块的实现。<code>sharding-core-parse-common</code>定义了SQLSegmentExtractor和SQLSegmentFiller接口,<code>sharding-core-parse-spi</code>定义了SQLParser接口和SQLParserEntry接口。，<code>sharding-core-parse-mysql</code>,<code>sharding-core-parse-oracle</code>,<code>sharding-core-parse-postgresql</code>,<code>sharding-core-parse-sqlserver</code>这四个模块会不同程度地实现上面的接口，不同的数据库都有各自特点，需要实现自身独有的实现类。依赖倒转为此提供了便捷，使得不同数据库只关注自身的实现。</li>
+<li>工厂模式<br>SQLParserFactory类的<code>newInstance()</code>体现了简单工厂的设计思想。它将对象的创建和使用分离开，对使用者屏蔽了复杂的创建过程。相关代码和注释如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParser newInstance(final DatabaseType databaseType, final String sql) &#123;</span><br><span class="line">    &#x2F;&#x2F;NewInstanceServiceLoader.newServiceInstances()返回一个装满SQLParserEntry类型对象的List</span><br><span class="line">    &#x2F;&#x2F;for循环遍历这个List</span><br><span class="line">    for (SQLParserEntry each : NewInstanceServiceLoader.newServiceInstances(SQLParserEntry.class)) &#123;</span><br><span class="line">        &#x2F;&#x2F;DatabaseTypes.getActualDatabaseType()根据名字返回对应databaseType，如果each的databaseType能够与传入的参数databaseType匹配则进行下面的计算</span><br><span class="line">        if (DatabaseTypes.getActualDatabaseType(each.getDatabaseType()) &#x3D;&#x3D; databaseType) &#123;</span><br><span class="line">            &#x2F;&#x2F;创建SQLParser对象</span><br><span class="line">            return createSQLParser(sql, each);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    throw new UnsupportedOperationException(String.format(&quot;Cannot support database type &#39;%s&#39;&quot;, databaseType));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
