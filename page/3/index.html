@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">27</span>
+          <span class="site-state-item-count">29</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,184 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/sharding-core-preprocess/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/18/sharding-core-preprocess/" class="post-title-link" itemprop="url">sharding-core-preprocess</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-18 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-18T19:11:30+08:00">2019-10-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:25" itemprop="dateModified" datetime="2020-11-22T14:14:25+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-preprocess的主要功能是对SQLStatment对象进行预处理生成SQLStatementContext对象，为路由提供必要信息。按功能分类可以分成三个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.optimize。SQLStatementContextFactory类，主要作用根据传入的SQLStatement类型创建相应的SQLStatementContext对象。创建SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种。</li>
+<li>org.apache.shardingsphere.core.optimize.statement。包含SQLStatementContext接口和SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种实现类。存储：TablesContext、SQLStatement和其他类型Context。</li>
+<li>org.apache.shardingsphere.core.optimize.segment。内部分insert、select、table三种类型，包含segment对应的context。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-preprocessor.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-preprocess的主要逻辑是从SQLStatementContextFactory.newInstance()方法开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-preprocessor-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>简单工厂模式<br>SQLStatementContextFactory.newInstance()方法根据sqlStatement的类型来决定要创建SQLStatmentContext实例。SQLStatementContext是一个接口，它拥有SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext这三个实现类。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/sharding-core-route/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/15/sharding-core-route/" class="post-title-link" itemprop="url">sharding-core-route</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-15 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-15T19:11:30+08:00">2019-10-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:22" itemprop="dateModified" datetime="2020-11-22T14:14:22+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-route的主要功能是将解析生成的SQLStatement对象，进行预处理和路由生成SQLRouteResult对象。这里只讲解路由部分，预处理部分单独一片文章讲解。按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.route.hook。hook相关的类，用于跟踪和分析。</li>
+<li>org.apache.shardingsphere.core.route.router。包含分片路由和主备路由两个逻辑的实现，分别位于ShardingRouter和ShardingMasterSlaveRouter，生成SQLRouteResult对象</li>
+<li>org.apache.shardingsphere.core.route.type。主要包含RoutingEngine的接口和具体类的实现，实现了route()方法，完成了在具体SQLstatementContext、ShardingRule、ShardingCondition中完成分片操作，生成RoutingResult。支持ShardingRouter和ShardingMasterSlaveRouter的方法实现。</li>
+<li>org.apache.shardingsphere.core.route。主要的类为：StatementRoutingEngine和PreparedStatementRoutingEngine。这两个类是核心，路由逻辑的入口在它的route()方法中。前者提供 public SQLRouteResult route(final String logicSQL)，后者提供public SQLRouteResult route(final List<Object> parameters)。</Object></li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-route.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-route的主要逻辑是从StatementRoutingEngine.route(final String logicSQL)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-route-flow-graph.jpg"><br>上图中的logicSQL的位置和语句对应有偏差，下方图使用EXCEL更准确描述。<br><img src="/images/sharding-core-route-flow-graph-1.png"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li><p>简单工厂模式+依赖倒转原则<br>RoutingEngine抽象出来route()方法，具体的实现类来实现具体的方法，每个实现类实现自己的路由算法。产生的实现类依据RoutingEngineFactory.newInstance(final ShardingRule shardingRule, final ShardingSphereMetaData metaData, final SQLStatementContext sqlStatementContext, final ShardingConditions shardingConditions)方法中的传入参数。具体代码位于ShardingRouter.route(final String logicSQL, final List<Object> parameters, final SQLStatement sqlStatement)方法中。</Object></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RoutingEngine routingEngine &#x3D; RoutingEngineFactory.newInstance(shardingRule, metaData, sqlStatementContext, shardingConditions);</span><br><span class="line">RoutingResult routingResult &#x3D; routingEngine.route();</span><br></pre></td></tr></table></figure></li>
+<li><p>简单工厂模式<br>简单工厂模式在模块中若干处有出现，例如：org.apache.shardingsphere.core.route.router.sharding.validator包内和org.apache.shardingsphere.core.route.router.sharding.condition.generator包内。</p>
+</li>
+<li><p>依赖倒转<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。org.apache.shardingsphere.core.route.type包内的RoutingEngine接口和若干实现类。方便以后新增路由引擎和修改路由引擎。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
