@@ -197,7 +197,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/27/Web%E5%9F%BA%E7%A1%80/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/27/Web%E5%9F%BA%E7%A1%80+tomcat/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -210,7 +210,7 @@
     </span>
       <header class="post-header">
         <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/27/Web%E5%9F%BA%E7%A1%80/" class="post-title-link" itemprop="url">Web基础+Tomcat</a>
+          <a href="/2020/12/27/Web%E5%9F%BA%E7%A1%80+tomcat/" class="post-title-link" itemprop="url">Web基础+Tomcat</a>
         </h2>
 
         <div class="post-meta-container">
@@ -222,7 +222,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-12-27 21:00:00 / Modified: 14:47:07" itemprop="dateCreated datePublished" datetime="2020-12-27T21:00:00+08:00">2020-12-27</time>
+      <time title="Created: 2020-12-27 21:00:00 / Modified: 14:49:52" itemprop="dateCreated datePublished" datetime="2020-12-27T21:00:00+08:00">2020-12-27</time>
     </span>
 
   
@@ -242,23 +242,23 @@
 <li>配合各种传输协议进行响应输出<br>请先了解以下三个概念:</li>
 <li>IP:电子设备在网络中的唯一表示，一个 IP 对应一台实体电脑。</li>
 <li>端口：应用程序在计算机中的唯一标识，一个端口只能被唯一程序占用。</li>
-<li>传输协议：数据传输的规则。<br>浏览器与服务器通信流程如下：<br><img src="/images/tomcat-web-1.png"><br>实际请求时，最终还是要换算成 IP 去访问。总得来说有两种换算的途径：1.本机的 hosts 文件 2.DNS 服务器<br>DNS 解析域名得到对应的 IP 后，Request 请求里还是会带上 host。为什么？</li>
+<li>传输协议：数据传输的规则。<br>浏览器与服务器通信流程如下：<br><img src="/images/tomcat/tomcat-web-1.png"><br>实际请求时，最终还是要换算成 IP 去访问。总得来说有两种换算的途径：1.本机的 hosts 文件 2.DNS 服务器<br>DNS 解析域名得到对应的 IP 后，Request 请求里还是会带上 host。为什么？</li>
 </ul>
 <p>因为：域名!=IP。</p>
 <p>实际上一个 IP 可以对应多个域名。也就是说一台实体服务器（大铁柜），理论上可以有多个域名（虚拟主机）。实体服务器和网站是两个概念。IP 只是对应实体服务器，而域名对应具体的网站。</p>
-<p>比如上面百度服务器，虽然看起来 115.239.210.27 这个 IP 完全等同于<a href="http://www.baidu.com，但也有可能这个IP对应的服务器上配置了两个虚拟主机：www.baidu.com和tieba.baidu.com。所以即使找到了IP对应的服务器实体，Request请求还是要带上host主机名，以确定是哪个虚拟主机。">http://www.baidu.com，但也有可能这个IP对应的服务器上配置了两个虚拟主机：www.baidu.com和tieba.baidu.com。所以即使找到了IP对应的服务器实体，Request请求还是要带上host主机名，以确定是哪个虚拟主机。</a><br><img src="/images/tomcat-web-2.png"><br>另外，如果两个域名对应同一个 IP，那么必须设置其中一个域名为默认的，不然同一台服务器有两个虚拟主机，我该访问谁？<br>已经知道 IP，就无需 DNS 解析，可直接访问服务器。若这个 IP 对应的服务器有两个虚拟主机，而用户 Request 请求行中又没有指定 host，则会访问默认主机（因此服务器要事先指定默认主机！Tomcat 默认 localhost，localhost 这个名称是一个保留域名）<br><img src="/images/tomcat-web-3.png"><br>最后，再用 Tomcat 举个例子。比如，现在我有一台笔记本电脑（一个实体服务器），它的本机 IP 是 192.168.112.1，我在上面装了 Tomcat。如果 Tomcat 不改动配置，则默认只有一个虚拟主机 localhost（默认主机）。接着我开发了一个 JavaWeb 程序 demo1 部署到 Tomcat，然后我同事在浏览器输入下方地址。192.168.112.1:8080/demo1/index.html。访问我的电脑。虽然没有带 host，但是 localhost 是默认的，于是访问它。<br><img src="/images/tomcat-web-4.png"></p>
-<h2 id="3-个容易混淆的概念"><a href="#3-个容易混淆的概念" class="headerlink" title="3 个容易混淆的概念"></a>3 个容易混淆的概念</h2><p>其实，Tomcat 服务器 = Web 服务器 + Servlet/JSP 容器（Web 容器）。<br>Web 服务器的作用是接收客户端的请求，给客户端作出响应。但是很明显，服务器不止静态资源呀，所以客户端发起请求后，如果是动态资源，Web 服务器不可能直接把它响应回去（比如 JSP），因为浏览器只认识静态资源。所以对于 JavaWeb 程序而言，还需要 JSP/Servlet 容器，JSP/Servlet 容器的基本功能是把动态资源转换成静态资源。我们 JavaWeb 工程师需要使用 Web 服务器和 JSP/Servlet 容器，而通常这两者会集于一身，比如 Tomcat。<br><img src="/images/tomcat-web-5.jpg"></p>
-<h2 id="我们开发的-Web-应用都是半成品"><a href="#我们开发的-Web-应用都是半成品" class="headerlink" title="我们开发的 Web 应用都是半成品"></a>我们开发的 Web 应用都是半成品</h2><p>我们开发 JavaWeb 时，你操心过如何接收 HTTP 请求和响应 HTTP 请求吗？显然没有嘛！因为服务器都已经完成了。所以，我们用 Java 开发的 Web 应用只是一个半成品，类似于一个插件，而服务器则像一个收发器：<br><img src="/images/tomcat-web-6.png"></p>
+<p>比如上面百度服务器，虽然看起来 115.239.210.27 这个 IP 完全等同于<a href="http://www.baidu.com，但也有可能这个IP对应的服务器上配置了两个虚拟主机：www.baidu.com和tieba.baidu.com。所以即使找到了IP对应的服务器实体，Request请求还是要带上host主机名，以确定是哪个虚拟主机。">http://www.baidu.com，但也有可能这个IP对应的服务器上配置了两个虚拟主机：www.baidu.com和tieba.baidu.com。所以即使找到了IP对应的服务器实体，Request请求还是要带上host主机名，以确定是哪个虚拟主机。</a><br><img src="/images/tomcat/tomcat-web-2.png"><br>另外，如果两个域名对应同一个 IP，那么必须设置其中一个域名为默认的，不然同一台服务器有两个虚拟主机，我该访问谁？<br>已经知道 IP，就无需 DNS 解析，可直接访问服务器。若这个 IP 对应的服务器有两个虚拟主机，而用户 Request 请求行中又没有指定 host，则会访问默认主机（因此服务器要事先指定默认主机！Tomcat 默认 localhost，localhost 这个名称是一个保留域名）<br><img src="/images/tomcat/tomcat-web-3.png"><br>最后，再用 Tomcat 举个例子。比如，现在我有一台笔记本电脑（一个实体服务器），它的本机 IP 是 192.168.112.1，我在上面装了 Tomcat。如果 Tomcat 不改动配置，则默认只有一个虚拟主机 localhost（默认主机）。接着我开发了一个 JavaWeb 程序 demo1 部署到 Tomcat，然后我同事在浏览器输入下方地址。192.168.112.1:8080/demo1/index.html。访问我的电脑。虽然没有带 host，但是 localhost 是默认的，于是访问它。<br><img src="/images/tomcat/tomcat-web-4.png"></p>
+<h2 id="3-个容易混淆的概念"><a href="#3-个容易混淆的概念" class="headerlink" title="3 个容易混淆的概念"></a>3 个容易混淆的概念</h2><p>其实，Tomcat 服务器 = Web 服务器 + Servlet/JSP 容器（Web 容器）。<br>Web 服务器的作用是接收客户端的请求，给客户端作出响应。但是很明显，服务器不止静态资源呀，所以客户端发起请求后，如果是动态资源，Web 服务器不可能直接把它响应回去（比如 JSP），因为浏览器只认识静态资源。所以对于 JavaWeb 程序而言，还需要 JSP/Servlet 容器，JSP/Servlet 容器的基本功能是把动态资源转换成静态资源。我们 JavaWeb 工程师需要使用 Web 服务器和 JSP/Servlet 容器，而通常这两者会集于一身，比如 Tomcat。<br><img src="/images/tomcat/tomcat-web-5.jpg"></p>
+<h2 id="我们开发的-Web-应用都是半成品"><a href="#我们开发的-Web-应用都是半成品" class="headerlink" title="我们开发的 Web 应用都是半成品"></a>我们开发的 Web 应用都是半成品</h2><p>我们开发 JavaWeb 时，你操心过如何接收 HTTP 请求和响应 HTTP 请求吗？显然没有嘛！因为服务器都已经完成了。所以，我们用 Java 开发的 Web 应用只是一个半成品，类似于一个插件，而服务器则像一个收发器：<br><img src="/images/tomcat/tomcat-web-6.png"></p>
 <h2 id="什么是动态资源"><a href="#什么是动态资源" class="headerlink" title="什么是动态资源"></a>什么是动态资源</h2><p>其实对于何谓动态资源，我也没有很精准的概念。要讲清楚一个东西是什么，有时是比较难的事。不如先说它不是什么。</p>
 <p>首先，动态资源不等同于动态页面。所谓动态页面，就是页面会动，而会动的页面不一定是动态资源。比如我可以用 JQuery 执行一段代码，让一个 Div 不断放大缩小，但是很显然它还是一个 HTML 页面。</p>
-<p>所谓动态资源，其实最显著的特征就是它能动态地生成 HTML！比如 JSP。动态资源有个“特色”：它的数据是“可拼装”的、而且“可以随时间变化”。下面用号称可以抗住 8 个明星同时出轨的新浪服务器举个例子：<br><img src="/images/tomcat-web-7.png"></p>
-<h2 id="Tomcat-架构"><a href="#Tomcat-架构" class="headerlink" title="Tomcat 架构"></a>Tomcat 架构</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p><img src="/images/tomcat-web-8.jpg"></p>
-<h3 id="Tomcat-的架构"><a href="#Tomcat-的架构" class="headerlink" title="Tomcat 的架构"></a>Tomcat 的架构</h3><p><img src="/images/tomcat-web-9.jpg"></p>
-<h3 id="server-xml-配置"><a href="#server-xml-配置" class="headerlink" title="server.xml 配置"></a>server.xml 配置</h3><p><img src="/images/tomcat-web-10.jpg"><br><img src="/images/tomcat-web-11.jpg"><br>简略解释一下 xml 里的配置：</p>
+<p>所谓动态资源，其实最显著的特征就是它能动态地生成 HTML！比如 JSP。动态资源有个“特色”：它的数据是“可拼装”的、而且“可以随时间变化”。下面用号称可以抗住 8 个明星同时出轨的新浪服务器举个例子：<br><img src="/images/tomcat/tomcat-web-7.png"></p>
+<h2 id="Tomcat-架构"><a href="#Tomcat-架构" class="headerlink" title="Tomcat 架构"></a>Tomcat 架构</h2><h3 id="目录"><a href="#目录" class="headerlink" title="目录"></a>目录</h3><p><img src="/images/tomcat/tomcat-web-8.jpg"></p>
+<h3 id="Tomcat-的架构"><a href="#Tomcat-的架构" class="headerlink" title="Tomcat 的架构"></a>Tomcat 的架构</h3><p><img src="/images/tomcat/tomcat-web-9.jpg"></p>
+<h3 id="server-xml-配置"><a href="#server-xml-配置" class="headerlink" title="server.xml 配置"></a>server.xml 配置</h3><p><img src="/images/tomcat/tomcat-web-10.jpg"><br><img src="/images/tomcat/tomcat-web-11.jpg"><br>简略解释一下 xml 里的配置：</p>
 <ul>
 <li><p>Server.xml 文件中的配置结构和 Tomcat 的架构是一一对应的。根目录是<Server>，代表服务器，<Server>下面有且仅有 1 个<Service>，代表服务。<br><Service>下有两个<Connector>，代表连接（需要的话可以再加）。</Connector></Service></Service></Server></Server></p>
 </li>
-<li><p>其实这个 Connector 就是我们在上面讨论百度服务器时画过的端口。大家可以看到 Tomcat 默认配置了两个端口，一个是 HTTP/1.1 协议的，一个是 AJP/1.3 协议（AJP 连接器可以通过 AJP 协议和另一个 web 服务器行交互）。前者专门处理 HTTP 请求，后者可以通其他 web 服务器连接。<br><img src="/images/tomcat-web-12.jpeg"></p>
+<li><p>其实这个 Connector 就是我们在上面讨论百度服务器时画过的端口。大家可以看到 Tomcat 默认配置了两个端口，一个是 HTTP/1.1 协议的，一个是 AJP/1.3 协议（AJP 连接器可以通过 AJP 协议和另一个 web 服务器行交互）。前者专门处理 HTTP 请求，后者可以通其他 web 服务器连接。<br><img src="/images/tomcat/tomcat-web-12.jpeg"></p>
 </li>
 <li><p>当我们在浏览器输入”<a target="_blank" rel="noopener" href="http://localhost:8080/demo/index.html&quot;%E6%97%B6%EF%BC%8C%E6%B5%8F%E8%A7%88%E5%99%A8%E6%98%AF%E4%BB%A5HTTP%E5%8D%8F%E8%AE%AE%E5%8F%91%E9%80%81%E7%9A%84%EF%BC%8C%E5%BD%93%E8%BF%99%E4%B8%AA%E8%AF%B7%E6%B1%82%E5%88%B0%E4%BA%86%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%90%8E%EF%BC%8C%E4%BC%9A%E8%A2%AB%E8%AF%86%E5%88%AB%E4%B8%BAHTTP%E7%B1%BB%E5%9E%8B%EF%BC%8C%E4%BA%8E%E6%98%AF%E6%9C%8D%E5%8A%A1%E5%99%A8%E5%B0%B1%E6%89%BE%E6%9D%A5%E4%B8%93%E9%97%A8%E5%A4%84%E7%90%86HTTP%E7%9A%84Connector%EF%BC%8C%E5%AE%83%E7%9A%84%E9%BB%98%E8%AE%A4%E7%AB%AF%E5%8F%A3%E6%AD%A3%E6%98%AF%E4%B8%8A%E9%97%A8Server.xml%E9%85%8D%E7%BD%AE%E7%9A%848080%E3%80%82">http://localhost:8080/demo/index.html&quot;时，浏览器是以HTTP协议发送的，当这个请求到了服务器后，会被识别为HTTP类型，于是服务器就找来专门处理HTTP的Connector，它的默认端口正是上门Server.xml配置的8080。</a></p>
 </li>
@@ -267,14 +267,14 @@
 <li><p><Engine>下面有个 Host，代表主机。一个是默认的虚拟主机 localhost,一个是虚拟主机 xxxhost。localhost 对应的 appBase 是 webapps，所以请求到达 localhost 之后，会在 webapps 文件夹下面寻找对应子目录。</Engine></p>
 </li>
 </ul>
-<h3 id="tomcat-中的-DefaultServlet"><a href="#tomcat-中的-DefaultServlet" class="headerlink" title="tomcat 中的 DefaultServlet"></a>tomcat 中的 DefaultServlet</h3><p>实际使用 tomcat 的时候，即使没有编写 Servlet，tomcat 依然可以处理请求返回结果，是因为 tomcat 有一个 DefaultServlet。像 Tomcat 这样的 Servlet 容器来说，任何一个请求的背后肯定有个 Servlet 在默默处理：<br><img src="/images/tomcat-web-13.png"><br>在 tomcat/conf/web.xml 中，声明了一个 DefaultServlet。我们每个动态 web 工程都有个 web.xml，而 conf 里的这个，是它们的“老爹”。它里面的配置，如果动态 web 工程没有覆盖，就会被“继承”下来。我们会发现，conf/web.xml 里配置了一个 DefaultServlet：<br><img src="/images/tomcat-web-14.jpg"><br>DefaultServlet 的作用：最低级匹配，当没有对应的 Servlet 处理当前请求时，才轮到它处理。要么找到并响应请求的资源，要么给出 404 页面</p>
+<h3 id="tomcat-中的-DefaultServlet"><a href="#tomcat-中的-DefaultServlet" class="headerlink" title="tomcat 中的 DefaultServlet"></a>tomcat 中的 DefaultServlet</h3><p>实际使用 tomcat 的时候，即使没有编写 Servlet，tomcat 依然可以处理请求返回结果，是因为 tomcat 有一个 DefaultServlet。像 Tomcat 这样的 Servlet 容器来说，任何一个请求的背后肯定有个 Servlet 在默默处理：<br><img src="/images/tomcat/tomcat-web-13.png"><br>在 tomcat/conf/web.xml 中，声明了一个 DefaultServlet。我们每个动态 web 工程都有个 web.xml，而 conf 里的这个，是它们的“老爹”。它里面的配置，如果动态 web 工程没有覆盖，就会被“继承”下来。我们会发现，conf/web.xml 里配置了一个 DefaultServlet：<br><img src="/images/tomcat/tomcat-web-14.jpg"><br>DefaultServlet 的作用：最低级匹配，当没有对应的 Servlet 处理当前请求时，才轮到它处理。要么找到并响应请求的资源，要么给出 404 页面</p>
 <h3 id="JSP-剖析"><a href="#JSP-剖析" class="headerlink" title="JSP 剖析"></a>JSP 剖析</h3><p>我们都知道 JSP 是“化了浓妆”的 Servlet，但是好不容易伪装成了一个 JSP，是谁帮它卸妆的呢？另外，大家仔细想想，一般来说 JavaWeb 阶段我们访问资源有三种“形式”：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">localhost:8080&#x2F;demo&#x2F;AServlet：很明显，我们手动写了一个AServlet处理它</span><br><span class="line">localhost:8080&#x2F;demo&#x2F;haha.html：虽然我们没写，但是Tomcat自己准备了DefaultServlet</span><br><span class="line">localhost:8080&#x2F;demo&#x2F;index.jsp：我擦，谁来处理？</span><br></pre></td></tr></table></figure>
 
 <p>对呀，细思恐极，这*.jsp 的资源，谁来处理？其实就是 JspServlet。它的作用简而言之就是：</p>
 <p>首先，根据请求路径找到 JSP<br>然后，将它“翻译成”Servlet</p>
-<p>JSP 的 Servlet 也定义在 conf/web.xml。<br><img src="/images/tomcat-web-15.png"></p>
-<h3 id="tomcat-处理请求的几种方式"><a href="#tomcat-处理请求的几种方式" class="headerlink" title="tomcat 处理请求的几种方式"></a>tomcat 处理请求的几种方式</h3><p><img src="/images/tomcat-web-16.jpg"></p>
+<p>JSP 的 Servlet 也定义在 conf/web.xml。<br><img src="/images/tomcat/tomcat-web-15.png"></p>
+<h3 id="tomcat-处理请求的几种方式"><a href="#tomcat-处理请求的几种方式" class="headerlink" title="tomcat 处理请求的几种方式"></a>tomcat 处理请求的几种方式</h3><p><img src="/images/tomcat/tomcat-web-16.jpg"></p>
 
       
     </div>
@@ -324,10 +324,16 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
-      
 
-      <time title="Created: 2020-12-26 23:00:00 / Modified: 23:08:01" itemprop="dateCreated datePublished" datetime="2020-12-26T23:00:00+08:00">2020-12-26</time>
+      <time title="Created: 2020-12-26 23:00:00" itemprop="dateCreated datePublished" datetime="2020-12-26T23:00:00+08:00">2020-12-26</time>
     </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-12-27 14:50:35" itemprop="dateModified" datetime="2020-12-27T14:50:35+08:00">2020-12-27</time>
+      </span>
 
   
 </div>
@@ -349,14 +355,14 @@
 <p>要知道一个 Tomcat 可以为多个 Web 应用提供服务，很显然，Tomcat 可以把 URL 下发到不同的 Web 应用。</p>
 <p>第三，需要把请求和响应封装成 request/response</p>
 <p>我们在 Web 应用这一层，可从来没有封装过 request/response 的，我们都是直接使用的，这就是因为 Tomcat 已经为你做好了！</p>
-<p>话不多说，先来看一眼工程截图。<br><img src="/images/tomcat1.png"></p>
-<h1 id="一、封装请求对象"><a href="#一、封装请求对象" class="headerlink" title="一、封装请求对象"></a>一、封装请求对象</h1><p><img src="/images/tomcat2.png"><br>这里可以清楚的看到，通过输入流，对 HTTP 协议进行解析，拿到了 HTTP 请求头的方法以及 URL。</p>
-<h1 id="二、封装响应对象"><a href="#二、封装响应对象" class="headerlink" title="二、封装响应对象"></a>二、封装响应对象</h1><p><img src="/images/tomcat3.png"><br>基于 HTTP 协议的格式进行输出写入。</p>
-<h1 id="三、Servlet-请求处理基类"><a href="#三、Servlet-请求处理基类" class="headerlink" title="三、Servlet 请求处理基类"></a>三、Servlet 请求处理基类</h1><p><img src="/images/tomcat4.png"><br>前文说 Tomcat 是满足 Servlet 规范的容器，那么自然 Tomcat 需要提供 API。这里看到了 Servlet 常见的 doGet/doPost/service 方法。</p>
-<p>#　四、Servlet 实现类<br><img src="/images/tomcat5.png"><br><img src="/images/tomcat6.png"><br>提供这 2 个具体的 Servlet 实现，只是为了后续的测试！</p>
-<h1 id="五、Servlet-配置"><a href="#五、Servlet-配置" class="headerlink" title="五、Servlet 配置"></a>五、Servlet 配置</h1><p><img src="/images/tomcat7.png"><br><img src="/images/tomcat8.png"><br>你应该有些感觉了吧？在 servlet 开发中，会在 web.xml 中通过<servlet>和<servlet-mapping>来进行指定哪个 URL 交给哪个 servlet 进行处理。</servlet-mapping></servlet></p>
-<h1 id="六、启动类"><a href="#六、启动类" class="headerlink" title="六、启动类"></a>六、启动类</h1><p><img src="/images/tomcat9.png"><br><img src="/images/tomcat10.png"><br><img src="/images/tomcat11.png"><br>这里，你能够看到 Tomcat 的处理流程，即把 URL 对应处理的 Servlet 关系形成，解析 HTTP 协议，封装请求/响应对象，利用反射实例化具体的 Servlet 进行处理即可。</p>
-<h1 id="七、测试"><a href="#七、测试" class="headerlink" title="七、测试"></a>七、测试</h1><p><img src="/images/tomcat12.png"><br>实现一个简易版的 Tomcat 就这么 7 大步搞定，大家都来动手实现一下吧，代码最好不要复制，自己动手一个个敲，这样实现之后，对 Tomcat 就没那么陌生了。</p>
+<p>话不多说，先来看一眼工程截图。<br><img src="/images/tomcat/tomcat1.png"></p>
+<h1 id="一、封装请求对象"><a href="#一、封装请求对象" class="headerlink" title="一、封装请求对象"></a>一、封装请求对象</h1><p><img src="/images/tomcat/tomcat2.png"><br>这里可以清楚的看到，通过输入流，对 HTTP 协议进行解析，拿到了 HTTP 请求头的方法以及 URL。</p>
+<h1 id="二、封装响应对象"><a href="#二、封装响应对象" class="headerlink" title="二、封装响应对象"></a>二、封装响应对象</h1><p><img src="/images/tomcat/tomcat3.png"><br>基于 HTTP 协议的格式进行输出写入。</p>
+<h1 id="三、Servlet-请求处理基类"><a href="#三、Servlet-请求处理基类" class="headerlink" title="三、Servlet 请求处理基类"></a>三、Servlet 请求处理基类</h1><p><img src="/images/tomcat/tomcat4.png"><br>前文说 Tomcat 是满足 Servlet 规范的容器，那么自然 Tomcat 需要提供 API。这里看到了 Servlet 常见的 doGet/doPost/service 方法。</p>
+<p>#　四、Servlet 实现类<br><img src="/images/tomcat/tomcat5.png"><br><img src="/images/tomcat/tomcat6.png"><br>提供这 2 个具体的 Servlet 实现，只是为了后续的测试！</p>
+<h1 id="五、Servlet-配置"><a href="#五、Servlet-配置" class="headerlink" title="五、Servlet 配置"></a>五、Servlet 配置</h1><p><img src="/images/tomcat/tomcat7.png"><br><img src="/images/tomcat/tomcat8.png"><br>你应该有些感觉了吧？在 servlet 开发中，会在 web.xml 中通过<servlet>和<servlet-mapping>来进行指定哪个 URL 交给哪个 servlet 进行处理。</servlet-mapping></servlet></p>
+<h1 id="六、启动类"><a href="#六、启动类" class="headerlink" title="六、启动类"></a>六、启动类</h1><p><img src="/images/tomcat/tomcat9.png"><br><img src="/images/tomcat/tomcat10.png"><br><img src="/images/tomcat/tomcat11.png"><br>这里，你能够看到 Tomcat 的处理流程，即把 URL 对应处理的 Servlet 关系形成，解析 HTTP 协议，封装请求/响应对象，利用反射实例化具体的 Servlet 进行处理即可。</p>
+<h1 id="七、测试"><a href="#七、测试" class="headerlink" title="七、测试"></a>七、测试</h1><p><img src="/images/tomcat/tomcat12.png"><br>实现一个简易版的 Tomcat 就这么 7 大步搞定，大家都来动手实现一下吧，代码最好不要复制，自己动手一个个敲，这样实现之后，对 Tomcat 就没那么陌生了。</p>
 
       
     </div>
