@@ -1,0 +1,483 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="gRPC 是什么？参考 http:&#x2F;&#x2F;doc.oschina.net&#x2F;grpc?t&#x3D;58008在 gRPC 里客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法，使得您能够更容易地创建分布式应用和服务。与许多 RPC 系统类似，gRPC 也是基于以下理念：定义一个服务，指定其能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个接口，并运行一个 gRPC 服务器来处理">
+<meta property="og:type" content="article">
+<meta property="og:title" content="gRPC和Protobuf">
+<meta property="og:url" content="http://yoursite.com/2020/12/29/gRPC%E5%92%8CProtobuf/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="gRPC 是什么？参考 http:&#x2F;&#x2F;doc.oschina.net&#x2F;grpc?t&#x3D;58008在 gRPC 里客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法，使得您能够更容易地创建分布式应用和服务。与许多 RPC 系统类似，gRPC 也是基于以下理念：定义一个服务，指定其能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个接口，并运行一个 gRPC 服务器来处理">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/grpc-protobuf/grpc1.png">
+<meta property="article:published_time" content="2020-12-29T13:00:00.000Z">
+<meta property="article:modified_time" content="2020-12-31T06:06:44.623Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/grpc-protobuf/grpc1.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2020/12/29/gRPC%E5%92%8CProtobuf/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>gRPC和Protobuf | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#gRPC-%E6%98%AF%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">1.</span> <span class="nav-text">gRPC 是什么？</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E4%BD%BF%E7%94%A8-protocol-buffers"><span class="nav-number">2.</span> <span class="nav-text">使用 protocol buffers</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#protobuf-%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1%EF%BC%8CJAVA-%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.</span> <span class="nav-text">protobuf 定义服务，JAVA 实现</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E7%BC%96%E8%AF%91-protobuf-%E7%94%9F%E6%88%90%E6%9C%8D%E5%8A%A1%E7%AB%AF%E6%8E%A5%E5%8F%A3%E5%92%8C%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AD%98%E6%A0%B9"><span class="nav-number">2.1.1.</span> <span class="nav-text">编译 protobuf 生成服务端接口和客户端存根</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%86%99%E4%B8%80%E4%B8%AA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">2.1.2.</span> <span class="nav-text">写一个服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.2.1.</span> <span class="nav-text">服务实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.2.2.</span> <span class="nav-text">服务端实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%AE%9E%E7%8E%B0"><span class="nav-number">2.1.2.3.</span> <span class="nav-text">客户端实现</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#gRPC-%E8%BF%9B%E9%98%B6"><span class="nav-number">3.</span> <span class="nav-text">gRPC 进阶</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%9C%A8-protobuf-%E4%B8%AD%E5%AE%9A%E4%B9%89%E6%9C%8D%E5%8A%A1"><span class="nav-number">3.1.</span> <span class="nav-text">在 protobuf 中定义服务</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%94%9F%E6%88%90%E5%AE%A2%E6%88%B7%E7%AB%AF%E5%92%8C%E6%9C%8D%E5%8A%A1%E7%AB%AF%E4%BB%A3%E7%A0%81"><span class="nav-number">3.2.</span> <span class="nav-text">生成客户端和服务端代码</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.3.</span> <span class="nav-text">创建服务器</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%AE%9E%E7%8E%B0-RouteGuide"><span class="nav-number">3.3.1.</span> <span class="nav-text">实现 RouteGuide</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%90%AF%E5%8A%A8%E6%9C%8D%E5%8A%A1%E5%99%A8"><span class="nav-number">3.3.2.</span> <span class="nav-text">启动服务器</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AE%A2%E6%88%B7%E7%AB%AF"><span class="nav-number">3.4.</span> <span class="nav-text">创建客户端</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%88%9B%E5%BB%BA%E5%AD%98%E6%A0%B9"><span class="nav-number">3.4.1.</span> <span class="nav-text">创建存根</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E8%B0%83%E7%94%A8%E6%9C%8D%E5%8A%A1%E6%96%B9%E6%B3%95"><span class="nav-number">3.4.2.</span> <span class="nav-text">调用服务方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E7%AE%80%E5%8D%95-RPC"><span class="nav-number">3.4.2.1.</span> <span class="nav-text">简单 RPC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E6%9C%8D%E5%8A%A1%E5%99%A8%E7%AB%AF%E6%B5%81%E5%BC%8F-RPC"><span class="nav-number">3.4.2.2.</span> <span class="nav-text">服务器端流式 RPC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%AE%A2%E6%88%B7%E7%AB%AF%E6%B5%81%E5%BC%8F-RPC"><span class="nav-number">3.4.2.3.</span> <span class="nav-text">客户端流式 RPC</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%8F%8C%E5%90%91%E6%B5%81%E5%BC%8F-RPC"><span class="nav-number">3.4.2.4.</span> <span class="nav-text">双向流式 RPC</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#ProtoBuf-%E5%AD%98%E5%82%A8%E5%8E%9F%E7%90%86"><span class="nav-number">4.</span> <span class="nav-text">ProtoBuf 存储原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%BA%8F%E5%88%97%E5%8C%96%E6%96%B9%E5%BC%8F"><span class="nav-number">4.1.</span> <span class="nav-text">序列化方式</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#json-%E4%B8%8E-protobuf-%E7%9A%84%E4%BA%92%E8%BD%AC"><span class="nav-number">4.2.</span> <span class="nav-text">json 与 protobuf 的互转</span></a></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">3</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/29/gRPC%E5%92%8CProtobuf/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          gRPC和Protobuf
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-29 21:00:00" itemprop="dateCreated datePublished" datetime="2020-12-29T21:00:00+08:00">2020-12-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-12-31 14:06:44" itemprop="dateModified" datetime="2020-12-31T14:06:44+08:00">2020-12-31</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="gRPC-是什么？"><a href="#gRPC-是什么？" class="headerlink" title="gRPC 是什么？"></a>gRPC 是什么？</h1><p>参考 <a target="_blank" rel="noopener" href="http://doc.oschina.net/grpc?t=58008">http://doc.oschina.net/grpc?t=58008</a><br>在 gRPC 里客户端应用可以像调用本地对象一样直接调用另一台不同的机器上服务端应用的方法，使得您能够更容易地创建分布式应用和服务。与许多 RPC 系统类似，gRPC 也是基于以下理念：定义一个服务，指定其能够被远程调用的方法（包含参数和返回类型）。在服务端实现这个接口，并运行一个 gRPC 服务器来处理客户端调用。在客户端拥有一个存根能够像服务端一样的方法。<br><img src="/images/grpc-protobuf/grpc1.png"><br>gRPC 客户端和服务端可以在多种环境中运行和交互 - 从 google 内部的服务器到你自己的笔记本，并且可以用任何 gRPC 支持的语言来编写。所以，你可以很容易地用 Java 创建一个 gRPC 服务端，用 Go、Python、Ruby 来创建客户端。</p>
+<h1 id="使用-protocol-buffers"><a href="#使用-protocol-buffers" class="headerlink" title="使用 protocol buffers"></a>使用 protocol buffers</h1><p>gRPC 默认使用 protocol buffers，这是 Google 开源的一套成熟的结构数据序列化机制（当然也可以使用其他数据格式如 JSON）。正如你将在下方例子里所看到的，你用 proto files 创建 gRPC 服务，用 protocol buffers 消息类型来定义方法参数和返回类型。</p>
+<h2 id="protobuf-定义服务，JAVA-实现"><a href="#protobuf-定义服务，JAVA-实现" class="headerlink" title="protobuf 定义服务，JAVA 实现"></a>protobuf 定义服务，JAVA 实现</h2><p>protobuf 的详细用法<a target="_blank" rel="noopener" href="https://blog.51cto.com/9291927/2331980">https://blog.51cto.com/9291927/2331980</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br></pre></td><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option java_package &#x3D; &quot;io.grpc.examples&quot;;</span><br><span class="line"></span><br><span class="line">package helloworld;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The greeter service definition.</span><br><span class="line">service Greeter &#123;</span><br><span class="line">  &#x2F;&#x2F; Sends a greeting</span><br><span class="line">  rpc SayHello (HelloRequest) returns (HelloReply) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The request message containing the user&#39;s name.</span><br><span class="line">message HelloRequest &#123;</span><br><span class="line">  string name &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; The response message containing the greetings</span><br><span class="line">message HelloReply &#123;</span><br><span class="line">  string message &#x3D; 1;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="编译-protobuf-生成服务端接口和客户端存根"><a href="#编译-protobuf-生成服务端接口和客户端存根" class="headerlink" title="编译 protobuf 生成服务端接口和客户端存根"></a>编译 protobuf 生成服务端接口和客户端存根</h3><p>一旦定义好服务，我们可以使用 protocol buffer 编译器 protoc 来生成创建应用所需的特定客户端和服务端的代码 - 你可以生成任意 gRPC 支持的语言的代码，当然 PHP 和 Objective-C 仅支持创建客户端代码。生成的代码同时包括客户端的存根和服务端要实现的抽象接口，均包含 Greeter 所定义的方法。<br>以下类包含所有我们需要创建这个例子所有的代码：</p>
+<ul>
+<li>HelloRequest.java， HelloResponse.java 和其他文件包含所有 protocol buffer 用来填充、序列化和提取 HelloRequest 和 HelloReply 消息类型的代码。</li>
+<li>GreeterGrpc.java， 包含 (还有其他有用的代码)：<br>Greeter 服务端需要实现的接口</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static interface Greeter &#123;</span><br><span class="line">    public void sayHello(Helloworld.HelloRequest request,</span><br><span class="line">    StreamObserver&lt;HelloReply&gt; responseObserver);</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<p>客户端用来与 Greeter 服务端进行对话的 存根 类。就像你所看到的，异步存根也实现了 Greeter 接口。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">public static class GreeterStub extends AbstractStub&lt;GreeterStub&gt;</span><br><span class="line">    implements Greeter &#123;</span><br><span class="line">      ...</span><br><span class="line">    &#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="写一个服务器"><a href="#写一个服务器" class="headerlink" title="写一个服务器"></a>写一个服务器</h3><p>现在让我们写点代码！首先我们将创建一个服务应用来实现服务</p>
+<h4 id="服务实现"><a href="#服务实现" class="headerlink" title="服务实现"></a>服务实现</h4><p>GreeterImpl.java 准确地实现了 Greeter 服务所需要的行为。<br>正如你所见，GreeterImpl 类通过实现 sayHello 方法，实现了从 IDL 生成的 GreeterGrpc.Greeter 接口 。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">public  static GreeterImpl impliment Greeter &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void sayHello(HelloRequest req, StreamObserver&lt;HelloReply&gt; responseObserver) &#123;</span><br><span class="line">    HelloReply reply &#x3D; HelloReply.newBuilder().setMessage(&quot;Hello &quot; + req.getName()).build();</span><br><span class="line">    responseObserver.onNext(reply);</span><br><span class="line">    responseObserver.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>sayHello 有两个参数：</p>
+<ul>
+<li>HelloRequest，请求。</li>
+<li>StreamObserver<HelloReply>： 应答观察者，一个特殊的接口，服务器用应答来调用它。</HelloReply></li>
+</ul>
+<p>为了返回给客户端应答并且完成调用：</p>
+<ul>
+<li>用我们的激动人心的消息构建并填充一个在我们接口定义的 HelloReply 应答对象。</li>
+<li>将 HelloReply 返回给客户端，然后表明我们已经完成了对 RPC 的处理。</li>
+</ul>
+<h4 id="服务端实现"><a href="#服务端实现" class="headerlink" title="服务端实现"></a>服务端实现</h4><p>需要提供一个 gRPC 服务的另一个主要功能是让这个服务实在在网络上可用。<br>HelloWorldServer.java 提供了以下代码作为 Java 的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;* The port on which the server should run *&#x2F;</span><br><span class="line">private int port &#x3D; 50051;</span><br><span class="line">private Server server;</span><br><span class="line">private void start() throws Exception &#123;</span><br><span class="line">    server &#x3D; ServerBuilder.forPort(port)</span><br><span class="line">        .addService(GreeterGrpc.bindService(new GreeterImpl()))</span><br><span class="line">        .build()</span><br><span class="line">        .start();</span><br><span class="line">    logger.info(&quot;Server started, listening on &quot; + port);</span><br><span class="line">    Runtime.getRuntime().addShutdownHook(new Thread() &#123;</span><br><span class="line">    @Override</span><br><span class="line">    public void run() &#123;</span><br><span class="line">        &#x2F;&#x2F; Use stderr here since the logger may has been reset by its JVM shutdown hook.</span><br><span class="line">        System.err.println(&quot;*** shutting down gRPC server since JVM is shutting down&quot;);</span><br><span class="line">        HelloWorldServer.this.stop();</span><br><span class="line">        System.err.println(&quot;*** server shut down&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h4 id="客户端实现"><a href="#客户端实现" class="headerlink" title="客户端实现"></a>客户端实现</h4><p>客户端的 gRPC 非常简单。在这一步，我们将用生成的代码写一个简单的客户程序来访问我们在上一节里创建的 Greeter 服务器。<br>首先我们看一下我们如何连接 Greeter 服务器。我们需要创建一个 gRPC 频道，指定我们要连接的主机名和服务器端口。然后我们用这个频道创建存根实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">private final ManagedChannel channel;</span><br><span class="line">private final GreeterGrpc.GreeterBlockingStub blockingStub;</span><br><span class="line">public HelloWorldClient(String host, int port) &#123;</span><br><span class="line">    channel &#x3D; ManagedChannelBuilder.forAddress(host, port)</span><br><span class="line">        .usePlaintext(true)</span><br><span class="line">        .build();</span><br><span class="line">    blockingStub &#x3D; GreeterGrpc.newBlockingStub(channel);</span><br><span class="line">    HelloRequest req &#x3D; HelloRequest.newBuilder().setName(name).build();</span><br><span class="line">    HelloReply reply &#x3D; blockingStub.sayHello(req);</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>在这个例子里，我们创建了一个阻塞的存根。这意味着 RPC 调用要等待服务器应答，将会返回一个应答或抛出一个异常。 gRPC Java 还可以有其他种类的存根，可以向服务器发出非阻塞的调用，这种情况下应答是异步返回的。</p>
+<ul>
+<li>我们创建并填充一个 HelloRequest 发送给服务。</li>
+<li>我们用请求调用存根的 SayHello()，如果 RPC 成功，会得到一个填充的 HelloReply ，从其中我们可以获得 greeting。</li>
+</ul>
+<h1 id="gRPC-进阶"><a href="#gRPC-进阶" class="headerlink" title="gRPC 进阶"></a>gRPC 进阶</h1><h2 id="在-protobuf-中定义服务"><a href="#在-protobuf-中定义服务" class="headerlink" title="在 protobuf 中定义服务"></a>在 protobuf 中定义服务</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br></pre></td><td class="code"><pre><span class="line">syntax &#x3D; &quot;proto3&quot;;</span><br><span class="line"></span><br><span class="line">option java_multiple_files &#x3D; true;</span><br><span class="line">option java_package &#x3D; &quot;io.grpc.examples.routeguide&quot;; &#x2F;&#x2F;指定java文件中的package包名</span><br><span class="line">option java_outer_classname &#x3D; &quot;RouteGuideProto&quot;;</span><br><span class="line">option objc_class_prefix &#x3D; &quot;RTG&quot;;</span><br><span class="line"></span><br><span class="line">package routeguide;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Interface exported by the server.</span><br><span class="line">service RouteGuide &#123;&#x2F;&#x2F;service用于指定服务，定义rpc方法，指定请求和相应类型</span><br><span class="line">  &#x2F;&#x2F;一个 简单 RPC ， 客户端使用存根发送请求到服务器并等待响应返回，就像平常的函数调用一样。</span><br><span class="line">  rpc GetFeature(Point) returns (Feature) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 一个 服务器端流式 RPC ， 客户端发送请求到服务器，拿到一个流去读取返回的消息序列。 客户端读取返回的流，直到里面没有任何消息。从例子中可以看出，通过在 响应 类型前插入 stream 关键字，可以指定一个服务器端的流方法。</span><br><span class="line">  rpc ListFeatures(Rectangle) returns (stream Feature) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 一个 客户端流式 RPC ， 客户端写入一个消息序列并将其发送到服务器，同样也是使用流。一旦 客户端完成写入消息，它等待服务器完成读取返回它的响应。通过在 请求 类型前指定 stream 关键字来指定一个客户端的流方法。</span><br><span class="line">  rpc RecordRoute(stream Point) returns (RouteSummary) &#123;&#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; 一个 双向流式 RPC 是双方使用读写流去发送一个消息序列。两个流独立操作，因此客户端和服务器 可以以任意喜欢的顺序读写：比如， 服务器可以在写入响应前等待接收所有的客户端消息，或者可以交替 的读取和写入消息，或者其他读写的组合。 每个流中的消息顺序被预留。你可以通过在请求和响应前加 stream 关键字去制定方法的类型。</span><br><span class="line">  rpc RouteChat(stream RouteNote) returns (stream RouteNote) &#123;&#125;</span><br><span class="line">&#125;</span><br><span class="line">我们的 .proto 文件也包含了所有请求的 protocol buffer 消息类型定义以及在服务方法中使用的响</span><br><span class="line">应类型——比如，下面的Point消息类型：</span><br><span class="line">&#x2F;&#x2F; Points are represented as latitude-longitude pairs in the E7 representation</span><br><span class="line">&#x2F;&#x2F; (degrees multiplied by 10**7 and rounded to the nearest integer).</span><br><span class="line">&#x2F;&#x2F; Latitudes should be in the range +&#x2F;- 90 degrees and longitude should be in</span><br><span class="line">&#x2F;&#x2F; the range +&#x2F;- 180 degrees (inclusive).</span><br><span class="line">message Point &#123;</span><br><span class="line">  int32 latitude &#x3D; 1;</span><br><span class="line">  int32 longitude &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; A latitude-longitude rectangle, represented as two diagonally opposite</span><br><span class="line">&#x2F;&#x2F; points &quot;lo&quot; and &quot;hi&quot;.</span><br><span class="line">message Rectangle &#123;</span><br><span class="line">  &#x2F;&#x2F; One corner of the rectangle.</span><br><span class="line">  Point lo &#x3D; 1;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The other corner of the rectangle.</span><br><span class="line">  Point hi &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; A feature names something at a given point.</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; If a feature could not be named, the name is empty.</span><br><span class="line">message Feature &#123;</span><br><span class="line">  &#x2F;&#x2F; The name of the feature.</span><br><span class="line">  string name &#x3D; 1;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The point where the feature is detected.</span><br><span class="line">  Point location &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Not used in the RPC.  Instead, this is here for the form serialized to disk.</span><br><span class="line">message FeatureDatabase &#123;</span><br><span class="line">  repeated Feature feature &#x3D; 1;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; A RouteNote is a message sent while at a given point.</span><br><span class="line">message RouteNote &#123;</span><br><span class="line">  &#x2F;&#x2F; The location from which the message is sent.</span><br><span class="line">  Point location &#x3D; 1;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The message to be sent.</span><br><span class="line">  string message &#x3D; 2;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; A RouteSummary is received in response to a RecordRoute rpc.</span><br><span class="line">&#x2F;&#x2F;</span><br><span class="line">&#x2F;&#x2F; It contains the number of individual points received, the number of</span><br><span class="line">&#x2F;&#x2F; detected features, and the total distance covered as the cumulative sum of</span><br><span class="line">&#x2F;&#x2F; the distance between each point.</span><br><span class="line">message RouteSummary &#123;</span><br><span class="line">  &#x2F;&#x2F; The number of points received.</span><br><span class="line">  int32 point_count &#x3D; 1;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The number of known features passed while traversing the route.</span><br><span class="line">  int32 feature_count &#x3D; 2;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The distance covered in metres.</span><br><span class="line">  int32 distance &#x3D; 3;</span><br><span class="line"></span><br><span class="line">  &#x2F;&#x2F; The duration of the traversal in seconds.</span><br><span class="line">  int32 elapsed_time &#x3D; 4;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="生成客户端和服务端代码"><a href="#生成客户端和服务端代码" class="headerlink" title="生成客户端和服务端代码"></a>生成客户端和服务端代码</h2><p>接下来我们需要从 .proto 的服务定义中生成 gRPC 客户端和服务器端的接口。我们通过 protocol buffer 的编译器 protoc 以及一个特殊的 gRPC Java 插件来完成。为了生成 gRPC 服务，你必须使用 proto3 编译器。<br>下面的类都是从我们的服务定义中生成：</p>
+<ul>
+<li>包含了所有填充，序列化以及获取请求和应答的消息类型的 Feature.java，Point.java， Rectangle.java 以及其它类文件。</li>
+<li>RouteGuideGrpc.java 文件包含（以及其它一些有用的代码）：<ul>
+<li>RouteGuide 服务器要实现的一个接口 RouteGuideGrpc.RouteGuide，其中所有的方法都定 义在 RouteGuide 服务中。</li>
+<li>客户端可以用来和 RouteGuide 服务器交互的 存根 类。 异步的存根也实现了 RouteGuide 接口。</li>
+</ul>
+</li>
+</ul>
+<h2 id="创建服务器"><a href="#创建服务器" class="headerlink" title="创建服务器"></a>创建服务器</h2><p>让 RouteGuide 服务工作有两个部分：</p>
+<ul>
+<li>实现我们服务定义的生成的服务接口：做我们的服务的实际的“工作”。</li>
+<li>运行一个 gRPC 服务器，监听来自客户端的请求并返回服务的响应。</li>
+</ul>
+<h3 id="实现-RouteGuide"><a href="#实现-RouteGuide" class="headerlink" title="实现 RouteGuide"></a>实现 RouteGuide</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br><span class="line">76</span><br><span class="line">77</span><br><span class="line">78</span><br><span class="line">79</span><br><span class="line">80</span><br><span class="line">81</span><br><span class="line">82</span><br><span class="line">83</span><br><span class="line">84</span><br><span class="line">85</span><br><span class="line">86</span><br><span class="line">87</span><br><span class="line">88</span><br><span class="line">89</span><br><span class="line">90</span><br><span class="line">91</span><br><span class="line">92</span><br><span class="line">93</span><br><span class="line">94</span><br><span class="line">95</span><br><span class="line">96</span><br><span class="line">97</span><br><span class="line">98</span><br><span class="line">99</span><br><span class="line">100</span><br><span class="line">101</span><br><span class="line">102</span><br><span class="line">103</span><br><span class="line">104</span><br><span class="line">105</span><br><span class="line">106</span><br><span class="line">107</span><br><span class="line">108</span><br><span class="line">109</span><br><span class="line">110</span><br><span class="line">111</span><br><span class="line">112</span><br><span class="line">113</span><br><span class="line">114</span><br><span class="line">115</span><br><span class="line">116</span><br><span class="line">117</span><br><span class="line">118</span><br><span class="line">119</span><br><span class="line">120</span><br><span class="line">121</span><br><span class="line">122</span><br><span class="line">123</span><br><span class="line">124</span><br><span class="line">125</span><br><span class="line">126</span><br><span class="line">127</span><br><span class="line">128</span><br><span class="line">129</span><br><span class="line">130</span><br><span class="line">131</span><br><span class="line">132</span><br><span class="line">133</span><br><span class="line">134</span><br><span class="line">135</span><br><span class="line">136</span><br><span class="line">137</span><br><span class="line">138</span><br><span class="line">139</span><br><span class="line">140</span><br><span class="line">141</span><br><span class="line">142</span><br><span class="line">143</span><br><span class="line">144</span><br><span class="line">145</span><br><span class="line">146</span><br><span class="line">147</span><br><span class="line">148</span><br><span class="line">149</span><br><span class="line">150</span><br><span class="line">151</span><br><span class="line">152</span><br><span class="line">153</span><br><span class="line">154</span><br><span class="line">155</span><br><span class="line">156</span><br><span class="line">157</span><br><span class="line">158</span><br><span class="line">159</span><br><span class="line">160</span><br><span class="line">161</span><br><span class="line">162</span><br><span class="line">163</span><br><span class="line">164</span><br><span class="line">165</span><br><span class="line">166</span><br><span class="line">167</span><br><span class="line">168</span><br><span class="line">169</span><br><span class="line">170</span><br><span class="line">171</span><br><span class="line">172</span><br><span class="line">173</span><br><span class="line">174</span><br><span class="line">175</span><br><span class="line">176</span><br><span class="line">177</span><br><span class="line">178</span><br><span class="line">179</span><br><span class="line">180</span><br><span class="line">181</span><br><span class="line">182</span><br><span class="line">183</span><br><span class="line">184</span><br><span class="line">185</span><br><span class="line">186</span><br><span class="line">187</span><br><span class="line">188</span><br><span class="line">189</span><br><span class="line">190</span><br><span class="line">191</span><br><span class="line">192</span><br><span class="line">193</span><br><span class="line">194</span><br><span class="line">195</span><br><span class="line">196</span><br><span class="line">197</span><br><span class="line">198</span><br><span class="line">199</span><br><span class="line">200</span><br><span class="line">201</span><br><span class="line">202</span><br><span class="line">203</span><br><span class="line">204</span><br><span class="line">205</span><br><span class="line">206</span><br><span class="line">207</span><br><span class="line">208</span><br><span class="line">209</span><br><span class="line">210</span><br><span class="line">211</span><br><span class="line">212</span><br><span class="line">213</span><br><span class="line">214</span><br><span class="line">215</span><br><span class="line">216</span><br><span class="line">217</span><br><span class="line">218</span><br><span class="line">219</span><br><span class="line">220</span><br><span class="line">221</span><br><span class="line">222</span><br><span class="line">223</span><br><span class="line">224</span><br><span class="line">225</span><br><span class="line">226</span><br><span class="line">227</span><br><span class="line">228</span><br><span class="line">229</span><br><span class="line">230</span><br><span class="line">231</span><br><span class="line">232</span><br><span class="line">233</span><br><span class="line">234</span><br><span class="line">235</span><br><span class="line">236</span><br><span class="line">237</span><br><span class="line">238</span><br><span class="line">239</span><br><span class="line">240</span><br><span class="line">241</span><br><span class="line">242</span><br><span class="line">243</span><br><span class="line">244</span><br><span class="line">245</span><br><span class="line">246</span><br><span class="line">247</span><br><span class="line">248</span><br><span class="line">249</span><br><span class="line">250</span><br><span class="line">251</span><br><span class="line">252</span><br><span class="line">253</span><br><span class="line">254</span><br><span class="line">255</span><br><span class="line">256</span><br><span class="line">257</span><br></pre></td><td class="code"><pre><span class="line">public class RouteGuideServer &#123;</span><br><span class="line">  private static final Logger logger &#x3D; Logger.getLogger(RouteGuideServer.class.getName());</span><br><span class="line"></span><br><span class="line">  private final int port;</span><br><span class="line">  private final Server server;</span><br><span class="line"></span><br><span class="line">  public RouteGuideServer(int port) throws IOException &#123;</span><br><span class="line">    this(port, RouteGuideUtil.getDefaultFeaturesFile());</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;** Create a RouteGuide server listening on &#123;@code port&#125; using &#123;@code featureFile&#125; database. *&#x2F;</span><br><span class="line">  public RouteGuideServer(int port, URL featureFile) throws IOException &#123;</span><br><span class="line">    this(ServerBuilder.forPort(port), port, RouteGuideUtil.parseFeatures(featureFile));</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;** Create a RouteGuide server using serverBuilder as a base and features as data. *&#x2F;</span><br><span class="line">  public RouteGuideServer(ServerBuilder&lt;?&gt; serverBuilder, int port, Collection&lt;Feature&gt; features) &#123;</span><br><span class="line">    this.port &#x3D; port;</span><br><span class="line">    server &#x3D; serverBuilder.addService(new RouteGuideService(features))</span><br><span class="line">        .build();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;** Start serving requests. *&#x2F;</span><br><span class="line">  public void start() throws IOException &#123;</span><br><span class="line">    server.start();</span><br><span class="line">    logger.info(&quot;Server started, listening on &quot; + port);</span><br><span class="line">    Runtime.getRuntime().addShutdownHook(new Thread() &#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void run() &#123;</span><br><span class="line">        &#x2F;&#x2F; Use stderr here since the logger may have been reset by its JVM shutdown hook.</span><br><span class="line">        System.err.println(&quot;*** shutting down gRPC server since JVM is shutting down&quot;);</span><br><span class="line">        try &#123;</span><br><span class="line">          RouteGuideServer.this.stop();</span><br><span class="line">        &#125; catch (InterruptedException e) &#123;</span><br><span class="line">          e.printStackTrace(System.err);</span><br><span class="line">        &#125;</span><br><span class="line">        System.err.println(&quot;*** server shut down&quot;);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;);</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;** Stop serving requests and shutdown resources. *&#x2F;</span><br><span class="line">  public void stop() throws InterruptedException &#123;</span><br><span class="line">    if (server !&#x3D; null) &#123;</span><br><span class="line">      server.shutdown().awaitTermination(30, TimeUnit.SECONDS);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * Await termination on the main thread since the grpc library uses daemon threads.</span><br><span class="line">   *&#x2F;</span><br><span class="line">  private void blockUntilShutdown() throws InterruptedException &#123;</span><br><span class="line">    if (server !&#x3D; null) &#123;</span><br><span class="line">      server.awaitTermination();</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * Main method.  This comment makes the linter happy.</span><br><span class="line">   *&#x2F;</span><br><span class="line">  public static void main(String[] args) throws Exception &#123;</span><br><span class="line">    RouteGuideServer server &#x3D; new RouteGuideServer(8980);</span><br><span class="line">    server.start();</span><br><span class="line">    server.blockUntilShutdown();</span><br><span class="line">  &#125;</span><br><span class="line"></span><br><span class="line">  &#x2F;**</span><br><span class="line">   * 我们的服务器有一个实现了生成的 RouteGuideGrpc.Service 接口的 RouteGuideService 类：</span><br><span class="line">   *</span><br><span class="line">   * &lt;p&gt;See route_guide.proto for details of the methods.</span><br><span class="line">   *&#x2F;</span><br><span class="line">  private static class RouteGuideService extends RouteGuideGrpc.RouteGuideImplBase &#123;</span><br><span class="line">    private final Collection&lt;Feature&gt; features;</span><br><span class="line">    private final ConcurrentMap&lt;Point, List&lt;RouteNote&gt;&gt; routeNotes &#x3D;</span><br><span class="line">        new ConcurrentHashMap&lt;Point, List&lt;RouteNote&gt;&gt;();</span><br><span class="line"></span><br><span class="line">    RouteGuideService(Collection&lt;Feature&gt; features) &#123;</span><br><span class="line">      this.features &#x3D; features;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 简单 RPC</span><br><span class="line">     * 1. 如在我们的服务定义中指定的那样，我们组织并填充一个 Feature 应答对象返回给客户端。在这个 例子中，我们通过一个单独的私有方法checkFeature()来实现。</span><br><span class="line">     * 2. 我们使用应答观察者的 onNext() 方法返回 Feature。</span><br><span class="line">     * 3. 我们使用应答观察者的 onCompleted() 方法来指出我们已经完成了和 RPC的交互。</span><br><span class="line">     * @param request the requested location for the feature. 请求</span><br><span class="line">     * @param responseObserver the observer that will receive the feature at the requested point.一个应答的观察者，实际上是服务器调用它应答的一个特殊接口。</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void getFeature(Point request, StreamObserver&lt;Feature&gt; responseObserver) &#123;</span><br><span class="line">      responseObserver.onNext(checkFeature(request));</span><br><span class="line">      responseObserver.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 服务器端流式 RPC</span><br><span class="line">     * 这次我们得到了需要返回给客户端的足够多的 Feature 对象（在这个场景下，我们根据他们是否在我们的 Rectangle 请求中，从服务的特性集合中选择他们），并且使用 onNext() 方法轮流往响应观察* 者写入。最后，和简单 RPC 的例子一样，我们使用响应观察者的 onCompleted() 方法去告诉 gRPC 写入应答已完成。</span><br><span class="line">     * @param request the bounding rectangle for the requested features.</span><br><span class="line">     * @param responseObserver the observer that will receive the features.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void listFeatures(Rectangle request, StreamObserver&lt;Feature&gt; responseObserver) &#123;</span><br><span class="line">      int left &#x3D; min(request.getLo().getLongitude(), request.getHi().getLongitude());</span><br><span class="line">      int right &#x3D; max(request.getLo().getLongitude(), request.getHi().getLongitude());</span><br><span class="line">      int top &#x3D; max(request.getLo().getLatitude(), request.getHi().getLatitude());</span><br><span class="line">      int bottom &#x3D; min(request.getLo().getLatitude(), request.getHi().getLatitude());</span><br><span class="line"></span><br><span class="line">      for (Feature feature : features) &#123;</span><br><span class="line">        if (!RouteGuideUtil.exists(feature)) &#123;</span><br><span class="line">          continue;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        int lat &#x3D; feature.getLocation().getLatitude();</span><br><span class="line">        int lon &#x3D; feature.getLocation().getLongitude();</span><br><span class="line">        if (lon &gt;&#x3D; left &amp;&amp; lon &lt;&#x3D; right &amp;&amp; lat &gt;&#x3D; bottom &amp;&amp; lat &lt;&#x3D; top) &#123;</span><br><span class="line">          responseObserver.onNext(feature);</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      responseObserver.onCompleted();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 客户端流式 RPC</span><br><span class="line">     * 如你所见，我们的方法和前面的方法类型相似，拿到一个 StreamObserver 应答观察者参数，但是这次它返回一个 StreamObserver 以便客户端写入它的 Point。</span><br><span class="line">     * 在这个方法体中，我们返回了一个匿名 StreamObserver 实例，其中我们：</span><br><span class="line">     * 覆写了 onNext() 方法，每次客户端写入一个 Point 到消息流时，拿到特性和其它信息。</span><br><span class="line">     * 覆写了 onCompleted() 方法（在 客户端 结束写入消息时调用），用来填充和构建我们的 RouteSummary。然后我们用 RouteSummary 调用方法自己的的响应观察者的 onNext()，之后调用它的 onCompleted() 方法，结束服务器端的调用。</span><br><span class="line">     *</span><br><span class="line">     * @param responseObserver an observer to receive the response summary.</span><br><span class="line">     * @return an observer to receive the requested route points.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public StreamObserver&lt;Point&gt; recordRoute(final StreamObserver&lt;RouteSummary&gt; responseObserver) &#123;</span><br><span class="line">      return new StreamObserver&lt;Point&gt;() &#123;</span><br><span class="line">        int pointCount;</span><br><span class="line">        int featureCount;</span><br><span class="line">        int distance;</span><br><span class="line">        Point previous;</span><br><span class="line">        final long startTime &#x3D; System.nanoTime();</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onNext(Point point) &#123;</span><br><span class="line">          pointCount++;</span><br><span class="line">          if (RouteGuideUtil.exists(checkFeature(point))) &#123;</span><br><span class="line">            featureCount++;</span><br><span class="line">          &#125;</span><br><span class="line">          &#x2F;&#x2F; For each point after the first, add the incremental distance from the previous point to</span><br><span class="line">          &#x2F;&#x2F; the total distance value.</span><br><span class="line">          if (previous !&#x3D; null) &#123;</span><br><span class="line">            distance +&#x3D; calcDistance(previous, point);</span><br><span class="line">          &#125;</span><br><span class="line">          previous &#x3D; point;</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable t) &#123;</span><br><span class="line">          logger.log(Level.WARNING, &quot;recordRoute cancelled&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onCompleted() &#123;</span><br><span class="line">          long seconds &#x3D; NANOSECONDS.toSeconds(System.nanoTime() - startTime);</span><br><span class="line">          responseObserver.onNext(RouteSummary.newBuilder().setPointCount(pointCount)</span><br><span class="line">              .setFeatureCount(featureCount).setDistance(distance)</span><br><span class="line">              .setElapsedTime((int) seconds).build());</span><br><span class="line">          responseObserver.onCompleted();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * 双向流式RPC(与客户端流的差别主要是在responseObserver.onNext()方法的调用位置，这个调用位置位于onNext()方法中。而客户端流是在onComplete()方法中，意味着需要把客户端流处理完成后，才能调用onNext方法处理并立即结束。)</span><br><span class="line">     * 和我们的客户端流的例子一样，我们拿到和返回一个 StreamObserver 应答观察者，除了这次我们在客户端仍然写入消息到 它们的 消息流时通过我们方法的应答观察者返回值。这里读写的语法和客户端流以及服务器流方法一样。虽然每一端都会按照它们写入的顺序拿到另一端的消息，客户端和服务器都可以任意顺序读写——流的操作是互不依赖的。</span><br><span class="line">     *</span><br><span class="line">     * @param responseObserver an observer to receive the stream of previous messages.</span><br><span class="line">     * @return an observer to handle requested message&#x2F;location pairs.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public StreamObserver&lt;RouteNote&gt; routeChat(final StreamObserver&lt;RouteNote&gt; responseObserver) &#123;</span><br><span class="line">      return new StreamObserver&lt;RouteNote&gt;() &#123;</span><br><span class="line">        @Override</span><br><span class="line">        public void onNext(RouteNote note) &#123;</span><br><span class="line">          List&lt;RouteNote&gt; notes &#x3D; getOrCreateNotes(note.getLocation());</span><br><span class="line"></span><br><span class="line">          &#x2F;&#x2F; Respond with all previous notes at this location.</span><br><span class="line">          for (RouteNote prevNote : notes.toArray(new RouteNote[0])) &#123;</span><br><span class="line">            responseObserver.onNext(prevNote);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          &#x2F;&#x2F; Now add the new note to the list</span><br><span class="line">          notes.add(note);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onError(Throwable t) &#123;</span><br><span class="line">          logger.log(Level.WARNING, &quot;routeChat cancelled&quot;);</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">        @Override</span><br><span class="line">        public void onCompleted() &#123;</span><br><span class="line">          responseObserver.onCompleted();</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Get the notes list for the given location. If missing, create it.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private List&lt;RouteNote&gt; getOrCreateNotes(Point location) &#123;</span><br><span class="line">      List&lt;RouteNote&gt; notes &#x3D; Collections.synchronizedList(new ArrayList&lt;RouteNote&gt;());</span><br><span class="line">      List&lt;RouteNote&gt; prevNotes &#x3D; routeNotes.putIfAbsent(location, notes);</span><br><span class="line">      return prevNotes !&#x3D; null ? prevNotes : notes;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Gets the feature at the given point.</span><br><span class="line">     *</span><br><span class="line">     * @param location the location to check.</span><br><span class="line">     * @return The feature object at the point. Note that an empty name indicates no feature.</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private Feature checkFeature(Point location) &#123;</span><br><span class="line">      for (Feature feature : features) &#123;</span><br><span class="line">        if (feature.getLocation().getLatitude() &#x3D;&#x3D; location.getLatitude()</span><br><span class="line">            &amp;&amp; feature.getLocation().getLongitude() &#x3D;&#x3D; location.getLongitude()) &#123;</span><br><span class="line">          return feature;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      &#x2F;&#x2F; No feature was found, return an unnamed feature.</span><br><span class="line">      return Feature.newBuilder().setName(&quot;&quot;).setLocation(location).build();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;**</span><br><span class="line">     * Calculate the distance between two points using the &quot;haversine&quot; formula.</span><br><span class="line">     * The formula is based on http:&#x2F;&#x2F;mathforum.org&#x2F;library&#x2F;drmath&#x2F;view&#x2F;51879.html.</span><br><span class="line">     *</span><br><span class="line">     * @param start The starting point</span><br><span class="line">     * @param end The end point</span><br><span class="line">     * @return The distance between the points in meters</span><br><span class="line">     *&#x2F;</span><br><span class="line">    private static int calcDistance(Point start, Point end) &#123;</span><br><span class="line">      int r &#x3D; 6371000; &#x2F;&#x2F; earth radius in meters</span><br><span class="line">      double lat1 &#x3D; toRadians(RouteGuideUtil.getLatitude(start));</span><br><span class="line">      double lat2 &#x3D; toRadians(RouteGuideUtil.getLatitude(end));</span><br><span class="line">      double lon1 &#x3D; toRadians(RouteGuideUtil.getLongitude(start));</span><br><span class="line">      double lon2 &#x3D; toRadians(RouteGuideUtil.getLongitude(end));</span><br><span class="line">      double deltaLat &#x3D; lat2 - lat1;</span><br><span class="line">      double deltaLon &#x3D; lon2 - lon1;</span><br><span class="line"></span><br><span class="line">      double a &#x3D; sin(deltaLat &#x2F; 2) * sin(deltaLat &#x2F; 2)</span><br><span class="line">          + cos(lat1) * cos(lat2) * sin(deltaLon &#x2F; 2) * sin(deltaLon &#x2F; 2);</span><br><span class="line">      double c &#x3D; 2 * atan2(sqrt(a), sqrt(1 - a));</span><br><span class="line"></span><br><span class="line">      return (int) (r * c);</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h3 id="启动服务器"><a href="#启动服务器" class="headerlink" title="启动服务器"></a>启动服务器</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">public void start() &#123;</span><br><span class="line">  gRpcServer &#x3D; NettyServerBuilder.forPort(port)</span><br><span class="line">      .addService(RouteGuideGrpc.bindService(new RouteGuideService(features)))</span><br><span class="line">      .build().start();</span><br><span class="line">  logger.info(&quot;Server started, listening on &quot; + port);</span><br><span class="line">  ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>为了做到这个，我们需要：</p>
+<ul>
+<li>创建我们服务实现类 RouteGuideService 的一个实例并且将其传给生成的 RouteGuideGrpc 类的静态方法 bindService() 去获得服务定义。</li>
+<li>使用生成器的 forPort() 方法指定地址以及期望客户端请求监听的端口。</li>
+<li>通过传入将 bindService() 返回的服务定义，用生成器注册我们的服务实现到生成器的 addService() 方法。</li>
+<li>调用生成器上的 build() 和 start() 方法为我们的服务创建和启动一个 RPC 服务器。</li>
+</ul>
+<h2 id="创建客户端"><a href="#创建客户端" class="headerlink" title="创建客户端"></a>创建客户端</h2><h3 id="创建存根"><a href="#创建存根" class="headerlink" title="创建存根"></a>创建存根</h3><p>为了调用服务方法，我们需要首先创建一个 存根，或者两个存根：</p>
+<ul>
+<li>一个 阻塞/同步 存根：这意味着 RPC 调用等待服务器响应，并且要么返回应答，要么造成异常。</li>
+<li>一个 非阻塞/异步 存根可以向服务器发起非阻塞调用，应答会异步返回。你可以使用异步存根去发起特定类型的流式调用。</li>
+</ul>
+<p>我们首先为存根创建一个 gRPC channel，指明服务器地址和我们想连接的端口号：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">channel &#x3D; NettyChannelBuilder.forAddress(host, port)</span><br><span class="line">       .negotiationType(NegotiationType.PLAINTEXT)</span><br><span class="line">       .build();</span><br></pre></td></tr></table></figure>
+
+<p>如你所见，我们用一个 NettyServerBuilder 构建和启动服务器。这个服务器的生成器基于 Netty 传输框架。<br>我们使用 Netty 传输框架，所以我们用一个 NettyServerBuilder 启动服务器。<br>现在我们可以通过从 .proto 中生成的 RouteGuideGrpc 类的 newStub 和 newBlockingStub 方法，使用频道去创建我们的存根。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">blockingStub &#x3D; RouteGuideGrpc.newBlockingStub(channel);</span><br><span class="line">asyncStub &#x3D; RouteGuideGrpc.newStub(channel);</span><br></pre></td></tr></table></figure>
+
+<h3 id="调用服务方法"><a href="#调用服务方法" class="headerlink" title="调用服务方法"></a>调用服务方法</h3><h4 id="简单-RPC"><a href="#简单-RPC" class="headerlink" title="简单 RPC"></a>简单 RPC</h4><p>在阻塞存根上调用简单 RPC GetFeature 几乎是和调用一个本地方法一样直观。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">Point request &#x3D; Point.newBuilder().setLatitude(lat).setLongitude(lon).build();</span><br><span class="line">Feature feature &#x3D; blockingStub.getFeature(request);</span><br></pre></td></tr></table></figure>
+
+<p>我们创建和填充了一个请求 protocol buffer 对象（在这个场景下是 Point），在我们的阻塞存根上将其传给 getFeature() 方法，拿回一个 Feature。</p>
+<h4 id="服务器端流式-RPC"><a href="#服务器端流式-RPC" class="headerlink" title="服务器端流式 RPC"></a>服务器端流式 RPC</h4><p>接下来，让我们看一个对于 ListFeatures 的服务器端流式调用，这个调用会返回一个地理性的 Feature 流：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">Rectangle request &#x3D;</span><br><span class="line">    Rectangle.newBuilder()</span><br><span class="line">        .setLo(Point.newBuilder().setLatitude(lowLat).setLongitude(lowLon).build())</span><br><span class="line">        .setHi(Point.newBuilder().setLatitude(hiLat).setLongitude(hiLon).build()).build();</span><br><span class="line">Iterator&lt;Feature&gt; features &#x3D; blockingStub.listFeatures(request);</span><br></pre></td></tr></table></figure>
+
+<p>如你所见，这和我们刚看过的简单 RPC 很相似，除了方法返回客户端用来读取所有返回的 Feature 的 一个 Iterator，而不是单个的 Feature。</p>
+<h4 id="客户端流式-RPC"><a href="#客户端流式-RPC" class="headerlink" title="客户端流式 RPC"></a>客户端流式 RPC</h4><p>现在看看稍微复杂点的东西：我们在客户端流方法 RecordRoute 中发送了一个 Point 流给服务器并且拿到一个 RouteSummary。为了这个方法，我们需要使用异步存根。如果你已经阅读了<br>创建服务器，一些部分看起来很相近——异步流式 RPC 是在两端通过相似的方式实现的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br></pre></td><td class="code"><pre><span class="line">public void recordRoute(List&lt;Feature&gt; features, int numPoints) throws Exception &#123;</span><br><span class="line">    info(&quot;*** RecordRoute&quot;);</span><br><span class="line">    final SettableFuture&lt;Void&gt; finishFuture &#x3D; SettableFuture.create();</span><br><span class="line">    StreamObserver&lt;RouteSummary&gt; responseObserver &#x3D; new StreamObserver&lt;RouteSummary&gt;() &#123;</span><br><span class="line">      @Override</span><br><span class="line">      public void onNext(RouteSummary summary) &#123;</span><br><span class="line">        info(&quot;Finished trip with &#123;0&#125; points. Passed &#123;1&#125; features. &quot;</span><br><span class="line">            + &quot;Travelled &#123;2&#125; meters. It took &#123;3&#125; seconds.&quot;, summary.getPointCount(),</span><br><span class="line">            summary.getFeatureCount(), summary.getDistance(), summary.getElapsedTime());</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      @Override</span><br><span class="line">      public void onError(Throwable t) &#123;</span><br><span class="line">        finishFuture.setException(t);</span><br><span class="line">      &#125;</span><br><span class="line"></span><br><span class="line">      @Override</span><br><span class="line">      public void onCompleted() &#123;</span><br><span class="line">        finishFuture.set(null);</span><br><span class="line">      &#125;</span><br><span class="line">    &#125;;</span><br><span class="line"></span><br><span class="line">    StreamObserver&lt;Point&gt; requestObserver &#x3D; asyncStub.recordRoute(responseObserver);</span><br><span class="line">    try &#123;</span><br><span class="line">      &#x2F;&#x2F; Send numPoints points randomly selected from the features list.</span><br><span class="line">      StringBuilder numMsg &#x3D; new StringBuilder();</span><br><span class="line">      Random rand &#x3D; new Random();</span><br><span class="line">      for (int i &#x3D; 0; i &lt; numPoints; ++i) &#123;</span><br><span class="line">        int index &#x3D; rand.nextInt(features.size());</span><br><span class="line">        Point point &#x3D; features.get(index).getLocation();</span><br><span class="line">        info(&quot;Visiting point &#123;0&#125;, &#123;1&#125;&quot;, RouteGuideUtil.getLatitude(point),</span><br><span class="line">            RouteGuideUtil.getLongitude(point));</span><br><span class="line">        requestObserver.onNext(point);</span><br><span class="line">        &#x2F;&#x2F; Sleep for a bit before sending the next one.</span><br><span class="line">        Thread.sleep(rand.nextInt(1000) + 500);</span><br><span class="line">        if (finishFuture.isDone()) &#123;</span><br><span class="line">          break;</span><br><span class="line">        &#125;</span><br><span class="line">      &#125;</span><br><span class="line">      info(numMsg.toString());</span><br><span class="line">      requestObserver.onCompleted();</span><br><span class="line"></span><br><span class="line">      finishFuture.get();</span><br><span class="line">      info(&quot;Finished RecordRoute&quot;);</span><br><span class="line">    &#125; catch (Exception e) &#123;</span><br><span class="line">      requestObserver.onError(e);</span><br><span class="line">      logger.log(Level.WARNING, &quot;RecordRoute Failed&quot;, e);</span><br><span class="line">      throw e;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>如你所见，为了调用这个方法我们需要创建一个 StreamObserver，它为了服务器用它的 RouteSummary 应答实现了一个特殊的接口。在 StreamObserver 中，我们：</p>
+<p>覆写了 onNext() 方法，在服务器把 RouteSummary 写入到消息流时，打印出返回的信息。<br>覆写了 onCompleted() 方法（在 服务器 完成自己的调用时调用）去设置 SettableFuture，这样我们可以检查服务器是不是完成写入。<br>之后，我们将 StreamObserver 传给异步存根的 recordRoute() 方法，拿到我们自己的 StreamObserver 请求观察者将 Point 发给服务器。一旦完成点的写入，我们使用请求观察者的 onCompleted() 方法告诉 gRPC 我们已经完成了客户端的写入。一旦完成，我们就检查 SettableFuture 验证服务器是否已经完成写入。</p>
+<h4 id="双向流式-RPC"><a href="#双向流式-RPC" class="headerlink" title="双向流式 RPC"></a>双向流式 RPC</h4><p>最后，让我们看看双向流式 RPC RouteChat()。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br></pre></td><td class="code"><pre><span class="line">public void routeChat() throws Exception &#123;</span><br><span class="line">    info(&quot;*** RoutChat&quot;);</span><br><span class="line">    final SettableFuture&lt;Void&gt; finishFuture &#x3D; SettableFuture.create();</span><br><span class="line">    StreamObserver&lt;RouteNote&gt; requestObserver &#x3D;</span><br><span class="line">        asyncStub.routeChat(new StreamObserver&lt;RouteNote&gt;() &#123;</span><br><span class="line">          @Override</span><br><span class="line">          public void onNext(RouteNote note) &#123;</span><br><span class="line">            info(&quot;Got message \&quot;&#123;0&#125;\&quot; at &#123;1&#125;, &#123;2&#125;&quot;, note.getMessage(), note.getLocation()</span><br><span class="line">                .getLatitude(), note.getLocation().getLongitude());</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onError(Throwable t) &#123;</span><br><span class="line">            finishFuture.setException(t);</span><br><span class="line">          &#125;</span><br><span class="line"></span><br><span class="line">          @Override</span><br><span class="line">          public void onCompleted() &#123;</span><br><span class="line">            finishFuture.set(null);</span><br><span class="line">          &#125;</span><br><span class="line">        &#125;);</span><br><span class="line"></span><br><span class="line">    try &#123;</span><br><span class="line">      RouteNote[] requests &#x3D;</span><br><span class="line">          &#123;newNote(&quot;First message&quot;, 0, 0), newNote(&quot;Second message&quot;, 0, 1),</span><br><span class="line">              newNote(&quot;Third message&quot;, 1, 0), newNote(&quot;Fourth message&quot;, 1, 1)&#125;;</span><br><span class="line"></span><br><span class="line">      for (RouteNote request : requests) &#123;</span><br><span class="line">        info(&quot;Sending message \&quot;&#123;0&#125;\&quot; at &#123;1&#125;, &#123;2&#125;&quot;, request.getMessage(), request.getLocation()</span><br><span class="line">            .getLatitude(), request.getLocation().getLongitude());</span><br><span class="line">        requestObserver.onNext(request);</span><br><span class="line">      &#125;</span><br><span class="line">      requestObserver.onCompleted();</span><br><span class="line"></span><br><span class="line">      finishFuture.get();</span><br><span class="line">      info(&quot;Finished RouteChat&quot;);</span><br><span class="line">    &#125; catch (Exception t) &#123;</span><br><span class="line">      requestObserver.onError(t);</span><br><span class="line">      logger.log(Level.WARNING, &quot;RouteChat Failed&quot;, t);</span><br><span class="line">      throw t;</span><br><span class="line">    &#125;</span><br><span class="line">  &#125;</span><br></pre></td></tr></table></figure>
+
+<p>和我们的客户端流的例子一样，我们拿到和返回一个 StreamObserver 应答观察者，除了这次我们在客户端仍然写入消息到 它们的 消息流时通过我们方法的应答观察者返回值。这里读写的语法和客户端流以及服务器流方法一样。虽然每一端都会按照它们写入的顺序拿到另一端的消息，客户端和服务器都可以任意顺序读写——流的操作是互不依赖的。</p>
+<h1 id="ProtoBuf-存储原理"><a href="#ProtoBuf-存储原理" class="headerlink" title="ProtoBuf 存储原理"></a>ProtoBuf 存储原理</h1><p>核心是 Google 提出了“Base 128 Varints”编码,这是一种变字节长度的编码,官方描述为:varints 是用一个或多个字节序列化整形的一种方法。</p>
+<h2 id="序列化方式"><a href="#序列化方式" class="headerlink" title="序列化方式"></a>序列化方式</h2><p>protobuf 把 message 通过一系列 key_value 对来表示。<br>Key 的算法为：(field_number &lt;&lt; 3）| wired_type<br>这里 field_number 就是具体的索引，wired_type 的值按下表查询。</p>
+<table>
+<thead>
+<tr>
+<th>wired_type</th>
+<th>.proto 类型</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>0</td>
+<td>Varint int32, int64, uint32, uint64, sint32, sint64, bool, enum</td>
+</tr>
+<tr>
+<td>1</td>
+<td>64-bit fixed64, sfixed64, double</td>
+</tr>
+<tr>
+<td>2</td>
+<td>Length-delimited string, bytes, embedded messages, packed repeated fields</td>
+</tr>
+<tr>
+<td>5</td>
+<td>32-bit fixed32, sfixed32, float</td>
+</tr>
+<tr>
+<td>对于 int，bool，enum 类型，value 就是 Varint。</td>
+<td></td>
+</tr>
+</tbody></table>
+<p>而对于 string，bytes，message 等等类型，value 是长度+原始内容编码。</p>
+<ul>
+<li><p>举例 int 类型存储(Varint 存储原理)<br>存储一个 int32 类型的数字，通常是 4 个字节。但是 Varints 最少只需要一个字节就可以了。<br>Varints 规定小于 128 的数字都可以用一个字节来表示，比如 10， 它就会用一个字节 0000 1010 来存储。<br>对于大于 128 的数字，则用更多个字节存储。<br>以 150 举例：protobuf 的存储字节是 1001 0110 0000 0001。<br>为什么会这样标识呢？首先我们了解一个字节共 8 位，表示的数字是 255，但是 Varints 只用一个字节表示小于 128 的数字，换句话说，就是 Varints 只用了 8 位中的 7 位来表示数字，而还有一位被用来干嘛了呢？<br>Varints 在官方规定中表示，每个字节的最高位是有特殊含义，当最高位为 1 的时候，代表后续的字节也是该数字的一部分。当最高位为 0 的时候，则表示结束。<br>比如过 150，二进制表示为 1001 0110。<br>先取后七位 001 0110， 作为第一个字节的内容。<br>再取余下 1 位，前面补 0 凑齐 7 位，就是 000 0001，作为第二字节。<br>对于 intel 机器，是小端字节序，低字节位于地址低的。0010110 是低字节地址，因此排在前面，因为后面的也是数字的一部分，所以高位补 1，也就成了 10010110。 同样的，高字节 000 0001，排在后面，并且它后面没有后续字节了，所以补 0，也就成了 0000 0001。<br>因此 150 在 protobuf 中的表示方式为 1001 0110 0000 0001。</p>
+</li>
+<li><p>举例 string 类型存储</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">message Test &#123;</span><br><span class="line">required string desc &#x3D; 2;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p>假如把 a 设置为 “testing”的话， 那么序列化后的就是<br>12 07 74 65 73 74 69 64 67<br>其中 12 是 key。剩下的是 value。<br>怎么算的呢？先看 12， 这里的 12，是个 16 进制数字，其二进制位表示为 0001 0010。<br>0010 就是类型 string 的对应的 Type 值，根据上表，也就是 2。<br>field_number (required string desc)是 2，也就是 0010，左移三位，就成了 0001 0000。<br>按照 key 的计算公式，和 Type 值取并后就变成了 0001 0010，即 12。<br>Value 是长度加原始内容编码。<br>07 就是长度， 代表 string 总长 7 个字节。 后面 7 个数字一次代表每个字母所对应的 16 进制表示。</p>
+</li>
+</ul>
+<h2 id="json-与-protobuf-的互转"><a href="#json-与-protobuf-的互转" class="headerlink" title="json 与 protobuf 的互转"></a>json 与 protobuf 的互转</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&lt;!-- https:&#x2F;&#x2F;mvnrepository.com&#x2F;artifact&#x2F;com.google.protobuf&#x2F;protobuf-java-util --&gt;</span><br><span class="line">&lt;dependency&gt;</span><br><span class="line">    &lt;groupId&gt;com.google.protobuf&lt;&#x2F;groupId&gt;</span><br><span class="line">    &lt;artifactId&gt;protobuf-java-util&lt;&#x2F;artifactId&gt;</span><br><span class="line">    &lt;version&gt;3.6.1&lt;&#x2F;version&gt;</span><br><span class="line">&lt;&#x2F;dependency&gt;</span><br></pre></td></tr></table></figure>
+
+<p>自定义的 bean 与 proto 是可以通过 Json 相互转换的，然而它们之间的转换需要第三方 JSON 转换工具和 protobuf util 的支持。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;to Json</span><br><span class="line">JsonFormat.Printer printer &#x3D; JsonFormat.printer();</span><br><span class="line">String print &#x3D; &quot;&quot;;</span><br><span class="line">try &#123;</span><br><span class="line">    print &#x3D; printer.print(person);</span><br><span class="line">    System.out.println(print);</span><br><span class="line">&#125; catch (InvalidProtocolBufferException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;to Object</span><br><span class="line">JsonFormat.Parser parser &#x3D; JsonFormat.parser();</span><br><span class="line">try &#123;</span><br><span class="line">    PersonProto.Person.Builder newBuilder &#x3D; PersonProto.Person.newBuilder();</span><br><span class="line">    parser.merge(print, newBuilder);</span><br><span class="line">    System.out.println(newBuilder.build());</span><br><span class="line">&#125; catch (InvalidProtocolBufferException e) &#123;</span><br><span class="line">    e.printStackTrace();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;添加java bean 此类对性数据库的字段，同时与proto类属性名相同</span><br><span class="line">public class Person implements Serializable &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private Integer age;</span><br><span class="line">    private Boolean sex;</span><br><span class="line">    private Date dirthday;&#x2F;&#x2F;此处注意这里是时间类型而非proto类中的long类型</span><br><span class="line">    private String address;</span><br><span class="line">    private List&lt;Car&gt; cars &#x3D; new ArrayList&lt;Car&gt;();</span><br><span class="line">    private Map&lt;String, String&gt; other &#x3D; new HashMap&lt;String, String&gt;();</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">public class Car implements Serializable &#123;</span><br><span class="line">    private String name;</span><br><span class="line">    private String color;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;在上面的转换中间添加以下代码,发现同样转换成功</span><br><span class="line">Person myPerson &#x3D; JsonUtil.toObject(print, Person.class);</span><br><span class="line">System.out.println(myPerson);</span><br><span class="line">print &#x3D; JsonUtil.toJson(myPerson);</span><br></pre></td></tr></table></figure>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2020/12/27/Web%E5%9F%BA%E7%A1%80+tomcat/" rel="prev" title="Web基础+Tomcat">
+                  <i class="fa fa-chevron-left"></i> Web基础+Tomcat
+                </a>
+            </div>
+            <div class="post-nav-item">
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2020</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>

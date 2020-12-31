@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">29</span>
+          <span class="site-state-item-count">30</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,79 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/07/KAFKA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/07/KAFKA/" class="post-title-link" itemprop="url">KAFKA</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-12-07 16:07:30 / Modified: 10:09:29" itemprop="dateCreated datePublished" datetime="2020-12-07T16:07:30+08:00">2020-12-07</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/kafka-1.png"></p>
+<h2 id="1-根目录下的结构"><a href="#1-根目录下的结构" class="headerlink" title="1.根目录下的结构"></a>1.根目录下的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 72] ls &#x2F;</span><br><span class="line">[isr_change_notification, zookeeper, admin, consumers, cluster, config, latest_producer_id_block, controller, brokers, controller_epoch]</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-admin-的结构"><a href="#2-admin-的结构" class="headerlink" title="2. admin 的结构"></a>2. admin 的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 73] ls &#x2F;admin</span><br><span class="line">[delete_topics]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 74] ls &#x2F;admin&#x2F;delete_topics</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 75] get &#x2F;admin&#x2F;delete_topics</span><br><span class="line">null</span><br><span class="line">cZxid &#x3D; 0xe</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xe</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xe</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 0</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 76]</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-consumers-的结构"><a href="#3-consumers-的结构" class="headerlink" title="3.consumers 的结构"></a>3.consumers 的结构</h2><p>本环境上没有设置消费组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 78] ls &#x2F;consumers</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 79] get &#x2F;consumers</span><br><span class="line">null</span><br><span class="line">cZxid &#x3D; 0x2</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x2</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x2</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 0</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 80]</span><br><span class="line">## 4.config的结构</span><br><span class="line">[zk: localhost:2181(CONNECTED) 82] ls &#x2F;config</span><br><span class="line">[topics, clients, changes]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 83] ls &#x2F;config&#x2F;topics</span><br><span class="line">[__consumer_offsets, test, test2]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 84] ls &#x2F;config&#x2F;topics&#x2F;test2</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 85] get &#x2F;config&#x2F;topics&#x2F;test2</span><br><span class="line">&#123;&quot;version&quot;:1,&quot;config&quot;:&#123;&#125;&#125;</span><br><span class="line">cZxid &#x3D; 0xcc</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xcc</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xcc</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 25</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 86]</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-controllers-的结构"><a href="#5-controllers-的结构" class="headerlink" title="5.controllers 的结构"></a>5.controllers 的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 92] ls &#x2F;controller</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 93] get &#x2F;controller</span><br><span class="line">&#123;&quot;version&quot;:1,&quot;brokerid&quot;:0,&quot;timestamp&quot;:&quot;1535943857541&quot;&#125; &#x2F;&#x2F;表示broker0为kafka的控制节点</span><br><span class="line">cZxid &#x3D; 0x15</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x15</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x15</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 54</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 94]</span><br><span class="line">## 6.brokers的结构</span><br><span class="line">[zk: localhost:2181(CONNECTED) 95] ls &#x2F;brokers</span><br><span class="line">[seqid, topics, ids]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 96] ls &#x2F;brokers&#x2F;ids</span><br><span class="line">[0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 97] get &#x2F;brokers&#x2F;ids&#x2F;0</span><br><span class="line">&#123;&quot;listener_security_protocol_map&quot;:&#123;&quot;PLAINTEXT&quot;:&quot;PLAINTEXT&quot;&#125;,&quot;endpoints&quot;:[&quot;PLAINTEXT:&#x2F;&#x2F;localhost:9092&quot;],&quot;jmx_port&quot;:-1,&quot;host&quot;:&quot;localhost&quot;,&quot;timestamp&quot;:&quot;1535943859255&quot;,&quot;port&quot;:9092,&quot;version&quot;:4&#125;</span><br><span class="line">cZxid &#x3D; 0x1c</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x1c</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x1c</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 188</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 98]</span><br><span class="line"></span><br><span class="line">------------------------------brokers&#x2F;topics----------------------</span><br><span class="line">[zk: localhost:2181(CONNECTED) 100] ls &#x2F;brokers&#x2F;topics</span><br><span class="line">[__consumer_offsets, test, test2]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test</span><br><span class="line"></span><br><span class="line">test    test2</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test2</span><br><span class="line">[partitions]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 102] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions</span><br><span class="line">[2, 1, 0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 103] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2</span><br><span class="line">[state]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 104] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 105] get &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">&#123;&quot;controller_epoch&quot;:1,&quot;leader&quot;:0,&quot;version&quot;:1,&quot;leader_epoch&quot;:0,&quot;isr&quot;:[0]&#125;</span><br><span class="line">&#x2F;&#x2F;表示partition 0 的leader是在0 broker上</span><br><span class="line">cZxid &#x3D; 0xd2</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xd2</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xd2</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 72</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 106]</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1181,100 +1254,6 @@ public void shorthand()&#123;
 
 
 
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/22/sharding-core-rewrite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/10/22/sharding-core-rewrite/" class="post-title-link" itemprop="url">sharding-core-rewrite</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-10-22 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-22T19:11:30+08:00">2019-10-22</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:24" itemprop="dateModified" datetime="2020-11-22T14:14:24+08:00">2020-11-22</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>模块结构<br>sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：</li>
-</ul>
-<ol>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生成SQLUnit。SQLUnit包含两个属性:sql和parameters，作为改写后的结果返回。这两个属性分别依赖org.apache.shardingsphere.core.rewrite.sql和org.apache.shardingsphere.core.rewrite.parameter包。</li>
-<li>org.apache.shardingsphere.core.rewrite.sql。主要类是SQLBuilder，它对外提供构建改写SQL的功能。这个模块内部的SQLToken是改写时重要的依赖。</li>
-<li>org.apache.shardingsphere.core.rewrite.parameter。包含ParameterBuilder和ParameterRewriter，分别抽象了参数列表构建和参数改写。其中org.apache.shardingsphere.core.rewrite.parameter.rewriter子包的功能较重要的类是：EncryptParameterBuilderFactory和ShardingParameterBuilderFactory。它俩通过build方法来完成对parameterBuilder的相关参数的设置，例如：在StandardParameterBuilder中设置addedIndexAndParameters和replacedIndexAndParameters。</li>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteDecorator。接口类。定义了decorate()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。它的实现类为ShardingRewriterDecorator和EncryptRewriterDecorator。</li>
-<li>org.apache.shardingsphere.core.rewrite.sharding。ShardingRewriterDecorator为主要功能类。ShardingParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数</li>
-<li>org.apache.shardingsphere.core.rewrite.encrypt。EncryptRewriterDecorator为主要功能类。EncryptParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。</li>
-</ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-rewrite.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-rewrite的主要逻辑是从SQLRewriteEngine.generateSQLgenerateSQL(final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-rewrite-flow-graph.jpg"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li><p>接口分离原则和里式替换原则<br>org.apache.shardingsphere.core.rewrite.sql.token.pojo。这个包对面向对象编程有比较好的实践。首先，定义了SQLToken抽象类，所有实现类都继承它，它将实体类的公共的部分抽象封装了起来。其次，定义了三个接口<br>Alterable、Attachable、Substitutable三个接口，这三个接口从使用角度按照改写、附加、直接替换三个方面进行了划分，实现类根据自身特点来实现其中的接口。最后，调用者在调用时使用抽象类的引用，达到了统一处理的目的，同时可以根据实现类所属的接口进行差异化操作，这点在如下代码中有体现：<br>SQLBuilder的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private String getSQLTokenLiterals(final SQLToken sqlToken, final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables) &#123;</span><br><span class="line">    return sqlToken instanceof Alterable ? ((Alterable) sqlToken).toString(routingUnit, logicAndActualTables) : sqlToken.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对父类的继承，使得调用者代码可以使用统一的类来引用不同的子类对象。<br>接口的实现，使得调用者代码可以对不同接口的实现类对象，进行差异化处理。<br>org.apache.shardingsphere.core.rewrite.sql.token.generator包对接口合理的使用，也达到类似的效果。同样也是优秀的面向对象编程实践。</p>
-</li>
-<li><p>依赖倒转原则<br>org.apache.shardingsphere.core.rewrite.parameter.builder和org.apache.shardingsphere.core.rewrite.parameter.rewriter体现了依赖倒转原则，ParameterBuilder和ParameterRewriter都是接口类，是对内部多个实现类的良好抽象，调用者只需要声明接口引用，就可以使用多种实现类。</p>
 </li>
 </ol>
 
