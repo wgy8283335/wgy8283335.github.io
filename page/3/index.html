@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">30</span>
+          <span class="site-state-item-count">31</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,110 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/24/sharding-core-execute/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/24/sharding-core-execute/" class="post-title-link" itemprop="url">sharding-core-execute</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-24 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-24T19:11:30+08:00">2019-10-24</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:30" itemprop="dateModified" datetime="2020-11-22T14:14:30+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-execute的主要功能是将路由和改写生成的RoutingUnit对象（RoutingUnit内部含有SQLUnit），产生执行QueryResult。按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.execute.hook。在执行的关键操作过程中，发送事件，用于跟踪和事务。</li>
+<li>org.apache.shardingsphere.core.execute.metadata。主要提供了加载获取TableMetaData的功能，主要存储表的元数据信息，如表中的列名，数据类，列是否为主键。</li>
+<li>org.apache.shardingsphere.core.execute.sql。主要有两个子包：prepare和execute。prepare的作用是在执行前搜集信息，产生ShardingExecuteGroup的集合。<br>execute的作用是将ShardingExecuteGroup中StatementExecuteUnit发送到数据库进行执行。</li>
+<li>org.apache.shardingsphere.core.execute。 包含ShardingExecuteEngine、SharidngExecuteCallback等重要类，是整个执行模块的核心部分。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-execute.png"></li>
+<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从sharding-jdbc-core的StatementExecutor开始的，真正执行的部分位于sharding-core-execute中，以查询为例，主要逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-execute-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>模板方法<br>SQLExecuteCallback类的execute(final Collection statementExecuteUnits, final boolean isTrunkThread, final Map shardingExecuteDataMap)方法使用了模板方法模式，父类SQLExecuteCallback定义了整个算法的骨架，让子类去实现具体的细节。executeSQL(RouteUnit routeUnit, Statement statement, ConnectionMode connectionMode)就是留给子类自定义的细节部分，使得子类在不变更整体算法的情况下，就可以重新定义该算法的特定步骤。</li>
+<li>依赖倒转原则<br>SQLExecutePrepareCallback是一个接口类。BatchPreparedStatementExecutor和PreparedStatementExecutor对与这个类有依赖，由于这个类是个接口，所以调用者可以，在使用前根据实际情况，再定义接口中的抽象方法。这种使用方式对于调用者更加灵活，可以依据场景和需求，自定义相关抽象方法。</li>
+</ol>
+<ul>
+<li>Java编程技巧</li>
+</ul>
+<ol>
+<li>com.google.common.collect.Lists<br>SQLExecutePrepareTemplate.getSQLExecuteGroups()方法中使用了Lists，<code>Lists.partition(sqlUnits, desiredPartitionSize);</code>，可以将原本的List切分成多个List。</li>
+<li>com.google.common.util.concurrent<br>ShardingExecutorService.ShardingExecutorService(final int executorSize, final String nameFormat)方法中，使用了异步回调线程池。同时，设定了JVM关闭时线程池采用的动作。<br>在多线程编程中异步回调使得原本需要阻塞等待的异步结果，因为回调的存在而不用等待。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">executorService &#x3D; MoreExecutors.listeningDecorator(getExecutorService(executorSize, nameFormat));</span><br><span class="line">MoreExecutors.addDelayedShutdownHook(executorService, 60, TimeUnit.SECONDS);</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+
+
+
+
+
+
+
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -946,80 +1050,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/29/%E9%AB%98%E5%B9%B6%E5%8F%91%E4%B8%8E%E9%AB%98%E5%8F%AF%E7%94%A8/" class="post-title-link" itemprop="url">高并发与高可用</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-03-29 17:01:22" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-04-09 08:08:46" itemprop="dateModified" datetime="2019-04-09T08:08:46+08:00">2019-04-09</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>1.高并发<br><br>1.1缓存<br><br>缓存可以减少并发对后台的压力，尽可能地在前面的层级处理请求。缓存按照从前到后的顺序，存在于如下的网元中。<br><br>http客户端-&gt;CDN-&gt;Nginx-&gt;分布式缓存-&gt;应用-&gt;分布式缓存-&gt;数据库。<br><br><strong>http客户端缓存</strong>：HTTP缓存指我们用浏览器访问网站时，根据服务器返回的HTTP缓存响应头设置缓存相应的数据。<br><br>缓存有两种使用方式：1访问就可以直接使用（LastModifty+Expires方式设置过期时间）。2去服务器验证数据是否过期(Cache-Control+Etag)，没过期则返回304。<br><br><strong>CDN缓存</strong>：静态资源存放在CDN，客户端访问时先访问CDN。如果是第一次访问没有存储用户的所需要内容，CDN则向后台业务发起请求并缓存结果。<br><br><strong>Nginx缓存</strong>：当请求到达Nginx后，如果缓存中有结果，则直接返回请求。如果没有，则向后台应用请求，并缓存结果。<br><br><strong>应用</strong>：应用本地可以使用堆缓存（如：guava）和堆外缓存（Encache）。在微服务中Hystrix，可以做结果缓存和请求合并。<br><br><strong>分布式缓存</strong>：既可以被Nginx作为缓存使用，也可以被应用当作缓存使用。例如：redis集群。<br><br><strong>数据库</strong>：数据库缓存。mysql缓存机制就是缓存sql 文本及缓存结果，用KV形式保存再服务器内存中，如果运行相同的sql,服务器直接从缓存中去获取结果，不需要在再去解析、优化、执行sql。 如果这个表修改了，那么使用这个表中的所有缓存将不再有效，查询缓存值得相关条目将被清空。显然，者对于频繁更新的表，查询缓存不合适，对于一些不变的数据且有大量相同sql查询的表，查询缓存会节省很大的性能。<br><br>1.2扩容<br><br><strong>应用扩容</strong>：垂直扩容（增加单体物理主机能力），水平扩容（集群），应用拆分（微服务化）。<br><br><strong>数据库扩容</strong>：分库分表，读写分离。<br><br>1.3队列<br><br><strong>异步处理</strong>：通过异步处理，可以提升主流程响应速度，而非主流程、非重要处理可以集中处理，这样还可以将任务聚合批量处理。<br><br><strong>系统解耦</strong>：比如用户成功支付完成后，需要通知生产配货系统、发票系统、库存系统、推荐系统、搜索系统等进行业务处理。这些业务不需要实时处理、不需要强一致性，只需要保证最终一致性即可，因此，可以通过消息队列、任务队列进行系统解耦。<br><br><strong>数据同步</strong>：比如把MySql变更的数据同步到Redis，或者将MySQL的数据同步到Mongodb，或者让机房之间的数据同步，或者主从数据同步等，此时可以<br><br>考虑使用databus，canal、otter等。使用数据总线队列进行数据同步的好处是可以保证数据修改的有序性。<br><br><strong>流量削峰</strong>：系统瓶颈一般在数据库上，比如扣减库存、下单等。此时可以考虑使用队列将变更请求暂时放入队列，通过缓存+队列暂存的方式将数据库流量削峰。<br><br>在秒杀系统中，下单是系统的瓶颈，可以使用队列进行排队和限流，从而保护下单服务，通过队列暂存或者队列限流进行流量削峰。<br><br>1.4异步<br><br><strong>CompletableFuture</strong>：它可以实现应用内部，线程间的异步模式，而且是异步非阻塞模式。<br><br>2.高可用<br><br>2.1集群<br><br>使用集群模式来保持同一个业务的不间断服务，是高可用的常见形式。使用nginx做负载均衡和反向代理。<br><br>2.2隔离<br><br>隔离保证，被隔离对象之间不会相互影响，某个出问题时，其他可以正常工作。<br><br>包括：线程隔离、进程隔离、集群隔离、机房隔离、读写隔离、动静隔离（将静态资源放在CDN上，将动态资源由NGINX处理）、热点隔离（将大访问量的业务单独抽离出来，比如秒杀）、Hystrix。<br><br>2.3限流<br><br>2.3.1接入层限流<br><br>令牌桶算法：保证请求进入速度，但是流出不限制，有可能造成有小规模并发。<br><br>漏斗算法：保证请求流出的速度。<br><br>2.3.2应用级限流<br><br>限流总并发、连接、请求数：通过设置tomcat的connector参数实现<br><br>限流总资源数：可以使用池化技术来限制总资源数，如：连接池、线程池。<br><br>限流某个接口的总并发数、请求数：Hystrix在信号量模式下也使用Semaphore限制某个接口的总并发数。<br><br>限流某个接口的时间窗请求数：可以使用Guava的Cache来存储计数器。<br><br>平滑限流某个接口的请求数：可以使用guava RateLimiter提供的令牌桶算法<br><br>2.4降级<br><br>页面降级：在大促或者某些特殊情况下，某些页面占用了一些稀缺服务资源，在紧急情况下可以对其整个降级，以达到丢足保帅的目的。<br><br>页面片段降级：比如，商品详情页中的商家部分因为数据错误，此时，需要对其进行降级。<br><br>页面异步请求降级：比如，商品详情页上有推荐信息/配送至等异步加载的请求，如果这些信息响应慢或者后端服务有问题，则可以进行降级。<br><br>服务功能降级：比如，渲染商品详情页时，需要调用一些不太重要的服务，而这些服务在异常情况下直接不获取，降级即可。<br><br>读降级：比如，多级缓存模式，如果后端服务有问题，则可以降级为只读缓存，这种方式适用于对读一致性要求不高的场景。<br><br>写降级：比如，秒杀抢购，我们可以只进行Cache的更新，然后一步减少库存到DB，保证最终一致性即可，此时可以将DB降级为Cache。<br><br>爬虫降级：在大促活动时，可以将爬虫流量导向静态页或者返回空数据，从而保护后端稀缺资源。<br><br>风控降级：如抢购，秒杀等业务，完全可以识别机器人，用户画像或者根据用户风控级别进行降级处理，直接拒绝高风险用户。<br><br>2.5超时机制<br><br>超时之后应该有响应的策略来处理。常见的策略有重试（等一会儿再试，尝试其他分组服务，尝试其他机房服务，重试算法可考虑使用如指数退避算法），摘掉不存活节点（负载均衡/分布式缓存场景下），托底（返回历史数据/静态数据/缓存数据），等待页或者错误页。对于非幂等写服务应避免重试，或者可以考虑提前生成唯一流水号来保证写服务操作通过判断流水号来实现幂等操作。在进行数据库/缓存服务器操作时，记得经常检查慢查询，慢查询通常是引起服务出问题的罪魁祸首。也要考虑在超时严重时，直接将该服务加攻击，待该服务修复后再取消降级。对于负载均衡的中间件，请考虑配置心跳/存活检查，而不是惰性检查。<br><br>超时重试必然导致请求响应时间增加，最坏情况下的响应时间=重试次数*单次超时时间，这很可能严重影响用户体验。导致用户不断刷新页面来重复请求，最后导致服务接受的请求太多而挂掉，因此除了控制单次超时时间，也要控制好用户能忍受的最长超时时间。<br>超时时间太短会导致服务调用成功率降低，超时时间太长又会导致本应成功的调用却失败了，这也要根据实际场景来选择最适合当前业务的超时时间。甚至是程序动态计算超时时间，比如商品详情页的库存状态服务，可以设置较短的超时时间。当超时时降级返回有货，而结算页服务就需要设置稍微长一些的超时时间保证确实有货。<br><br>在实际开发中，不要轻视超时时间，很多重大事故都是因为超时时间不合理导致的，设置超时时间一定是只有好处没有坏处的。<br></p>
-<p>2.6回滚机制<br><br>指在事务过程中，出现错误而进行的回滚。分为单机数据库事务回滚和分布式事务回滚。<br></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span>
+    <a class="extend prev" rel="prev" href="/page/2/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><a class="page-number" href="/page/2/">2</a><span class="page-number current">3</span><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/4/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 
@@ -1053,7 +1085,7 @@
 
 <div class="copyright">
   &copy; 
-  <span itemprop="copyrightYear">2020</span>
+  <span itemprop="copyrightYear">2021</span>
   <span class="with-love">
     <i class="fa fa-heart"></i>
   </span>
