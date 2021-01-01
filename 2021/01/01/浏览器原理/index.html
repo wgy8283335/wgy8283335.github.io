@@ -23,12 +23,12 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="浏览器原理参考：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;47407398这里以chrome为例进行展示说明。 架构Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。具体说来，Chrome 的主要进程及其职责如下：  Browser Process：  负责包括地址栏，书签栏，前进后退按钮等部分的工作；  负责处理浏览器的一些不">
+<meta name="description" content="浏览器原理参考：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;47407398这里以 chrome 为例进行展示说明。 架构Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。具体说来，Chrome 的主要进程及其职责如下：  Browser Process：负责包括地址栏，书签栏，前进后退按钮等部分的工作；负责处理浏览器的一些不可见">
 <meta property="og:type" content="article">
 <meta property="og:title" content="浏览器原理">
 <meta property="og:url" content="http://yoursite.com/2021/01/01/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="浏览器原理参考：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;47407398这里以chrome为例进行展示说明。 架构Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。具体说来，Chrome 的主要进程及其职责如下：  Browser Process：  负责包括地址栏，书签栏，前进后退按钮等部分的工作；  负责处理浏览器的一些不">
+<meta property="og:description" content="浏览器原理参考：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;47407398这里以 chrome 为例进行展示说明。 架构Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。具体说来，Chrome 的主要进程及其职责如下：  Browser Process：负责包括地址栏，书签栏，前进后退按钮等部分的工作；负责处理浏览器的一些不可见">
 <meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/web-brower-1.png">
 <meta property="og:image" content="http://yoursite.com/images/web-brower-2.png">
@@ -37,8 +37,9 @@
 <meta property="og:image" content="http://yoursite.com/images/web-brower-5.png">
 <meta property="og:image" content="http://yoursite.com/images/web-brower-6.png">
 <meta property="og:image" content="http://yoursite.com/images/web-brower-7.png">
+<meta property="og:image" content="http://yoursite.com/images/web-brower-8.png">
 <meta property="article:published_time" content="2021-01-01T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-01T09:28:20.466Z">
+<meta property="article:modified_time" content="2021-01-01T12:05:28.517Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/web-brower-1.png">
@@ -236,7 +237,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2021-01-01 21:00:00 / Modified: 17:28:20" itemprop="dateCreated datePublished" datetime="2021-01-01T21:00:00+08:00">2021-01-01</time>
+      <time title="Created: 2021-01-01 21:00:00 / Modified: 20:05:28" itemprop="dateCreated datePublished" datetime="2021-01-01T21:00:00+08:00">2021-01-01</time>
     </span>
 
   
@@ -249,18 +250,18 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="浏览器原理"><a href="#浏览器原理" class="headerlink" title="浏览器原理"></a>浏览器原理</h1><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47407398">https://zhuanlan.zhihu.com/p/47407398</a><br>这里以chrome为例进行展示说明。</p>
+        <h1 id="浏览器原理"><a href="#浏览器原理" class="headerlink" title="浏览器原理"></a>浏览器原理</h1><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47407398">https://zhuanlan.zhihu.com/p/47407398</a><br>这里以 chrome 为例进行展示说明。</p>
 <h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。<br><img src="/images/web-brower-1.png"><br>具体说来，Chrome 的主要进程及其职责如下：</p>
 <ul>
-<li>Browser Process：<br>  负责包括地址栏，书签栏，前进后退按钮等部分的工作；<br>  负责处理浏览器的一些不可见的底层操作，比如网络请求和文件访问；</li>
-<li>Renderer Process：<br>  负责一个 tab 内关于网页呈现的所有事情</li>
-<li>Plugin Process：<br>  负责控制一个网页用到的所有插件，如 flash</li>
-<li>GPU Process<br>  负责处理 GPU 相关的任务<br>Chrome 还为我们提供了「任务管理器」，供我们方便的查看当前浏览器中运行的所有进程及每个进程占用的系统资源，右键单击还可以查看更多类别信息。</li>
+<li>Browser Process：<br>负责包括地址栏，书签栏，前进后退按钮等部分的工作；<br>负责处理浏览器的一些不可见的底层操作，比如网络请求和文件访问；</li>
+<li>Renderer Process：<br>负责一个 tab 内关于网页呈现的所有事情</li>
+<li>Plugin Process：<br>负责控制一个网页用到的所有插件，如 flash</li>
+<li>GPU Process<br>负责处理 GPU 相关的任务<br>Chrome 还为我们提供了「任务管理器」，供我们方便的查看当前浏览器中运行的所有进程及每个进程占用的系统资源，右键单击还可以查看更多类别信息。</li>
 </ul>
 <h2 id="Chrome-多进程架构的优缺点"><a href="#Chrome-多进程架构的优缺点" class="headerlink" title="Chrome 多进程架构的优缺点"></a>Chrome 多进程架构的优缺点</h2><p>优点</p>
 <ul>
 <li>某一渲染进程出问题不会影响其他进程</li>
-<li>更为安全，在系统层面上限定了不同进程的权限<br>缺点<br>由于不同进程间的内存不共享，不同进程的内存常常需要包含相同的内容。<br>为了节省内存，Chrome 限制了最多的进程数，最大进程数量由设备的内存和 CPU 能力决定，当达到这一限制时，新打开的 Tab 会共用之前同一个站点的渲染进程。  </li>
+<li>更为安全，在系统层面上限定了不同进程的权限<br>缺点<br>由于不同进程间的内存不共享，不同进程的内存常常需要包含相同的内容。<br>为了节省内存，Chrome 限制了最多的进程数，最大进程数量由设备的内存和 CPU 能力决定，当达到这一限制时，新打开的 Tab 会共用之前同一个站点的渲染进程。</li>
 </ul>
 <p>Chrome 把浏览器不同程序的功能看做服务，这些服务可以方便的分割为不同的进程或者合并为一个进程。以 Broswer Process 为例，如果 Chrome 运行在强大的硬件上，它会分割不同的服务到不同的进程，这样 Chrome 整体的运行会更加稳定，但是如果 Chrome 运行在资源贫瘠的设备上，这些服务又会合并到同一个进程中运行，这样可以节省内存，示意图如下。<br><img src="/images/web-brower-2.png"><br><img src="/images/web-brower-3.png"></p>
 <p>Site Isolation 机制从 Chrome 67 开始默认启用。这种机制允许在同一个 Tab 下的跨站 iframe 使用单独的进程来渲染，这样会更为安全。<br>Site Isolation 被大家看做里程碑式的功能， 其成功实现是多年工程努力的结果。Site Isolation 不是简单的叠加多个进程。这种机制在底层改变了 iframe 之间通信的方法，Chrome 的其它功能都需要做对应的调整，比如说 devtools 需要相应的支持，甚至 Ctrl + F 也需要支持。<br><img src="/images/web-brower-4.png"></p>
@@ -273,35 +274,35 @@
 </ul>
 <p>分为以下几步：</p>
 <ol>
-<li><p>处理输入<br>UI thread 需要判断用户输入的是 URL 还是 query；  </p>
+<li><p>处理输入<br>UI thread 需要判断用户输入的是 URL 还是 query；</p>
 </li>
-<li><p>开始导航<br>当用户点击回车键，UI thread 通知 network thread 获取网页内容，并控制 tab 上的 spinner 展现，表示正在加载中。<br>network thread 会执行 DNS 查询，随后为请求建立 TLS 连接。如果 network thread 接收到了重定向请求头如 301，network thread 会通知 UI thread 服务器要求重定向，之后，另外一个 URL 请求会被触发。  </p>
+<li><p>开始导航<br>当用户点击回车键，UI thread 通知 network thread 获取网页内容，并控制 tab 上的 spinner 展现，表示正在加载中。<br>network thread 会执行 DNS 查询，随后为请求建立 TLS 连接。如果 network thread 接收到了重定向请求头如 301，network thread 会通知 UI thread 服务器要求重定向，之后，另外一个 URL 请求会被触发。</p>
 </li>
 <li><p>读取响应</p>
 </li>
 </ol>
-<p>当请求响应返回的时候，network thread 会依据 Content-Type 及 MIME Type sniffing 判断响应内容的格式如果响应内容的格式是 HTML ，下一步将会把这些数据传递给 renderer process，如果是 zip 文件或者其它文件，会把相关数据传输给下载管理器。<br>Safe Browsing 检查也会在此时触发，如果域名或者请求内容匹配到已知的恶意站点，network thread 会展示一个警告页。此外 CORB 检测也会触发确保敏感数据不会被传递给渲染进程。  </p>
+<p>当请求响应返回的时候，network thread 会依据 Content-Type 及 MIME Type sniffing 判断响应内容的格式如果响应内容的格式是 HTML ，下一步将会把这些数据传递给 renderer process，如果是 zip 文件或者其它文件，会把相关数据传输给下载管理器。<br>Safe Browsing 检查也会在此时触发，如果域名或者请求内容匹配到已知的恶意站点，network thread 会展示一个警告页。此外 CORB 检测也会触发确保敏感数据不会被传递给渲染进程。</p>
 <ol start="4">
 <li>查找渲染进程</li>
 </ol>
-<p>当上述所有检查完成，network thread 确信浏览器可以导航到请求网页，network thread 会通知 UI thread 数据已经准备好，UI thread 会查找到一个 renderer process 进行网页的渲染。<br>由于网络请求获取响应需要时间，这里其实还存在着一个加速方案。当 UI thread 发送 URL 请求给 network thread 时，浏览器其实已经知道了将要导航到那个站点。UI thread 会并行的预先查找和启动一个渲染进程，如果一切正常，当 network thread 接收到数据时，渲染进程已经准备就绪了，但是如果遇到重定向，准备好的渲染进程也许就不可用了，这时候就需要重启一个新的渲染进程。  </p>
+<p>当上述所有检查完成，network thread 确信浏览器可以导航到请求网页，network thread 会通知 UI thread 数据已经准备好，UI thread 会查找到一个 renderer process 进行网页的渲染。<br>由于网络请求获取响应需要时间，这里其实还存在着一个加速方案。当 UI thread 发送 URL 请求给 network thread 时，浏览器其实已经知道了将要导航到那个站点。UI thread 会并行的预先查找和启动一个渲染进程，如果一切正常，当 network thread 接收到数据时，渲染进程已经准备就绪了，但是如果遇到重定向，准备好的渲染进程也许就不可用了，这时候就需要重启一个新的渲染进程。</p>
 <ol start="5">
 <li>确认导航</li>
 </ol>
-<p>进过了上述过程，数据以及渲染进程都可用了， Browser Process 会给 renderer process 发送 IPC 消息来确认导航，一旦 Browser Process 收到 renderer process 的渲染确认消息，导航过程结束，页面加载过程开始。  </p>
-<p>此时，地址栏会更新，展示出新页面的网页信息。history tab 会更新，可通过返回键返回导航来的页面，为了让关闭 tab 或者窗口后便于恢复，这些信息会存放在硬盘中。  </p>
+<p>进过了上述过程，数据以及渲染进程都可用了， Browser Process 会给 renderer process 发送 IPC 消息来确认导航，一旦 Browser Process 收到 renderer process 的渲染确认消息，导航过程结束，页面加载过程开始。</p>
+<p>此时，地址栏会更新，展示出新页面的网页信息。history tab 会更新，可通过返回键返回导航来的页面，为了让关闭 tab 或者窗口后便于恢复，这些信息会存放在硬盘中。</p>
 <ol start="6">
 <li>额外的步骤</li>
 </ol>
 <p>一旦导航被确认，renderer process 会使用相关的资源渲染页面，下文中我们将重点介绍渲染流程。当 renderer process 渲染结束（渲染结束意味着该页面内的所有的页面，包括所有 iframe 都触发了 onload 时），会发送 IPC 信号到 Browser process， UI thread 会停止展示 tab 中的 spinner。当然上面的流程只是网页首帧渲染完成，在此之后，客户端依旧可下载额外的资源渲染出新的视图。</p>
-<p>在这里我们可以明确一点，所有的 JS 代码其实都由 renderer Process 控制的，所以在你浏览网页内容的过程大部分时候不会涉及到其它的进程。不过也许你也曾经监听过 beforeunload 事件，这个事件再次涉及到 Browser Process 和 renderer Process 的交互，当当前页面关闭时（关闭 Tab ，刷新等等），Browser Process 需要通知 renderer Process 进行相关的检查，对相关事件进行处理。  </p>
-<p>如果导航由 renderer process 触发（比如在用户点击某链接，或者JS执行 <code>window.location = &quot;http://newsite.com&quot; </code> ） renderer process 会首先检查是否有 <code>beforeunload</code> 事件处理器，导航请求由 renderer process 传递给 Browser process</p>
+<p>在这里我们可以明确一点，所有的 JS 代码其实都由 renderer Process 控制的，所以在你浏览网页内容的过程大部分时候不会涉及到其它的进程。不过也许你也曾经监听过 beforeunload 事件，这个事件再次涉及到 Browser Process 和 renderer Process 的交互，当当前页面关闭时（关闭 Tab ，刷新等等），Browser Process 需要通知 renderer Process 进行相关的检查，对相关事件进行处理。</p>
+<p>如果导航由 renderer process 触发（比如在用户点击某链接，或者 JS 执行 <code>window.location = &quot;http://newsite.com&quot;</code> ） renderer process 会首先检查是否有 <code>beforeunload</code> 事件处理器，导航请求由 renderer process 传递给 Browser process</p>
 <p>如果导航到新的网站，会启用一个新的 render process 来处理新页面的渲染，老的进程会留下来处理类似 <code>unload</code> 等事件。</p>
 <p>除了上述流程，有些页面还拥有 Service Worker （服务工作线程），Service Worker 让开发者对本地缓存及判断何时从网络上获取信息有了更多的控制权，如果 Service Worker 被设置为从本地 cache 中加载数据，那么就没有必要从网上获取更多数据了。</p>
 <p>值得注意的是 service worker 也是运行在渲染进程中的 JS 代码，因此对于拥有 Service Worker 的页面，上述流程有些许的不同。</p>
 <p>当有 Service Worker 被注册时，其作用域会被保存，当有导航时，network thread 会在注册过的 Service Worker 的作用域中检查相关域名，如果存在对应的 Service worker，UI thread 会找到一个 renderer process 来处理相关代码，Service Worker 可能会从 cache 中加载数据，从而终止对网络的请求，也可能从网上请求新的数据。</p>
 <p>如果 Service Worker 最终决定通过网上获取数据，Browser 进程 和 renderer 进程的交互其实会延后数据的请求时间 。Navigation Preload 是一种与 Service Worker 并行的加速加载资源的机制，服务端通过请求头可以识别这类请求，而做出相应的处理。</p>
-<h2 id="渲染进程是如何工作的"><a href="#渲染进程是如何工作的" class="headerlink" title="渲染进程是如何工作的"></a>渲染进程是如何工作的</h2><p>渲染进程几乎负责 Tab 内的所有事情，渲染进程的核心目的在于转换 HTML CSS JS 为用户可交互的 web 页面。渲染进程中主要包含以下线程：  </p>
+<h2 id="渲染进程是如何工作的"><a href="#渲染进程是如何工作的" class="headerlink" title="渲染进程是如何工作的"></a>渲染进程是如何工作的</h2><p>渲染进程几乎负责 Tab 内的所有事情，渲染进程的核心目的在于转换 HTML CSS JS 为用户可交互的 web 页面。渲染进程中主要包含以下线程：</p>
 <ul>
 <li>主线程 Main thread</li>
 <li>工作线程 Worker thread</li>
@@ -319,8 +320,8 @@
 <ol start="3">
 <li>JS 的下载与执行</li>
 </ol>
-<p>当遇到 <code>&lt;script&gt;</code> 标签时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构（使用诸如 <code>document.write()</code>等API）。</p>
-<p>不过开发者其实也有多种方式来告知浏览器应对如何应对某个资源，比如说如果在<code>&lt;script&gt;</code> 标签上添加了 <code>async</code> 或 <code>defer</code> 等属性，浏览器会异步的加载和执行JS代码，而不会阻塞渲染。</p>
+<p>当遇到 <code>&lt;script&gt;</code> 标签时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构（使用诸如 <code>document.write()</code>等 API）。</p>
+<p>不过开发者其实也有多种方式来告知浏览器应对如何应对某个资源，比如说如果在<code>&lt;script&gt;</code> 标签上添加了 <code>async</code> 或 <code>defer</code> 等属性，浏览器会异步的加载和执行 JS 代码，而不会阻塞渲染。</p>
 <ol start="4">
 <li>样式计算</li>
 </ol>
@@ -343,7 +344,14 @@
 <p>你可能会想给每一个元素都添加上 <code>will-change</code>，不过组合过多的层也许会比在每一帧都栅格化页面中的某些小部分更慢。为了更合理的使用层，可参考 坚持仅合成器的属性和管理层计数 。</p>
 <p>一旦层树被创建，渲染顺序被确定，主线程会把这些信息通知给合成器线程，合成器线程会栅格化每一层。有的层的可以达到整个页面的大小，因此，合成器线程将它们分成多个磁贴，并将每个磁贴发送到栅格线程，栅格线程会栅格化每一个磁贴并存储在 GPU 显存中。<br><img src="/images/web-brower-6.png"><br>一旦磁贴被光栅化，合成器线程会收集称为绘制四边形的磁贴信息以创建合成帧。</p>
 <p>合成帧随后会通过 IPC 消息传递给浏览器进程，由于浏览器的 UI 改变或者其它拓展的渲染进程也可以添加合成帧，这些合成帧会被传递给 GPU 用以展示在屏幕上，如果滚动发生，合成器线程会创建另一个合成帧发送给 GPU。<br><img src="/images/web-brower-7.png"></p>
-<h2 id="浏览器对事件的处理"><a href="#浏览器对事件的处理" class="headerlink" title="浏览器对事件的处理"></a>浏览器对事件的处理</h2>
+<h2 id="浏览器对事件的处理"><a href="#浏览器对事件的处理" class="headerlink" title="浏览器对事件的处理"></a>浏览器对事件的处理</h2><p>浏览器通过对不同事件的处理来满足各种交互需求，这一部分我们一起看看从浏览器的视角，事件是什么，在此我们先主要考虑鼠标事件。</p>
+<p>在浏览器的看来，用户的所有手势都是输入，鼠标滚动，悬置，点击等等都是。<br>当用户在屏幕上触发诸如 touch 等手势时，首先收到手势信息的是 Browser process， 不过 Browser process 只会感知到在哪里发生了手势，对 tab 内内容的处理是还是由渲染进程控制的。</p>
+<p>事件发生时，浏览器进程会发送事件类型及相应的坐标给渲染进程，渲染进程随后找到事件对象并执行所有绑定在其上的相关事件处理函数。<br>前文中，我们提到过合成器可以独立于主线程之外通过合成栅格化层平滑的处理滚动。如果页面中没有绑定相关事件，组合器线程可以独立于主线程创建组合帧。如果页面绑定了相关事件处理器，主线程就不得不出来工作了。这时候合成器线程会怎么处理呢？</p>
+<p>这里涉及到一个专业名词「理解非快速滚动区域（non-fast scrollable region）」由于执行 JS 是主线程的工作，当页面合成时，合成器线程会标记页面中绑定有事件处理器的区域为 non-fast scrollable region ，如果存在这个标注，合成器线程会把发生在此处的事件发送给主线程，如果事件不是发生在这些区域，合成器线程则会直接合成新的帧而不用等到主线程的响应。</p>
+<p>** 事件的优化 **</p>
+<p>一般我们屏幕的刷新速率为 60fps，但是某些事件的触发量会不止这个值，出于优化的目的，Chrome 会合并连续的事件(如 wheel, mousewheel, mousemove, pointermove, touchmove )，并延迟到下一帧渲染时候执行 。</p>
+<p>而如 keydown, keyup, mouseup, mousedown, touchstart, 和 touchend 等非连续性事件则会立即被触发。<br><img src="/images/web-brower-8.png"></p>
+
     </div>
 
     
