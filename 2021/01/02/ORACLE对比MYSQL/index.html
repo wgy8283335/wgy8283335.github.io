@@ -23,23 +23,20 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="模块结构sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：   org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生">
+<meta name="description" content="ORACLE 对比 MYSQL行业比对 Oracle 能背锅，MySQL 不能背锅。 Oracle 发展于传统行业，行业特点是数据量少，但是每条数据价值很高（银行账户的一笔交易记录）。Mysql 发展于互联网行业，业务特点是数量巨大，但是数据价值小（一次点击操作）。因为单条价值高，随意使用付费 ORACLE 软件也合理。 企业应用中使用 Oracle 时大多数业务都在数据库的存储过程中实现，而 W">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sharding-core-rewrite">
-<meta property="og:url" content="http://yoursite.com/2019/10/22/sharding-core-rewrite/index.html">
+<meta property="og:title" content="ORACLE对比MYSQL">
+<meta property="og:url" content="http://yoursite.com/2021/01/02/ORACLE%E5%AF%B9%E6%AF%94MYSQL/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="模块结构sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：   org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生">
+<meta property="og:description" content="ORACLE 对比 MYSQL行业比对 Oracle 能背锅，MySQL 不能背锅。 Oracle 发展于传统行业，行业特点是数据量少，但是每条数据价值很高（银行账户的一笔交易记录）。Mysql 发展于互联网行业，业务特点是数量巨大，但是数据价值小（一次点击操作）。因为单条价值高，随意使用付费 ORACLE 软件也合理。 企业应用中使用 Oracle 时大多数业务都在数据库的存储过程中实现，而 W">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/images/sharding-core-rewrite.jpg">
-<meta property="og:image" content="http://yoursite.com/images/sharding-core-rewrite-flow-graph.jpg">
-<meta property="article:published_time" content="2019-10-22T11:11:30.000Z">
-<meta property="article:modified_time" content="2020-11-22T06:14:24.207Z">
+<meta property="article:published_time" content="2021-01-02T13:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-02T06:57:06.036Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-rewrite.jpg">
 
 
-<link rel="canonical" href="http://yoursite.com/2019/10/22/sharding-core-rewrite/">
+<link rel="canonical" href="http://yoursite.com/2021/01/02/ORACLE%E5%AF%B9%E6%AF%94MYSQL/">
 
 
 <script class="page-configurations">
@@ -51,7 +48,7 @@
     lang   : 'default'
   };
 </script>
-<title>sharding-core-rewrite | Hexo</title>
+<title>ORACLE对比MYSQL | Hexo</title>
   
 
 
@@ -136,7 +133,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -149,6 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#ORACLE-%E5%AF%B9%E6%AF%94-MYSQL"><span class="nav-number">1.</span> <span class="nav-text">ORACLE 对比 MYSQL</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%A1%8C%E4%B8%9A%E6%AF%94%E5%AF%B9"><span class="nav-number">1.1.</span> <span class="nav-text">行业比对</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%8A%80%E6%9C%AF%E6%AF%94%E5%AF%B9"><span class="nav-number">1.2.</span> <span class="nav-text">技术比对</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -205,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/22/sharding-core-rewrite/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/02/ORACLE%E5%AF%B9%E6%AF%94MYSQL/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -218,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          sharding-core-rewrite
+          ORACLE对比MYSQL
         </h1>
 
         <div class="post-meta-container">
@@ -228,16 +226,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2019-10-22 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-22T19:11:30+08:00">2019-10-22</time>
+      <time title="Created: 2021-01-02 21:00:00 / Modified: 14:57:06" itemprop="dateCreated datePublished" datetime="2021-01-02T21:00:00+08:00">2021-01-02</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:24" itemprop="dateModified" datetime="2020-11-22T14:14:24+08:00">2020-11-22</time>
-      </span>
 
   
 </div>
@@ -249,30 +241,35 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <ul>
-<li>模块结构<br>sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：</li>
-</ul>
-<ol>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生成SQLUnit。SQLUnit包含两个属性:sql和parameters，作为改写后的结果返回。这两个属性分别依赖org.apache.shardingsphere.core.rewrite.sql和org.apache.shardingsphere.core.rewrite.parameter包。</li>
-<li>org.apache.shardingsphere.core.rewrite.sql。主要类是SQLBuilder，它对外提供构建改写SQL的功能。这个模块内部的SQLToken是改写时重要的依赖。</li>
-<li>org.apache.shardingsphere.core.rewrite.parameter。包含ParameterBuilder和ParameterRewriter，分别抽象了参数列表构建和参数改写。其中org.apache.shardingsphere.core.rewrite.parameter.rewriter子包的功能较重要的类是：EncryptParameterBuilderFactory和ShardingParameterBuilderFactory。它俩通过build方法来完成对parameterBuilder的相关参数的设置，例如：在StandardParameterBuilder中设置addedIndexAndParameters和replacedIndexAndParameters。</li>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteDecorator。接口类。定义了decorate()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。它的实现类为ShardingRewriterDecorator和EncryptRewriterDecorator。</li>
-<li>org.apache.shardingsphere.core.rewrite.sharding。ShardingRewriterDecorator为主要功能类。ShardingParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数</li>
-<li>org.apache.shardingsphere.core.rewrite.encrypt。EncryptRewriterDecorator为主要功能类。EncryptParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。</li>
+        <h1 id="ORACLE-对比-MYSQL"><a href="#ORACLE-对比-MYSQL" class="headerlink" title="ORACLE 对比 MYSQL"></a>ORACLE 对比 MYSQL</h1><h2 id="行业比对"><a href="#行业比对" class="headerlink" title="行业比对"></a>行业比对</h2><ol>
+<li>Oracle 能背锅，MySQL 不能背锅。</li>
+<li>Oracle 发展于传统行业，行业特点是数据量少，但是每条数据价值很高（银行账户的一笔交易记录）。Mysql 发展于互联网行业，业务特点是数量巨大，但是数据价值小（一次点击操作）。因为单条价值高，随意使用付费 ORACLE 软件也合理。</li>
+<li>企业应用中使用 Oracle 时大多数业务都在数据库的存储过程中实现，而 Web 应用使用 Mysql 时很多业务逻辑是在 web 服务端上实现。</li>
+<li>oracle 目前来说还是占据着主流。除了互联网之外的传统行业基本上还是用的 oracle，无论从规模还是数量上，比 sql 有着大不知道多少倍的基数，想要改弦易辙，何其难也？</li>
+<li>传统行业讲究“稳”字。传统行业的数据生态是基于数据库架构搭建起来的，很多核心业务都已经牢牢绑定了 oracle 这样的重型系统，一旦改用 sql 触动了核心业务，就势必会带来安全问题，传统行业没有必要冒这个风险。（另外，这么牛叉的开源技术也不是几句话就能有的）</li>
+<li>互联网行业讲究“快”字。互联网就是一场赛跑游戏，谁跑的慢谁就要挨打，所以互联网企业可以在更加纯粹的开源环境里不断试错，sql 明显更适合互联网企业的开发和创新。</li>
+<li>数据完整性要求不一致。传统行业不会允许数据出现完整性、一致性的错误，比如对于互联网企业来说，微博上的评论丢了几条没有关系，但是对于传统行业来说哪怕账户上少了一分钱，就足以引起传统行业的重视。</li>
+<li>数据重心不一样。Oracle 的业务数据库规模都不是很大，如果有上百台就是很大的规模了，而互联网行业里面的 MySQL 使用广泛，几百台都是很平常的事情。</li>
+<li>Oracle 的产品已经做得足够好了，满足了传统行业的要求。Oracle DBA 的管理模式主要是集中式，因为业务面大，出问题的概率会更高，高级人才在性能优化这方面投入的精力更多，但对于传统行业来说并不是什么问题。</li>
+<li>国内对于 MySQL 和 Oracle 使用的一个误区就是把 MySQL 当 Oracle 用，把 Oracle 当 MySQL 用。单纯比性能其实意义不大，Oracle 肯定完胜 MySQL，要比较水平扩展能力，那还是 MySQL 更加轻量。当然啦。</li>
 </ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-rewrite.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-rewrite的主要逻辑是从SQLRewriteEngine.generateSQLgenerateSQL(final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-rewrite-flow-graph.jpg"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li><p>接口分离原则和里式替换原则<br>org.apache.shardingsphere.core.rewrite.sql.token.pojo。这个包对面向对象编程有比较好的实践。首先，定义了SQLToken抽象类，所有实现类都继承它，它将实体类的公共的部分抽象封装了起来。其次，定义了三个接口<br>Alterable、Attachable、Substitutable三个接口，这三个接口从使用角度按照改写、附加、直接替换三个方面进行了划分，实现类根据自身特点来实现其中的接口。最后，调用者在调用时使用抽象类的引用，达到了统一处理的目的，同时可以根据实现类所属的接口进行差异化操作，这点在如下代码中有体现：<br>SQLBuilder的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private String getSQLTokenLiterals(final SQLToken sqlToken, final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables) &#123;</span><br><span class="line">    return sqlToken instanceof Alterable ? ((Alterable) sqlToken).toString(routingUnit, logicAndActualTables) : sqlToken.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对父类的继承，使得调用者代码可以使用统一的类来引用不同的子类对象。<br>接口的实现，使得调用者代码可以对不同接口的实现类对象，进行差异化处理。<br>org.apache.shardingsphere.core.rewrite.sql.token.generator包对接口合理的使用，也达到类似的效果。同样也是优秀的面向对象编程实践。</p>
+<h2 id="技术比对"><a href="#技术比对" class="headerlink" title="技术比对"></a>技术比对</h2><ol>
+<li><p>hash join 。Oracle 引进这的时候应该是 90 年代，而今天，Mysql 还没有。这样连接性能肯定不行。当然，这个用变通解决可以绕过去。</p>
 </li>
-<li><p>依赖倒转原则<br>org.apache.shardingsphere.core.rewrite.parameter.builder和org.apache.shardingsphere.core.rewrite.parameter.rewriter体现了依赖倒转原则，ParameterBuilder和ParameterRewriter都是接口类，是对内部多个实现类的良好抽象，调用者只需要声明接口引用，就可以使用多种实现类。</p>
+<li><p>with as 。Oracle 中可以 select 查询作为一个中间结果，然后多处引用。这个 mysql 好像最近的 8.X 才有。多土啊，这可是最有用的功能之一。</p>
+</li>
+<li><p>rownumber。到目前为止，mysql 还没有 row_number。这可是程序员最常用到的功能之一。当然，可以变通解决。</p>
+</li>
+<li><p>Ananlytic function 和 window function。 这个 Oracle 很强大（比如当前行引用前一行的值）。Mysql 基本可以说是没有（当然也可以变通解决）</p>
+</li>
+<li><p>Stored procedure 这个 mysql 差太远太远，基本上是步枪对机枪。Mysql 没有 role 吧？程序员得造轮子。（查了下，8.0 有了。）</p>
+</li>
+<li><p>ORACLE 数据库自带 oracle apex 开发。好像数据库里只有 oracle 愿意投钱搞这个。</p>
+</li>
+<li><p>vpd,materialized view ,workflow,geological…… 这些 mysql 或者没有或者菜，当然 oracle 也不是每个版本都有。不过这些功能并不是日常必然用到的，所以还好啦。</p>
 </li>
 </ol>
+<p>总之，mysql 短处不少，不过，用熟了之后，大多数是可以找到变通解决方法的。比如大家诟病很多的 Hashjoin 连接，用冗余字段解决，效果肯定比 hashjoin 好。</p>
 
     </div>
 
@@ -286,14 +283,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/10/18/sharding-core-preprocess/" rel="prev" title="sharding-core-preprocess">
-                  <i class="fa fa-chevron-left"></i> sharding-core-preprocess
+                <a href="/2021/01/01/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86/" rel="prev" title="浏览器原理">
+                  <i class="fa fa-chevron-left"></i> 浏览器原理
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2019/10/24/sharding-core-execute/" rel="next" title="sharding-core-execute">
-                  sharding-core-execute <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
