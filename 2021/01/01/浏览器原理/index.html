@@ -30,22 +30,27 @@
 <meta property="og:site_name" content="Hexo">
 <meta property="og:description" content="浏览器原理参考：https:&#x2F;&#x2F;zhuanlan.zhihu.com&#x2F;p&#x2F;47407398这里以 chrome 为例进行展示说明。 架构Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。具体说来，Chrome 的主要进程及其职责如下：  Browser Process：负责包括地址栏，书签栏，前进后退按钮等部分的工作；负责处理浏览器的一些不可见">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-1.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-2.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-3.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-4.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-9.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-10.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-11.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-5.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-6.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-7.png">
-<meta property="og:image" content="http://yoursite.com/images/web-brower-8.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-1.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-2.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-3.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-4.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-9.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-10.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-11.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-5.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-6.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-7.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-12.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-13.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-14.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-15.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-16.png">
+<meta property="og:image" content="http://yoursite.com/images/browser/web-brower-8.png">
 <meta property="article:published_time" content="2021-01-01T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-03T03:26:27.506Z">
+<meta property="article:modified_time" content="2021-01-03T03:59:48.742Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/web-brower-1.png">
+<meta name="twitter:image" content="http://yoursite.com/images/browser/web-brower-1.png">
 
 
 <link rel="canonical" href="http://yoursite.com/2021/01/01/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86/">
@@ -158,7 +163,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">浏览器原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chrome-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">Chrome 多进程架构的优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E8%BF%87%E7%A8%8B%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.3.</span> <span class="nav-text">导航过程发生了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">1.4.</span> <span class="nav-text">渲染进程是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.5.</span> <span class="nav-text">浏览器对事件的处理</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86"><span class="nav-number">1.</span> <span class="nav-text">浏览器原理</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%9E%B6%E6%9E%84"><span class="nav-number">1.1.</span> <span class="nav-text">架构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Chrome-%E5%A4%9A%E8%BF%9B%E7%A8%8B%E6%9E%B6%E6%9E%84%E7%9A%84%E4%BC%98%E7%BC%BA%E7%82%B9"><span class="nav-number">1.2.</span> <span class="nav-text">Chrome 多进程架构的优缺点</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%BC%E8%88%AA%E8%BF%87%E7%A8%8B%E5%8F%91%E7%94%9F%E4%BA%86%E4%BB%80%E4%B9%88"><span class="nav-number">1.3.</span> <span class="nav-text">导航过程发生了什么</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B8%B2%E6%9F%93%E8%BF%9B%E7%A8%8B%E6%98%AF%E5%A6%82%E4%BD%95%E5%B7%A5%E4%BD%9C%E7%9A%84"><span class="nav-number">1.4.</span> <span class="nav-text">渲染进程是如何工作的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%87%8D%E6%8E%92-%E9%87%8D%E7%BB%98-%E5%8A%A8%E7%94%BB"><span class="nav-number">1.5.</span> <span class="nav-text">重排 重绘 动画</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#%E5%8A%A8%E7%94%BB%E4%B8%8E-JS-%E7%9A%84%E7%9F%9B%E7%9B%BE"><span class="nav-number">1.5.1.</span> <span class="nav-text">动画与 JS 的矛盾</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%B5%8F%E8%A7%88%E5%99%A8%E5%AF%B9%E4%BA%8B%E4%BB%B6%E7%9A%84%E5%A4%84%E7%90%86"><span class="nav-number">1.6.</span> <span class="nav-text">浏览器对事件的处理</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -246,7 +251,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-01-03 11:26:27" itemprop="dateModified" datetime="2021-01-03T11:26:27+08:00">2021-01-03</time>
+        <time title="Modified: 2021-01-03 11:59:48" itemprop="dateModified" datetime="2021-01-03T11:59:48+08:00">2021-01-03</time>
       </span>
 
   
@@ -260,7 +265,7 @@
     
     <div class="post-body" itemprop="articleBody">
         <h1 id="浏览器原理"><a href="#浏览器原理" class="headerlink" title="浏览器原理"></a>浏览器原理</h1><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47407398">https://zhuanlan.zhihu.com/p/47407398</a><br>这里以 chrome 为例进行展示说明。</p>
-<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。<br><img src="/images/web-brower-1.png"><br>具体说来，Chrome 的主要进程及其职责如下：</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。<br><img src="/images/browser/web-brower-1.png"><br>具体说来，Chrome 的主要进程及其职责如下：</p>
 <ul>
 <li>Browser Process：<br>负责包括地址栏，书签栏，前进后退按钮等部分的工作；<br>负责处理浏览器的一些不可见的底层操作，比如网络请求和文件访问；</li>
 <li>Renderer Process：<br>负责一个 tab 内关于网页呈现的所有事情</li>
@@ -274,8 +279,8 @@
 <li>由于不同进程间的内存不共享，不同进程的内存常常需要包含相同的内容。</li>
 <li>为了节省内存，Chrome 限制了最多的进程数，最大进程数量由设备的内存和 CPU 能力决定，当达到这一限制时，新打开的 Tab 会共用之前同一个站点的渲染进程。</li>
 </ul>
-<p>Chrome 把浏览器不同程序的功能看做服务，这些服务可以方便的分割为不同的进程或者合并为一个进程。以 Broswer Process 为例，如果 Chrome 运行在强大的硬件上，它会分割不同的服务到不同的进程，这样 Chrome 整体的运行会更加稳定，但是如果 Chrome 运行在资源贫瘠的设备上，这些服务又会合并到同一个进程中运行，这样可以节省内存，示意图如下。<br><img src="/images/web-brower-2.png"><br><img src="/images/web-brower-3.png"></p>
-<p>Site Isolation 机制从 Chrome 67 开始默认启用。这种机制允许在同一个 Tab 下的跨站 iframe 使用单独的进程来渲染，这样会更为安全。<br>Site Isolation 被大家看做里程碑式的功能， 其成功实现是多年工程努力的结果。Site Isolation 不是简单的叠加多个进程。这种机制在底层改变了 iframe 之间通信的方法，Chrome 的其它功能都需要做对应的调整，比如说 devtools 需要相应的支持，甚至 Ctrl + F 也需要支持。<br><img src="/images/web-brower-4.png"></p>
+<p>Chrome 把浏览器不同程序的功能看做服务，这些服务可以方便的分割为不同的进程或者合并为一个进程。以 Broswer Process 为例，如果 Chrome 运行在强大的硬件上，它会分割不同的服务到不同的进程，这样 Chrome 整体的运行会更加稳定，但是如果 Chrome 运行在资源贫瘠的设备上，这些服务又会合并到同一个进程中运行，这样可以节省内存，示意图如下。<br><img src="/images/browser/web-brower-2.png"><br><img src="/images/browser/web-brower-3.png"></p>
+<p>Site Isolation 机制从 Chrome 67 开始默认启用。这种机制允许在同一个 Tab 下的跨站 iframe 使用单独的进程来渲染，这样会更为安全。<br>Site Isolation 被大家看做里程碑式的功能， 其成功实现是多年工程努力的结果。Site Isolation 不是简单的叠加多个进程。这种机制在底层改变了 iframe 之间通信的方法，Chrome 的其它功能都需要做对应的调整，比如说 devtools 需要相应的支持，甚至 Ctrl + F 也需要支持。<br><img src="/images/browser/web-brower-4.png"></p>
 <h2 id="导航过程发生了什么"><a href="#导航过程发生了什么" class="headerlink" title="导航过程发生了什么"></a>导航过程发生了什么</h2><p>也许大多数人使用 Chrome 最多的场景就是在地址栏输入关键字进行搜索或者输入地址导航到某个网站，我们来看看浏览器是怎么看待这个过程的。</p>
 <p>我们知道浏览器 Tab 外的工作主要由 Browser Process 掌控，Browser Process 又对这些工作进一步划分，使用不同线程进行处理：</p>
 <ul>
@@ -330,31 +335,43 @@
 <p>不过开发者其实也有多种方式来告知浏览器应对如何应对某个资源，比如说如果在<code>&lt;script&gt;</code> 标签上添加了 <code>async</code> 或 <code>defer</code> 等属性，浏览器会异步的加载和执行 JS 代码，而不会阻塞渲染。</p>
 </li>
 <li><p>样式计算</p>
-<p>仅仅渲染 DOM 还不足以获知页面的具体样式，主进程还会基于 CSS 选择器解析 CSS 获取每一个节点的最终的计算样式值。即使不提供任何 CSS，浏览器对每个元素也会有一个默认的样式。<br><img src="/images/web-brower-9.png"></p>
+<p>仅仅渲染 DOM 还不足以获知页面的具体样式，主进程还会基于 CSS 选择器解析 CSS 获取每一个节点的最终的计算样式值。即使不提供任何 CSS，浏览器对每个元素也会有一个默认的样式。<br><img src="/images/browser/web-brower-9.png"></p>
 </li>
 <li><p>获取布局</p>
 <p>想要渲染一个完整的页面，除了获知每个节点的具体样式，还需要获知每一个节点在页面上的位置，布局其实是找到所有元素的几何关系的过程。其具体过程如下：</p>
-<p>通过遍历 DOM 及相关元素的计算样式，主线程会构建出包含每个元素的坐标信息及盒子大小的布局树。布局树和 DOM 树类似，但是其中只包含页面可见的元素，如果一个元素设置了 <code>display:none</code> ，这个元素不会出现在布局树上，伪元素虽然在 DOM 树上不可见，但是在布局树上是可见的。<br><img src="/images/web-brower-10.png"></p>
+<p>通过遍历 DOM 及相关元素的计算样式，主线程会构建出包含每个元素的坐标信息及盒子大小的布局树。布局树和 DOM 树类似，但是其中只包含页面可见的元素，如果一个元素设置了 <code>display:none</code> ，这个元素不会出现在布局树上，伪元素虽然在 DOM 树上不可见，但是在布局树上是可见的。<br><img src="/images/browser/web-brower-10.png"></p>
 </li>
 <li><p>绘制各元素</p>
-<p>即使知道了不同元素的位置及样式信息，我们还需要知道不同元素的绘制先后顺序才能正确绘制出整个页面。在绘制阶段，主线程会遍历布局树以创建绘制记录。绘制记录可以看做是记录各元素绘制先后顺序的笔记。<br><img src="/images/web-brower-11.png"></p>
+<p>即使知道了不同元素的位置及样式信息，我们还需要知道不同元素的绘制先后顺序才能正确绘制出整个页面。在绘制阶段，主线程会遍历布局树以创建绘制记录。绘制记录可以看做是记录各元素绘制先后顺序的笔记。<br><img src="/images/browser/web-brower-11.png"></p>
 </li>
 <li><p>合成帧</p>
 <p>熟悉 PS 等绘图软件的童鞋肯定对图层这一概念不陌生，现代 Chrome 其实利用了这一概念来组合不同的层。</p>
 <p>复合是一种分割页面为不同的层，并单独栅格化，随后组合为帧的技术。不同层的组合由 compositor 线程（合成器线程）完成。</p>
-<p>主线程会遍历布局树来创建层树（layer tree），添加了 <code>will-change</code> CSS 属性的元素，会被看做单独的一层<br><img src="/images/web-brower-5.png"></p>
+<p>主线程会遍历布局树来创建层树（layer tree），添加了 <code>will-change</code> CSS 属性的元素，会被看做单独的一层<br><img src="/images/browser/web-brower-5.png"></p>
 <p>你可能会想给每一个元素都添加上 <code>will-change</code>，不过组合过多的层也许会比在每一帧都栅格化页面中的某些小部分更慢。为了更合理的使用层，可参考 坚持仅合成器的属性和管理层计数 。</p>
-<p>一旦层树被创建，渲染顺序被确定，主线程会把这些信息通知给合成器线程，合成器线程会栅格化每一层。有的层的可以达到整个页面的大小，因此，合成器线程将它们分成多个磁贴，并将每个磁贴发送到栅格线程，栅格线程会栅格化每一个磁贴并存储在 GPU 显存中。<br><img src="/images/web-brower-6.png"><br>一旦磁贴被光栅化，合成器线程会收集称为绘制四边形的磁贴信息以创建合成帧。</p>
-<p>合成帧随后会通过 IPC 消息传递给浏览器进程，由于浏览器的 UI 改变或者其它拓展的渲染进程也可以添加合成帧，这些合成帧会被传递给 GPU 用以展示在屏幕上，如果滚动发生，合成器线程会创建另一个合成帧发送给 GPU。<br><img src="/images/web-brower-7.png"></p>
+<p>一旦层树被创建，渲染顺序被确定，主线程会把这些信息通知给合成器线程，合成器线程会栅格化每一层。有的层的可以达到整个页面的大小，因此，合成器线程将它们分成多个磁贴，并将每个磁贴发送到栅格线程，栅格线程会栅格化每一个磁贴并存储在 GPU 显存中。<br><img src="/images/browser/web-brower-6.png"><br>一旦磁贴被光栅化，合成器线程会收集称为绘制四边形的磁贴信息以创建合成帧。</p>
+<p>合成帧随后会通过 IPC 消息传递给浏览器进程，由于浏览器的 UI 改变或者其它拓展的渲染进程也可以添加合成帧，这些合成帧会被传递给 GPU 用以展示在屏幕上，如果滚动发生，合成器线程会创建另一个合成帧发送给 GPU。<br><img src="/images/browser/web-brower-7.png"></p>
 </li>
 </ol>
+<h2 id="重排-重绘-动画"><a href="#重排-重绘-动画" class="headerlink" title="重排 重绘 动画"></a>重排 重绘 动画</h2><p><img src="/images/browser/web-brower-12.png"></p>
+<ul>
+<li><p>当改变一个元素的尺寸，位置，属性时发生重排。触发样式计算，布局，绘制记录，图层的步骤都要进行。</p>
+</li>
+<li><p>当改变一个元素的颜色时发生重绘。触发样式计算和绘制记录。</p>
+</li>
+</ul>
+<h3 id="动画与-JS-的矛盾"><a href="#动画与-JS-的矛盾" class="headerlink" title="动画与 JS 的矛盾"></a>动画与 JS 的矛盾</h3><p>渲染进程中的主线程，除了执行上图的那五个操作之后，还会有 JavaScript 占用主线程。 如果主线程中有每帧都需要重排重绘的动画，那么主线程在每帧都要分一部分时间执行重排重绘。如果此时还有一个 JavaSript 来抢占主线程，那么有可能发生动画卡顿。<br><img src="/images/browser/web-brower-13.png"><br><img src="/images/browser/web-brower-14.png"></p>
+<ul>
+<li>方法一<br>通过使用 requestAnimationFrame()方法，可以把 js 分隔成若干片段，在每帧运行。避免了与重排重绘占用时间。React Fiber 使用了这个 API 做了很多优化。<br><img src="/images/browser/web-brower-15.png"></li>
+<li>方法二<br>通过 Transform 属性，这样动画只占用合成器线程和栅格线程，不会与主线程上的 JS 冲突。<br><img src="/images/browser/web-brower-16.png"></li>
+</ul>
 <h2 id="浏览器对事件的处理"><a href="#浏览器对事件的处理" class="headerlink" title="浏览器对事件的处理"></a>浏览器对事件的处理</h2><p>浏览器通过对不同事件的处理来满足各种交互需求，这一部分我们一起看看从浏览器的视角，事件是什么，在此我们先主要考虑鼠标事件。</p>
 <p>在浏览器的看来，用户的所有手势都是输入，鼠标滚动，悬置，点击等等都是。<br>当用户在屏幕上触发诸如 touch 等手势时，首先收到手势信息的是 Browser process， 不过 Browser process 只会感知到在哪里发生了手势，对 tab 内内容的处理是还是由渲染进程控制的。</p>
 <p>事件发生时，浏览器进程会发送事件类型及相应的坐标给渲染进程，渲染进程随后找到事件对象并执行所有绑定在其上的相关事件处理函数。<br>前文中，我们提到过合成器可以独立于主线程之外通过合成栅格化层平滑的处理滚动。如果页面中没有绑定相关事件，组合器线程可以独立于主线程创建组合帧。如果页面绑定了相关事件处理器，主线程就不得不出来工作了。这时候合成器线程会怎么处理呢？</p>
 <p>这里涉及到一个专业名词「理解非快速滚动区域（non-fast scrollable region）」由于执行 JS 是主线程的工作，当页面合成时，合成器线程会标记页面中绑定有事件处理器的区域为 non-fast scrollable region ，如果存在这个标注，合成器线程会把发生在此处的事件发送给主线程，如果事件不是发生在这些区域，合成器线程则会直接合成新的帧而不用等到主线程的响应。</p>
 <p>** 事件的优化 **</p>
 <p>一般我们屏幕的刷新速率为 60fps，但是某些事件的触发量会不止这个值，出于优化的目的，Chrome 会合并连续的事件(如 wheel, mousewheel, mousemove, pointermove, touchmove )，并延迟到下一帧渲染时候执行 。</p>
-<p>而如 keydown, keyup, mouseup, mousedown, touchstart, 和 touchend 等非连续性事件则会立即被触发。<br><img src="/images/web-brower-8.png"></p>
+<p>而如 keydown, keyup, mouseup, mousedown, touchstart, 和 touchend 等非连续性事件则会立即被触发。<br><img src="/images/browser/web-brower-8.png"></p>
 
     </div>
 
