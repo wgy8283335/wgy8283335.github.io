@@ -23,23 +23,20 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="模块结构sharding-core-merge的主要功能是利用属性DatabaseType databaseType;，SQLRouteResult routeResult;(route产生)，SelectSQLStatementContext selectSQLStatementContext;(preprocess产生)，List&lt;QueryResult&gt; queryResult">
+<meta name="description" content="Gradle简介Gradle是一门基于groovy的DSL(特定领域语言)语言，也就是说它只能在某一特定领域使用，而不通用。 项目中gradle相关文件 .gradle gradle项目产生文件（自动编译工具产生的文件） build 自动构建时生成文件的地方 gradle 自动完成gradle环境支持文件夹 build.gradle gradle 项目自动编译的配置文件 gradle.proper">
 <meta property="og:type" content="article">
-<meta property="og:title" content="sharding-core-merge">
-<meta property="og:url" content="http://yoursite.com/2019/10/28/sharding-core-merge/index.html">
+<meta property="og:title" content="Gradle">
+<meta property="og:url" content="http://yoursite.com/2021/01/07/gradle/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="模块结构sharding-core-merge的主要功能是利用属性DatabaseType databaseType;，SQLRouteResult routeResult;(route产生)，SelectSQLStatementContext selectSQLStatementContext;(preprocess产生)，List&lt;QueryResult&gt; queryResult">
+<meta property="og:description" content="Gradle简介Gradle是一门基于groovy的DSL(特定领域语言)语言，也就是说它只能在某一特定领域使用，而不通用。 项目中gradle相关文件 .gradle gradle项目产生文件（自动编译工具产生的文件） build 自动构建时生成文件的地方 gradle 自动完成gradle环境支持文件夹 build.gradle gradle 项目自动编译的配置文件 gradle.proper">
 <meta property="og:locale">
-<meta property="og:image" content="http://yoursite.com/images/sharding-core-merge.png">
-<meta property="og:image" content="http://yoursite.com/images/sharding-core-merge-flow-graph.png">
-<meta property="article:published_time" content="2019-10-28T04:17:30.000Z">
-<meta property="article:modified_time" content="2020-11-22T06:14:28.823Z">
+<meta property="article:published_time" content="2021-01-07T04:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-07T06:12:14.313Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:image" content="http://yoursite.com/images/sharding-core-merge.png">
 
 
-<link rel="canonical" href="http://yoursite.com/2019/10/28/sharding-core-merge/">
+<link rel="canonical" href="http://yoursite.com/2021/01/07/gradle/">
 
 
 <script class="page-configurations">
@@ -51,7 +48,7 @@
     lang   : 'default'
   };
 </script>
-<title>sharding-core-merge | Hexo</title>
+<title>Gradle | Hexo</title>
   
 
 
@@ -136,7 +133,7 @@
 
   <aside class="sidebar">
 
-    <div class="sidebar-inner sidebar-overview-active">
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
       <ul class="sidebar-nav">
         <li class="sidebar-nav-toc">
           Table of Contents
@@ -149,6 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#Gradle"><span class="nav-number">1.</span> <span class="nav-text">Gradle</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%80%E4%BB%8B"><span class="nav-number">1.1.</span> <span class="nav-text">简介</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%A1%B9%E7%9B%AE%E4%B8%ADgradle%E7%9B%B8%E5%85%B3%E6%96%87%E4%BB%B6"><span class="nav-number">1.2.</span> <span class="nav-text">项目中gradle相关文件</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#gradle%E7%89%88%E6%9C%AC%E9%97%AE%E9%A2%98"><span class="nav-number">1.3.</span> <span class="nav-text">gradle版本问题</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94maven"><span class="nav-number">1.4.</span> <span class="nav-text">对比maven</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -205,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/sharding-core-merge/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/07/gradle/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -218,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          sharding-core-merge
+          Gradle
         </h1>
 
         <div class="post-meta-container">
@@ -228,16 +226,10 @@
         <i class="far fa-calendar"></i>
       </span>
       <span class="post-meta-item-text">Posted on</span>
+      
 
-      <time title="Created: 2019-10-28 12:17:30" itemprop="dateCreated datePublished" datetime="2019-10-28T12:17:30+08:00">2019-10-28</time>
+      <time title="Created: 2021-01-07 12:00:00 / Modified: 14:12:14" itemprop="dateCreated datePublished" datetime="2021-01-07T12:00:00+08:00">2021-01-07</time>
     </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:28" itemprop="dateModified" datetime="2020-11-22T14:14:28+08:00">2020-11-22</time>
-      </span>
 
   
 </div>
@@ -249,23 +241,25 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <ul>
-<li>模块结构<br>sharding-core-merge的主要功能是利用属性<code>DatabaseType databaseType;</code>，<code>SQLRouteResult routeResult;</code>(route产生)，<code>SelectSQLStatementContext selectSQLStatementContext;</code>(preprocess产生)，<code>List&lt;QueryResult&gt; queryResults;</code>(execute模块产生)，产生MergedResult。按功能分类可以分成三个部分：</li>
+        <h1 id="Gradle"><a href="#Gradle" class="headerlink" title="Gradle"></a>Gradle</h1><h2 id="简介"><a href="#简介" class="headerlink" title="简介"></a>简介</h2><p>Gradle是一门基于groovy的DSL(特定领域语言)语言，也就是说它只能在某一特定领域使用，而不通用。</p>
+<h2 id="项目中gradle相关文件"><a href="#项目中gradle相关文件" class="headerlink" title="项目中gradle相关文件"></a>项目中gradle相关文件</h2><ul>
+<li>.gradle gradle项目产生文件（自动编译工具产生的文件）</li>
+<li>build 自动构建时生成文件的地方</li>
+<li>gradle 自动完成gradle环境支持文件夹</li>
+<li>build.gradle gradle 项目自动编译的配置文件</li>
+<li>gradle.properties gradle 运行环境配置文件</li>
+<li>setting.gradle gradle 项目的子项目包含文件</li>
+<li>gradlew 自动完成 gradle 环境的linux mac 脚本，配合gradle 文件夹使用 代替gradle 命令实现自动完成gradle环境搭建,配合gradle文件夹的内容</li>
+<li>gradlew.bat 自动完成 gradle 环境的windows 脚本，配合gradle 文件夹使用<br>上面两个文件会做如下几件事情  </li>
 </ul>
 <ol>
-<li>org.apache.shardingsphere.core.merge.dal。包含若干DAL操作相关的MergedResult实现类和DALMergeEngine是一个合并引擎。此引擎对外提供merge()功能,负责将DAL操作的相关结果合并，返回包内定义的MergedResult实体类。</li>
-<li>org.apache.shardingsphere.core.merge.dql。包含若干DQL操作相关的MergedResult实现类和DQLMergeEngine是一个合并引擎。此引擎对外提供merge()功能,负责将DQL操作的相关结果合并，返回包内定义的MergedResult实体类。</li>
-<li>org.apache.shardingsphere.core.merge。包含MergedResult和MergeEngine接口的定义。MergeEngineFactory，负责创建MergeEngine实例。TransparentMergeEngine是一个合并引擎，实现了MergeEngine接口，此方法不对queryResults进行处理，直接返回迭代流式MergeResult。</li>
+<li>解析 gradle/wrapper/gradle-wrapper.properties 文件，获取项目需要的 gradle 版本下载地址</li>
+<li>判断本地用户目录下的 ./gradle 目录下是否存在该版本，不存在该版本，走第3点，存在走第4点</li>
+<li>下载 gradle-wrapper.properties 指定版本，并解压到用户目录的下 ./gradle 文件下</li>
+<li>利用 ./gradle 目录下对应的版本的 gradle 进行相应自动编译操作</li>
 </ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-merge.png"></li>
-<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从***MergeEngine实现类开始的。这里以DQLMergeEngine为例子，进行分析。首先判断<code>List&lt;QueryResult&gt; queryResults;</code>是否为1，如果为1则不需要处理，直接创建迭代流式归并MergedResult。否则，判断是否为orderBy或groupby，并创建相关MergedResult。最后，对分页进行处理，也就是在decorate()方法中，根据数据库类型，创建不同MergeResult。<br><img src="/images/sharding-core-merge-flow-graph.png"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li>简单工厂方法<br>MergeEngineFactory.newInstance（）方法，根据SQLStatement类型来创建不同的MergeEngine。具体的MergeEngine类型为：DQLMergeEngine，DALMergeEngine，TransparentMergeEngine。MergeEngineFactory的存在方便了不同类型的MergeEngine创建，调用者不再需要关心如何创建MergeEngine，而只需要把这件事交给MergeEngineFactory就行。</li>
-<li>适配器模式<br>LocalMergedResultAdapter类是一个抽象类，它实现了MergedResult接口的部分方法，使得它的子类<code>ShowDatabasesMergedResult</code>和<code>ShowShardingCTLMergedResult</code>无需MergedResult接口的所有方法。当实现类和接口的方法无法完全匹配时，可以考虑使用适配器模式。</li>
-</ol>
+<h2 id="gradle版本问题"><a href="#gradle版本问题" class="headerlink" title="gradle版本问题"></a>gradle版本问题</h2><p>gradle版本对于项目是否能够成功构建影响很大，所以一般都是在gradle文件夹中指定版本，然后gradlew脚本配合完成环境的搭建，以保证项目在任何地点构建时使用的gradle版本保持一致。</p>
+<h2 id="对比maven"><a href="#对比maven" class="headerlink" title="对比maven"></a>对比maven</h2><p>Java世界中主要有三大构建工具：Ant、Maven和Gradle。经过几年的发展，Ant几乎销声匿迹、Maven也日薄西山，而Gradle的发展则如日中天。总的说来Gradle在延续了Maven的优点上，增添了更多的灵活性，如多模块构建，依赖管理等。<br>参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/huang0925/p/5209563.html">https://www.cnblogs.com/huang0925/p/5209563.html</a></p>
 
     </div>
 
@@ -279,14 +273,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2019/10/27/sharding-sql-test/" rel="prev" title="sharding-sql-test">
-                  <i class="fa fa-chevron-left"></i> sharding-sql-test
+                <a href="/2021/01/04/shardingsphere-sql-parser/" rel="prev" title="shardingsphere-sql-parser">
+                  <i class="fa fa-chevron-left"></i> shardingsphere-sql-parser
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/11/22/Java%E7%9A%84SPI/" rel="next" title="JAVA SPI">
-                  JAVA SPI <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
