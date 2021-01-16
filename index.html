@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">35</span>
+          <span class="site-state-item-count">36</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,82 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/16/CNAME%E4%B8%8EA%E8%AE%B0%E5%BD%95/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/16/CNAME%E4%B8%8EA%E8%AE%B0%E5%BD%95/" class="post-title-link" itemprop="url">CNAME与A记录</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-01-16 13:00:00 / Modified: 14:29:04" itemprop="dateCreated datePublished" datetime="2021-01-16T13:00:00+08:00">2021-01-16</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>链接：<a target="_blank" rel="noopener" href="https://www.zhihu.com/question/22916306/answer/1661734440">https://www.zhihu.com/question/22916306/answer/1661734440</a></p>
+<h2 id="什么是-CNAME-记录？CNAME-记录如何使用"><a href="#什么是-CNAME-记录？CNAME-记录如何使用" class="headerlink" title="什么是 CNAME 记录？CNAME 记录如何使用　　"></a>什么是 CNAME 记录？CNAME 记录如何使用　　</h2><p>CName 记录是 Canonical Name 的简称，通常称别名指向，CNAME 记录可用于将一个域名别名为另一个规范名称的域名系统（DNS）资源记录。</p>
+<p>网站是由一组由一组唯一标识的位置（称为 IP 地址）提供服务的；但是要访问这些站点（例如：晓得博客），我们通常会键入它们对应的域名，这些域名更容易记住。要找到正确的 IP 地址，您的浏览器将联系域名服务器（DNS），并在其数据库中查询 IP 地址。</p>
+<h2 id="CNAME-记录如何使用"><a href="#CNAME-记录如何使用" class="headerlink" title="CNAME 记录如何使用　　"></a>CNAME 记录如何使用　　</h2><p>例如，假设您有几个子域，例如<a target="_blank" rel="noopener" href="http://www.mydomain.com,http//ftp.mydomain.com%EF%BC%8Chttp://mail.mydomain.com%E7%AD%89%EF%BC%8C%E5%B9%B6%E4%B8%94%E6%82%A8%E5%B8%8C%E6%9C%9B%E8%BF%99%E4%BA%9B%E5%AD%90%E5%9F%9F%E6%8C%87%E5%90%91%E6%82%A8%E7%9A%84%E4%B8%BB%E5%9F%9F%E5%90%8Dhttp://mydomain.com%E3%80%82%E6%82%A8%E5%8F%AF%E4%BB%A5%E5%88%9B%E5%BB%BACNAME%E8%AE%B0%E5%BD%95%EF%BC%8C%E8%80%8C%E4%B8%8D%E6%98%AF%E4%B8%BA%E6%AF%8F%E4%B8%AA%E5%AD%90%E5%9F%9F%E5%88%9B%E5%BB%BAA%E8%AE%B0%E5%BD%95%E5%B9%B6%E5%B0%86%E5%85%B6%E7%BB%91%E5%AE%9A%E5%88%B0%E6%82%A8%E5%9F%9F%E7%9A%84IP%E5%9C%B0%E5%9D%80%E3%80%82">http://www.mydomain.com，http://ftp.mydomain.com，http://mail.mydomain.com等，并且您希望这些子域指向您的主域名http://mydomain.com。您可以创建CNAME记录，而不是为每个子域创建A记录并将其绑定到您域的IP地址。</a></p>
+<p>如下表所示，如果服务器的 IP 地址发生更改，则只需更新一个 A 记录，并且所有子域都会自动更新，因为所有 CNAMES 都指向带有 A 记录的主域：<br>|（子）域名/主机名 | 记录类型 | 目标/目的地 |<br>|——————-|—|—————–|<br>|<a target="_blank" rel="noopener" href="http://mydomain.com/">http://mydomain.com</a> |A |111.222.333.444|<br>|<a target="_blank" rel="noopener" href="http://www.mydomain.com|/">http://www.mydomain.com|</a> CNAME |<a target="_blank" rel="noopener" href="http://mydomain.com|/">http://mydomain.com|</a><br>|<a target="_blank" rel="noopener" href="http://ftp.mydomain.com|/">http://ftp.mydomain.com|</a> CNAME |<a target="_blank" rel="noopener" href="http://mydomain.com|/">http://mydomain.com|</a><br>|<a target="_blank" rel="noopener" href="http://mail.mydomain.com/">http://mail.mydomain.com</a> |CNAME |<a target="_blank" rel="noopener" href="http://mydomain.com|/">http://mydomain.com|</a><br><a target="_blank" rel="noopener" href="http://www.mydomain.com/">http://www.mydomain.com</a> | CNAME | <a target="_blank" rel="noopener" href="http://mydomain.com|/">http://mydomain.com|</a></p>
+<p><a target="_blank" rel="noopener" href="http://mydomain.com指向服务器ip地址,并通过http//www.mydomain.com%E6%8C%87%E5%90%91%E7%9B%B8%E5%90%8C%E7%9A%84%E5%9C%B0%E5%9D%80http://mydomain.com%E3%80%82%E5%A6%82%E6%9E%9CIP%E5%9C%B0%E5%9D%80%E5%8F%91%E7%94%9F%E6%9B%B4%E6%94%B9%EF%BC%8C%E5%88%99%E5%8F%AA%E9%9C%80%E8%A6%81%E5%9C%A8%E4%B8%80%E4%B8%AA%E5%9C%B0%E6%96%B9%E8%BF%9B%E8%A1%8C%E6%9B%B4%E6%96%B0%E5%8D%B3%E5%8F%AF%EF%BC%9A%E5%8F%AA%E9%9C%80%E4%B8%BA%E4%BF%AE%E6%94%B9A%E8%AE%B0%E5%BD%95http://mydomain.com%EF%BC%8C%E9%82%A3%E4%B9%88http://www.mydomain.com%E8%87%AA%E5%8A%A8%E7%BB%A7%E6%89%BF%E6%9B%B4%E6%94%B9%E3%80%82">http://mydomain.com指向服务器IP地址，并通过http://www.mydomain.com指向相同的地址http://mydomain.com。如果IP地址发生更改，则只需要在一个地方进行更新即可：只需为修改A记录http://mydomain.com，那么http://www.mydomain.com自动继承更改。</a>　　<br>CNAME 记录必须始终指向另一个域名，永远不要直接指向 IP 地址。如果您尝试将 CNAME 记录指向 IP 地址，DNSimple 的记录编辑器会警告您。CNAME 对其他记录必须是唯一的。</p>
+<h2 id="CNAME-记录局限性"><a href="#CNAME-记录局限性" class="headerlink" title="CNAME 记录局限性　　"></a>CNAME 记录局限性　　</h2><p>CNAME 记录必须始终指向另一个域名，并且永远不要直接指向 IP 地址。</p>
+<p>您不能为主域名（<a target="_blank" rel="noopener" href="http://mydomain.com)本身创建cname记录,该记录必须是a记录./">http://mydomain.com）本身创建CNAME记录，该记录必须是A记录。</a></p>
+<p>例如，您不能将<a target="_blank" rel="noopener" href="http://mydomain.com映射到http//google.com%EF%BC%8C%E4%BD%86%E6%98%AF%E5%8F%AF%E4%BB%A5%E5%B0%86http://google.mydomain.com%E6%98%A0%E5%B0%84%E5%88%B0http://google.com%E3%80%82">http://mydomain.com映射到http://google.com，但是可以将http://google.mydomain.com映射到http://google.com。</a></p>
+<p>使用 CNAME 记录意味着有一个额外的请求发送到 DNS 服务器，这可能会导致几毫秒的延迟</p>
+<p>一个 CNAME 记录不能与另一个具有相同名称的记录共存。不能同时有 CNAME 和 TXT 记录<a target="_blank" rel="noopener" href="http://www.example.com./">http://www.example.com。</a></p>
+<p>一个 CNAME 可以指向另一个 CNAME，尽管出于性能原因通常不建议使用此配置。如果适用，CNAME 应该尽可能地指向目标名称，以避免不必要的性能开销。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1175,94 +1251,6 @@
 <p>而用 Java 写代码，要想不小心终止进程很难。异常机制可以保证几乎没有任何 Java 代码能够直接干掉一个线程或进程，Java 程序的线程几乎跟普通 C/C++的进程一样脆弱／坚固。</p>
 <p>2、Tomcat 静态文件性能并不差<br>别的 Servlet 容器不清楚，但是得益于独立的 connector 设计，较新版本的 Tomcat 有了 NIO、APR 等技术的加持，静态文件性能不会比 apache httpd 差到哪儿去。</p>
 <p>“很多网站直接用 servlet 容器当 web 服务器”，因为这样很简单，而且暂时可能没遇到或不关心性能瓶颈。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/26/Tomcat%E8%BF%B7%E4%BD%A0%E7%89%88%E5%AE%9E%E7%8E%B0/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/26/Tomcat%E8%BF%B7%E4%BD%A0%E7%89%88%E5%AE%9E%E7%8E%B0/" class="post-title-link" itemprop="url">Tomcat迷你版实现</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-26 23:00:00" itemprop="dateCreated datePublished" datetime="2020-12-26T23:00:00+08:00">2020-12-26</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-12-27 14:50:35" itemprop="dateModified" datetime="2020-12-27T14:50:35+08:00">2020-12-27</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>Tomcat 是非常流行的 Web Server，它还是一个满足 Servlet 规范的容器。那么想一想，Tomcat 和我们的 Web 应用是什么关系？</p>
-<p>从感性上来说，我们一般需要把 Web 应用打成 WAR 包部署到 Tomcat 中，在我们的 Web 应用中，我们要指明 URL 被哪个类的哪个方法所处理「不论是原始的 Servlet 开发，还是现在流行的 Spring MVC 都必须指明」。</p>
-<p>由于我们的 Web 应用是运行在 Tomcat 中，请求必定是先到达 Tomcat 的。Tomcat 对于请求实际上会进行如下的处理。</p>
-<p>第一，提供 Socket 服务</p>
-<p>Tomcat 的启动，必然是 Socket 服务，只不过它支持 HTTP 协议而已！</p>
-<p>这里其实可以扩展思考下，Tomcat 既然是基于 Socket，那么是基于 BIO or NIO or AIO 呢？</p>
-<p>第二，进行请求的分发</p>
-<p>要知道一个 Tomcat 可以为多个 Web 应用提供服务，很显然，Tomcat 可以把 URL 下发到不同的 Web 应用。</p>
-<p>第三，需要把请求和响应封装成 request/response</p>
-<p>我们在 Web 应用这一层，可从来没有封装过 request/response 的，我们都是直接使用的，这就是因为 Tomcat 已经为你做好了！</p>
-<p>话不多说，先来看一眼工程截图。<br><img src="/images/tomcat/tomcat1.png"></p>
-<h1 id="一、封装请求对象"><a href="#一、封装请求对象" class="headerlink" title="一、封装请求对象"></a>一、封装请求对象</h1><p><img src="/images/tomcat/tomcat2.png"><br>这里可以清楚的看到，通过输入流，对 HTTP 协议进行解析，拿到了 HTTP 请求头的方法以及 URL。</p>
-<h1 id="二、封装响应对象"><a href="#二、封装响应对象" class="headerlink" title="二、封装响应对象"></a>二、封装响应对象</h1><p><img src="/images/tomcat/tomcat3.png"><br>基于 HTTP 协议的格式进行输出写入。</p>
-<h1 id="三、Servlet-请求处理基类"><a href="#三、Servlet-请求处理基类" class="headerlink" title="三、Servlet 请求处理基类"></a>三、Servlet 请求处理基类</h1><p><img src="/images/tomcat/tomcat4.png"><br>前文说 Tomcat 是满足 Servlet 规范的容器，那么自然 Tomcat 需要提供 API。这里看到了 Servlet 常见的 doGet/doPost/service 方法。</p>
-<p>#　四、Servlet 实现类<br><img src="/images/tomcat/tomcat5.png"><br><img src="/images/tomcat/tomcat6.png"><br>提供这 2 个具体的 Servlet 实现，只是为了后续的测试！</p>
-<h1 id="五、Servlet-配置"><a href="#五、Servlet-配置" class="headerlink" title="五、Servlet 配置"></a>五、Servlet 配置</h1><p><img src="/images/tomcat/tomcat7.png"><br><img src="/images/tomcat/tomcat8.png"><br>你应该有些感觉了吧？在 servlet 开发中，会在 web.xml 中通过<servlet>和<servlet-mapping>来进行指定哪个 URL 交给哪个 servlet 进行处理。</servlet-mapping></servlet></p>
-<h1 id="六、启动类"><a href="#六、启动类" class="headerlink" title="六、启动类"></a>六、启动类</h1><p><img src="/images/tomcat/tomcat9.png"><br><img src="/images/tomcat/tomcat10.png"><br><img src="/images/tomcat/tomcat11.png"><br>这里，你能够看到 Tomcat 的处理流程，即把 URL 对应处理的 Servlet 关系形成，解析 HTTP 协议，封装请求/响应对象，利用反射实例化具体的 Servlet 进行处理即可。</p>
-<h1 id="七、测试"><a href="#七、测试" class="headerlink" title="七、测试"></a>七、测试</h1><p><img src="/images/tomcat/tomcat12.png"><br>实现一个简易版的 Tomcat 就这么 7 大步搞定，大家都来动手实现一下吧，代码最好不要复制，自己动手一个个敲，这样实现之后，对 Tomcat 就没那么陌生了。</p>
 
       
     </div>
