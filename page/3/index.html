@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">38</span>
+          <span class="site-state-item-count">40</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,213 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/07/KAFKA/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/07/KAFKA/" class="post-title-link" itemprop="url">KAFKA</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2020-12-07 16:07:30" itemprop="dateCreated datePublished" datetime="2020-12-07T16:07:30+08:00">2020-12-07</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-01-05 16:53:18" itemprop="dateModified" datetime="2021-01-05T16:53:18+08:00">2021-01-05</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p><img src="/images/kafka-1.png"></p>
+<h2 id="1-根目录下的结构"><a href="#1-根目录下的结构" class="headerlink" title="1.根目录下的结构"></a>1.根目录下的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 72] ls &#x2F;</span><br><span class="line">[isr_change_notification, zookeeper, admin, consumers, cluster, config, latest_producer_id_block, controller, brokers, controller_epoch]</span><br></pre></td></tr></table></figure>
+
+<h2 id="2-admin-的结构"><a href="#2-admin-的结构" class="headerlink" title="2. admin 的结构"></a>2. admin 的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 73] ls &#x2F;admin</span><br><span class="line">[delete_topics]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 74] ls &#x2F;admin&#x2F;delete_topics</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 75] get &#x2F;admin&#x2F;delete_topics</span><br><span class="line">null</span><br><span class="line">cZxid &#x3D; 0xe</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xe</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xe</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 0</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 76]</span><br></pre></td></tr></table></figure>
+
+<h2 id="3-consumers-的结构"><a href="#3-consumers-的结构" class="headerlink" title="3.consumers 的结构"></a>3.consumers 的结构</h2><p>本环境上没有设置消费组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 78] ls &#x2F;consumers</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 79] get &#x2F;consumers</span><br><span class="line">null</span><br><span class="line">cZxid &#x3D; 0x2</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x2</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:12 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x2</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 0</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 80]</span><br><span class="line">## 4.config的结构</span><br><span class="line">[zk: localhost:2181(CONNECTED) 82] ls &#x2F;config</span><br><span class="line">[topics, clients, changes]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 83] ls &#x2F;config&#x2F;topics</span><br><span class="line">[__consumer_offsets, test, test2]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 84] ls &#x2F;config&#x2F;topics&#x2F;test2</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 85] get &#x2F;config&#x2F;topics&#x2F;test2</span><br><span class="line">&#123;&quot;version&quot;:1,&quot;config&quot;:&#123;&#125;&#125;</span><br><span class="line">cZxid &#x3D; 0xcc</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xcc</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xcc</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 25</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 86]</span><br></pre></td></tr></table></figure>
+
+<h2 id="5-controllers-的结构"><a href="#5-controllers-的结构" class="headerlink" title="5.controllers 的结构"></a>5.controllers 的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 92] ls &#x2F;controller</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 93] get &#x2F;controller</span><br><span class="line">&#123;&quot;version&quot;:1,&quot;brokerid&quot;:0,&quot;timestamp&quot;:&quot;1535943857541&quot;&#125; &#x2F;&#x2F;表示broker0为kafka的控制节点</span><br><span class="line">cZxid &#x3D; 0x15</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x15</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x15</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 54</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 94]</span><br><span class="line">## 6.brokers的结构</span><br><span class="line">[zk: localhost:2181(CONNECTED) 95] ls &#x2F;brokers</span><br><span class="line">[seqid, topics, ids]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 96] ls &#x2F;brokers&#x2F;ids</span><br><span class="line">[0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 97] get &#x2F;brokers&#x2F;ids&#x2F;0</span><br><span class="line">&#123;&quot;listener_security_protocol_map&quot;:&#123;&quot;PLAINTEXT&quot;:&quot;PLAINTEXT&quot;&#125;,&quot;endpoints&quot;:[&quot;PLAINTEXT:&#x2F;&#x2F;localhost:9092&quot;],&quot;jmx_port&quot;:-1,&quot;host&quot;:&quot;localhost&quot;,&quot;timestamp&quot;:&quot;1535943859255&quot;,&quot;port&quot;:9092,&quot;version&quot;:4&#125;</span><br><span class="line">cZxid &#x3D; 0x1c</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x1c</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x1c</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 188</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 98]</span><br><span class="line"></span><br><span class="line">------------------------------brokers&#x2F;topics----------------------</span><br><span class="line">[zk: localhost:2181(CONNECTED) 100] ls &#x2F;brokers&#x2F;topics</span><br><span class="line">[__consumer_offsets, test, test2]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test</span><br><span class="line"></span><br><span class="line">test    test2</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test2</span><br><span class="line">[partitions]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 102] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions</span><br><span class="line">[2, 1, 0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 103] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2</span><br><span class="line">[state]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 104] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 105] get &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">&#123;&quot;controller_epoch&quot;:1,&quot;leader&quot;:0,&quot;version&quot;:1,&quot;leader_epoch&quot;:0,&quot;isr&quot;:[0]&#125;</span><br><span class="line">&#x2F;&#x2F;表示partition 0 的leader是在0 broker上</span><br><span class="line">cZxid &#x3D; 0xd2</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xd2</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xd2</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 72</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 106]</span><br></pre></td></tr></table></figure>
+
+<h2 id="6-深入理解生产者和消费者"><a href="#6-深入理解生产者和消费者" class="headerlink" title="6.深入理解生产者和消费者"></a>6.深入理解生产者和消费者</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mcbye/p/kafka-producer-in-detail.html">https://www.cnblogs.com/mcbye/p/kafka-producer-in-detail.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mcbye/p/kafka-consumer-in-detail.html">https://www.cnblogs.com/mcbye/p/kafka-consumer-in-detail.html</a></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/06/tmux/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2020/12/06/tmux/" class="post-title-link" itemprop="url">tmux相关</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2020-12-06 16:07:30 / Modified: 11:54:02" itemprop="dateCreated datePublished" datetime="2020-12-06T16:07:30+08:00">2020-12-06</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>tmux 是 Linux 中窗口管理程序，适用于终端复用，尤其适合远程连接。最近，我正苦闷与 ssh 自动超时退出和 broken pipe，决定投入 tmux 怀抱。<br>使用 tmux 最直接的好处，便是可以在一个远程连接中开启多个控制台，而不用浪费额外的终端来连接远程主机。更不用说 tmux 方便的 attach/detach,随时保存工作状态，还有方便的复制粘贴功能。</p>
+<p>基本使用<br>tmux 的主要元素分为三层：</p>
+<p>Session: 一组窗口的集合，通常用来概括同一个任务。session 可以有自己的名字便于任务之间的切换。<br>Window: 单个可见窗口。Windows 有自己的编号，也可以认为和 ITerm2 中的 Tab 类似。<br>Pane: 窗格，被划分成小块的窗口，类似于 Vim 中 C-w +v 后的效果。</p>
+<p>在安装好 tmux 后，直接在终端中输入 tmux 并回车，就进入了一个全新的 tmux 会话，输入 exit 即可退出。<br>可以在一台计算机上创建多个会话，并且通过为每个会话指定一个唯一的名称来管理它们：<br>tmux new-session -s basic<br>此命令可简化为：tmux new -s basic。<br>由于我们的程序是在 tmux 环境里运行的，因此需要一种方式来告诉 tmux 当前所输入的命令是为了让 tmux 去执行而不是 tmux 里的应用程序去执行，这就是命令前缀的作用。tmux 中默认的命令前缀是 CTRL-b 组合键，但 CTRL-b 组合键使用不是很方便，可将其修改为 CTRL-a 组合键。按下命令前缀组合键，松开，再按相应键，即发送 tmux 命令。</p>
+<p>tmux 创建会话</p>
+<ul>
+<li>tmux new-session 创建一个未命名的会话。可以简写为 tmux new 或者就一个简单的 tmux</li>
+<li>tmux new -s development 创建一个名为 development 的会话</li>
+<li>tmux new -s development -n editor 创建一个名为 development 的会话并把该会话的第一个窗口命名为 editor</li>
+<li>tmux attach -t development 连接到一个名为 development 的会话</li>
+</ul>
+<p>tmux 会话、窗口和面板的默认快捷键</p>
+<ul>
+<li>PREFIX d 从一个会话中分离，让该会话在后台运行。</li>
+<li>PREFIX : 进入命令模式</li>
+<li>PREFIX c 在当前 tmux 会话创建一个新的窗口，是 new-window 命令的简写</li>
+<li>PREFIX 0…9 根据窗口的编号选择窗口</li>
+<li>PREFIX w 显示当前会话中所有窗口的可选择列表</li>
+<li>PREFIX , 显示一个提示符来重命名一个窗口</li>
+<li>PREFIX &amp; 杀死当前窗口，带有确认提示</li>
+<li>PREFIX % 把当前窗口垂直地一分为二，分割后的两个面板各占 50% 大小</li>
+<li>PREFIX “ 把当前窗口水平地一分为二，分割后的两个面板各占 50% 大小</li>
+<li>PREFIX o 在已打开的面板之间循环移动当前焦点</li>
+<li>PREFIX q 短暂地显示每个面板的编号</li>
+<li>PREFIX x 关闭当前面板，带有确认提示</li>
+<li>PREFIX SPACE 循环地使用 tmux 的几个默认面板布局</li>
+</ul>
+<p>tmux 复制粘贴</p>
+<ul>
+<li>PREFIX [ 进入复制模式</li>
+<li>PREFIX ] 粘贴<br>进入复制模式后，可以用 vi 风格的快捷键进行移动（按上文的设置）。按下 sapce 就可以选择文本。回车键进行复制。然后再通过]进行粘贴。<br>也可以将复制粘贴设置为类似 vi 的模式，使用 esc 进入复制模式，v 进入粘贴模式，选择后 y 进行复制。Prefix-p 进行粘贴。</li>
+</ul>
+<h1 id="Copy-and-paste-like-in-vim"><a href="#Copy-and-paste-like-in-vim" class="headerlink" title="Copy and paste like in vim"></a>Copy and paste like in vim</h1><p>unbind [<br>bind Escape copy-mode<br>unbind p<br>bind p paste-buffer<br>bind -t vi-copy ‘v’ begin-selection<br>bind -t vi-copy ‘y’ copy-selection</p>
+<p>所有的复制都会被记录到缓冲区，输入#或者 tmux list-buffers 查看缓冲区,同时也进入了复制模式。也可以使用”=”来选择并粘贴缓冲区内容。tmux 的缓冲区和系统剪贴板是完全独立的。</p>
+<p>自主配置</p>
+<h1 id="把前缀键从-C-b-更改为-C-a"><a href="#把前缀键从-C-b-更改为-C-a" class="headerlink" title="把前缀键从 C-b 更改为 C-a"></a>把前缀键从 C-b 更改为 C-a</h1><p>set -g prefix C-a</p>
+<h1 id="释放之前的-Ctrl-b-前缀快捷键"><a href="#释放之前的-Ctrl-b-前缀快捷键" class="headerlink" title="释放之前的 Ctrl-b 前缀快捷键"></a>释放之前的 Ctrl-b 前缀快捷键</h1><p>unbind C-b</p>
+<h1 id="设定前缀键和命令键之间的延时"><a href="#设定前缀键和命令键之间的延时" class="headerlink" title="设定前缀键和命令键之间的延时"></a>设定前缀键和命令键之间的延时</h1><p>set -sg escape-time 1</p>
+<h1 id="确保可以向其它程序发送-Ctrl-A"><a href="#确保可以向其它程序发送-Ctrl-A" class="headerlink" title="确保可以向其它程序发送 Ctrl-A"></a>确保可以向其它程序发送 Ctrl-A</h1><p>bind C-a send-prefix</p>
+<h1 id="把窗口的初始索引值从-0-改为-1"><a href="#把窗口的初始索引值从-0-改为-1" class="headerlink" title="把窗口的初始索引值从 0 改为 1"></a>把窗口的初始索引值从 0 改为 1</h1><p>set -g base-index 1</p>
+<h1 id="把面板的初始索引值从-0-改为-1"><a href="#把面板的初始索引值从-0-改为-1" class="headerlink" title="把面板的初始索引值从 0 改为 1"></a>把面板的初始索引值从 0 改为 1</h1><p>setw -g pane-base-index 1</p>
+<h1 id="使用-Prefix-r-重新加载配置文件"><a href="#使用-Prefix-r-重新加载配置文件" class="headerlink" title="使用 Prefix r 重新加载配置文件"></a>使用 Prefix r 重新加载配置文件</h1><p>bind r source-file ~/.tmux.conf ; display “Reloaded!”</p>
+<h1 id="分割面板"><a href="#分割面板" class="headerlink" title="分割面板"></a>分割面板</h1><p>bind | split-window -h<br>bind - split-window -v</p>
+<h1 id="在面板之间移动"><a href="#在面板之间移动" class="headerlink" title="在面板之间移动"></a>在面板之间移动</h1><p>bind h select-pane -L<br>bind j select-pane -D<br>bind k select-pane -U<br>bind l select-pane -R</p>
+<h1 id="快速选择面板"><a href="#快速选择面板" class="headerlink" title="快速选择面板"></a>快速选择面板</h1><p>bind -r C-h select-window -t :-<br>bind -r C-l select-window -t :+</p>
+<h1 id="调整面板大小"><a href="#调整面板大小" class="headerlink" title="调整面板大小"></a>调整面板大小</h1><p>bind -r H resize-pane -L 5<br>bind -r J resize-pane -D 5<br>bind -r K resize-pane -U 5<br>bind -r L resize-pane -R 5</p>
+<h1 id="鼠标支持-如果你想使用的话把-off-改为-on"><a href="#鼠标支持-如果你想使用的话把-off-改为-on" class="headerlink" title="鼠标支持 - 如果你想使用的话把 off 改为 on"></a>鼠标支持 - 如果你想使用的话把 off 改为 on</h1><p>setw -g mode-mouse off<br>set -g mouse-select-pane off<br>set -g mouse-resize-pane off<br>set -g mouse-select-window off</p>
+<h1 id="设置默认的终端模式为-256-色模式"><a href="#设置默认的终端模式为-256-色模式" class="headerlink" title="设置默认的终端模式为 256 色模式"></a>设置默认的终端模式为 256 色模式</h1><p>set -g default-terminal “screen-256color”</p>
+<h1 id="开启活动通知"><a href="#开启活动通知" class="headerlink" title="开启活动通知"></a>开启活动通知</h1><p>setw -g monitor-activity on<br>set -g visual-activity on</p>
+<h1 id="设置状态栏的颜色"><a href="#设置状态栏的颜色" class="headerlink" title="设置状态栏的颜色"></a>设置状态栏的颜色</h1><p>set -g status-fg white<br>set -g status-bg black</p>
+<h1 id="设置窗口列表的颜色"><a href="#设置窗口列表的颜色" class="headerlink" title="设置窗口列表的颜色"></a>设置窗口列表的颜色</h1><p>setw -g window-status-fg cyan<br>setw -g window-status-bg default<br>setw -g window-status-attr dim</p>
+<h1 id="设置活动窗口的颜色"><a href="#设置活动窗口的颜色" class="headerlink" title="设置活动窗口的颜色"></a>设置活动窗口的颜色</h1><p>setw -g window-status-current-fg white<br>setw -g window-status-current-bg red<br>setw -g window-status-current-attr bright</p>
+<h1 id="设置面板和活动面板的颜色"><a href="#设置面板和活动面板的颜色" class="headerlink" title="设置面板和活动面板的颜色"></a>设置面板和活动面板的颜色</h1><p>set -g pane-border-fg green<br>set -g pane-border-bg black<br>set -g pane-active-border-fg white<br>set -g pane-active-border-bg yellow</p>
+<h1 id="设置命令行或消息的颜色"><a href="#设置命令行或消息的颜色" class="headerlink" title="设置命令行或消息的颜色"></a>设置命令行或消息的颜色</h1><p>set -g message-fg white<br>set -g message-bg black<br>set -g message-attr bright</p>
+<h1 id="设置状态栏左侧的内容和颜色"><a href="#设置状态栏左侧的内容和颜色" class="headerlink" title="设置状态栏左侧的内容和颜色"></a>设置状态栏左侧的内容和颜色</h1><p>set -g status-left-length 40<br>set -g status-left “#[fg=green]Session: #S #[fg=yellow]#I #[fg=cyan]#P”<br>set -g status-utf8 on</p>
+<h1 id="设置状态栏右侧的内容和颜色"><a href="#设置状态栏右侧的内容和颜色" class="headerlink" title="设置状态栏右侧的内容和颜色"></a>设置状态栏右侧的内容和颜色</h1><h1 id="15-28-Nov-18-15"><a href="#15-28-Nov-18-15" class="headerlink" title="15% | 28 Nov 18:15"></a>15% | 28 Nov 18:15</h1><p>set -g status-right “#(~/battery Discharging) | #[fg=cyan]%d %b %R”</p>
+<h1 id="每-60-秒更新一次状态栏"><a href="#每-60-秒更新一次状态栏" class="headerlink" title="每 60 秒更新一次状态栏"></a>每 60 秒更新一次状态栏</h1><p>set -g status-interval 60</p>
+<h1 id="设置窗口列表居中显示"><a href="#设置窗口列表居中显示" class="headerlink" title="设置窗口列表居中显示"></a>设置窗口列表居中显示</h1><p>set -g status-justify centre</p>
+<h1 id="开启-vi-按键"><a href="#开启-vi-按键" class="headerlink" title="开启 vi 按键"></a>开启 vi 按键</h1><p>setw -g mode-keys vi</p>
+<h1 id="在相同目录下使用-tmux-panes-脚本开启面板"><a href="#在相同目录下使用-tmux-panes-脚本开启面板" class="headerlink" title="在相同目录下使用 tmux-panes 脚本开启面板"></a>在相同目录下使用 tmux-panes 脚本开启面板</h1><p>unbind v<br>unbind n<br>bind v send-keys “ ~/tmux-panes -h” C-m<br>bind n send-keys “ ~/tmux-panes -v” C-m</p>
+<h1 id="临时最大化面板或恢复面板大小"><a href="#临时最大化面板或恢复面板大小" class="headerlink" title="临时最大化面板或恢复面板大小"></a>临时最大化面板或恢复面板大小</h1><p>unbind Up<br>bind Up new-window -d -n tmp ; swap-pane -s tmp.1 ; select-window -t tmp<br>unbind Down<br>bind Down last-window ; swap-pane -s tmp.1 ; kill-window -t tmp</p>
+<h1 id="把日志输出到指定文件"><a href="#把日志输出到指定文件" class="headerlink" title="把日志输出到指定文件"></a>把日志输出到指定文件</h1><p>bind P pipe-pane -o “cat &gt;&gt;~/#W.log” ; display “Toggled logging to ~/#W.log”</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1056,186 +1263,6 @@ public void shorthand()&#123;
 
 
 </li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/22/sharding-core-rewrite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/10/22/sharding-core-rewrite/" class="post-title-link" itemprop="url">sharding-core-rewrite</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-10-22 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-22T19:11:30+08:00">2019-10-22</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:24" itemprop="dateModified" datetime="2020-11-22T14:14:24+08:00">2020-11-22</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>模块结构<br>sharding-core-rewrite的主要功能是将路由生成的RoutingUnit对象，进行改写生成SQLUnit。按功能分类可以分成六个部分：</li>
-</ul>
-<ol>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteEngine。SQLRewriteEngine类是整个改写功能的入口，通过构造方法和generateSQL()方法，对外提供改写功能，生成SQLUnit。SQLUnit包含两个属性:sql和parameters，作为改写后的结果返回。这两个属性分别依赖org.apache.shardingsphere.core.rewrite.sql和org.apache.shardingsphere.core.rewrite.parameter包。</li>
-<li>org.apache.shardingsphere.core.rewrite.sql。主要类是SQLBuilder，它对外提供构建改写SQL的功能。这个模块内部的SQLToken是改写时重要的依赖。</li>
-<li>org.apache.shardingsphere.core.rewrite.parameter。包含ParameterBuilder和ParameterRewriter，分别抽象了参数列表构建和参数改写。其中org.apache.shardingsphere.core.rewrite.parameter.rewriter子包的功能较重要的类是：EncryptParameterBuilderFactory和ShardingParameterBuilderFactory。它俩通过build方法来完成对parameterBuilder的相关参数的设置，例如：在StandardParameterBuilder中设置addedIndexAndParameters和replacedIndexAndParameters。</li>
-<li>org.apache.shardingsphere.core.rewrite.SQLRewriteDecorator。接口类。定义了decorate()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。它的实现类为ShardingRewriterDecorator和EncryptRewriterDecorator。</li>
-<li>org.apache.shardingsphere.core.rewrite.sharding。ShardingRewriterDecorator为主要功能类。ShardingParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数</li>
-<li>org.apache.shardingsphere.core.rewrite.encrypt。EncryptRewriterDecorator为主要功能类。EncryptParameterBuilderFactory.build()方法，为sqlRewriteEngine的parameterBuilder设置相关的parameter参数。</li>
-</ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-rewrite.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-rewrite的主要逻辑是从SQLRewriteEngine.generateSQLgenerateSQL(final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-rewrite-flow-graph.jpg"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li><p>接口分离原则和里式替换原则<br>org.apache.shardingsphere.core.rewrite.sql.token.pojo。这个包对面向对象编程有比较好的实践。首先，定义了SQLToken抽象类，所有实现类都继承它，它将实体类的公共的部分抽象封装了起来。其次，定义了三个接口<br>Alterable、Attachable、Substitutable三个接口，这三个接口从使用角度按照改写、附加、直接替换三个方面进行了划分，实现类根据自身特点来实现其中的接口。最后，调用者在调用时使用抽象类的引用，达到了统一处理的目的，同时可以根据实现类所属的接口进行差异化操作，这点在如下代码中有体现：<br>SQLBuilder的代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">private String getSQLTokenLiterals(final SQLToken sqlToken, final RoutingUnit routingUnit, final Map&lt;String, String&gt; logicAndActualTables) &#123;</span><br><span class="line">    return sqlToken instanceof Alterable ? ((Alterable) sqlToken).toString(routingUnit, logicAndActualTables) : sqlToken.toString();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-<p>对父类的继承，使得调用者代码可以使用统一的类来引用不同的子类对象。<br>接口的实现，使得调用者代码可以对不同接口的实现类对象，进行差异化处理。<br>org.apache.shardingsphere.core.rewrite.sql.token.generator包对接口合理的使用，也达到类似的效果。同样也是优秀的面向对象编程实践。</p>
-</li>
-<li><p>依赖倒转原则<br>org.apache.shardingsphere.core.rewrite.parameter.builder和org.apache.shardingsphere.core.rewrite.parameter.rewriter体现了依赖倒转原则，ParameterBuilder和ParameterRewriter都是接口类，是对内部多个实现类的良好抽象，调用者只需要声明接口引用，就可以使用多种实现类。</p>
-</li>
-</ol>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/sharding-core-preprocess/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/10/18/sharding-core-preprocess/" class="post-title-link" itemprop="url">sharding-core-preprocess</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-10-18 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-18T19:11:30+08:00">2019-10-18</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-11-22 14:14:25" itemprop="dateModified" datetime="2020-11-22T14:14:25+08:00">2020-11-22</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>模块结构<br>sharding-core-preprocess的主要功能是对SQLStatment对象进行预处理生成SQLStatementContext对象，为路由提供必要信息。按功能分类可以分成三个部分：</li>
-</ul>
-<ol>
-<li>org.apache.shardingsphere.core.optimize。SQLStatementContextFactory类，主要作用根据传入的SQLStatement类型创建相应的SQLStatementContext对象。创建SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种。</li>
-<li>org.apache.shardingsphere.core.optimize.statement。包含SQLStatementContext接口和SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种实现类。存储：TablesContext、SQLStatement和其他类型Context。</li>
-<li>org.apache.shardingsphere.core.optimize.segment。内部分insert、select、table三种类型，包含segment对应的context。</li>
-</ol>
-<ul>
-<li>模块结构图<br><img src="/images/sharding-core-preprocessor.jpg"></li>
-<li>主要逻辑流程和关键类分析<br>sharding-core-preprocess的主要逻辑是从SQLStatementContextFactory.newInstance()方法开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-preprocessor-flow-graph.jpg"></li>
-<li>设计模式和设计原则</li>
-</ul>
-<ol>
-<li>简单工厂模式<br>SQLStatementContextFactory.newInstance()方法根据sqlStatement的类型来决定要创建SQLStatmentContext实例。SQLStatementContext是一个接口，它拥有SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext这三个实现类。</li>
 </ol>
 
       
