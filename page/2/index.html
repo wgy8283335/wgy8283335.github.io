@@ -154,7 +154,7 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">40</span>
+          <span class="site-state-item-count">41</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
@@ -188,6 +188,184 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/01/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/01/%E6%B5%8F%E8%A7%88%E5%99%A8%E5%8E%9F%E7%90%86/" class="post-title-link" itemprop="url">浏览器原理</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-01-01 21:00:00" itemprop="dateCreated datePublished" datetime="2021-01-01T21:00:00+08:00">2021-01-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-01-03 11:59:48" itemprop="dateModified" datetime="2021-01-03T11:59:48+08:00">2021-01-03</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="浏览器原理"><a href="#浏览器原理" class="headerlink" title="浏览器原理"></a>浏览器原理</h1><p>参考：<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/47407398">https://zhuanlan.zhihu.com/p/47407398</a><br>这里以 chrome 为例进行展示说明。</p>
+<h2 id="架构"><a href="#架构" class="headerlink" title="架构"></a>架构</h2><p>Chrome 采用多进程架构，其顶层存在一个 Browser process 用以协调浏览器的其它进程。<br><img src="/images/browser/web-brower-1.png"><br>具体说来，Chrome 的主要进程及其职责如下：</p>
+<ul>
+<li>Browser Process：<br>负责包括地址栏，书签栏，前进后退按钮等部分的工作；<br>负责处理浏览器的一些不可见的底层操作，比如网络请求和文件访问；</li>
+<li>Renderer Process：<br>负责一个 tab 内关于网页呈现的所有事情</li>
+<li>Plugin Process：<br>负责控制一个网页用到的所有插件，如 flash</li>
+<li>GPU Process<br>负责处理 GPU 相关的任务<br>Chrome 还为我们提供了「任务管理器」，供我们方便的查看当前浏览器中运行的所有进程及每个进程占用的系统资源，右键单击还可以查看更多类别信息。</li>
+</ul>
+<h2 id="Chrome-多进程架构的优缺点"><a href="#Chrome-多进程架构的优缺点" class="headerlink" title="Chrome 多进程架构的优缺点"></a>Chrome 多进程架构的优缺点</h2><p>优点</p>
+<ul>
+<li>某一渲染进程出问题不会影响其他进程</li>
+<li>更为安全，在系统层面上限定了不同进程的权限<br>缺点</li>
+<li>由于不同进程间的内存不共享，不同进程的内存常常需要包含相同的内容。</li>
+<li>为了节省内存，Chrome 限制了最多的进程数，最大进程数量由设备的内存和 CPU 能力决定，当达到这一限制时，新打开的 Tab 会共用之前同一个站点的渲染进程。</li>
+</ul>
+<p>Chrome 把浏览器不同程序的功能看做服务，这些服务可以方便的分割为不同的进程或者合并为一个进程。以 Broswer Process 为例，如果 Chrome 运行在强大的硬件上，它会分割不同的服务到不同的进程，这样 Chrome 整体的运行会更加稳定，但是如果 Chrome 运行在资源贫瘠的设备上，这些服务又会合并到同一个进程中运行，这样可以节省内存，示意图如下。<br><img src="/images/browser/web-brower-2.png"><br><img src="/images/browser/web-brower-3.png"></p>
+<p>Site Isolation 机制从 Chrome 67 开始默认启用。这种机制允许在同一个 Tab 下的跨站 iframe 使用单独的进程来渲染，这样会更为安全。<br>Site Isolation 被大家看做里程碑式的功能， 其成功实现是多年工程努力的结果。Site Isolation 不是简单的叠加多个进程。这种机制在底层改变了 iframe 之间通信的方法，Chrome 的其它功能都需要做对应的调整，比如说 devtools 需要相应的支持，甚至 Ctrl + F 也需要支持。<br><img src="/images/browser/web-brower-4.png"></p>
+<h2 id="导航过程发生了什么"><a href="#导航过程发生了什么" class="headerlink" title="导航过程发生了什么"></a>导航过程发生了什么</h2><p>也许大多数人使用 Chrome 最多的场景就是在地址栏输入关键字进行搜索或者输入地址导航到某个网站，我们来看看浏览器是怎么看待这个过程的。</p>
+<p>我们知道浏览器 Tab 外的工作主要由 Browser Process 掌控，Browser Process 又对这些工作进一步划分，使用不同线程进行处理：</p>
+<ul>
+<li>UI thread ： 控制浏览器上的按钮及输入框；</li>
+<li>network thread: 处理网络请求，从网上获取数据；</li>
+<li>storage thread: 控制文件等的访问；</li>
+</ul>
+<p>分为以下几步：</p>
+<ol>
+<li><p>处理输入<br>UI thread 需要判断用户输入的是 URL 还是 query；</p>
+</li>
+<li><p>开始导航<br>当用户点击回车键，UI thread 通知 network thread 获取网页内容，并控制 tab 上的 spinner 展现，表示正在加载中。<br>network thread 会执行 DNS 查询，随后为请求建立 TLS 连接。如果 network thread 接收到了重定向请求头如 301，network thread 会通知 UI thread 服务器要求重定向，之后，另外一个 URL 请求会被触发。</p>
+</li>
+<li><p>读取响应</p>
+<p>当请求响应返回的时候，network thread 会依据 Content-Type 及 MIME Type sniffing 判断响应内容的格式如果响应内容的格式是 HTML ，下一步将会把这些数据传递给 renderer process，如果是 zip 文件或者其它文件，会把相关数据传输给下载管理器。<br>Safe Browsing 检查也会在此时触发，如果域名或者请求内容匹配到已知的恶意站点，network thread 会展示一个警告页。此外 CORB 检测也会触发确保敏感数据不会被传递给渲染进程。</p>
+</li>
+<li><p>查找渲染进程</p>
+<p>当上述所有检查完成，network thread 确信浏览器可以导航到请求网页，network thread 会通知 UI thread 数据已经准备好，UI thread 会查找到一个 renderer process 进行网页的渲染。<br>由于网络请求获取响应需要时间，这里其实还存在着一个加速方案。当 UI thread 发送 URL 请求给 network thread 时，浏览器其实已经知道了将要导航到那个站点。UI thread 会并行的预先查找和启动一个渲染进程，如果一切正常，当 network thread 接收到数据时，渲染进程已经准备就绪了，但是如果遇到重定向，准备好的渲染进程也许就不可用了，这时候就需要重启一个新的渲染进程。</p>
+</li>
+<li><p>确认导航</p>
+<p>进过了上述过程，数据以及渲染进程都可用了， Browser Process 会给 renderer process 发送 IPC 消息来确认导航，一旦 Browser Process 收到 renderer process 的渲染确认消息，导航过程结束，页面加载过程开始。</p>
+<p>此时，地址栏会更新，展示出新页面的网页信息。history tab 会更新，可通过返回键返回导航来的页面，为了让关闭 tab 或者窗口后便于恢复，这些信息会存放在硬盘中。</p>
+</li>
+<li><p>额外的步骤</p>
+<p>一旦导航被确认，renderer process 会使用相关的资源渲染页面，下文中我们将重点介绍渲染流程。当 renderer process 渲染结束（渲染结束意味着该页面内的所有的页面，包括所有 iframe 都触发了 onload 时），会发送 IPC 信号到 Browser process， UI thread 会停止展示 tab 中的 spinner。当然上面的流程只是网页首帧渲染完成，在此之后，客户端依旧可下载额外的资源渲染出新的视图。</p>
+<p>在这里我们可以明确一点，所有的 JS 代码其实都由 renderer Process 控制的，所以在你浏览网页内容的过程大部分时候不会涉及到其它的进程。不过也许你也曾经监听过 beforeunload 事件，这个事件再次涉及到 Browser Process 和 renderer Process 的交互，当当前页面关闭时（关闭 Tab ，刷新等等），Browser Process 需要通知 renderer Process 进行相关的检查，对相关事件进行处理。</p>
+<p>如果导航由 renderer process 触发（比如在用户点击某链接，或者 JS 执行 <code>window.location = &quot;http://newsite.com&quot;</code> ） renderer process 会首先检查是否有 <code>beforeunload</code> 事件处理器，导航请求由 renderer process 传递给 Browser process</p>
+<p>如果导航到新的网站，会启用一个新的 render process 来处理新页面的渲染，老的进程会留下来处理类似 <code>unload</code> 等事件。</p>
+<p>除了上述流程，有些页面还拥有 Service Worker （服务工作线程），Service Worker 让开发者对本地缓存及判断何时从网络上获取信息有了更多的控制权，如果 Service Worker 被设置为从本地 cache 中加载数据，那么就没有必要从网上获取更多数据了。</p>
+<p>值得注意的是 service worker 也是运行在渲染进程中的 JS 代码，因此对于拥有 Service Worker 的页面，上述流程有些许的不同。</p>
+<p>当有 Service Worker 被注册时，其作用域会被保存，当有导航时，network thread 会在注册过的 Service Worker 的作用域中检查相关域名，如果存在对应的 Service worker，UI thread 会找到一个 renderer process 来处理相关代码，Service Worker 可能会从 cache 中加载数据，从而终止对网络的请求，也可能从网上请求新的数据。</p>
+<p>如果 Service Worker 最终决定通过网上获取数据，Browser 进程 和 renderer 进程的交互其实会延后数据的请求时间 。Navigation Preload 是一种与 Service Worker 并行的加速加载资源的机制，服务端通过请求头可以识别这类请求，而做出相应的处理。</p>
+</li>
+</ol>
+<h2 id="渲染进程是如何工作的"><a href="#渲染进程是如何工作的" class="headerlink" title="渲染进程是如何工作的"></a>渲染进程是如何工作的</h2><p>渲染进程几乎负责 Tab 内的所有事情，渲染进程的核心目的在于转换 HTML CSS JS 为用户可交互的 web 页面。渲染进程中主要包含以下线程：</p>
+<ul>
+<li>主线程 Main thread</li>
+<li>工作线程 Worker thread</li>
+<li>排版线程 Compositor thread</li>
+<li>光栅线程 Raster thread</li>
+</ul>
+<ol>
+<li>构建 DOM<br>当渲染进程接收到导航的确认信息，开始接受 HTML 数据时，主线程会解析文本字符串为 DOM。</li>
+</ol>
+<p>渲染 html 为 DOM 的方法由 HTML Standard 定义。</p>
+<ol start="2">
+<li><p>加载次级的资源</p>
+<p>网页中常常包含诸如图片，CSS，JS 等额外的资源，这些资源需要从网络上或者 cache 中获取。主进程可以在构建 DOM 的过程中会逐一请求它们，为了加速 preload scanner 会同时运行，如果在 html 中存在 <code>&lt;img&gt;</code> <code>&lt;link&gt;</code> 等标签，preload scanner 会把这些请求传递给 Browser process 中的 network thread 进行相关资源的下载。</p>
+</li>
+<li><p>JS 的下载与执行</p>
+<p>当遇到 <code>&lt;script&gt;</code> 标签时，渲染进程会停止解析 HTML，而去加载，解析和执行 JS 代码，停止解析 html 的原因在于 JS 可能会改变 DOM 的结构（使用诸如 <code>document.write()</code>等 API）。</p>
+<p>不过开发者其实也有多种方式来告知浏览器应对如何应对某个资源，比如说如果在<code>&lt;script&gt;</code> 标签上添加了 <code>async</code> 或 <code>defer</code> 等属性，浏览器会异步的加载和执行 JS 代码，而不会阻塞渲染。</p>
+</li>
+<li><p>样式计算</p>
+<p>仅仅渲染 DOM 还不足以获知页面的具体样式，主进程还会基于 CSS 选择器解析 CSS 获取每一个节点的最终的计算样式值。即使不提供任何 CSS，浏览器对每个元素也会有一个默认的样式。<br><img src="/images/browser/web-brower-9.png"></p>
+</li>
+<li><p>获取布局</p>
+<p>想要渲染一个完整的页面，除了获知每个节点的具体样式，还需要获知每一个节点在页面上的位置，布局其实是找到所有元素的几何关系的过程。其具体过程如下：</p>
+<p>通过遍历 DOM 及相关元素的计算样式，主线程会构建出包含每个元素的坐标信息及盒子大小的布局树。布局树和 DOM 树类似，但是其中只包含页面可见的元素，如果一个元素设置了 <code>display:none</code> ，这个元素不会出现在布局树上，伪元素虽然在 DOM 树上不可见，但是在布局树上是可见的。<br><img src="/images/browser/web-brower-10.png"></p>
+</li>
+<li><p>绘制各元素</p>
+<p>即使知道了不同元素的位置及样式信息，我们还需要知道不同元素的绘制先后顺序才能正确绘制出整个页面。在绘制阶段，主线程会遍历布局树以创建绘制记录。绘制记录可以看做是记录各元素绘制先后顺序的笔记。<br><img src="/images/browser/web-brower-11.png"></p>
+</li>
+<li><p>合成帧</p>
+<p>熟悉 PS 等绘图软件的童鞋肯定对图层这一概念不陌生，现代 Chrome 其实利用了这一概念来组合不同的层。</p>
+<p>复合是一种分割页面为不同的层，并单独栅格化，随后组合为帧的技术。不同层的组合由 compositor 线程（合成器线程）完成。</p>
+<p>主线程会遍历布局树来创建层树（layer tree），添加了 <code>will-change</code> CSS 属性的元素，会被看做单独的一层<br><img src="/images/browser/web-brower-5.png"></p>
+<p>你可能会想给每一个元素都添加上 <code>will-change</code>，不过组合过多的层也许会比在每一帧都栅格化页面中的某些小部分更慢。为了更合理的使用层，可参考 坚持仅合成器的属性和管理层计数 。</p>
+<p>一旦层树被创建，渲染顺序被确定，主线程会把这些信息通知给合成器线程，合成器线程会栅格化每一层。有的层的可以达到整个页面的大小，因此，合成器线程将它们分成多个磁贴，并将每个磁贴发送到栅格线程，栅格线程会栅格化每一个磁贴并存储在 GPU 显存中。<br><img src="/images/browser/web-brower-6.png"><br>一旦磁贴被光栅化，合成器线程会收集称为绘制四边形的磁贴信息以创建合成帧。</p>
+<p>合成帧随后会通过 IPC 消息传递给浏览器进程，由于浏览器的 UI 改变或者其它拓展的渲染进程也可以添加合成帧，这些合成帧会被传递给 GPU 用以展示在屏幕上，如果滚动发生，合成器线程会创建另一个合成帧发送给 GPU。<br><img src="/images/browser/web-brower-7.png"></p>
+</li>
+</ol>
+<h2 id="重排-重绘-动画"><a href="#重排-重绘-动画" class="headerlink" title="重排 重绘 动画"></a>重排 重绘 动画</h2><p><img src="/images/browser/web-brower-12.png"></p>
+<ul>
+<li><p>当改变一个元素的尺寸，位置，属性时发生重排。触发样式计算，布局，绘制记录，图层的步骤都要进行。</p>
+</li>
+<li><p>当改变一个元素的颜色时发生重绘。触发样式计算和绘制记录。</p>
+</li>
+</ul>
+<h3 id="动画与-JS-的矛盾"><a href="#动画与-JS-的矛盾" class="headerlink" title="动画与 JS 的矛盾"></a>动画与 JS 的矛盾</h3><p>渲染进程中的主线程，除了执行上图的那五个操作之后，还会有 JavaScript 占用主线程。 如果主线程中有每帧都需要重排重绘的动画，那么主线程在每帧都要分一部分时间执行重排重绘。如果此时还有一个 JavaSript 来抢占主线程，那么有可能发生动画卡顿。<br><img src="/images/browser/web-brower-13.png"><br><img src="/images/browser/web-brower-14.png"></p>
+<ul>
+<li>方法一<br>通过使用 requestAnimationFrame()方法，可以把 js 分隔成若干片段，在每帧运行。避免了与重排重绘占用时间。React Fiber 使用了这个 API 做了很多优化。<br><img src="/images/browser/web-brower-15.png"></li>
+<li>方法二<br>通过 Transform 属性，这样动画只占用合成器线程和栅格线程，不会与主线程上的 JS 冲突。<br><img src="/images/browser/web-brower-16.png"></li>
+</ul>
+<h2 id="浏览器对事件的处理"><a href="#浏览器对事件的处理" class="headerlink" title="浏览器对事件的处理"></a>浏览器对事件的处理</h2><p>浏览器通过对不同事件的处理来满足各种交互需求，这一部分我们一起看看从浏览器的视角，事件是什么，在此我们先主要考虑鼠标事件。</p>
+<p>在浏览器的看来，用户的所有手势都是输入，鼠标滚动，悬置，点击等等都是。<br>当用户在屏幕上触发诸如 touch 等手势时，首先收到手势信息的是 Browser process， 不过 Browser process 只会感知到在哪里发生了手势，对 tab 内内容的处理是还是由渲染进程控制的。</p>
+<p>事件发生时，浏览器进程会发送事件类型及相应的坐标给渲染进程，渲染进程随后找到事件对象并执行所有绑定在其上的相关事件处理函数。<br>前文中，我们提到过合成器可以独立于主线程之外通过合成栅格化层平滑的处理滚动。如果页面中没有绑定相关事件，组合器线程可以独立于主线程创建组合帧。如果页面绑定了相关事件处理器，主线程就不得不出来工作了。这时候合成器线程会怎么处理呢？</p>
+<p>这里涉及到一个专业名词「理解非快速滚动区域（non-fast scrollable region）」由于执行 JS 是主线程的工作，当页面合成时，合成器线程会标记页面中绑定有事件处理器的区域为 non-fast scrollable region ，如果存在这个标注，合成器线程会把发生在此处的事件发送给主线程，如果事件不是发生在这些区域，合成器线程则会直接合成新的帧而不用等到主线程的响应。</p>
+<p>** 事件的优化 **</p>
+<p>一般我们屏幕的刷新速率为 60fps，但是某些事件的触发量会不止这个值，出于优化的目的，Chrome 会合并连续的事件(如 wheel, mousewheel, mousemove, pointermove, touchmove )，并延迟到下一帧渲染时候执行 。</p>
+<p>而如 keydown, keyup, mouseup, mousedown, touchstart, 和 touchend 等非连续性事件则会立即被触发。<br><img src="/images/browser/web-brower-8.png"></p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1238,146 +1416,8 @@
 
 
 
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/13/%E6%B1%87%E7%BC%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/13/%E6%B1%87%E7%BC%96/" class="post-title-link" itemprop="url">汇编</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2020-12-13 16:00:00 / Modified: 15:15:19" itemprop="dateCreated datePublished" datetime="2020-12-13T16:00:00+08:00">2020-12-13</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h2 id="“被调用者保存”和“调用者保存”寄存器"><a href="#“被调用者保存”和“调用者保存”寄存器" class="headerlink" title="“被调用者保存”和“调用者保存”寄存器"></a>“被调用者保存”和“调用者保存”寄存器</h2><p>编译器的设计中有个概念叫做“被调用者保存”和“调用者保存”，可以近似的按子函数保存和父函数保存对应来理解，这一概念的出现完全是由于寄存器资源个数有限造成的。当父函数在调用子函数时，由于子函数可能访问到父函数用于保存数值的寄存器，为了互不干扰和造成覆盖，编译器就制定了相应的规则，%eax、%edx 和%ecx 被划分为“调用者保存”寄存器，顾名思义，这些寄存器上面存储的值，需要调用者（父函数）自己想办法先备份好，否则过会子函数直接使用这些寄存器时将无情的覆盖。如何备份？当然是事先压入栈中，等子函数调用完，再通过出栈恢复这些寄存器原本在父函数运行时的旧值；另外三个寄存器%ebx、%esi、%edi 被划分为“被调用者保存”寄存器，同样的，这些寄存器上有值，在使用前需要被调用者（子函数）自己想办法帮调用者（父函数）进行备份，具体方法就是子函数在覆盖他们之前，先进行入栈备份，等子函数返回时，再出栈还原父函数运行时这些寄存器上的旧值。</p>
-<h2 id="七种寻址方式"><a href="#七种寻址方式" class="headerlink" title="七种寻址方式"></a>七种寻址方式</h2><h3 id="1-立即寻址方式"><a href="#1-立即寻址方式" class="headerlink" title="1 立即寻址方式"></a>1 立即寻址方式</h3><p>操作数作为指令的一部分而直接写在指令中，这种操作数称为立即数，这种寻址方式也就称为立即数寻址方式。</p>
-<p>立即数可以是 8 位、16 位或 32 位，该数值紧跟在操作码之后。如果立即数为 16 位或 32 位，那么，它将按“高高低低”的原则进行存储。例如：</p>
-<p>MOV AH, 80H 　　　 ADD AX, 1234H 　　　 MOV ECX, 123456H<br>MOV B1, 12H 　　　 MOV W1, 3456H 　　 ADD D1, 32123456H</p>
-<p>其中：B1、W1 和 D1 分别是字节、字和双字单元。</p>
-<p>以上指令中的第二操作数都是立即数，在汇编语言中，规定：立即数不能作为指令中的第二操作数。该规定与高级语言中“赋值语句的左边不能是常量”的规定相一致。</p>
-<p>立即数寻址方式通常用于对通用寄存器或内存单元赋初值。图是指令“MOV AX, 4576H”存储形式和执行示意图。</p>
-<h3 id="2-寄存器寻址方式"><a href="#2-寄存器寻址方式" class="headerlink" title="2 寄存器寻址方式"></a>2 寄存器寻址方式</h3><p>指令所要的操作数已存储在某寄存器中，或把目标操作数存入寄存器。把在指令中指出所使用寄存器(即：寄存器的助忆符)的寻址方式称为寄存器寻址方式。<br>指令中可以引用的寄存器及其符号名称如下：<br>　　 8 位寄存器有：AH、AL、BH、BL、CH、CL、DH 和 DL 等；<br>　　 16 位寄存器有：AX、BX、CX、DX、SI、DI、SP、BP 和段寄存器等；<br>　　 32 位寄存器有：EAX、EBX、ECX、EDX、ESI、EDI、ESP 和 EBP 等。<br>寄存器寻址方式是一种简单快捷的寻址方式，源和目的操作数都可以是寄存器。</p>
-<p>1、源操作数是寄存器寻址方式<br>　　如：ADD VARD, EAX 　　 ADD VARW, AX 　　　 MOV VARB, BH 等。<br>　　其中：VARD、VARW 和 VARB 是双字，字和字节类型的内存变量。在第 4 章将会学到如何定义它们。</p>
-<p>2、目的操作数是寄存器寻址方式<br>　　如：ADD BH, 78h 　　　　 ADD AX, 1234h 　　　 MOV EBX, 12345678H 等。</p>
-<p>3、源和目的操作数都是寄存器寻址方式<br>　　如：MOV EAX, EBX 　　　 MOV AX, BX 　　　　 MOV DH, BL 等。</p>
-<p>由于指令所需的操作数已存储在寄存器中，或操作的结果存入寄存器，这样，在指令执行过程中，会减少读/写存储器单元的次数，所以，使用寄存器寻址方式的指令具有较快的执行速度。通常情况下，我们提倡在编写汇编语言程序时，应尽可能地使用寄存器寻址方式，但也不要把它绝对化。</p>
-<h3 id="3-七种寻址方式-直接寻址方式"><a href="#3-七种寻址方式-直接寻址方式" class="headerlink" title="3 七种寻址方式(直接寻址方式)"></a>3 七种寻址方式(直接寻址方式)</h3><p>指令所要的操作数存放在内存中，在指令中直接给出该操作数的有效地址，这种寻址方式为直接寻址方式。</p>
-<p>在通常情况下，操作数存放在数据段中，所以，其物理地址将由数据段寄存器 DS 和指令中给出的有效地址直接形成，但如果使用段超越前缀，那么，操作数可存放在其它段。</p>
-<p>例：假设有指令：MOV BX, [1234H]，在执行时，(DS)=2000H，内存单元 21234H 的值为 5213H。问该指令执行后，BX 的值是什么？</p>
-<p>解：根据直接寻址方式的寻址规则，把该指令的具体执行过程用下图来表示。</p>
-<p>从图中，可看出执行该指令要分三部分：</p>
-<p>由于 1234H 是一个直接地址，它紧跟在指令的操作码之后，随取指令而被读出；</p>
-<p>访问数据段的段寄存器是 DS，所以，用 DS 的值和偏移量 1234H 相加，得存储单元的物理地址：21234H；</p>
-<p>取单元 21234H 的值 5213H，并按“高高低低”的原则存入寄存器 BX 中。</p>
-<p>所以，在执行该指令后，BX 的值就为 5213H。</p>
-<p>由于数据段的段寄存器默认为 DS，如果要指定访问其它段内的数据，可在指令中用段前缀的方式显式地书写出来。</p>
-<p>下面指令的目标操作数就是带有段前缀的直接寻址方式。</p>
-<p>MOV 　 ES:[1000H], AX</p>
-<p>直接寻址方式常用于处理内存单元的数据，其操作数是内存变量的值，该寻址方式可在 64K 字节的段内进行寻址。</p>
-<p>注意：立即寻址方式和直接寻址方式的书写格式的不同，直接寻址的地址要写在括号“[”，“]”内。在程序中，直接地址通常用内存变量名来表示，如：MOV BX, VARW，其中，VARW 是内存字变量。</p>
-<p>试比较下列指令中源操作数的寻址方式(VARW 是内存字变量)：<br>　　 MOV 　 AX, 1234H MOV 　 AX, [1234H] ;前者是立即寻址，后者是直接寻址<br>　　 MOV 　 AX, VARW MOV 　 AX, [VARW] ;两者是等效的，均为直接寻址</p>
-<h3 id="4-七种寻址方式-寄存器间接寻址方式"><a href="#4-七种寻址方式-寄存器间接寻址方式" class="headerlink" title="4 七种寻址方式(寄存器间接寻址方式)"></a>4 七种寻址方式(寄存器间接寻址方式)</h3><p>操作数在存储器中，操作数的有效地址用 SI、DI、BX 和 BP 等四个寄存器之一来指定，称这种寻址方式为寄存器间接寻址方式。该寻址方式物理地址的计算方法如下：</p>
-<p>寄存器间接寻址方式读取存储单元的原理如图所示。</p>
-<p>在不使用段超越前缀的情况下，有下列规定：</p>
-<p>若有效地址用 SI、DI 和 BX 等之一来指定，则其缺省的段寄存器为 DS；<br>若有效地址用 BP 来指定，则其缺省的段寄存器为 SS(即：堆栈段)。</p>
-<p>例:假设有指令：MOV BX,[DI]，在执行时，(DS)=1000H，(DI)=2345H，存储单元 12345H 的内容是 4354H。问执行指令后，BX 的值是什么？</p>
-<p>解：根据寄存器间接寻址方式的规则，在执行本例指令时，寄存器 DI 的值不是操作数，而是操作数的地址。该操作数的物理地址应由 DS 和 DI 的值形成，即：</p>
-<p>PA=(DS)<em>16+DI=1000H</em>16+2345H=12345H。</p>
-<p>所以，该指令的执行效果是：把从物理地址为 12345H 开始的一个字的值传送给 BX。</p>
-<p>其执行过程如图所示。</p>
-<h3 id="5-七种寻址方式（寄存器相对寻址方式）"><a href="#5-七种寻址方式（寄存器相对寻址方式）" class="headerlink" title="5 七种寻址方式（寄存器相对寻址方式）"></a>5 七种寻址方式（寄存器相对寻址方式）</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)或变址寄存器(SI、D</p>
-<p>I)的内容和指令中的 8 位/16 位偏移量之和。其有效地址的计算公式如公式所示。</p>
-<p>在不使用段超越前缀的情况下，有下列规定：</p>
-<pre><code>若有效地址用SI、DI和BX等之一来指定，则其缺省的段寄存器为DS；
-
-若有效地址用BP来指定，则其缺省的段寄存器为SS。</code></pre>
-<p>指令中给出的 8 位/16 位偏移量用补码表示。在计算有效地址时，如果偏移量是 8 位，则进行符号扩展成 16 位。当所得的有效地址超过 0FFFFH，则取其 64K 的模。</p>
-<p>例:假设指令：MOV BX, [SI+100H]，在执行它时，(DS)=1000H，(SI)=2345H，内存单元 12445H 的内容为 2715H，问该指令执行后，BX 的值是什么？</p>
-<p>解：根据寄存器相对寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
-<p>EA=(SI)+100H=2345H+100H=2445H</p>
-<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
-<p>PA=(DS)<em>16+EA=1000H</em>16+2445H=12445H。</p>
-<p>所以，该指令的执行效果是：把从物理地址为 12445H 开始的一个字的值传送给 BX。</p>
-<p>其执行过程如图所示。</p>
-<h3 id="6-七种寻址方式-基址加变址寻址方式"><a href="#6-七种寻址方式-基址加变址寻址方式" class="headerlink" title="6 七种寻址方式(基址加变址寻址方式)"></a>6 七种寻址方式(基址加变址寻址方式)</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)和一个变址寄存器(SI、DI)的内容之和。其有效地址的计算公式如公式所示。</p>
-<p>在不使用段超越前缀的情况下，规定：如果有效地址中含有 BP，则缺省的段寄存器为 SS；否则，缺省的段寄存器为 DS。</p>
-<p>例:假设指令：MOV BX, [BX+SI]，在执行时，(DS)=1000H，(BX)=2100H，(SI)=0011H，内存单元 12111H 的内容为 1234H。问该指令执行后，BX 的值是什么？</p>
-<p>解：根据基址加变址寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
-<p>EA=(BX)+(SI)=2100H+0011H=2111H</p>
-<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
-<p>PA=(DS)<em>16+EA=1000H</em>16+2111H=12111H</p>
-<p>所以，该指令的执行效果是：把从物理地址为 12111H 开始的一个字的值传送给 BX。</p>
-<p>其执行过程如图所示。</p>
-<h3 id="7-七种寻址方式-相对基址加变址寻址方式"><a href="#7-七种寻址方式-相对基址加变址寻址方式" class="headerlink" title="7 七种寻址方式(相对基址加变址寻址方式)"></a>7 七种寻址方式(相对基址加变址寻址方式)</h3><p>操作数在存储器中，其有效地址是一个基址寄存器(BX、BP)的值、一个变址寄存器(SI、DI)的值和指令中的 8 位/16 位偏移量之和。其有效地址的计算公式如公式所示。</p>
-<p>在不使用段超越前缀的情况下，规定：如果有效地址中含有 BP，则其缺省的段寄存器为 SS；否则，其缺省的段寄存器为 DS。</p>
-<p>指令中给出的 8 位/16 位偏移量用补码表示。在计算有效地址时，如果偏移量是 8 位，则进行符号扩展成 16 位。当所得的有效地址超过 0FFFFH，则取其 64K 的模。</p>
-<p>例:假设指令：MOV AX, [BX+SI+200H]，在执行时，(DS)=1000H，(BX)=2100H，(SI)=0010H，内存单元 12310H 的内容为 1234H。问该指令执行后，AX 的值是什么？</p>
-<p>解：根据相对基址加变址寻址方式的规则，在执行本例指令时，源操作数的有效地址 EA 为：</p>
-<p>EA=(BX)+(SI)+200H=2100H+0010H+200H=2310H</p>
-<p>该操作数的物理地址应由 DS 和 EA 的值形成，即：</p>
-<p>PA=(DS)<em>16+EA=1000H</em>16+2310H=12310H</p>
-<p>所以，该指令的执行效果是：把从物理地址为 12310H 开始的一个字的值传送给 AX。其执行过程如图所示。</p>
-<p>从相对基址加变址这种寻址方式来看，由于它的可变因素较多，看起来就显得复杂些，但正因为其可变因素多，它的灵活性也就很高。比如：</p>
-<p>用 D1[i]来访问一维数组 D1 的第 i 个元素，它的寻址有一个自由度，用 D2[i][j]来访问二维数组 D2 的第 i 行、第 j 列的元素，其寻址有二个自由度。多一个可变的量，其寻址方式的灵活度也就相应提高了。</p>
-<p>相对基址加变址寻址方式有多种等价的书写方式，下面的书写格式都是正确的，并且其寻址含义也是一致的。</p>
-<p>MOV 　 AX, [BX+SI+1000H]　　　 MOV 　 AX, 1000H[BX+SI]<br>MOV 　 AX, 1000H[BX][si]　　　 MOV 　 AX, 1000H[SI][bx]</p>
-<p>但书写格式 BX [1000+SI]和 SI[1000H+BX]等是错误的，即所用寄存器不能在“[“，”]”之外，该限制对寄存器相对寻址方式的书写也同样起作用。</p>
-<p>相对基址加变址寻址方式是以上 7 种寻址方式中最复杂的一种寻址方式，它可变形为其它类型的存储器寻址方式。下表列举出该寻址方式与其它寻址方式之间的变形关系。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
   <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="page-number" href="/page/4/">4</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
+    <a class="extend prev" rel="prev" href="/"><i class="fa fa-angle-left" aria-label="Previous page"></i></a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/page/5/">5</a><a class="extend next" rel="next" href="/page/3/"><i class="fa fa-angle-right" aria-label="Next page"></i></a>
   </nav>
 
 

@@ -1,0 +1,381 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="ORM 相关Object·&#x2F;Relation Mapping 对象&#x2F;关系数据库映射，他完成的是面向对象的编程语言到关系型数据库的映射，所以你可以理解为 ORM 其实就是应用程序和数据库的桥梁。 JPA 规范JPA 规范本质上就是一种 ORM 规范。Hibernate 实现了这套规范。 JPQL 比较 SQLjpql 与 SQL 的区别就是 SQL 是面向对象关系数据库，他操作的是数据表和数据列，而">
+<meta property="og:type" content="article">
+<meta property="og:title" content="ORM相关">
+<meta property="og:url" content="http://yoursite.com/2021/01/17/ORM%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="ORM 相关Object·&#x2F;Relation Mapping 对象&#x2F;关系数据库映射，他完成的是面向对象的编程语言到关系型数据库的映射，所以你可以理解为 ORM 其实就是应用程序和数据库的桥梁。 JPA 规范JPA 规范本质上就是一种 ORM 规范。Hibernate 实现了这套规范。 JPQL 比较 SQLjpql 与 SQL 的区别就是 SQL 是面向对象关系数据库，他操作的是数据表和数据列，而">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/orm1.png">
+<meta property="article:published_time" content="2021-01-17T07:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-17T08:09:41.519Z">
+<meta property="article:author" content="John Doe">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/orm1.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/01/17/ORM%E7%9B%B8%E5%85%B3/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>ORM相关 | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ORM-%E7%9B%B8%E5%85%B3"><span class="nav-number">1.</span> <span class="nav-text">ORM 相关</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JPA-%E8%A7%84%E8%8C%83"><span class="nav-number">2.</span> <span class="nav-text">JPA 规范</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JPQL-%E6%AF%94%E8%BE%83-SQL"><span class="nav-number">3.</span> <span class="nav-text">JPQL 比较 SQL</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Mybatis-%E5%AF%B9%E6%AF%94-Hibernate"><span class="nav-number">4.</span> <span class="nav-text">Mybatis 对比 Hibernate</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E5%9B%BD%E4%BA%BA%E7%94%A8-Mybatis-%E7%9A%84%E5%8E%9F%E5%9B%A0%EF%BC%9A"><span class="nav-number">4.0.1.</span> <span class="nav-text">国人用 Mybatis 的原因：</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E8%80%81%E5%A4%96%E5%96%9C%E6%AC%A2-JPA-%E7%9A%84%E5%8E%9F%E5%9B%A0"><span class="nav-number">4.0.2.</span> <span class="nav-text">老外喜欢 JPA 的原因:</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Mybatis-%E4%BC%98%E5%8A%BF"><span class="nav-number">4.0.3.</span> <span class="nav-text">Mybatis 优势</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Hibernate-%E4%BC%98%E5%8A%BF"><span class="nav-number">4.0.4.</span> <span class="nav-text">Hibernate 优势</span></a></li></ol></li></ol></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/17/ORM%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          ORM相关
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-01-17 15:00:00 / Modified: 16:09:41" itemprop="dateCreated datePublished" datetime="2021-01-17T15:00:00+08:00">2021-01-17</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="ORM-相关"><a href="#ORM-相关" class="headerlink" title="ORM 相关"></a>ORM 相关</h2><p>Object·/Relation Mapping 对象/关系数据库映射，他完成的是面向对象的编程语言到关系型数据库的映射，所以你可以理解为 ORM 其实就是应用程序和数据库的桥梁。</p>
+<h2 id="JPA-规范"><a href="#JPA-规范" class="headerlink" title="JPA 规范"></a>JPA 规范</h2><p>JPA 规范本质上就是一种 ORM 规范。Hibernate 实现了这套规范。<br><img src="/images/orm1.png"></p>
+<h2 id="JPQL-比较-SQL"><a href="#JPQL-比较-SQL" class="headerlink" title="JPQL 比较 SQL"></a>JPQL 比较 SQL</h2><p>jpql 与 SQL 的区别就是 SQL 是面向对象关系数据库，他操作的是数据表和数据列，而 jpql 操作的对象是实体对象和实体属性。<br>下面是 JPQL 的基本格式，根据基本格式我们执行 jpql 语句</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">select 实体别名.属性名， 实体别名.属性名 from 实体名 as 实体别名 where 实体别名.实体属性 op 比较值；</span><br><span class="line">select p.name from book as p ；</span><br></pre></td></tr></table></figure>
+
+<h2 id="Mybatis-对比-Hibernate"><a href="#Mybatis-对比-Hibernate" class="headerlink" title="Mybatis 对比 Hibernate"></a>Mybatis 对比 Hibernate</h2><h4 id="国人用-Mybatis-的原因："><a href="#国人用-Mybatis-的原因：" class="headerlink" title="国人用 Mybatis 的原因："></a>国人用 Mybatis 的原因：</h4><ol>
+<li>大厂带节奏 国内做互联网的 Java 程序很多都是拷贝阿里的，阿里一开始用例 iBatis（日本韩国是怎么回事呢）。大量的老系统都是基于 iBatis/MyBatis 的，市场上对 MyBatis 熟悉的人才更多，招聘和培训更容易，有的青年程序员以为“MyBatis 早已统一全球了”就是一个很好的证明。</li>
+</ol>
+<ol start="2">
+<li>简单，学习成本低 小公司需要大量入门级的程序员，像大神甚至一个都请不起，请问大神们那些牛 b 框架哪个更快让菜鸟们上手，降低公司学习成本。注意这个成本会一直跟随公司，想必大神们创业直接前后端分离了，毕竟钱嘛多的是。</li>
+</ol>
+<ol start="3">
+<li>对于复杂性需求的灵活性高 国内绝大部分项目都是面向表结构编程的，把 java 对象仅当成数据容器，查询和模型变更都设计在一张表上，所谓业务逻辑就是一堆增删改查的 sql 集合，当然用 mybatis 方便。在逻辑不复杂，或者你判断软件生命周期不会超过一年的时候，直接用表结构编程是最方便快捷的。国内普遍都是分布式，流量和性能决定了需要经常进行优化，而是用 Mybatis 对复杂需求的优化很方便。</li>
+</ol>
+<ol start="4">
+<li>政治环境 国内好多项目都是应付领导的某些奇葩需求。需要面向领导编程。一大半时间其实都是在解决领导的需求。国内项目需要大量报表统计（看看帆软卖的这么好就知道了），需要提供给领导作为决策。看到这里，各位领导不要骂我 ，真的不是黑领导的。</li>
+</ol>
+<ol start="5">
+<li>Hibernate 学习成本高 虽然，实际上 SpringDataJPA 是非常简单的，但是，但是，JPA/Hibernate 后期调试跟踪问题很麻烦，改起来也麻烦。别忘了，牛逼如你的人全公司甚至一个都没。还有什么缓存什么 Criteria 什么 Lazy，虽然这些你学了也不见得能用上，但一个框架，你不学还是不行的。而且，JPA 对于增删改很方便，复杂查询却是软肋，有同学会说，JPA 也能写 SQL 语句啊，我想说的是，既然都用 orm 了，你再写 sql，那不就失去了 oop 的内涵了吗？不优雅好吧。</li>
+</ol>
+<h4 id="老外喜欢-JPA-的原因"><a href="#老外喜欢-JPA-的原因" class="headerlink" title="老外喜欢 JPA 的原因:"></a>老外喜欢 JPA 的原因:</h4><ol>
+<li><p>很多老外对 Mybatis 的认知还停留在 iBatis 阶段 实际上在 Mybatis 的应用场景里面，开发者要的就是自动封装，把 sql 查询结果转化为指定的 java 对象。这个在 iBatis 阶段，需要开发者自己定义大量的 xml 配置，去指定数据库表字段与 Java 实体类之间的关系。并且，对于每一条 sql，都需要在 xml 中写相应的语句，虽然有代码生成器，带开发量还是不小的。但 Mybatis 发展到今天，已经非常完美地做好了自动封装数据对象这件事，支持的插件也比较丰富。对于常见的增删改查，也不需要自己写一行代码，这已经无限接近于 Hibernate 的能力了。</p>
+</li>
+<li><p>喜欢 OOP、DDD，认为写 SQL 不优雅 用 jpa 的核心是让我们关注对象建模，而不是关心底层数据库映射。只有你在考虑数据和行为在一起的充血模型、贴身职责，聚合根状态变迁，值对象不变性的情况下，你才会发现 jpa 给你提供了很多便利，根本不需要关注底层存储模型。在复杂的逻辑、超长的软件生命周期。使用 DDD 的设计方法是目前看比较合理的选择，维护的成本比较低。<br>DDD 全称是（Domain-Driven Design)这是 2004 年就出来的理论，复杂逻辑的应对之道。DDD 大会在欧洲等地办了一届又一届，CQRS、Event Sourcing 等探索层出不穷，这也是为什么国外比较流行 JPA 原因。<br>不过，国内主要是随着这两年随着微服务火爆也有人谈起来 DDD 了。<br>但其实 DDD 也不是银弹，需要大拿能把控全局，国内缺的就是这种大拿，搬砖的太多。</p>
+</li>
+<li><p>有些老外在技术选型时，不会考虑除 Spring 这种知名框架外的其他技术 无他，唯手熟尔。国外一个项目，做了几年十几年都是很正常的。我以前接触过一个巴基斯坦的电商项目，做了十几年，也跑的好好的，这就是证据。使用技术也是有惯性的。</p>
+</li>
+<li><p>数据体量和种类没有达到 个人感觉，也咨询了国际友人。老外的项目，在数据体量和种类上完全达不到国内的水平。所以，他们对于性能上的渴求度没有那么高。追求的是稳定，可维护性好。国内一个双 11，如果用 hibernate，那只能死掉了。</p>
+</li>
+</ol>
+<h4 id="Mybatis-优势"><a href="#Mybatis-优势" class="headerlink" title="Mybatis 优势"></a>Mybatis 优势</h4><ul>
+<li>MyBatis 可以进行更为细致的 SQL 优化，可以减少查询字段。</li>
+<li>MyBatis 容易掌握，而 Hibernate 门槛较高。</li>
+</ul>
+<h4 id="Hibernate-优势"><a href="#Hibernate-优势" class="headerlink" title="Hibernate 优势"></a>Hibernate 优势</h4><ul>
+<li>Hibernate 的 DAO 层开发比 MyBatis 简单，不需要写 sql，Mybatis 需要维护 SQL 和结果映射。</li>
+<li>Hibernate 对对象的维护和缓存要比 MyBatis 好，对增删改查的对象的维护要方便。</li>
+<li>Hibernate 数据库移植性很好，MyBatis 的数据库移植性不好，不同的数据库需要写不同 SQL。</li>
+<li>Hibernate 有更好的二级缓存机制，可以使用第三方缓存。MyBatis 本身提供的缓存机制不佳。<br>hibernate 让你不用写 sql 了，这不单可以让你的应用更好移植其它数据库，更主要的是让程序员更专注业务逻辑、数据关系、对象关系等。<br>参考连接:<a target="_blank" rel="noopener" href="https://zhuanlan.zhihu.com/p/34298019">https://zhuanlan.zhihu.com/p/34298019</a></li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/17/Redis%E7%9B%B8%E5%85%B3/" rel="prev" title="Redis相关">
+                  <i class="fa fa-chevron-left"></i> Redis相关
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/17/Web%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%92%8C%E9%AB%98%E6%80%A7%E8%83%BD/" rel="next" title="Web服务器高并发和高性能">
+                  Web服务器高并发和高性能 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>
