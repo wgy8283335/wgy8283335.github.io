@@ -1,0 +1,433 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="jdk8 源码解析之 sql 包：JDBC 源码解析参考连接:https:&#x2F;&#x2F;blog.csdn.net&#x2F;mxy88888&#x2F;article&#x2F;details&#x2F;94315198 在开发项目时我们经常会需要与数据库进行交互，为了统一标准，在 java jdk 中提供了一组与数据库交互的 api（java.sql.*），每个厂商通过继承实现 sql 包下的接口和类完成与数据库交互的工作(例如 mysql-">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JDBC相关">
+<meta property="og:url" content="http://yoursite.com/2021/01/18/JDBC%E7%9B%B8%E5%85%B3/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="jdk8 源码解析之 sql 包：JDBC 源码解析参考连接:https:&#x2F;&#x2F;blog.csdn.net&#x2F;mxy88888&#x2F;article&#x2F;details&#x2F;94315198 在开发项目时我们经常会需要与数据库进行交互，为了统一标准，在 java jdk 中提供了一组与数据库交互的 api（java.sql.*），每个厂商通过继承实现 sql 包下的接口和类完成与数据库交互的工作(例如 mysql-">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/jdbc2.png">
+<meta property="og:image" content="http://yoursite.com/images/jdbc1.png">
+<meta property="article:published_time" content="2021-01-18T02:00:00.000Z">
+<meta property="article:modified_time" content="2021-01-20T06:22:25.040Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="Java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/jdbc2.png">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/01/18/JDBC%E7%9B%B8%E5%85%B3/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>JDBC相关 | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#jdk8-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90%E4%B9%8B-sql-%E5%8C%85%EF%BC%9AJDBC-%E6%BA%90%E7%A0%81%E8%A7%A3%E6%9E%90"><span class="nav-number">1.</span> <span class="nav-text">jdk8 源码解析之 sql 包：JDBC 源码解析</span></a></li><li class="nav-item nav-level-1"><a class="nav-link" href="#java-sql-%E9%87%8C%E9%9D%A2%E6%9C%89%E4%BB%80%E4%B9%88%EF%BC%9F"><span class="nav-number">2.</span> <span class="nav-text">java.sql 里面有什么？</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/18/JDBC%E7%9B%B8%E5%85%B3/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JDBC相关
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-01-18 10:00:00" itemprop="dateCreated datePublished" datetime="2021-01-18T10:00:00+08:00">2021-01-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-01-20 14:22:25" itemprop="dateModified" datetime="2021-01-20T14:22:25+08:00">2021-01-20</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h1 id="jdk8-源码解析之-sql-包：JDBC-源码解析"><a href="#jdk8-源码解析之-sql-包：JDBC-源码解析" class="headerlink" title="jdk8 源码解析之 sql 包：JDBC 源码解析"></a>jdk8 源码解析之 sql 包：JDBC 源码解析</h1><p>参考连接:<a target="_blank" rel="noopener" href="https://blog.csdn.net/mxy88888/article/details/94315198">https://blog.csdn.net/mxy88888/article/details/94315198</a></p>
+<p>在开发项目时我们经常会需要与数据库进行交互，为了统一标准，在 java jdk 中提供了一组与数据库交互的 api（java.sql.*），每个厂商通过继承实现 sql 包下的接口和类完成与数据库交互的工作(例如 mysql-connector-java)。以 mysql 为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static void main(String[] arg) throws Exception &#123;</span><br><span class="line"></span><br><span class="line"></span><br><span class="line">    Class.forName(&quot;com.mysql.jdbc.Driver&quot;);</span><br><span class="line">    Connection connection&#x3D; DriverManager.getConnection(&quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;test&quot;,&quot;root&quot;,&quot;123456&quot;);</span><br><span class="line">    PreparedStatement prepareStatement&#x3D;connection.prepareStatement(&quot;select * from student&quot;);</span><br><span class="line">    ResultSet resultSet&#x3D;prepareStatement.executeQuery();</span><br><span class="line">    while(resultSet.next())&#123;</span><br><span class="line">      System.out.println(resultSet.getString(&quot;id&quot;)+&quot;:&quot;+resultSet.getString(&quot;studname&quot;));</span><br><span class="line">    &#125;</span><br><span class="line">    connection.close();</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<p><img src="/images/jdbc2.png"></p>
+<p>JDBC (Java Database Connectivity) API，即 Java 数据库编程接口，是一组标准的 Java 语言中的接口和类，使用这些接口和类，Java 客户端程序可以访问各种不同类型的数据库。比如建立数据库连接、执行 SQL 语句进行数据的存取操作。</p>
+<p>JDBC 规范采用接口和实现分离的思想设计了 Java 数据库编程的框架。接口包含在 java.sql 及 javax.sql 包中，其中 java.sql 属于 JavaSE，javax.sql 属于 JavaEE。这些接口的实现类叫做数据库驱动程序，由数据库的厂商或其它的厂商或个人提供。</p>
+<p>为了使客户端程序独立于特定的数据库驱动程序，JDBC 规范建议开发者使用基于接口的编程方式，即尽量使应用仅依赖 java.sql 及 javax.sql 中的接口和类。<br><img src="/images/jdbc1.png"></p>
+<p>JDBC 驱动程序是各个数据库厂家根据 JDBC 的规范制作的 JDBC 实现类.</p>
+<p>主要涉及到的类有：</p>
+<ul>
+<li>connection:接口类，mysql 封装了连接数据库的参数，辅助类，提供了 sql 语句执行，创建 statement 对象，提交，回滚等功能。</li>
+<li>preparedStatement:接口类，保存 sql 执行语句，并提供查询，修改等方法。</li>
+<li>Driver:驱动类，子类提供了返回 connection 对象方法的实现，以及一些辅助方法</li>
+<li>DriverManager：驱动管理类，注册 Driver 对象<br>下面我们来一步步解析查询数据库的过程:</li>
+</ul>
+<ol>
+<li><p>驱动类加载</p>
+<p><code>Class.forName(&quot;com.mysql.jdbc.Driver&quot;)</code><br>当我们看到这行代码时我们可能会有些疑惑：为什么开始要加载初始化这个驱动？那我们先看看它里面有什么。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;Driver 类</span><br><span class="line">static &#123;</span><br><span class="line">try &#123;</span><br><span class="line">    java.sql.DriverManager.registerDriver(new Driver()); &#x2F;&#x2F;注册驱动</span><br><span class="line">&#125; catch (SQLException E) &#123;</span><br><span class="line">    throw new RuntimeException(&quot;Can&#39;t register driver!&quot;);</span><br><span class="line">&#125;</span><br><span class="line">&#125;</span><br><span class="line">&#x2F;&#x2F;DriverManager 类</span><br><span class="line">private final static CopyOnWriteArrayList&lt;DriverInfo&gt; registeredDrivers &#x3D; new CopyOnWriteArrayList&lt;&gt;();</span><br><span class="line">public static synchronized void registerDriver(java.sql.Driver driver,</span><br><span class="line">        DriverAction da)</span><br><span class="line">    throws SQLException &#123;</span><br><span class="line"></span><br><span class="line">    &#x2F;* Register the driver if it has not already been added to our list *&#x2F;</span><br><span class="line">    if(driver !&#x3D; null) &#123;</span><br><span class="line">        registeredDrivers.addIfAbsent(new DriverInfo(driver, da)); &#x2F;&#x2F;封装注册类并村主导</span><br><span class="line">    &#125; else &#123;</span><br><span class="line">        &#x2F;&#x2F; This is for compatibility with the original DriverManager</span><br><span class="line">        throw new NullPointerException();</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    println(&quot;registerDriver: &quot; + driver);</span><br><span class="line"></span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>看到这里我们知道初始化类是为了调用 DriverManager.registerDriver 方法对 Driver 进行注册。在注册方法中将获取到的 Driver 对象封装了一遍存入 registeredDrivers 集合里，这里 registeredDrivers 是 DirverManager 里的一个 list 集合对象，CopyOnWriteArrayList 是一个线程安全 list 集合类。所以 jdbc 可以允许我们在同一项目中加载不同的驱动类去连接多个的数据库。</p>
+<p>Driver 类加载完成之后接下来是<br><code>Connection connection= DriverManager.getConnection(&quot;jdbc:mysql://localhost:3306/test&quot;,&quot;root&quot;,&quot;123456&quot;);</code><br>这一段是返回 connection 对象的操作，我们看一下 DriverManager 内源码，其中有一段</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br></pre></td><td class="code"><pre><span class="line">static &#123;</span><br><span class="line">    loadInitialDrivers();  &#x2F;加载初始化其他驱动类</span><br><span class="line">    println(&quot;JDBC DriverManager initialized&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static void loadInitialDrivers() &#123;</span><br><span class="line">    String drivers;</span><br><span class="line">    try &#123;</span><br><span class="line">        drivers &#x3D; AccessController.doPrivileged(new PrivilegedAction&lt;String&gt;() &#123;  &#x2F;&#x2F;跳过权限验证从系统变量中获取驱动</span><br><span class="line">            public String run() &#123;</span><br><span class="line">                return System.getProperty(&quot;jdbc.drivers&quot;); &#x2F;&#x2F;获取jdbc.drivers变量</span><br><span class="line">            &#125;</span><br><span class="line">        &#125;);</span><br><span class="line">    &#125; catch (Exception ex) &#123;</span><br><span class="line">        drivers &#x3D; null;</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F; If the driver is packaged as a Service Provider, load it.</span><br><span class="line">    &#x2F;&#x2F; Get all the drivers through the classloader</span><br><span class="line">    &#x2F;&#x2F; exposed as a java.sql.Driver.class service.</span><br><span class="line">    &#x2F;&#x2F; ServiceLoader.load() replaces the sun.misc.Providers()</span><br><span class="line"></span><br><span class="line">    AccessController.doPrivileged(new PrivilegedAction&lt;Void&gt;() &#123;</span><br><span class="line">        public Void run() &#123;</span><br><span class="line"></span><br><span class="line">            ServiceLoader&lt;Driver&gt; loadedDrivers &#x3D; ServiceLoader.load(Driver.class);&#x2F;&#x2F;通过ServiceLoader动态加载驱动类</span><br><span class="line">            Iterator&lt;Driver&gt; driversIterator &#x3D; loadedDrivers.iterator();</span><br><span class="line"></span><br><span class="line">            &#x2F;* Load these drivers, so that they can be instantiated.</span><br><span class="line">            * It may be the case that the driver class may not be there</span><br><span class="line">            * i.e. there may be a packaged driver with the service class</span><br><span class="line">            * as implementation of java.sql.Driver but the actual class</span><br><span class="line">            * may be missing. In that case a java.util.ServiceConfigurationError</span><br><span class="line">            * will be thrown at runtime by the VM trying to locate</span><br><span class="line">            * and load the service.</span><br><span class="line">            *</span><br><span class="line">            * Adding a try catch block to catch those runtime errors</span><br><span class="line">            * if driver not available in classpath but it&#39;s</span><br><span class="line">            * packaged as service and that service is there in classpath.</span><br><span class="line">            *&#x2F;</span><br><span class="line">            try&#123;</span><br><span class="line">                while(driversIterator.hasNext()) &#123;</span><br><span class="line">                    driversIterator.next(); &#x2F;&#x2F;遍历并初始化对象</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch(Throwable t) &#123;</span><br><span class="line">            &#x2F;&#x2F; Do nothing</span><br><span class="line">            &#125;</span><br><span class="line">            return null;</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;);</span><br><span class="line"></span><br><span class="line">    println(&quot;DriverManager.initialize: jdbc.drivers &#x3D; &quot; + drivers);</span><br><span class="line"></span><br><span class="line">    if (drivers &#x3D;&#x3D; null || drivers.equals(&quot;&quot;)) &#123;</span><br><span class="line">        return;</span><br><span class="line">    &#125;</span><br><span class="line">    String[] driversList &#x3D; drivers.split(&quot;:&quot;); &#x2F;&#x2F;从系统变量中获取的完全限定名</span><br><span class="line">    println(&quot;number of Drivers:&quot; + driversList.length);</span><br><span class="line">    for (String aDriver : driversList) &#123;  &#x2F;&#x2F;遍历驱动名并初始化</span><br><span class="line">        try &#123;</span><br><span class="line">            println(&quot;DriverManager.Initialize: loading &quot; + aDriver);</span><br><span class="line">            Class.forName(aDriver, true,</span><br><span class="line">                    ClassLoader.getSystemClassLoader());</span><br><span class="line">        &#125; catch (Exception ex) &#123;</span><br><span class="line">            println(&quot;DriverManager.Initialize: load failed: &quot; + ex);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>在 DriverMnager 中有一段静态代码块，我们第一次调用时会执行里面的 loadInitialDrivers 方法完成第二次驱动的加载，这里加载驱动的方式有两种。一种是通过获取系统的环境变量 jdbc.drivers 得到驱动类的完全限定名并通过反射进行初始化注册，另一个是通过 serviceLoader（参考 Java 的 SPI）动态获取驱动类对象完成注册，两种方式都在 AccessController.doPrivileged 内执行，是为了跳过<code>虚拟机权限验证</code>。</p>
+</li>
+<li><p>返回 connection 对象<br>再次定位到这行代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">Connection connection&#x3D; DriverManager.getConnection(&quot;jdbc:mysql:&#x2F;&#x2F;localhost:3306&#x2F;test&quot;,&quot;root&quot;,&quot;123456&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>查看 getConnection 方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br><span class="line">66</span><br><span class="line">67</span><br><span class="line">68</span><br><span class="line">69</span><br><span class="line">70</span><br><span class="line">71</span><br><span class="line">72</span><br><span class="line">73</span><br><span class="line">74</span><br><span class="line">75</span><br></pre></td><td class="code"><pre><span class="line">@CallerSensitive</span><br><span class="line">public static Connection getConnection(String url,</span><br><span class="line">    String user, String password) throws SQLException &#123;</span><br><span class="line">    java.util.Properties info &#x3D; new java.util.Properties();</span><br><span class="line"></span><br><span class="line">    if (user !&#x3D; null) &#123;</span><br><span class="line">        info.put(&quot;user&quot;, user);</span><br><span class="line">    &#125;</span><br><span class="line">    if (password !&#x3D; null) &#123;</span><br><span class="line">        info.put(&quot;password&quot;, password);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    return (getConnection(url, info, Reflection.getCallerClass()));</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">private static Connection getConnection(</span><br><span class="line">    String url, java.util.Properties info, Class&lt;?&gt; caller) throws SQLException &#123;</span><br><span class="line">    &#x2F;*</span><br><span class="line">    * When callerCl is null, we should check the application&#39;s</span><br><span class="line">    * (which is invoking this class indirectly)</span><br><span class="line">    * classloader, so that the JDBC driver class outside rt.jar</span><br><span class="line">    * can be loaded from here.</span><br><span class="line">    *&#x2F;</span><br><span class="line">    ClassLoader callerCL &#x3D; caller !&#x3D; null ? caller.getClassLoader() : null; &#x2F;&#x2F;获取当前线程的类加载器</span><br><span class="line">    synchronized(DriverManager.class) &#123;</span><br><span class="line">        &#x2F;&#x2F; synchronize loading of the correct classloader.</span><br><span class="line">        if (callerCL &#x3D;&#x3D; null) &#123;</span><br><span class="line">            callerCL &#x3D; Thread.currentThread().getContextClassLoader();</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    if(url &#x3D;&#x3D; null) &#123;</span><br><span class="line">        throw new SQLException(&quot;The url cannot be null&quot;, &quot;08001&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    println(&quot;DriverManager.getConnection(\&quot;&quot; + url + &quot;\&quot;)&quot;);</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; Walk through the loaded registeredDrivers attempting to make a connection.</span><br><span class="line">    &#x2F;&#x2F; Remember the first exception that gets raised so we can reraise it.</span><br><span class="line">    SQLException reason &#x3D; null;</span><br><span class="line"></span><br><span class="line">    for(DriverInfo aDriver : registeredDrivers) &#123;  &#x2F;&#x2F;遍历注册信息</span><br><span class="line">        &#x2F;&#x2F; If the caller does not have permission to load the driver then</span><br><span class="line">        &#x2F;&#x2F; skip it.</span><br><span class="line">        if(isDriverAllowed(aDriver.driver, callerCL)) &#123;  &#x2F;&#x2F;判断该驱动是否是callerCL加载器加载的</span><br><span class="line">            try &#123;</span><br><span class="line">                println(&quot;    trying &quot; + aDriver.driver.getClass().getName());</span><br><span class="line">                Connection con &#x3D; aDriver.driver.connect(url, info);  &#x2F;&#x2F;通过驱动器返回connection对象</span><br><span class="line">                if (con !&#x3D; null) &#123;</span><br><span class="line">                    &#x2F;&#x2F; Success!</span><br><span class="line">                    println(&quot;getConnection returning &quot; + aDriver.driver.getClass().getName());</span><br><span class="line">                    return (con);</span><br><span class="line">                &#125;</span><br><span class="line">            &#125; catch (SQLException ex) &#123;</span><br><span class="line">                if (reason &#x3D;&#x3D; null) &#123;</span><br><span class="line">                    reason &#x3D; ex;</span><br><span class="line">                &#125;</span><br><span class="line">            &#125;</span><br><span class="line"></span><br><span class="line">        &#125; else &#123;</span><br><span class="line">            println(&quot;    skipping: &quot; + aDriver.getClass().getName());</span><br><span class="line">        &#125;</span><br><span class="line"></span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;&#x2F; if we got here nobody could connect.</span><br><span class="line">    if (reason !&#x3D; null)    &#123;</span><br><span class="line">        println(&quot;getConnection failed: &quot; + reason);</span><br><span class="line">        throw reason;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    println(&quot;getConnection: no suitable driver found for &quot;+ url);</span><br><span class="line">    throw new SQLException(&quot;No suitable driver found for &quot;+ url, &quot;08001&quot;);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上通过备注我们知道，这个是一个获取 connection 对象的过程，先是遍历 registerDrivers 集合获取每个驱动器，然后进行验证，成功后返回该驱动器。到这里 jdbc 的源码解析就结束了，因为 sql 包中很多都是接口需要子类进行实现，所以接下来要说的都是 mysql 继承接口中的实现，我也不细说大概点一下。</p>
+</li>
+<li><p>获取 PreparedStatement 对象</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">PreparedStatement prepareStatement&#x3D;connection.prepareStatement(&quot;select * from student&quot;);</span><br></pre></td></tr></table></figure>
+
+<p>这里我们通过 connection 得到了 preparedstatement，preparedstatement 继承自 statement，里面保存了 sql 语句对象，并提供了查询 sql 的方法。</p>
+</li>
+<li><p>获取 ResultSet 对象<br><code>ResultSet resultSet=prepareStatement.executeQuery();</code></p>
+<p>在这里 statement 对象调用了 executeQuery 方法，里面将会执行发送 sql 以及获取数据的操作，在 mysql 中是通过 Socket 对象进行操作的。方法返回 ResultSet，存储了查询的结果。获取 resultSet 对象后通过 next 方法移动游标定位信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">while(resultSet.next())&#123;</span><br><span class="line">System.out.println(resultSet.getString(&quot;id&quot;)+&quot;:&quot;+resultSet.getString(&quot;studname&quot;));</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>以上就是 jdbc 源码的讲解。</p>
+</li>
+</ol>
+<h1 id="java-sql-里面有什么？"><a href="#java-sql-里面有什么？" class="headerlink" title="java.sql 里面有什么？"></a>java.sql 里面有什么？</h1><p>java.sql 包中包含用于以下方面的 API：</p>
+<ul>
+<li>通过 DriverManager 实用程序建立与数据库的连接 bai</li>
+<li>DriverManager 类：建立与驱动程序的连接</li>
+<li>SQLPermission 类：代码在 Security Manager（比如 applet）中运行时提供权限，试图通过 DriverManager 设置一个记录流</li>
+<li>Driver 接口：提供用来注册和连接基于 JDBC 技术（“JDBC 驱动程序”）的驱动程序的 API，通常仅由 DriverManager 类使用</li>
+<li>DriverPropertyInfo 类：提供 JDBC 驱动程序的属性，不是供一般用户使用的向数据库发送 SQL 语句</li>
+<li>Statement：用于发送基本 SQL 语句</li>
+<li>PreparedStatement：用于发送准备好的语句或基本 SQL 语句（派生自 Statement）</li>
+<li>CallableStatement：用于调用数据库存储过程（派生自 PreparedStatement）</li>
+<li>Connection 接口：提供创建语句以及管理连接及其属性的方法</li>
+<li>Savepoint：在事务中提供保存点</li>
+<li>获取和更新查询的结果</li>
+<li>ResultSet 接口</li>
+<li>SQL 类型到 Java 编程语言中的类和接口的标准映射关系<ul>
+<li>Array 接口：SQL ARRAY 的映射关系</li>
+<li>Blob 接口：SQL BLOB 的映射关系</li>
+<li>Clob 接口：SQL CLOB 的映射关系</li>
+<li>Date 类：SQL DATE 的映射关系</li>
+<li>…..</li>
+</ul>
+</li>
+<li>元数据<ul>
+<li>DatabaseMetaData 接口：提供有关数据库的信息</li>
+<li>ResultSetMetaData 接口：提供有关 ResultSet 对象的列的信息</li>
+<li>ParameterMetaData 接口：提供有关 PreparedStatement 命令的参数的信息</li>
+</ul>
+</li>
+<li>异常<ul>
+<li>SQLException：由大多数方法在访问数据出问题时抛出，以及因为其他原因由其他一些方法抛出</li>
+<li>SQLWarning：为了指示一个警告而抛出</li>
+</ul>
+</li>
+</ul>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/Java/" rel="tag"># Java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/17/Web%E6%9C%8D%E5%8A%A1%E5%99%A8%E9%AB%98%E5%B9%B6%E5%8F%91%E5%92%8C%E9%AB%98%E6%80%A7%E8%83%BD/" rel="prev" title="Web服务器高并发和高性能">
+                  <i class="fa fa-chevron-left"></i> Web服务器高并发和高性能
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/01/22/K8S/" rel="next" title="K8S">
+                  K8S <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>

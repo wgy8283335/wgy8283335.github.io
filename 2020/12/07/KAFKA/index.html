@@ -31,8 +31,9 @@
 <meta property="og:description" content="1.根目录下的结构12[zk: localhost:2181(CONNECTED) 72] ls &#x2F;[isr_change_notification, zookeeper, admin, consumers, cluster, config, latest_producer_id_block, controller, brokers, controller_epoch]  2. adm">
 <meta property="og:locale">
 <meta property="og:image" content="http://yoursite.com/images/kafka-1.png">
+<meta property="og:image" content="http://yoursite.com/images/kafka-2.png">
 <meta property="article:published_time" content="2020-12-07T08:07:30.000Z">
-<meta property="article:modified_time" content="2021-01-05T08:53:18.552Z">
+<meta property="article:modified_time" content="2021-01-23T06:29:52.393Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -149,7 +150,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">1.根目录下的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-admin-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">2. admin 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-consumers-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">3.consumers 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-controllers-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">5.controllers 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E7%94%9F%E4%BA%A7%E8%80%85%E5%92%8C%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">5.</span> <span class="nav-text">6.深入理解生产者和消费者</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-%E6%A0%B9%E7%9B%AE%E5%BD%95%E4%B8%8B%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">1.</span> <span class="nav-text">1.根目录下的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-admin-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">2.</span> <span class="nav-text">2. admin 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-consumers-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">3.</span> <span class="nav-text">3.consumers 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#5-controllers-%E7%9A%84%E7%BB%93%E6%9E%84"><span class="nav-number">4.</span> <span class="nav-text">5.controllers 的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#6-%E6%B7%B1%E5%85%A5%E7%90%86%E8%A7%A3%E7%94%9F%E4%BA%A7%E8%80%85%E5%92%8C%E6%B6%88%E8%B4%B9%E8%80%85"><span class="nav-number">5.</span> <span class="nav-text">6.深入理解生产者和消费者</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#7-%E9%87%8D%E5%B9%B3%E8%A1%A1"><span class="nav-number">6.</span> <span class="nav-text">7.重平衡</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%B8%89%E7%A7%8D%E9%87%8D%E5%B9%B3%E8%A1%A1%E7%AD%96%E7%95%A5"><span class="nav-number">6.0.1.</span> <span class="nav-text">三种重平衡策略</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Range"><span class="nav-number">6.0.2.</span> <span class="nav-text">Range</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#RoundRobin"><span class="nav-number">6.0.3.</span> <span class="nav-text">RoundRobin</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Sticky"><span class="nav-number">6.0.4.</span> <span class="nav-text">Sticky</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%81%BF%E5%85%8D%E9%87%8D%E5%B9%B3%E8%A1%A1"><span class="nav-number">6.0.5.</span> <span class="nav-text">避免重平衡</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#8-%E6%97%A0%E6%B3%95%E6%B6%88%E8%B4%B9%E6%B6%88%E6%81%AF"><span class="nav-number">7.</span> <span class="nav-text">8.无法消费消息</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#8-1-%E9%87%8D%E5%A4%8D%E6%B6%88%E8%B4%B9"><span class="nav-number">7.0.1.</span> <span class="nav-text">8.1 重复消费</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-2-%E6%B6%88%E6%81%AF%E8%A2%AB%E6%B8%85%E7%90%86%E6%8E%89"><span class="nav-number">7.0.2.</span> <span class="nav-text">8.2 消息被清理掉</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#8-3-kafka-%E6%89%8B%E5%8A%A8%E6%B8%85%E9%99%A4-topic"><span class="nav-number">7.0.3.</span> <span class="nav-text">8.3 kafka 手动清除 topic</span></a></li></ol></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -162,12 +163,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -237,7 +238,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-01-05 16:53:18" itemprop="dateModified" datetime="2021-01-05T16:53:18+08:00">2021-01-05</time>
+        <time title="Modified: 2021-01-23 14:29:52" itemprop="dateModified" datetime="2021-01-23T14:29:52+08:00">2021-01-23</time>
       </span>
 
   
@@ -261,6 +262,136 @@
 <h2 id="5-controllers-的结构"><a href="#5-controllers-的结构" class="headerlink" title="5.controllers 的结构"></a>5.controllers 的结构</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br><span class="line">60</span><br><span class="line">61</span><br><span class="line">62</span><br><span class="line">63</span><br><span class="line">64</span><br><span class="line">65</span><br></pre></td><td class="code"><pre><span class="line">[zk: localhost:2181(CONNECTED) 92] ls &#x2F;controller</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 93] get &#x2F;controller</span><br><span class="line">&#123;&quot;version&quot;:1,&quot;brokerid&quot;:0,&quot;timestamp&quot;:&quot;1535943857541&quot;&#125; &#x2F;&#x2F;表示broker0为kafka的控制节点</span><br><span class="line">cZxid &#x3D; 0x15</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x15</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:17 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x15</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 54</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 94]</span><br><span class="line">## 6.brokers的结构</span><br><span class="line">[zk: localhost:2181(CONNECTED) 95] ls &#x2F;brokers</span><br><span class="line">[seqid, topics, ids]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 96] ls &#x2F;brokers&#x2F;ids</span><br><span class="line">[0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 97] get &#x2F;brokers&#x2F;ids&#x2F;0</span><br><span class="line">&#123;&quot;listener_security_protocol_map&quot;:&#123;&quot;PLAINTEXT&quot;:&quot;PLAINTEXT&quot;&#125;,&quot;endpoints&quot;:[&quot;PLAINTEXT:&#x2F;&#x2F;localhost:9092&quot;],&quot;jmx_port&quot;:-1,&quot;host&quot;:&quot;localhost&quot;,&quot;timestamp&quot;:&quot;1535943859255&quot;,&quot;port&quot;:9092,&quot;version&quot;:4&#125;</span><br><span class="line">cZxid &#x3D; 0x1c</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">mZxid &#x3D; 0x1c</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:04:19 PDT 2018</span><br><span class="line">pZxid &#x3D; 0x1c</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x1659d6268f60000</span><br><span class="line">dataLength &#x3D; 188</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 98]</span><br><span class="line"></span><br><span class="line">------------------------------brokers&#x2F;topics----------------------</span><br><span class="line">[zk: localhost:2181(CONNECTED) 100] ls &#x2F;brokers&#x2F;topics</span><br><span class="line">[__consumer_offsets, test, test2]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test</span><br><span class="line"></span><br><span class="line">test    test2</span><br><span class="line">[zk: localhost:2181(CONNECTED) 101] ls &#x2F;brokers&#x2F;topics&#x2F;test2</span><br><span class="line">[partitions]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 102] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions</span><br><span class="line">[2, 1, 0]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 103] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2</span><br><span class="line">[state]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 104] ls &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">[]</span><br><span class="line">[zk: localhost:2181(CONNECTED) 105] get &#x2F;brokers&#x2F;topics&#x2F;test2&#x2F;partitions&#x2F;2&#x2F;state</span><br><span class="line">&#123;&quot;controller_epoch&quot;:1,&quot;leader&quot;:0,&quot;version&quot;:1,&quot;leader_epoch&quot;:0,&quot;isr&quot;:[0]&#125;</span><br><span class="line">&#x2F;&#x2F;表示partition 0 的leader是在0 broker上</span><br><span class="line">cZxid &#x3D; 0xd2</span><br><span class="line">ctime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">mZxid &#x3D; 0xd2</span><br><span class="line">mtime &#x3D; Sun Sep 02 20:18:06 PDT 2018</span><br><span class="line">pZxid &#x3D; 0xd2</span><br><span class="line">cversion &#x3D; 0</span><br><span class="line">dataVersion &#x3D; 0</span><br><span class="line">aclVersion &#x3D; 0</span><br><span class="line">ephemeralOwner &#x3D; 0x0</span><br><span class="line">dataLength &#x3D; 72</span><br><span class="line">numChildren &#x3D; 0</span><br><span class="line">[zk: localhost:2181(CONNECTED) 106]</span><br></pre></td></tr></table></figure>
 
 <h2 id="6-深入理解生产者和消费者"><a href="#6-深入理解生产者和消费者" class="headerlink" title="6.深入理解生产者和消费者"></a>6.深入理解生产者和消费者</h2><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mcbye/p/kafka-producer-in-detail.html">https://www.cnblogs.com/mcbye/p/kafka-producer-in-detail.html</a><br><a target="_blank" rel="noopener" href="https://www.cnblogs.com/mcbye/p/kafka-consumer-in-detail.html">https://www.cnblogs.com/mcbye/p/kafka-consumer-in-detail.html</a></p>
+<h2 id="7-重平衡"><a href="#7-重平衡" class="headerlink" title="7.重平衡"></a>7.重平衡</h2><p>说完消费者组，再来说说与消费者组息息相关的重平衡机制。重平衡可以说是 kafka 为人诟病最多的一个点了。</p>
+<p>重平衡其实就是一个协议，它规定了如何让消费者组下的所有消费者来分配 topic 中的每一个分区。比如一个 topic 有 100 个分区，一个消费者组内有 20 个消费者，在协调者的控制下让组内每一个消费者分配到 5 个分区，这个分配的过程就是重平衡。</p>
+<p>重平衡的触发条件主要有三个：</p>
+<ul>
+<li>消费者组内成员发生变更，这个变更包括了增加和减少消费者。注意这里的减少有很大的可能是被动的，就是某个消费者崩溃退出了</li>
+<li>主题的分区数发生变更，kafka 目前只支持增加分区，当增加的时候就会触发重平衡</li>
+<li>订阅的主题发生变化，当消费者组使用正则表达式订阅主题，而恰好又新建了对应的主题，就会触发重平衡</li>
+</ul>
+<p>为什么说重平衡为人诟病呢？因为重平衡过程中，消费者无法从 kafka 消费消息，这对 kafka 的 TPS 影响极大，而如果 kafka 集内节点较多，比如数百个，那重平衡可能会耗时极多。数分钟到数小时都有可能，而这段时间 kafka 基本处于不可用状态。所以在实际环境中，应该尽量避免重平衡发生。</p>
+<p>了解了什么是重平衡，重平衡的缺点和触发条件后，我们先来看看重平衡的三种不同策略，然后说说应该如何避免重平衡发生。</p>
+<h4 id="三种重平衡策略"><a href="#三种重平衡策略" class="headerlink" title="三种重平衡策略"></a>三种重平衡策略</h4><p>kafka 提供了三种重平衡分配策略，这里顺便介绍一下：</p>
+<h4 id="Range"><a href="#Range" class="headerlink" title="Range"></a>Range</h4><p>具体实现位于，package org.apache.kafka.clients.consumer.RangeAssignor。</p>
+<p>这种分配是基于每个主题的分区分配，如果主题的分区分区不能平均分配给组内每个消费者，那么对该主题，某些消费者会被分配到额外的分区。我们来看看具体的例子。</p>
+<p>举例：目前有两个消费者 C0 和 C1，两个主题 t0 和 t1，每个主题三个分区，分别是 t0p0，t0p1，t0p2，和 t1p0，t1p1，t1p2。</p>
+<p>那么分配情况会是：</p>
+<ul>
+<li>C0：t0p0, t0p1, t1p0, t1p1</li>
+<li>C1：t0p2, t1p2</li>
+</ul>
+<p>我来大概解释一下，range 这种模式，消费者被分配的单位是基于主题的，拿上面的例子来说，是主题 t0 的三个分区分配给 2 个消费者，t1 三个分区分配给消费者。于是便会出现消费者 c0 分配到主题 t0 两个分区，以及 t1 两个分区的情况（一个主题有三个分区，三个分区无法匹配两个消费者，势必有一个消费者分到两个分区），而非每个消费者分配两个主题各三个分区。</p>
+<h4 id="RoundRobin"><a href="#RoundRobin" class="headerlink" title="RoundRobin"></a>RoundRobin</h4><p>具体实现位于，package org.apache.kafka.clients.consumer.RoundRobinAssignor。</p>
+<p>RoundRobin 是基于全部主题的分区来进行分配的，同时这种分配也是 kafka 默认的 rebalance 分区策略。还是用刚刚的例子来看，</p>
+<p>举例：两个消费者 C0 和 C1，两个主题 t0 和 t1，每个主题三个分区，分别是 t0p0，t0p1，t0p2，和 t1p0，t1p1，t1p2。</p>
+<p>由于是基于全部主题的分区，那么分配情况会是：</p>
+<ul>
+<li>C0：t0p0, t0p1, t1p1</li>
+<li>C1：t1p0, t0p2, t1p2<br>因为是基于全部主题的分区来平均分配给消费者，所以这种分配策略能更加均衡得分配分区给每一个消费者。</li>
+</ul>
+<p>上面说的都是同一消费者组内消费组都订阅相同主题的情况。更复杂的情况是，同一组内的消费者订阅不同的主题，那么任然可能会导致分区不均衡的情况。</p>
+<p>还是举例说明，有三个消费者 C0，C1，C2 。三个主题 t0，t1，t2，分别有 1，2，3 个分区 t0p0，t1p0，t1p1，t2p0，t2p1，t2p2。</p>
+<p>其中，C0 订阅 t0，C1 订阅 t0，t1。C2 订阅 t0，t1，t2。最终订阅情况如下：</p>
+<ul>
+<li>C0：t0p0</li>
+<li>C1：t1p0</li>
+<li>C2：t1p1，t2p0，t2p1，t2p2<br>这个结果乍一看有点迷，其实可以这样理解，按照序号顺序进行循环分配，t0 只有一个分区，先碰到 C0 就分配给它了。t1 有两个分区，被 C1 和 C2 订阅，那么会循环将两个分区分配出去，最后到 t2，有三个分区，却只有 C2 订阅，那么就将三个分区分配给 C2。</li>
+</ul>
+<h4 id="Sticky"><a href="#Sticky" class="headerlink" title="Sticky"></a>Sticky</h4><p>Sticky 分配策略是最新的也是最复杂的策略，其具体实现位于 package org.apache.kafka.clients.consumer.StickyAssignor。</p>
+<p>这种分配策略是在 0.11.0 才被提出来的，主要是为了一定程度解决上面提到的重平衡非要重新分配全部分区的问题。称为粘性分配策略。</p>
+<p>听名字就知道，主要是为了让目前的分配尽可能保持不变，只挪动尽可能少的分区来实现重平衡。</p>
+<p>还是举例说明，有三个消费者 C0，C1，C2 。三个主题 t0，t1，t2，t3。每个主题各有两个分区， t0p0，t0p1，t1p0，t1p1，t2p0，t2p1，t3p0，t3p1。</p>
+<p>现在订阅情况如下：</p>
+<ul>
+<li>C0：t0p0，t1p1，t3p0</li>
+<li>C1：t0p1，t2p0，t3p1</li>
+<li>C2：t1p0，t2p1</li>
+</ul>
+<p>假设现在 C1 挂掉了，如果是 RoundRobin 分配策略，那么会变成下面这样：</p>
+<ul>
+<li>C0：t0p0，t1p0，t2p0，t3p0</li>
+<li>C2：t0p1，t1p1，t2p1，t3p1</li>
+</ul>
+<p>就是说它会全部重新打乱，再分配，而如何使用 Sticky 分配策略，会变成这样：</p>
+<ul>
+<li>C0：t0p0，t1p1，t3p0，t2p0</li>
+<li>C2：t1p0，t2p1，t0p1，t3p1</li>
+</ul>
+<p>也就是说，尽可能保留了原来的分区情况，不去改变它，在这个基础上进行均衡分配，不过这个策略目前似乎还有些 bug，所以实际使用也不多。</p>
+<h4 id="避免重平衡"><a href="#避免重平衡" class="headerlink" title="避免重平衡"></a>避免重平衡</h4><p>要说完全避免重平衡，那是不可能滴，因为你无法完全保证消费者不会故障。而消费者故障其实也是最常见的引发重平衡的地方，所以这里主要介绍如何尽力避免消费者故障。</p>
+<p>而其他几种触发重平衡的方式，增加分区，或是增加订阅的主题，抑或是增加消费者，更多的是主动控制，这里也不多讨论。</p>
+<p>首先要知道，如果消费者真正挂掉了，那我们是没有什么办法的，但实际中，会有一些情况，会让 kafka 错误地认为一个正常的消费者已经挂掉了，我们要的就是避免这样的情况出现。</p>
+<p>当然要避免，那首先要知道哪些情况会出现错误判断挂掉的情况。在分布式系统中，通常是通过心跳来维持分布式系统的，kafka 也不例外。对这部分内容有兴趣可以看看我之前的这篇分布式系统一致性问题与 Raft 算法（上）。这里要说的是，在分布式系统中，由于网络问题你不清楚没接收到心跳，是因为对方真正挂了还是只是因为负载过重没来得及发生心跳或是网络堵塞。所以一般会约定一个时间，超时即判定对方挂了。而在 kafka 消费者场景中，session.timout.ms 参数就是规定这个超时时间是多少。</p>
+<p>还有一个参数，heartbeat.interval.ms，这个参数控制发送心跳的频率，频率越高越不容易被误判，但也会消耗更多资源。</p>
+<p>此外，还有最后一个参数，max.poll.interval.ms，我们都知道消费者 poll 数据后，需要一些处理，再进行拉取。如果两次拉取时间间隔超过这个参数设置的值，那么消费者就会被踢出消费者组。也就是说，拉取，然后处理，这个处理的时间不能超过 max.poll.interval.ms 这个参数的值。这个参数的默认值是 5 分钟，而如果消费者接收到数据后会执行耗时的操作，则应该将其设置得大一些。</p>
+<p>小结一下，其实主要就是三个参数，session.timout.ms 控制心跳超时时间，heartbeat.interval.ms 控制心跳发送频率，以及 max.poll.interval.ms 控制 poll 的间隔。这里给出一个相对较为合理的配置，如下：</p>
+<p>session.timout.ms：设置为 6s<br>heartbeat.interval.ms：设置 2s<br>max.poll.interval.ms：推荐为消费者处理消息最长耗时再加 1 分钟</p>
+<h2 id="8-无法消费消息"><a href="#8-无法消费消息" class="headerlink" title="8.无法消费消息"></a>8.无法消费消息</h2><p>kafka 消费不到数据的原因，首先检查配置之类的，如是否设置了 group.id，对应的 topic 是否正确等等，这些不多说。</p>
+<p>下面是我遇到的几种 kafka 消费不到数据的情况：</p>
+<h4 id="8-1-重复消费"><a href="#8-1-重复消费" class="headerlink" title="8.1 重复消费"></a>8.1 重复消费</h4><p>参考<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/d63c1576e6cc">https://www.jianshu.com/p/d63c1576e6cc</a><br>下面进行详细分析：</p>
+<p>“消费确认”是所有消息中间件都要解决的一个问题，在 kafka 中涉及到两个消费位置：</p>
+<p>（1）当前取消息所在的 consume offset；</p>
+<p>（2）程序处理完毕发送 ack（确认字符）后所确定的 committed offset。</p>
+<p>很显然，在异步模式下，committed offset 要落后于 consume offset。假如 consumer 挂了重启，那么它将从 commited offset 位置处开始重新消费，而不是 consume offset 位置，这也就意味着很可能重复消费，所以会导致一条数据也抓不到。</p>
+<p>那么怎么解决这个问题呢？</p>
+<p>答案就是自己保存 commited offset，而不是依赖 kafka 的集群保存 commited offset，把消息的处理和保存 offset 做成一个原子操作。</p>
+<p>如何将消息的处理和保存 offset 做成一个原子操作呢，Kafka 的官方文档列举了自己保存 offset 的两种使用场景：<br><img src="/images/kafka-2.png"><br>要自己保存 committed offset，就要做到以下几个操作：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">Configure enable.auto.commit&#x3D;false   &#x2F;&#x2F;禁用自动ack</span><br><span class="line">Use the offset provided with each ConsumerRecord to save your position. &#x2F;&#x2F;每次取到消息，把对应的offset存下来</span><br><span class="line">On restart restore the position of the consumer using seek(TopicPartition, long).&#x2F;&#x2F;下次重启，通过consumer.seek函数，定位到自己保存的offset，从那开始消费</span><br></pre></td></tr></table></figure>
+
+<p>Kafka 本身的机制只能保证消息不漏，即”at least once”，而通过自己来保存 committed offset，我们可以实现消费端的消息不重，即”exactly once”，达到消息不重不丢的目的。</p>
+<h4 id="8-2-消息被清理掉"><a href="#8-2-消息被清理掉" class="headerlink" title="8.2 消息被清理掉"></a>8.2 消息被清理掉</h4><p><a target="_blank" rel="noopener" href="https://www.cnblogs.com/sylvialucy/p/7827044.html">https://www.cnblogs.com/sylvialucy/p/7827044.html</a></p>
+<p>1.长时间不消费导致 log.retention.hours 或者 log.retention.minutes 超时，清除 log，Offset.Stored 失效</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">consumer.Assign(new List&lt;TopicPartitionOffset&gt;()&#123; new TopicPartitionOffset(new TopicPartition(&quot;topic&quot;, 1), new Offset(index)) &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>2.我一次加数据太多导致磁盘耗尽，kafka 管理员帮我改到 20G 内存，但是仍然有一部分数据超出，分区 offset 靠前的数据被清除，导致再次消费不到。清除掉的数据无法再次被消费，但是还保存的数据可以消费到.</p>
+<p>解决办法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">consumer.Assign(new List&lt;TopicPartitionOffset&gt;()&#123; new TopicPartitionOffset(new TopicPartition(&quot;topic&quot;, 1), Offset.Beginning) &#125;);</span><br></pre></td></tr></table></figure>
+
+<p>或者在配置中加</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">auto.offset.reset&#x3D;smallest &#x2F;&#x2F;.NET 默认是largest</span><br><span class="line">auto.offset.reset&#x3D;earliest&#x2F;&#x2F;Java 默认是latest</span><br></pre></td></tr></table></figure>
+
+<h4 id="8-3-kafka-手动清除-topic"><a href="#8-3-kafka-手动清除-topic" class="headerlink" title="8.3 kafka 手动清除 topic"></a>8.3 kafka 手动清除 topic</h4><p>当手动删除 Kafka 某一分片上的消息日志时，如上图蓝线所示，此是只是将 Kafka Log 中的信息清 0 了，但是 Zookeeper 中的 Partition 和 Offset 数据依然会记录。当重新启动 Kafka 后，我们会发现如下二种情况：</p>
+<pre><code> A、客户端无法正常用消费；
+
+ B、在使用Kafka Consumer Offset  Monitor工具进行Kafka监控时会发现Lag(还有多少消息数未读取(Lag=logSize-Offset))为负数；其中此种情况的删除操作需要我们重点关注，后面我们也会详细介绍其对应的操作步骤。</code></pre>
+<p>一般正常情况，如果想让 Kafka 客户端正常消费，那么需要 Zookeeper 和 Kafka Log 中的记录保持如上图黄色所示。<br>二、Kafka 消息日志清除</p>
+<p>操作步骤主要包括：</p>
+<pre><code> 1、停止Kafka运行；
+
+ 2、删除Kafka消息日志；
+
+ 3、修改ZK的偏移量；
+
+ 4、重启Kafka;</code></pre>
+<p>上述步骤重点介绍其中的关键步骤。</p>
+<p>第 2 步：删除 Kafka 消息日志时，进入 Kafka 消息日志路径（可通过查看$KAFKA_HOME/config/server.properties 中的“log.dirs”知晓），删除相应 topic 文件夹下所有文件(如：“rm -rf ./topicA”)；</p>
+<p>第 3 步：修改 ZK 的偏移量时，进入 ZK 的安装目录下，运行./bin/zkCli.sh -server (中间以，分割)，如果不带 server 默认修改的为本机。</p>
+<p>示例如下：</p>
+<pre><code> A.运行$ZOOKEEPER_HOME/bin/zkCli.sh -server Master:2181,Slave1:2181,Slave2:2181
+
+ B.在ZK上运行ls /consumers/对应的分组/offset/对应的topic,就可以看到此topic下的所有分区了；
+
+  通过get /consumers/对应的分组/offset/对应的topic/对应的分区号，可以查询到该分区上记录的offset;
+
+  通过set /consumers/对应的分组/offset/对应的topic/对应的分区号 修改后的值（一般为0，重置），即可完成对offset的修改；</code></pre>
+<p>（注意：B 步骤中的“/consumers”由实际配置情况决定）</p>
+<p>三、重建 Topic</p>
+<pre><code>操作步骤主要包括如下：
+
+  1、删除Topic;
+
+  2、删除log日志；
+
+  3、删除ZK中的Topic记录</code></pre>
+<p>第一步：删除 Topic</p>
+<p>运行$KAFKA_HOME/bin/kafka-topics.sh -delete -zookeeper [zookeeper server] -topic [topic name]；如果 kafka 启动时加载的配置文件 server.properties 没有配置 delete.topic.enable = true,那么此时的删除并不是真正的删除。而只是把 topic 标记为：marked for deletion,此时就需要执行第 3 步的操作；</p>
+<p>第三步：删除 ZK 中的 Topic 记录</p>
+<p>示例如下：</p>
+<pre><code> A.运行$ZOOKEEPER_HOME/bin/zkCli.sh -server Master:2181,Slave1:2181,Slave2:2181
+
+ B.进入/admin/delete_topics目录下，找到删除的topic,删除对应的信息。</code></pre>
+<p>四、重新启动 Kafka 集群</p>
 
     </div>
 

@@ -154,12 +154,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -188,6 +188,181 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/27/sharding-sql-test/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/27/sharding-sql-test/" class="post-title-link" itemprop="url">sharding-sql-test</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-27 14:58:30" itemprop="dateCreated datePublished" datetime="2019-10-27T14:58:30+08:00">2019-10-27</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:20" itemprop="dateModified" datetime="2020-11-22T14:14:20+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-sql-test的主要功能是对sql测试用例xml文件进行加载，生成测试用例封装在SQLCases对象中，JAXB 实现java对象与xml之间互相转换<br>。包含三个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.test.sql.loader。对外提供了SQL Cases的三种注册中心，里面含有SQLCasesLoader属性来读取配置文件。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCase。对应与xml里部分的实体类，包含属性：id,value,databaseTypes和sqlType。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCases。对应与xml里部分的实体类，包含属性：databaseTypes和sqlCases。</li>
+<li>org.apache.shardingsphere.test.sql.SQLCaseType。定义两种SQL类型，Literal是指值已经写在sql语句中，Placeholder是指sql语句使用?来做parameter的占位符。</li>
+</ol>
+<ul>
+<li><p>模块结构图<br><img src="/images/sharding-sql-test.png"></p>
+</li>
+<li><p>设计模式和设计原则</p>
+</li>
+</ul>
+<ol>
+<li>单例模式<br>EncryptSQLCasesRegistry,ShardingSQLCasesRegistry,ShardingUnsupportedSQLCasesRegistry这三个都采用了单例模式。内部只有一个属性<code>private SQLCasesLoader sqlCasesLoader;</code>用于加载测试用例文件。<br>保证一个类仅有一个实例，并提供一个访问它的全局访问点。避免一个全局使用的类频繁地创建与销毁，此外单个实例还节省了内存资源。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/26/sharding-core-entry/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/26/sharding-core-entry/" class="post-title-link" itemprop="url">sharding-core-entry</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-26 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-26T19:11:30+08:00">2019-10-26</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:17" itemprop="dateModified" datetime="2020-11-22T14:14:17+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-entry的主要功能是对sql进行分片得到SQLRouteResult，包含三个类：</li>
+</ul>
+<ol>
+<li>BaseShardingEngine。是抽象类，对外提供SQLRouteResult shard(final String sql, final List<Object> parameters)方法。此方法是模板方法，可以将一些子算法的实现，延迟到实现类中。cloneParameters()和route()的实现就是在子类完成的。</Object></li>
+<li>PreparedQueryShardingEngine。它是BaseShardingEngine的实现类，实现了cloneParameters()和route()的实现就是在子类完成的。含有属性<code>PreparedStatementRoutingEngine routingEngine;</code>，它在route()中发挥了作用。</li>
+<li>SimpleQueryShardingEngine。它是BaseShardingEngine的实现类，实现了cloneParameters()和route()的实现就是在子类完成的。含有属性<code>StatementRoutingEngine routingEngine;</code>，它在route()中发挥了作用。</li>
+</ol>
+<ul>
+<li><p>模块结构图<br><img src="/images/sharding-core-entry.png"></p>
+</li>
+<li><p>设计模式和设计原则</p>
+</li>
+</ul>
+<ol>
+<li>模板方法<br>BaseShardingEngine类的SQLRouteResult shard(final String sql, final List<Object> parameters)方法使用了模板方法模式，父类BaseShardingEngine定义了整个算法的骨架，让子类去实现具体的细节。route()和cloneParameters()就是留给子类自定义的细节部分，使得子类在不变更整体算法的情况下，就可以重新定义该算法的特定步骤。</Object></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -873,165 +1048,6 @@
 <p>2.7可扩展性<br>按照定义，MapReduce和Spark都可以使用HDFS来扩展。那么，Hadoop集群能变得多大呢?<br>据称雅虎有一套42000个节点组成的Hadoop集群，可以说扩展无极限。最大的已知Spark集群是8000个节点，不过随着大数据增多，预计集群规模也会随之变大，以便继续满足吞吐量方面的预期。</p>
 <p><strong>2.8安全</strong><br>Hadoop支持Kerberos身份验证，这管理起来有麻烦。然而，第三方厂商让企业组织能够充分利用活动目录Kerberos和LDAP用于身份验证。同样那些第三方厂商还为传输中数据和静态数据提供数据加密。<br>Hadoop分布式文件系统支持访问控制列表(ACL)和传统的文件权限模式。Hadoop为任务提交中的用户控制提供了服务级授权(Service Level Authorization)，这确保客户拥有正确的权限。<br>Spark的安全性弱一点，目前只支持通过共享密钥(密码验证)的身份验证。Spark在安全方面带来的好处是，如果你在HDFS上运行Spark，它可以使用HDFS ACL和文件级权限。此外，Spark可以在YARN上运行，因而能够使用Kerberos身份验证。</p>
 <p>总结<br>Spark与MapReduce是一种相互共生的关系。Hadoop提供了Spark所没有的功能特性，比如分布式文件系统，而Spark 为需要它的那些数据集提供了实时内存处理。完美的大数据场景正是设计人员当初预想的那样：让Hadoop和Spark在同一个团队里面协同运行。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/Disruptor/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/29/Disruptor/" class="post-title-link" itemprop="url">Disruptor</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2019-03-29 17:01:22 / Modified: 19:47:23" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>LMAX Disruptor交易系统吞吐量快的关键原因。为什么我们要将其开源？我们意识到对高性能编程领域的一些传统观点有点不对劲。<br>尽管ringbuffer是整个模式（Disruptor）的核心，但是Disruptor对ringbuffer的访问控制策略才是真正的关键点所在。<br><strong>1.首先介绍ringbuffer</strong><br>1.1ringbuffer是一个环，换上的每个元素都有一个序号，序号随着元素的写入而递增（一直增加，绕过环以后继续增加），底层使用数组存储。它与常见队列的区别是：它不删除元素而是覆盖元素；他只有头指针没有尾指针。<br>1.1它比链表快，容易预测的访问模式（数组元素在内存连续存储）；它缓存命中率高，因为根据CPU的缓存加载原则，会将元素附近64字节的内容一次性加载到缓存，这样相邻元素被加载到缓存后，下次访问则可以直接在缓存中取得。<br>1.2预先为数组分配内存，使得数组对象一直存在，避免了垃圾回收，节省了时间。不需要像链表那样，增删节点时都有内存操作，产生垃圾回收现象。<br><strong>2.ConsummerBarrier与消费者</strong><br><strong>2.1 ComsummerBarrier</strong>由RingBuffer创建，代表消费者与RingBuffer进行交互。消费者调用Barrier.waitFor，传递它需要的下一个序号，比如9。消费者相当于告诉Barrier：你打到的数字比我这个要大的时候请告诉我。<br><code>final long availableSeq = consumerBarrier.waitFor(nextSequence);</code><br>当数据写入后，消费者会收到来自Barrier的通知。实际消费者是通过waitStrategy来获得通知的。通知9，10，11，12都已写入。现在序号12到了，消费者通过Barrier获得批量数据。<br>当多个消费者同时消费时，不需要锁机制。<br><strong>3.ProducerBarrier与生产者</strong><br>ProducerBarrier作为Producer与RingBuffer交流的媒介。同时，为了减轻Ringbuffer的复杂度，ProducerBarrier负责记录消费者分别消费到的序列号，所以ProducerBarrier也直接与Consumer通信。<br><strong>3.1ProducerBarrier</strong>作为既知道Consumer消费到的序列号，又知道生产者想写入的序列号。它在整个Disruptor的访问控制上起到了十分关键的作用。由于每个消费者消费速率不同，有的快有的慢。会出现生产者要写入的节点位置，刚好还在被消费者消费，此时则需要等待。当消费者批量消费完以后，会通知ProducerBarrier，然后它则取到之前等待的节点Entry，然后交给Producer进行写入。Producer写入后要求ProducerBarrier进行提交。ProducerBarrier更新Ringbuffer上的游标到刚才更新的节点的序号。最后Producer通知Consumer的waitStrategy。<br>但是，要补充一下，其实整个对提交的管理是ProducerBarrier委托ClaimStrategy来做的。<br>ProducerBarrier通过ClaimStrategy来获取RingBuffer的游标。而且它还负责给Producer分发序号，以及追踪哪些序号被使用。在commit的时候，其实<strong>ClaimStrategy</strong>要等待游标到达待提交节点的上一个节点，才能进行提交。比如：游标在12，Prodcuer在14上先提取请求，此时并不能commit，需要等到13提交请求，然后游标更新到13，然后14才能commit。你会看到，尽管生产者在不同的时间完成数据写入，但是 Ring Buffer 的内容顺序总是会遵循 nextEntry() 的初始调用顺序。也就是说，如果一个生产者在写入 Ring Buffer 的时候暂停了，只有当它解除暂停后，其他等待中的提交才会立即执行<br><strong>3.2ProducerBarrier上的批处理</strong><br>因为它知道当前RingBuffer游标的位置，也知道各个消费者的消费到的位置，所以就知道哪些节点是可以写入的。<br>。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/03/29/sharding-sphere%E8%B7%AF%E7%94%B1%E6%A6%82%E5%BF%B5%E8%AF%A6%E8%A7%A3/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/03/29/sharding-sphere%E8%B7%AF%E7%94%B1%E6%A6%82%E5%BF%B5%E8%AF%A6%E8%A7%A3/" class="post-title-link" itemprop="url">sharding-sphere路由概念</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2019-03-29 17:01:22" itemprop="dateCreated datePublished" datetime="2019-03-29T17:01:22+08:00">2019-03-29</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2019-04-10 10:52:29" itemprop="dateModified" datetime="2019-04-10T10:52:29+08:00">2019-04-10</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <ul>
-<li>路由：将原SQL转换成在真实数据库真实表中可执行SQL的过程。例如：<br><code>SELECT * FROM t_order WHERE order_id IN (1, 2);</code></li>
-<li>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 WHERE order_id IN (1, 2);</code></li>
-<li>分片路由</li>
-<li>标准路由<ul>
-<li>单片路由：原SQL分片键的操作符是等号，映射后只有一条可执行SQL。例如：<br><code>SELECT * FROM t_order WHERE order_id=2;</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id=2;</code></li>
-<li>多片路由：原SQL分片键的操作符是IN，映射后有多条可执行SQL。例如：<br><code>SELECT * FROM t_order WHERE order_id IN (1, 2);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 WHERE order_id IN (1, 2);</code></li>
-<li>范围路由：原SQL分片键的操作符是BETWEEN，映射后有多条可执行SQL。<br><code>SELECT * FROM t_order WHERE order_id BETWEEN (1, 12);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE order_id BETWEEN (1, 12);</code><br><code>SELECT * FROM t_order_1 WHERE order_id BETWEEN (1, 12);</code></li>
-<li>带有绑定表的多片路由：绑定表指分片规则一致的主表和子表。例如：t_order表和t_order_item表，均按照order_id分片，则此两张表互为绑定表关系。绑定表之间的多表关联查询不会出现笛卡尔积关联，关联查询效率将大大提升。<br><code>SELECT * FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code><br>路由后成为<br><code>SELECT * FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code><br><code>SELECT * FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id  WHERE order_id IN (1, 2);</code></li>
-</ul>
-</li>
-<li>直接路由<ul>
-<li>Hint路由<br>它需要通过Hint（使用HintAPI直接指定路由至库表）方式分片，并且是只分库不分表的前提下，则可以避免SQL解析和之后的结果归并。直接路由还可以用于分片键不在SQL中的场景。<br>例如，设置用于数据库分片的键为3<code>hintManager.setDatabaseShardingValue(3)</code>。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">String sql &#x3D; &quot;SELECT * FROM t_order&quot;;</span><br><span class="line">try (HintManager hintManager &#x3D; HintManager.getInstance();</span><br><span class="line">Connection conn &#x3D; dataSource.getConnection();</span><br><span class="line">PreparedStatement preparedStatement &#x3D; conn.prepareStatement(sql)) &#123;</span><br><span class="line">	hintManager.setDatabaseShardingValue(3);</span><br><span class="line">    try (ResultSet rs &#x3D; preparedStatement.executeQuery()) &#123;</span><br><span class="line">        while (rs.next()) &#123;</span><br><span class="line">            &#x2F;&#x2F;...</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-路由算法为’value%2‘。当一个逻辑库order_database对应2个真实库order_database_0,order_databse_1时，路由后sql将在order_databse_1上执行。</li>
-</ul>
-</li>
-<li>笛卡尔路由<br>是指在关联查询中，各个表的分片键不同，没有绑定表。导致转换后的可执行SQL时，真实表之间需要进行笛卡尔积组合生成大量SQL。例如：<br>假设分片键order_id将数值10路由至第0片，将数值11路由至第1片，那么路由后的SQL应该为4条，它们呈现为笛卡尔积：<br><code>SELECT i.* FROM t_order o JOIN t_order_item i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br>路由后成为<br><code>SELECT i.* FROM t_order_0 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_0 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_1 o JOIN t_order_item_0 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code><br><code>SELECT i.* FROM t_order_1 o JOIN t_order_item_1 i ON o.order_id=i.order_id WHERE o.order_id in (10, 11);</code></li>
-<li>广播路由</li>
-<li>全库路由<br>用于处理对数据库的操作，包括用于库设置的SET类型的数据库管理命令，以及TCL这样的事务控制语句。在这种情况下，会根据逻辑库的名字遍历所有符合名字匹配的真实库，并在真实库中执行该命令。<br>例如 <code>set autocommit=0</code><br>在order_database中执行,order_database有两个真实库。则实际会在order_database_0,order_database_1上都执行这个命令。</li>
-<li>全库表路由<br>用于处理对数据库中与其逻辑表相关的所有真实表的操作，主要包括不带分片键的DQL和DML，以及DDL等<br>例如 <code>SELECT * FROM t_order WHERE good_prority IN (1, 10);</code><br>则会遍历所有数据库中的所有表，逐一匹配逻辑表和真实表名，能够匹配得上则执行。<br>路由后成为<br><code>SELECT * FROM t_order_0 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_1 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_2 WHERE good_prority IN (1, 10);</code><br><code>SELECT * FROM t_order_3 WHERE good_prority IN (1, 10);</code></li>
-<li>全实例路由<br>用于DCL操作，授权语句针对的是数据库的实例。无论一个实例中包含多少个Schema，每个数据库的实例执行一次。<br>例如：<br><code>create user customer@10.98.17.138 identified by &#39;123&#39;;</code><br>这个命令将在所有的真实数据库实例中执行，以确保customer用户可以访问每一个实例。</li>
-<li>单播路由<br>用于获取某一真实表信息的场景，它仅需要从任意库中的任意真实表中获取数据即可。<br>例如：<br><code>DESCRIBE t_order;</code><br>t_order的两个真实表t_order_0,t_order_1的描述结构相同，所以这个命令在任意真实表上选择执行一次。</li>
-<li>阻断路由<br>用于屏蔽SQL对数据库的操作。<br>例如：<code>USE order_db;</code><br>这个命令不会在真实数据库中执行，因为ShardingSphere采用的是逻辑Schema的方式，无需将切换数据库Schema的命令发送至数据库中。</li>
-</ul>
 
       
     </div>

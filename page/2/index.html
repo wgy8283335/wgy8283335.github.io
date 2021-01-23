@@ -154,12 +154,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">41</span>
+          <span class="site-state-item-count">43</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">5</span>
+        <span class="site-state-item-count">6</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -188,6 +188,187 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/03/MIME/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/03/MIME/" class="post-title-link" itemprop="url">MIME</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-01-03 16:07:30 / Modified: 12:20:48" itemprop="dateCreated datePublished" datetime="2021-01-03T16:07:30+08:00">2021-01-03</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>MIME(Multipurpose Internet Mail Extensions)多用途互联网邮件扩展类型。<br>MIME 意为多目 Internet 邮件扩展，它设计的最初目的是为了在发送电子邮件时附加多媒体数据，让邮件客户程序能根据其类型进行处理。然而当它被 HTTP 协议支持之后，它的意义就更为显著了。它使得 HTTP 传输的不仅是普通的文本，而变得丰富多彩。</p>
+<p>我们要了解浏览器是如何处理内容的。在浏览器中显示的内容有 HTML、有 XML、有 GIF、还有 Flash ……那么，浏览器是如何区分它们，决定什么内容用什么形式来显示呢？答案是 MIME Type，也就是该资源的媒体类型。<br>媒体类型通常是通过 HTTP 协议，由 Web 服务器告知浏览器的，更准确地说，是通过 Content-Type 来表示的，例如:</p>
+<p>Content-Type: text/HTML</p>
+<p>表示内容是 text/HTML 类型，也就是超文本文件。为什么是“text/HTML”而不是“HTML/text”或者别的什么？MIME Type 不是个人指定的，是经过 ietf 组织协商，以 RFC 的形式作为建议的标准发布在网上的，大多数的 Web 服务器和用户代理都会支持这个规范 (顺便说一句，Email 附件的类型也是通过 MIME Type 指定的)。</p>
+<p>通常只有一些在互联网上获得广泛应用的格式才会获得一个 MIME Type，如果是某个客户端自己定义的格式，一般只能以 application/x- 开头。</p>
+<p>在把输出结果传送到浏览器上的时候，浏览器必须启动适当的应用程序来处理这个输出文档。这可以通过多种类型 MIME（多功能网际邮件扩充协议）来完成。在 HTTP 中，MIME 类型被定义在 Content-Type header 中。</p>
+<p>例如，架设你要传送一个 Microsoft Excel 文件到客户端。那么这时的 MIME 类型就是“application/vnd.ms-excel”。在大多数实际情况中，这个文件然后将传送给 Execl 来处理（假设我们设定 Execl 为处理特殊 MIME 类型的应用程序）</p>
+<p>每个 MIME 类型由两部分组成，前面是数据的大类别，例如声音 audio、图象 image 等，后面定义具体的种类。</p>
+<p>常见的 MIME 类型</p>
+<ul>
+<li>超文本标记语言文本 .html,.html text/html</li>
+<li>普通文本 .txt text/plain</li>
+<li>RTF 文本 .rtf application/rtf</li>
+<li>GIF 图形 .gif image/gif</li>
+<li>JPEG 图形 .ipeg,.jpg image/jpeg</li>
+<li>au 声音文件 .au audio/basic</li>
+<li>MIDI 音乐文件 mid,.midi audio/midi,audio/x-midi</li>
+<li>RealAudio 音乐文件 .ra, .ram audio/x-pn-realaudio</li>
+<li>MPEG 文件 .mpg,.mpeg video/mpeg</li>
+<li>AVI 文件 .avi video/x-msvideo</li>
+<li>GZIP 文件 .gz application/x-gzip</li>
+<li>TAR 文件 .tar application/x-tar</li>
+</ul>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/02/ORACLE%E5%AF%B9%E6%AF%94MYSQL/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/02/ORACLE%E5%AF%B9%E6%AF%94MYSQL/" class="post-title-link" itemprop="url">ORACLE对比MYSQL</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-01-02 21:00:00 / Modified: 15:03:44" itemprop="dateCreated datePublished" datetime="2021-01-02T21:00:00+08:00">2021-01-02</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="ORACLE-对比-MYSQL"><a href="#ORACLE-对比-MYSQL" class="headerlink" title="ORACLE 对比 MYSQL"></a>ORACLE 对比 MYSQL</h1><h2 id="行业比对"><a href="#行业比对" class="headerlink" title="行业比对"></a>行业比对</h2><ol>
+<li>Oracle 能背锅，MySQL 不能背锅。</li>
+<li>Oracle 发展于传统行业，行业特点是数据量少，但是每条数据价值很高（银行账户的一笔交易记录）。Mysql 发展于互联网行业，业务特点是数量巨大，但是数据价值小（一次点击操作）。因为单条价值高，随意使用付费 ORACLE 软件也合理。</li>
+<li>企业应用中使用 Oracle 时大多数业务都在数据库的存储过程中实现，而 Web 应用使用 Mysql 时很多业务逻辑是在 web 服务端上实现。</li>
+<li>oracle 目前来说还是占据着主流。除了互联网之外的传统行业基本上还是用的 oracle，无论从规模还是数量上，比 sql 有着大不知道多少倍的基数，想要改弦易辙，何其难也？</li>
+<li>传统行业讲究“稳”字。传统行业的数据生态是基于数据库架构搭建起来的，很多核心业务都已经牢牢绑定了 oracle 这样的重型系统，一旦改用 sql 触动了核心业务，就势必会带来安全问题，传统行业没有必要冒这个风险。（另外，这么牛叉的开源技术也不是几句话就能有的）</li>
+<li>互联网行业讲究“快”字。互联网就是一场赛跑游戏，谁跑的慢谁就要挨打，所以互联网企业可以在更加纯粹的开源环境里不断试错，sql 明显更适合互联网企业的开发和创新。</li>
+<li>数据完整性要求不一致。传统行业不会允许数据出现完整性、一致性的错误，比如对于互联网企业来说，微博上的评论丢了几条没有关系，但是对于传统行业来说哪怕账户上少了一分钱，就足以引起传统行业的重视。</li>
+<li>数据重心不一样。Oracle 的业务数据库规模都不是很大，如果有上百台就是很大的规模了，而互联网行业里面的 MySQL 使用广泛，几百台都是很平常的事情。</li>
+<li>Oracle 的产品已经做得足够好了，满足了传统行业的要求。Oracle DBA 的管理模式主要是集中式，因为业务面大，出问题的概率会更高，高级人才在性能优化这方面投入的精力更多，但对于传统行业来说并不是什么问题。</li>
+<li>国内对于 MySQL 和 Oracle 使用的一个误区就是把 MySQL 当 Oracle 用，把 Oracle 当 MySQL 用。单纯比性能其实意义不大，Oracle 肯定完胜 MySQL，要比较水平扩展能力，那还是 MySQL 更加轻量。当然啦。</li>
+</ol>
+<h2 id="技术比对"><a href="#技术比对" class="headerlink" title="技术比对"></a>技术比对</h2><ol>
+<li><p>hash join 。Oracle 引进这的时候应该是 90 年代，而今天，Mysql 还没有。这样连接性能肯定不行。当然，这个用变通解决可以绕过去。</p>
+</li>
+<li><p>with as 。Oracle 中可以 select 查询作为一个中间结果，然后多处引用。这个 mysql 好像最近的 8.X 才有。多土啊，这可是最有用的功能之一。</p>
+</li>
+<li><p>rownumber。到目前为止，mysql 还没有 row_number。这可是程序员最常用到的功能之一。当然，可以变通解决。</p>
+</li>
+<li><p>Ananlytic function 和 window function。 这个 Oracle 很强大（比如当前行引用前一行的值）。Mysql 基本可以说是没有（当然也可以变通解决）</p>
+</li>
+<li><p>Stored procedure 这个 mysql 差太远太远，基本上是步枪对机枪。Mysql 没有 role 吧？程序员得造轮子。（查了下，8.0 有了。）</p>
+</li>
+<li><p>ORACLE 数据库自带 oracle apex 开发。好像数据库里只有 oracle 愿意投钱搞这个。</p>
+</li>
+<li><p>vpd,materialized view ,workflow,geological…… 这些 mysql 或者没有或者菜，当然 oracle 也不是每个版本都有。不过这些功能并不是日常必然用到的，所以还好啦。</p>
+</li>
+</ol>
+<p>总之，mysql 短处不少，不过，用熟了之后，大多数是可以找到变通解决方法的。比如大家诟病很多的 Hashjoin 连接，用冗余字段解决，效果肯定比 hashjoin 好。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>两种数据库出生在不同时代，ORACLE 作为商用产品是面向企业用户的，mysql 作为免费开源产品是保证一定程度上满足应用对数据库的需要，在 mysql 被 ORACLE 收购之前，功能比较简单，性能也比较一般。但在收购之后，mysql 从功能和性能上都获得了很大的提升，很多方面也在想 ORACLE 数据库看齐。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1119,285 +1300,6 @@
 
 <p>函数式编程#Python</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">array &#x3D; [int(input()) for i in range(10)]</span><br><span class="line">average &#x3D; sum(array) &#x2F; 10;</span><br><span class="line">print(list(filter(lambda x: x &gt; average, array)))</span><br><span class="line">print(sorted(array))</span><br></pre></td></tr></table></figure>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/26/Web%E6%8A%80%E6%9C%AF%E5%8E%86%E5%8F%B2%E5%8F%98%E5%8C%96/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/26/Web%E6%8A%80%E6%9C%AF%E5%8E%86%E5%8F%B2%E5%8F%98%E5%8C%96/" class="post-title-link" itemprop="url">Web技术历史变化</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-26 21:00:00" itemprop="dateCreated datePublished" datetime="2020-12-26T21:00:00+08:00">2020-12-26</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-12-27 11:47:18" itemprop="dateModified" datetime="2020-12-27T11:47:18+08:00">2020-12-27</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="一、简单明快的早期时代"><a href="#一、简单明快的早期时代" class="headerlink" title="一、简单明快的早期时代"></a>一、简单明快的早期时代</h1><p><img src="/images/web/1.png"><br>可称之为 Web 1.0 时代，非常适合创业型小项目，不分前后端，经常 3-5 人搞定所有开发。页面由 JSP、PHP 等工程师在服务端生成，浏览器负责展现。基本上是服务端给什么浏览器就展现什么，展现的控制在 Web Server 层。</p>
-<p>这种模式的好处是：简单明快，本地起一个 Tomcat 或 Apache 就能开发，调试什么的都还好，只要业务不太复杂。</p>
-<p>然而业务总会变复杂，这是好事情，否则很可能就意味着创业失败了。业务的复杂会让 Service 越来越多，参与开发的人员也很可能从几个人快速扩招到几十人。在这种情况下，会遇到一些典型问题：</p>
-<p>1、Service 越来越多，调用关系变复杂，前端搭建本地环境不再是一件简单的事。考虑团队协作，往往会考虑搭建集中式的开发服务器来解决。这种解决方案对编译型的后端开发来说也许还好，但对前端开发来说并不友好。天哪，我只是想调整下按钮样式，却要本地开发、代码上传、验证生效等好几个步骤。也许习惯了也还好，但开发服务器总是不那么稳定，出问题时往往需要依赖后端开发搞定。看似仅仅是前端开发难以本地化，但这对研发效率的影响其实蛮大。</p>
-<p>2、JSP 等代码的可维护性越来越差。JSP 非常强大，可以内嵌 Java 代码。这种强大使得前后端的职责不清晰，JSP 变成了一个灰色地带。经常为了赶项目，为了各种紧急需求，会在 JSP 里揉杂大量业务代码。积攒到一定阶段时，往往会带来大量维护成本。</p>
-<p>这个时期，为了提高可维护性，可以通过下面的方式实现前端的组件化：</p>
-<p><img src="/images/web/1.1.png"><br>理论上，如果大家都能按照最佳实践去书写代码，那么无论是 JSP 还是 PHP，可维护性都不会差。但可维护性更多是工程含义，有时候需要通过限制带来自由，需要某种约定，使得即便是新手也不会写出太糟糕的代码。</p>
-<p>如何让前后端分工更合理高效，如何提高代码的可维护性，在 Web 开发中很重要。下面我们继续来看，技术架构的演变如何解决这两个问题。</p>
-<h1 id="二、后端为主的-MVC-时代"><a href="#二、后端为主的-MVC-时代" class="headerlink" title="二、后端为主的 MVC 时代"></a>二、后端为主的 MVC 时代</h1><p>为了降低复杂度，以后端为出发点，有了 Web Server 层的架构升级，比如 Structs、Spring MVC 等，这是后端的 MVC 时代。</p>
-<p><img src="/images/web/2.png"><br>代码可维护性得到明显好转，MVC 是个非常好的协作模式，从架构层面让开发者懂得什么代码应该写在什么地方。为了让 View 层更简单干脆，还可以选择 Velocity、Freemaker 等模板，使得模板里写不了 Java 代码。看起来是功能变弱了，但正是这种限制使得前后端分工更清晰。然而依旧并不是那么清晰，这个阶段的典型问题是：</p>
-<p>1、前端开发重度依赖开发环境。这种架构下，前后端协作有两种模式：一种是前端写 demo，写好后，让后端去套模板。淘宝早期包括现在依旧有大量业务线是这种模式。好处很明显，demo 可以本地开发，很高效。不足是还需要后端套模板，有可能套错，套完后还需要前端确定，来回沟通调整的成本比较大。另一种协作模式是前端负责浏览器端的所有开发和服务器端的 View 层模板开发，支付宝是这种模式。好处是 UI 相关的代码都是前端去写就好，后端不用太关注，不足就是前端开发重度绑定后端环境，环境成为影响前端开发效率的重要因素。</p>
-<p>2、前后端职责依旧纠缠不清。Velocity 模板还是蛮强大的，变量、逻辑、宏等特性，依旧可以通过拿到的上下文变量来实现各种业务逻辑。这样，只要前端弱势一点，往往就会被后端要求在模板层写出不少业务代码。还有一个很大的灰色地带是 Controller，页面路由等功能本应该是前端最关注的，但却是由后端来实现。Controller 本身与 Model 往往也会纠缠不清，看了让人咬牙的代码经常会出现在 Controller 层。这些问题不能全归结于程序员的素养，否则 JSP 就够了。</p>
-<p>经常会有人吐槽 Java，但 Java 在工程化开发方面真的做了大量思考和架构尝试。Java 蛮符合马云的一句话：让平凡人做非凡事。</p>
-<h1 id="三、Ajax-带来的-SPA-时代"><a href="#三、Ajax-带来的-SPA-时代" class="headerlink" title="三、Ajax 带来的 SPA 时代"></a>三、Ajax 带来的 SPA 时代</h1><p>历史滚滚往前，2004 年 Gmail 像风一样的女子来到人间，很快 2005 年 Ajax 正式提出，加上 CDN 开始大量用于静态资源存储，于是出现了 JavaScript 王者归来的 SPA （Single Page Application 单页面应用）时代。</p>
-<p><img src="/images/web/3.png"><br>这种模式下，前后端的分工非常清晰，前后端的关键协作点是 Ajax 接口。看起来是如此美妙，但回过头来看看的话，这与 JSP 时代区别不大。复杂度从服务端的 JSP 里移到了浏览器的 JavaScript，浏览器端变得很复杂。类似 Spring MVC，这个时代开始出现浏览器端的分层架构：</p>
-<p><img src="/images/web/3.1.png"><br>对于 SPA 应用，有几个很重要的挑战：</p>
-<p>1、前后端接口的约定。如果后端的接口一塌糊涂，如果后端的业务模型不够稳定，那么前端开发会很痛苦。这一块在业界有 API Blueprint 等方案来约定和沉淀接口，在阿里，不少团队也有类似尝试，通过接口规则、接口平台等方式来做。有了和后端一起沉淀的接口规则，还可以用来模拟数据，使得前后端可以在约定接口后实现高效并行开发。相信这一块会越做越好。</p>
-<p>2、前端开发的复杂度控制。SPA 应用大多以功能交互型为主，JavaScript 代码过十万行很正常。大量 JS 代码的组织，与 View 层的绑定等，都不是容易的事情。典型的解决方案是业界的 Backbone，但 Backbone 做的事还很有限，依旧存在大量空白区域需要挑战。</p>
-<p>SPA 让前端看到了一丝绿色，但依旧是在荒漠中行走。</p>
-<h1 id="四、前端为主的-MV-时代"><a href="#四、前端为主的-MV-时代" class="headerlink" title="四、前端为主的 MV* 时代"></a>四、前端为主的 MV* 时代</h1><p>为了降低前端开发复杂度，除了 Backbone，还有大量框架涌现，比如 EmberJS、KnockoutJS、AngularJS 等等。这些框架总的原则是先按类型分层，比如 Templates、Controllers、Models，然后再在层内做切分，如下图：</p>
-<p><img src="/images/web/4.png"><br>好处很明显：</p>
-<p>1、前后端职责很清晰。前端工作在浏览器端，后端工作在服务端。清晰的分工，可以让开发并行，测试数据的模拟不难，前端可以本地开发。后端则可以专注于业务逻辑的处理，输出 RESTful 等接口。</p>
-<p>2、前端开发的复杂度可控。前端代码很重，但合理的分层，让前端代码能各司其职。这一块蛮有意思的，简单如模板特性的选择，就有很多很多讲究。并非越强大越好，限制什么，留下哪些自由，代码应该如何组织，所有这一切设计，得花一本的厚度去说明。</p>
-<p>3、部署相对独立，产品体验可以快速改进。</p>
-<p>但依旧有不足之处：</p>
-<p>代码不能复用。比如后端依旧需要对数据做各种校验，校验逻辑无法复用浏览器端的代码。如果可以复用，那么后端的数据校验可以相对简单化。<br>全异步，对 SEO 不利。往往还需要服务端做同步渲染的降级方案。<br>性能并非最佳，特别是移动互联网环境下。<br>SPA 不能满足所有需求，依旧存在大量多页面应用。URL Design 需要后端配合，前端无法完全掌控。<br>五、Node 带来的全栈时代<br>前端为主的 MV* 模式解决了很多很多问题，但如上所述，依旧存在不少不足之处。随着 Node.js 的兴起，JavaScript 开始有能力运行在服务端。这意味着可以有一种新的研发模式：</p>
-<p><img src="/images/web/5.png"><br>在这种研发模式下，前后端的职责很清晰。对前端来说，两个 UI 层各司其职：</p>
-<p>1、Front-end UI layer 处理浏览器层的展现逻辑。通过 CSS 渲染样式，通过 JavaScript 添加交互功能，HTML 的生成也可以放在这层，具体看应用场景。</p>
-<p>2、Back-end UI layer 处理路由、模板、数据获取、cookie 等。通过路由，前端终于可以自主把控 URL Design，这样无论是单页面应用还是多页面应用，前端都可以自由调控。后端也终于可以摆脱对展现的强关注，转而可以专心于业务逻辑层的开发。</p>
-<p>通过 Node，Web Server 层也是 JavaScript 代码，这意味着部分代码可前后复用，需要 SEO 的场景可以在服务端同步渲染，由于异步请求太多导致的性能问题也可以通过服务端来缓解。前一种模式的不足，通过这种模式几乎都能完美解决掉。</p>
-<p>与 JSP 模式相比，全栈模式看起来是一种回归，也的确是一种向原始开发模式的回归，不过是一种螺旋上升式的回归。</p>
-<h1 id="基于-Node-的全栈模式，依旧面临很多挑战："><a href="#基于-Node-的全栈模式，依旧面临很多挑战：" class="headerlink" title="基于 Node 的全栈模式，依旧面临很多挑战："></a>基于 Node 的全栈模式，依旧面临很多挑战：</h1><p>需要前端对服务端编程有更进一步的认识。比如 network/tcp、PE 等知识的掌握。<br>Node 层与 Java 层的高效通信。Node 模式下，都在服务器端，RESTful HTTP 通信未必高效，通过 SOAP 等方式通信更高效。一切需要在验证中前行。<br>对部署、运维层面的熟练了解，需要更多知识点和实操经验。<br>大量历史遗留问题如何过渡。这可能是最大最大的阻力。<br>六、小结<br>回顾历史总是让人感慨，展望未来则让人兴奋。上面讲到的研发模式，除了最后一种还在探索期，其他各种在各大公司都已有大量实践。几点小结：</p>
-<p>模式没有好坏高下之分，只有合不合适。<br>Ajax 给前端开发带来了一次质的飞跃，Node 很可能是第二次。<br>SoC（关注度分离） 是一条伟大的原则。上面种种模式，都是让前后端的职责更清晰，分工更合理高效。<br>还有个原则，让合适的人做合适的事。比如 Web Server 层的 UI Layer 开发，前端是更合适的人选。</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/21/ANTLR/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2020/12/21/ANTLR/" class="post-title-link" itemprop="url">Antlr相关</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2020-12-21 21:00:00" itemprop="dateCreated datePublished" datetime="2020-12-21T21:00:00+08:00">2020-12-21</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2020-12-26 15:24:21" itemprop="dateModified" datetime="2020-12-26T15:24:21+08:00">2020-12-26</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="实例入门"><a href="#实例入门" class="headerlink" title="实例入门"></a>实例入门</h1><p>在安装完 antlr 之后，可以编写简单的 g4 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">grammar Hello;</span><br><span class="line">r:&#39;hello&#39; ID ;</span><br><span class="line">ID:[a-z]+ ;</span><br><span class="line">WS:[\t\r\n]+ -&gt; skip;</span><br></pre></td></tr></table></figure>
-
-<p>运行如下命令</p>
-<ul>
-<li><code>antlr Hello.g4</code></li>
-<li><code>javac *.java</code></li>
-<li><code>alias grun=‘java org.antlr.v4.runtime.misc.TestRig’</code> TestRig 是一个调试工具，使用 alias 给它起了一个别名。直接执行<code>grun</code>可以得到帮助信息。</li>
-<li><code>grun Hello r -tokens</code></li>
-<li><code>hello parrt</code></li>
-<li><code>EOF</code></li>
-</ul>
-<p>得到如下结果</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[@0,0:4&#x3D;&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0]</span><br><span class="line">[@1,6:10&#x3D;&#39;parrt&#39;,&lt;ID&gt;,1:6]</span><br><span class="line">[@2,12:11&#x3D;&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span><br></pre></td></tr></table></figure>
-
-<p>解析结果：比如 parrt。@1 表明该词法符号在第 2 个位置，parrt 位于第 6 个到第 10 个位置之间，词法符号类型是 ID，位于输入文本的第 1 行，第 6 个位置处。</p>
-<h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1><p>Antlr 依据我们定义的语法规则，产生一个递归下降的语法分析器。下降过程就是从语法分析树的根节点开始，朝着叶节点进行解析的过程。递归下降的语法分析其实际是若干方法的结合，每个方法对应一条规则。递归下降属于自上而下的语法分析器的一种实现。<br>首先调用的规则，即语义符号的起始点，就会成为语法分析树的根节点。比如：调用上面的 r()方法，作为起始点。<br>语法分析数的构造过程：识别匹配的规则，将对应规则的方法映射到语法分析树中。<br>一般规则分为：单一分支，多分支。例如：多个规则 assign，ifstat<br>单一分支，如：<code>stat: assign;</code><br>多分支，如:<code>stat: assign|ifstat;</code></p>
-<h2 id="顺序解析"><a href="#顺序解析" class="headerlink" title="顺序解析"></a>顺序解析</h2><p>单一分支，只需要顺序匹配词汇符号。</p>
-<h2 id="多分支解析"><a href="#多分支解析" class="headerlink" title="多分支解析"></a>多分支解析</h2><p>多分支，需要检查下一个词法符号或者多个词法符号，来决定选择哪个备选分支。这个过程成为预测或语法分析决策。<br>如果在预测过程中，发现多个分支都匹配的话，则出现了规则的定义出现了歧义，需要解决。</p>
-<h2 id="歧义"><a href="#歧义" class="headerlink" title="歧义"></a>歧义</h2><p>例如下面这个语法就存在歧义</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">stat: expr &#39;;&#39;</span><br><span class="line">    | ID &#39;(&#39; &#39;)&#39; &#39;;&#39;</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">expr: ID &#39;(&#39; &#39;)&#39;</span><br><span class="line">    | INT</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
-
-<p>一般情况下要确保语法分析器能够选择唯一匹配的备选分支。不过当存在多个备选分支时，ANTLR 会选取备选分支中的第一条。比如本例中就会选择<code>expr &#39;;&#39;</code><br>如下存在词法歧义,begin 是一个关键字，同时也是一个标识符。<br>词法分析器会匹配最长字符串，如果输入文本 beginner 只会匹配上例中的 ID 这条词法规则。ANTLR 词法分析器不会把它匹配为关键字 BEGIN 后跟着标识符 ner</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">BEGIN : &#39;begin&#39; ;</span><br><span class="line">ID    : [a-z]+ ;</span><br></pre></td></tr></table></figure>
-
-<h2 id="语法分析树"><a href="#语法分析树" class="headerlink" title="语法分析树"></a>语法分析树</h2><p>语法分析树的建造过程：词法分析器处理字符序列并将生成的词法符号提供给语法分析器，语法分析器随即根据这些细信息来检查语法的正确性并建造出一颗语法分析树。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">CharStream-&gt;(Lexer)-&gt;TokenStream-&gt;(Parser)-&gt;ParseTree(RuleNode子类+TerminalNode)</span><br></pre></td></tr></table></figure>
-
-<p><img src="/images/antlr/2-2.png"><br><img src="/images/antlr/2-3.png"></p>
-<p>ANTLR 使用共享数据结构节约内存，具体办法是：语法分析树中的叶子节点仅仅是盛放词法符号流中的词法符号的容器。每个词法符号都记录了自己在字符序列中的开始位置和结束位置，而非保存子字符串的拷贝。<br>ParseTree 有两个子类：RuleNode 的子类（非叶子） 和 TerminalNode（叶子）。 RuleNode 的子类包括：StatContext 和 ExprContext.Context 对象知道自己识别的词组中，开始和结束位置处的词法符号，同时提供访问该词组全部元素的方法比如 statContext 类有 ID（）和 expr()方法。有了这些方法，我们就可以遍历并操作树中节点。实际上遍历树的机制都是由 ANTLR 生成的代码</p>
-<h2 id="语法分析树的访问-监听器、访问器"><a href="#语法分析树的访问-监听器、访问器" class="headerlink" title="语法分析树的访问-监听器、访问器"></a>语法分析树的访问-监听器、访问器</h2><p>为了构建一个语言类应用程序，语法分析器需要在遇到特定的输入语句、词组或者词法符号时触发特定的行为。这样的词组-&gt;行为的集合构成了我们的语言类应用程序，或者，至少担任了语法和外围程序间接口的角色。<br>监听器和访问器的区别在于，监听器方法不负责显示调用子节点的访问方法(visit())。访问器必须显式触发对子节点的访问，树的遍历过程才能正常进行，所以访问器可以控制访问的顺序以及节点被访问的次数。</p>
-<h3 id="监听器"><a href="#监听器" class="headerlink" title="监听器"></a>监听器</h3><p>ANTLR 提供了 ParseTree-Walker 类，自动遍历树然后生成事件并调用监听器。<br>每个语法文件都会生成一个 ParseTreeLisener 的子类，里面每个规则都有对应的 enter 方法和 exit 方法()，这些方法也称为”事件方法”。这些方法的入参是 ×××Context，提供该方法所需要的所有信息。监听器的操作逻辑在这些 enter 和 exit 方法内添加。下图显示了 ParseTreeWalker 对监听器方法的完整的调用顺序。<br><img src="/images/antlr/2-5.png"></p>
-<h3 id="访问器"><a href="#访问器" class="headerlink" title="访问器"></a>访问器</h3><p>有时候我们希望手动控制遍历数的过程，通过显示的方法调用来访问子节点。在命令行中加入-visitor 选项可以指示 ANTLR 为一个语法生成访问器接口，语法中的每条规则对应接口中的一个 visit 方法。ANTRL 提供了访问器接口和一个默认实现类，这样我们自己只需要覆盖接口中我们感兴趣的方法。<br><img src="/images/antlr/2-6.png"></p>
-<p>调用方式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">ParseTree tree &#x3D; ...;&#x2F;&#x2F;语法分析数</span><br><span class="line">MyVisitor v &#x3D; new MyVisitor();&#x2F;&#x2F;访问器接口的实现类</span><br><span class="line">v.visit(tree);&#x2F;&#x2F;visitor访问tree</span><br></pre></td></tr></table></figure>
-
-<h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子 1"></a>例子 1</h3><p>文件 ArrayInit.g4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** 语法文件通常以grammar关键字开头</span><br><span class="line"> *  这是一个名为ArrayInit的语法，它必须和文件名ArrayInit.g4相匹配</span><br><span class="line"> *&#x2F;</span><br><span class="line">grammar ArrayInit;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;一条名为init的规则，它匹配一对花括号中的、逗号分隔的value</span><br><span class="line">init: &#39;&#123;&#39; value (&#39;,&#39; value)* &#39;)&#39;; &#x2F;&#x2F;必须匹配至少一个value。其中*号用来修饰小括号里的内容，表示任意个。</span><br><span class="line">&#x2F;&#x2F; 一个value可以是嵌套的花括号结构，也可以是一个简单的整数，即INT词法符号</span><br><span class="line">value: init</span><br><span class="line">     | INIT</span><br><span class="line">     ;</span><br><span class="line">&#x2F;&#x2F;语法分析器的规则必须以小写字母开头，词法分析器的规则必须用大写字母开头</span><br><span class="line">INT： [0-9]+;  &#x2F;&#x2F;定义词法符号INT, 它由一个或多个数字组成</span><br><span class="line">WS: [\t\r\n]+ -&gt; skip;     &#x2F;&#x2F;定义词法规则“空白符号”，丢弃之。-&gt; skip表示跳过丢弃的意思。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>ANTLR 对 g4 文件解析后，会生成如下文件:ArrayInitParser.java, ArrayInitLexer.java,ArrayInit.tokens,ArrayInitLexer.tokens,ArrayInitListener.java:ArrayBaseListener.java.<br>1 ArrayInitParser.java:对应语法 ArrayInit，每条规则对应里面一个方法。<br>2 ArrayInitLexer.java:用于识别词法规则和文法规则。它是通过 ANTLR 分析词法规则 INT 和 WS，以及语法中的字面值‘{’ ‘}‘ ‘,’生成的。<br>3 ArrrayInit.tokens: ANTLR 会给每个我们定义的词法付豪指定一个数字形式的类型，然后将他们的对应关系存储于该文件中。<br>4 ArrayInitListener.java 和 ArrayBaseListener.java: 在遍历 AST 时,遍历器能够触发一系列事件，并通知我们提供的监听器对象。ArrayInitListener 接口给出了这些回调方法的定义，ArrayBaseListener 是该接口的默认实现类，为其中的每个方法提供了一个空实现。</p>
-<h3 id="ANTLR-语法基本标记"><a href="#ANTLR-语法基本标记" class="headerlink" title="ANTLR 语法基本标记"></a>ANTLR 语法基本标记</h3><ul>
-<li>语法包含一系列描述语言结构的规则。这些规则既包括类似 stat 和 expr 的描述语法结构的规则，也包括描述标识符和整数之类的词汇符号的规则</li>
-<li>语法分析器的规则以小写字母开头</li>
-<li>词法分析器的规则以大写字母开头</li>
-<li>我们使用|来分隔同一个语言规则的若干备选分支，使用圆括号把一些符号组合成自规则。例如，子规则(‘*‘|’/‘)匹配一个乘法符号或者触发符号。</li>
-</ul>
-<h3 id="左递归规则"><a href="#左递归规则" class="headerlink" title="左递归规则"></a>左递归规则</h3><p>含义：在某个备选分支的其实位置调用了自身。例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">expr: INT|ID|&#39;(&#39;expr&#39;)&#39;</span><br></pre></td></tr></table></figure>
-
-<h2 id="ANTLR-解析过程的异常处理"><a href="#ANTLR-解析过程的异常处理" class="headerlink" title="ANTLR 解析过程的异常处理"></a>ANTLR 解析过程的异常处理</h2><p>ANTLR 语法分析器能够自动报告语法错误并从错误中恢复继续工作。比如前一个错误的表达式，则输出错误信息。然后继续正确地解析第二个表达式。<br>ANTLR 的错误处理机制有很高的灵活性。我们可以修改输出的错误信息，捕获识别过程中的异常，甚至改变基本的异常处理策略。</p>
-<h2 id="在语法和词法文件中添加动作"><a href="#在语法和词法文件中添加动作" class="headerlink" title="在语法和词法文件中添加动作"></a>在语法和词法文件中添加动作</h2><h3 id="定制语法分析"><a href="#定制语法分析" class="headerlink" title="定制语法分析"></a>定制语法分析</h3><ul>
-<li>在语法中嵌入任意动作<br>我们创建一个构造器，这样我们就能传入希望提取的列号；另外，我们需要在 row 规则的”(…)+”循环中放置一些动作。<br>下面的例子，是将输入文本中的指定列显示出来。<br>详细的内容，会在第 10 章。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br></pre></td><td class="code"><pre><span class="line">grammar Rows;</span><br><span class="line"></span><br><span class="line">@parser::members &#123; &#x2F;&#x2F; add members to generated RowsParser</span><br><span class="line">    int col;</span><br><span class="line">    public RowsParser(TokenStream input, int col) &#123; &#x2F;&#x2F; custom constructor</span><br><span class="line">        this(input);</span><br><span class="line">        this.col &#x3D; col;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br><span class="line">file: (row NL)+ ;</span><br><span class="line"></span><br><span class="line">row</span><br><span class="line">locals [int i&#x3D;0]</span><br><span class="line">    : (   STUFF</span><br><span class="line">          &#123;</span><br><span class="line">          $i++;</span><br><span class="line">          if ( $i &#x3D;&#x3D; col ) System.out.println($STUFF.text);</span><br><span class="line">          &#125;</span><br><span class="line">      )+</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">TAB  :  &#39;\t&#39; -&gt; skip ;   &#x2F;&#x2F; match but don&#39;t pass to the parser</span><br><span class="line">NL   :  &#39;\r&#39;? &#39;\n&#39; ;     &#x2F;&#x2F; match and pass to the parser</span><br><span class="line">STUFF:  ~[\t\r\n]+ ;     &#x2F;&#x2F; match any chars except tab, newline</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>使用语义判定改变语法分析过程(第 11 章)<br>下面的语法用来处理一组整数”2 9 10 3 1 2 3”。第一个数字 2 代表接下来匹配两个数组 9 和 10。紧接着数字 3 告诉我们匹配接下来的三个数字。<br>我们的目标是创建一份名为 Data 的语法，将 9 和 10 分为一组，然后 1,2,3 分为一组。<br>Data 语法的关键在于一段动作，它的值是布尔类型的，称为一个语义判定:{$i&lt;=$n&gt;}?。它的值在匹配到 n 个输入整数之前保持为 true,其中 n 是 sequence<br>语法中的参数。当语义判定的值为 false 时，对应的备选分支就从语法中“消失”了，因此，它也就从生成的语法分析器中“消失”了。在本例中，语义判定的值为 false 使得”(…)*“循环终止，从 sequence 规则返回。<br><img src="/images/antlr/4-4.png"></li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">grammar Data;</span><br><span class="line"></span><br><span class="line">file : group+ ;</span><br><span class="line"></span><br><span class="line">group: INT sequence[$INT.int] ;</span><br><span class="line"></span><br><span class="line">sequence[int n]</span><br><span class="line">locals [int i &#x3D; 1;]</span><br><span class="line">     : ( &#123;$i&lt;&#x3D;$n&#125;? INT &#123;$i++;&#125; )* &#x2F;&#x2F; match n integers</span><br><span class="line">     ;</span><br><span class="line"></span><br><span class="line">INT :   [0-9]+ ;             &#x2F;&#x2F; match integers</span><br><span class="line">WS  :   [ \t\n\r]+ -&gt; skip ; &#x2F;&#x2F; toss out all whitespace</span><br></pre></td></tr></table></figure>
-
-<h3 id="定制词法分析"><a href="#定制词法分析" class="headerlink" title="定制词法分析"></a>定制词法分析</h3><ul>
-<li>孤岛语法:处理想吐文件中的不同格式<br>mode INSIDE 定义模式，INSIDE 模式用于识别 XML 标签，默认模式用于识别标签之外的文本。<br>-&gt;定义了动作进入到 INSIDE 模式下<br>-&gt;定义了动作 popMode，从 INSIDE 模式下退出。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lexer grammar XMLLexer;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Default &quot;mode&quot;: Everything OUTSIDE of a tag</span><br><span class="line">OPEN        :   &#39;&lt;&#39;                 -&gt; pushMode(INSIDE) ;</span><br><span class="line">COMMENT     :   &#39;&lt;!--&#39; .*? &#39;--&gt;&#39;    -&gt; skip ;</span><br><span class="line">EntityRef   :   &#39;&amp;&#39; [a-z]+ &#39;;&#39; ;</span><br><span class="line">TEXT        :   ~(&#39;&lt;&#39;|&#39;&amp;&#39;)+ ;           &#x2F;&#x2F; match any 16 bit char minus &lt; and &amp;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ----------------- Everything INSIDE of a tag ---------------------</span><br><span class="line">mode INSIDE;</span><br><span class="line"></span><br><span class="line">CLOSE       :   &#39;&gt;&#39;                 -&gt; popMode ; &#x2F;&#x2F; back to default mode</span><br><span class="line">SLASH_CLOSE :   &#39;&#x2F;&gt;&#39;                -&gt; popMode ;</span><br><span class="line">EQUALS      :   &#39;&#x3D;&#39; ;</span><br><span class="line">STRING      :   &#39;&quot;&#39; .*? &#39;&quot;&#39; ;</span><br><span class="line">SlashName   :   &#39;&#x2F;&#39; Name ;</span><br><span class="line">Name        :   ALPHA (ALPHA|DIGIT)* ;</span><br><span class="line">S           :   [ \t\r\n]           -&gt; skip ;</span><br><span class="line"></span><br><span class="line">fragment</span><br><span class="line">ALPHA       :   [a-zA-Z] ;</span><br><span class="line"></span><br><span class="line">fragment</span><br><span class="line">DIGIT       :   [0-9] ;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>重写输入流<br>TokenStreamRewriter 对象可以改写输入的 TokenStream。关键之处，TokenStreamRewriter 对象实际上修改的是词法符号流的“视图”而非词法符号<br>流本身。它认为所有对修改方法的调用都只是一个“指令”，然后将这些修改放入一个队列；在未来词法符号流被重新渲染为文本时，这些修改才会被执行。<br>在每次我们调用 getText()的时候，rewriter 对象都会执行上述队列中的指令。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class InsertSerialIDListener extends JavaBaseListener &#123;</span><br><span class="line">    TokenStreamRewriter rewriter;</span><br><span class="line">    public InsertSerialIDListener(TokenStream tokens) &#123;</span><br><span class="line">        rewriter &#x3D; new TokenStreamRewriter(tokens);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void enterClassBody(JavaParser.ClassBodyContext ctx) &#123;</span><br><span class="line">        String field &#x3D; &quot;\n\tpublic static final long serialVersionUID &#x3D; 1L;&quot;;</span><br><span class="line">        rewriter.insertAfter(ctx.start, field);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>将词法符号送入不同通道<br>忽略却保留注释和空白字符的秘诀是将这些词法符号送入一个“隐藏通道”。语法分析器只处理一个通道，因此我们可以将希望保留的词法符号送入其他通道内。</li>
-</ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">COMMENT</span><br><span class="line">    :   &#39;&#x2F;*&#39; .*? &#39;*&#x2F;&#39;    -&gt; channel(HIDDEN) &#x2F;&#x2F; match anything between &#x2F;* and *&#x2F;</span><br><span class="line">    ;</span><br><span class="line">WS  :   [ \r\t\u000C\n]+ -&gt; channel(HIDDEN)</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
-
-<h2 id="将生成的语法分析器与-Java-程序集成，并使用监听器遍历处理"><a href="#将生成的语法分析器与-Java-程序集成，并使用监听器遍历处理" class="headerlink" title="将生成的语法分析器与 Java 程序集成，并使用监听器遍历处理"></a>将生成的语法分析器与 Java 程序集成，并使用监听器遍历处理</h2><h3 id="例子-1-1"><a href="#例子-1-1" class="headerlink" title="例子 1"></a>例子 1</h3><p>Test.java<br>此例子的目标是将 Java 中，类似{99, 3, 451}的 short 数组翻译成”\u0063\u0003\u01c3”</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br></pre></td><td class="code"><pre><span class="line">import org.antlr.v4.runtime.*;</span><br><span class="line">import org.antlr.v4.runtime.tree.*;</span><br><span class="line"></span><br><span class="line">public class Test&#123;</span><br><span class="line">    public static void amin(String[] args) throws Exception&#123;</span><br><span class="line">        &#x2F;&#x2F;新建一个CharStream，从标准输入读取数据</span><br><span class="line">        ANTLRInputStream input &#x3D; new ANTLRInputStream(System.in);</span><br><span class="line">        &#x2F;&#x2F;新建一个词法分析器，处理输入的CharStream</span><br><span class="line">        ArrayInitLexer lexer - new ArrayInitLexer(input);</span><br><span class="line">        &#x2F;&#x2F;新建一个词法符号的缓冲区，用于存储词法分析器将生成的词法符号</span><br><span class="line">        CommonTokenStream tokens &#x3D; new CommonTokenStream(lexer);</span><br><span class="line">        &#x2F;&#x2F;新建一个语法分析器，处理词法符号缓冲区中的内容</span><br><span class="line">        ArrayInitParser parser &#x3D; new ArrayInitParser(tokens);</span><br><span class="line">        ParseTree tree &#x3D; parser.init(); &#x2F;&#x2F;针对init规则，开始语法分析。因为init规则是这些规则中根规则，所以适合从init开始分析</span><br><span class="line">        &#x2F;*System.out.println(tree.toStringTree(parser));&#x2F;&#x2F;用LISP风格打印生成的树*&#x2F;</span><br><span class="line">        &#x2F;&#x2F;新建一个通用的、能够触发回调函数的语法分析树遍历器</span><br><span class="line">        ParseTreeWalker walker &#x3D; new ParseTreeWalker();</span><br><span class="line">        &#x2F;&#x2F;遍历语法分析过程中生成的语法分析树，触发回调</span><br><span class="line">        walker.walk(new ShortToUnicodeString(), tree);</span><br><span class="line">        System.out.println();&#x2F;&#x2F;翻译完成后，打印一个\n</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<p>ShortToUnicodeString.java<br>当遍历 AST 的时候，会对监听器里的方法进行回调。ArrayInitBaseListener 实现了 ArrayInitListener 接口的每个方法，我们只需要继承 ArrayInitBaseListener 并重写自己感兴趣的方法，就可以达到目的。ShortToUnicodeString 中的方法将翻译输入数据的一部分并将结果打印出来。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;&#x2F;将类似&#123;1,2,3&#125;的short数组初始化语句翻译为&quot;\u0001\u0002\u0003&quot;</span><br><span class="line">public class ShortToUnicodeString extends ArrayInitBaseListener &#123;</span><br><span class="line">    &#x2F;&#x2F;将&#123;翻译为&quot;</span><br><span class="line">    @Override</span><br><span class="line">    public void enterInit(ArrayInitParser.InitContext ctx)&#123;</span><br><span class="line">        System.out.print(&#39;&quot;&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;将&#125;翻译为&quot;</span><br><span class="line">    @Override</span><br><span class="line">    public void exitInit(ArrayInitParser.InitContext ctx)&#123;</span><br><span class="line">        System.out.print(&#39;&quot;&#39;);</span><br><span class="line">    &#125;</span><br><span class="line">    &#x2F;&#x2F;将每个整数翻译为四位的十六进制形式，然后加前缀\u</span><br><span class="line">    @Override</span><br><span class="line">    public void enterValue(ArrrayInitParser.ValueContext ctx) &#123;</span><br><span class="line">        &#x2F;&#x2F;假定不存在嵌套结构</span><br><span class="line">        int value &#x3D; Integer.valueOf(ctx.INT().getText());&#x2F;&#x2F;ctx是value的上下文对象，它获取INT词法符号对应的整数值。</span><br><span class="line">        System.out.printf(&quot;\\u%04x&quot;, value);&#x2F;&#x2F;输出16进制数，总共占4为，前面的空位补0</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="例子-2"><a href="#例子-2" class="headerlink" title="例子 2"></a>例子 2</h3><p>LibExpr.g4<br>此例子用来展示，将语法词法规则分布到多个不同文件中。<br>使用 import 功能，可以将一个大的语法文件分隔成小的，然后 import 导入连到一起。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">grammar LibExpr;         &#x2F;&#x2F; Rename to distinguish from original</span><br><span class="line">import CommonLexerRules; &#x2F;&#x2F; includes all rules from CommonLexerRules.g4</span><br><span class="line">&#x2F;** The start rule; begin parsing here. *&#x2F;</span><br><span class="line">prog:   stat+ ;</span><br><span class="line"></span><br><span class="line">stat:   expr NEWLINE</span><br><span class="line">    |   ID &#39;&#x3D;&#39; expr NEWLINE</span><br><span class="line">    |   NEWLINE</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">expr:   expr (&#39;*&#39;|&#39;&#x2F;&#39;) expr &#x2F;&#x2F;左递归</span><br><span class="line">    |   expr (&#39;+&#39;|&#39;-&#39;) expr</span><br><span class="line">    |   INT</span><br><span class="line">    |   ID</span><br><span class="line">    |   &#39;(&#39; expr &#39;)&#39;</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
-
-<p>CommonLexerRules.g4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">lexer grammar CommonLexerRules; &#x2F;&#x2F; note &quot;lexer grammar&quot;</span><br><span class="line"></span><br><span class="line">ID  :   [a-zA-Z]+ ;      &#x2F;&#x2F; match identifiers</span><br><span class="line">INT :   [0-9]+ ;         &#x2F;&#x2F; match integers</span><br><span class="line">NEWLINE:&#39;\r&#39;? &#39;\n&#39; ;     &#x2F;&#x2F; return newlines to parser (end-statement signal)</span><br><span class="line">WS  :   [ \t]+ -&gt; skip ; &#x2F;&#x2F; toss out whitespace. &#39;-&gt; skip&#39;是丢弃操作。</span><br></pre></td></tr></table></figure>
-
-<p>ExprJoyRide.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br></pre></td><td class="code"><pre><span class="line">import org.antlr.v4.runtime.*;</span><br><span class="line">import org.antlr.v4.runtime.tree.*;</span><br><span class="line">import java.io.FileInputStream;</span><br><span class="line">import java.io.InputStream;</span><br><span class="line">public class ExprJoyRide &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        &#x2F;&#x2F;新建输入流</span><br><span class="line">        String inputFile &#x3D; null;</span><br><span class="line">        if ( args.length&gt;0 ) inputFile &#x3D; args[0];</span><br><span class="line">        InputStream is &#x3D; System.in;</span><br><span class="line">        if ( inputFile!&#x3D;null ) is &#x3D; new FileInputStream(inputFile);</span><br><span class="line">        ANTLRInputStream input &#x3D; new ANTLRInputStream(is);</span><br><span class="line">        &#x2F;&#x2F;新建词法分析器和语法分析器</span><br><span class="line">        ExprLexer lexer &#x3D; new ExprLexer(input);</span><br><span class="line">        CommonTokenStream tokens &#x3D; new CommonTokenStream(lexer);</span><br><span class="line">        ExprParser parser &#x3D; new ExprParser(tokens);</span><br><span class="line">        &#x2F;&#x2F;启动语法分析器开始解析</span><br><span class="line">        ParseTree tree &#x3D; parser.prog();</span><br><span class="line">        &#x2F;&#x2F;用文本形式将该规则方法prog()返回的语法分析树打印出来</span><br><span class="line">        System.out.println(tree.toStringTree(parser));</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="例子-3-访问器"><a href="#例子-3-访问器" class="headerlink" title="例子 3 访问器"></a>例子 3 访问器</h3><p>LabeledExpr.g4<br>为每个备选分支定义一个标签，标签以#开头。这样 ANTLR 会为每个备选分支生成不同的访问器方法。这样我们就可以对每种输入都获得一个不同的事件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">grammar LabeledExpr; &#x2F;&#x2F; rename to distinguish from Expr.g4</span><br><span class="line"></span><br><span class="line">prog:   stat+ ;</span><br><span class="line"></span><br><span class="line">stat:   expr NEWLINE                # printExpr</span><br><span class="line">    |   ID &#39;&#x3D;&#39; expr NEWLINE         # assign</span><br><span class="line">    |   NEWLINE                     # blank</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">expr:   expr op&#x3D;(&#39;*&#39;|&#39;&#x2F;&#39;) expr      # MulDiv</span><br><span class="line">    |   expr op&#x3D;(&#39;+&#39;|&#39;-&#39;) expr      # AddSub</span><br><span class="line">    |   INT                         # int</span><br><span class="line">    |   ID                          # id</span><br><span class="line">    |   &#39;(&#39; expr &#39;)&#39;                # parens</span><br><span class="line">    ;</span><br><span class="line">&#x2F;&#x2F;接下来我们为运算符词法付豪定义一些名字，这样在随后的访问器中，我们就可以将这些词法符号的名字当做JAVA常量来引用。</span><br><span class="line">MUL :   &#39;*&#39; ; &#x2F;&#x2F; assigns token name to &#39;*&#39; used above in grammar</span><br><span class="line">DIV :   &#39;&#x2F;&#39; ;</span><br><span class="line">ADD :   &#39;+&#39; ;</span><br><span class="line">SUB :   &#39;-&#39; ;</span><br><span class="line">ID  :   [a-zA-Z]+ ;      &#x2F;&#x2F; match identifiers</span><br><span class="line">INT :   [0-9]+ ;         &#x2F;&#x2F; match integers</span><br><span class="line">NEWLINE:&#39;\r&#39;? &#39;\n&#39; ;     &#x2F;&#x2F; return newlines to parser (is end-statement signal)</span><br><span class="line">WS  :   [ \t]+ -&gt; skip ; &#x2F;&#x2F; toss out whitespace</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">public class Calc &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        String inputFile &#x3D; null;</span><br><span class="line">        if ( args.length&gt;0 ) inputFile &#x3D; args[0];</span><br><span class="line">        InputStream is &#x3D; System.in;</span><br><span class="line">        if ( inputFile!&#x3D;null ) is &#x3D; new FileInputStream(inputFile);</span><br><span class="line">        ANTLRInputStream input &#x3D; new ANTLRInputStream(is);</span><br><span class="line">        LabeledExprLexer lexer &#x3D; new LabeledExprLexer(input);</span><br><span class="line">        CommonTokenStream tokens &#x3D; new CommonTokenStream(lexer);</span><br><span class="line">        LabeledExprParser parser &#x3D; new LabeledExprParser(tokens);</span><br><span class="line">        ParseTree tree &#x3D; parser.prog(); &#x2F;&#x2F; parse</span><br><span class="line">        &#x2F;&#x2F;实例化一个自定义的访问器，然后访问tree</span><br><span class="line">        EvalVisitor eval &#x3D; new EvalVisitor();</span><br><span class="line">        eval.visit(tree);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>使用如下命令可以生成 visitor<br><code>antlr4 -no-listener -visitor LabeledExpr.g4</code><br>可以生成，LabeledExprBaseVisitor.java,LabeledExprParse.java,LabeledExprLexer.java,LabeledExprVisitor.java。<br>LabeledExprVisitor 是接口，LabeledExprBaseVisitor 是默认实现类。我们可以继承 LabeledExprBaseVisitor 然后重写里面的函数来实现自定义的逻辑。<br>EvalVisitor 内重写的方法对应备选分支的标签。里面引用的 JAVA 常量如：MUL，DIV 等。也是在语法文件中定义的词法符号名字。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br><span class="line">30</span><br><span class="line">31</span><br><span class="line">32</span><br><span class="line">33</span><br><span class="line">34</span><br><span class="line">35</span><br><span class="line">36</span><br><span class="line">37</span><br><span class="line">38</span><br><span class="line">39</span><br><span class="line">40</span><br><span class="line">41</span><br><span class="line">42</span><br><span class="line">43</span><br><span class="line">44</span><br><span class="line">45</span><br><span class="line">46</span><br><span class="line">47</span><br><span class="line">48</span><br><span class="line">49</span><br><span class="line">50</span><br><span class="line">51</span><br><span class="line">52</span><br><span class="line">53</span><br><span class="line">54</span><br><span class="line">55</span><br><span class="line">56</span><br><span class="line">57</span><br><span class="line">58</span><br><span class="line">59</span><br></pre></td><td class="code"><pre><span class="line">public class EvalVisitor extends LabeledExprBaseVisitor&lt;Integer&gt; &#123;</span><br><span class="line">    &#x2F;** &quot;memory&quot; for our calculator; variable&#x2F;value pairs go here *&#x2F;</span><br><span class="line">    Map&lt;String, Integer&gt; memory &#x3D; new HashMap&lt;String, Integer&gt;();</span><br><span class="line"></span><br><span class="line">    &#x2F;** ID &#39;&#x3D;&#39; expr NEWLINE *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitAssign(LabeledExprParser.AssignContext ctx) &#123;</span><br><span class="line">        String id &#x3D; ctx.ID().getText();  &#x2F;&#x2F; id is left-hand side of &#39;&#x3D;&#39;</span><br><span class="line">        int value &#x3D; visit(ctx.expr());   &#x2F;&#x2F; compute value of expression on right</span><br><span class="line">        memory.put(id, value);           &#x2F;&#x2F; store it in our memory</span><br><span class="line">        return value;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** expr NEWLINE *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitPrintExpr(LabeledExprParser.PrintExprContext ctx) &#123;</span><br><span class="line">        Integer value &#x3D; visit(ctx.expr()); &#x2F;&#x2F; evaluate the expr child</span><br><span class="line">        System.out.println(value);         &#x2F;&#x2F; print the result</span><br><span class="line">        return 0;                          &#x2F;&#x2F; return dummy value</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** INT *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitInt(LabeledExprParser.IntContext ctx) &#123;</span><br><span class="line">        return Integer.valueOf(ctx.INT().getText());</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** ID *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitId(LabeledExprParser.IdContext ctx) &#123;</span><br><span class="line">        String id &#x3D; ctx.ID().getText();</span><br><span class="line">        if ( memory.containsKey(id) ) return memory.get(id);</span><br><span class="line">        return 0;</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** expr op&#x3D;(&#39;*&#39;|&#39;&#x2F;&#39;) expr *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitMulDiv(LabeledExprParser.MulDivContext ctx) &#123;</span><br><span class="line">        int left &#x3D; visit(ctx.expr(0));  &#x2F;&#x2F; get value of left subexpression</span><br><span class="line">        int right &#x3D; visit(ctx.expr(1)); &#x2F;&#x2F; get value of right subexpression</span><br><span class="line">        if ( ctx.op.getType() &#x3D;&#x3D; LabeledExprParser.MUL ) return left * right;</span><br><span class="line">        return left &#x2F; right; &#x2F;&#x2F; must be DIV</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** expr op&#x3D;(&#39;+&#39;|&#39;-&#39;) expr *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitAddSub(LabeledExprParser.AddSubContext ctx) &#123;</span><br><span class="line">        int left &#x3D; visit(ctx.expr(0));  &#x2F;&#x2F; get value of left subexpression</span><br><span class="line">        int right &#x3D; visit(ctx.expr(1)); &#x2F;&#x2F; get value of right subexpression</span><br><span class="line">        if ( ctx.op.getType() &#x3D;&#x3D; LabeledExprParser.ADD ) return left + right;</span><br><span class="line">        return left - right; &#x2F;&#x2F; must be SUB</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** &#39;(&#39; expr &#39;)&#39; *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public Integer visitParens(LabeledExprParser.ParensContext ctx) &#123;</span><br><span class="line">        return visit(ctx.expr()); &#x2F;&#x2F; return child expr&#39;s value</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h3 id="例子-4"><a href="#例子-4" class="headerlink" title="例子 4"></a>例子 4</h3><p>使用监听器来对 java 语法进行分析，根据实现类可以生成对应的接口定义，并保留注释<br>Java.g4</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">classDeclaration</span><br><span class="line">    :   &#39;class&#39; Identifier typeParameters? (&#39;extends&#39; type)?</span><br><span class="line">        (&#39;implements&#39; typeList)?</span><br><span class="line">        classBody</span><br><span class="line">    ;</span><br><span class="line">methodDeclaration</span><br><span class="line">    :   type Identifier formalParameters (&#39;[&#39; &#39;]&#39;)* methodDeclarationRest</span><br><span class="line">    |   &#39;void&#39; Identifier formalParameters methodDeclarationRest</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
-
-<p>ExtractInterfaceListener.java</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">public class ExtractInterfaceListener extends JavaBaseListener &#123;</span><br><span class="line">    JavaParser parser;</span><br><span class="line">    public ExtractInterfaceListener(JavaParser parser) &#123;this.parser &#x3D; parser;&#125;</span><br><span class="line">    &#x2F;** Listen to matches of classDeclaration *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void enterClassDeclaration(JavaParser.ClassDeclarationContext ctx)&#123;</span><br><span class="line">        System.out.println(&quot;interface I&quot;+ctx.Identifier()+&quot; &#123;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line">    @Override</span><br><span class="line">    public void exitClassDeclaration(JavaParser.ClassDeclarationContext ctx) &#123;</span><br><span class="line">        System.out.println(&quot;&#125;&quot;);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    &#x2F;** Listen to matches of methodDeclaration *&#x2F;</span><br><span class="line">    @Override</span><br><span class="line">    public void enterMethodDeclaration(</span><br><span class="line">        JavaParser.MethodDeclarationContext ctx</span><br><span class="line">    )</span><br><span class="line">    &#123;</span><br><span class="line">        &#x2F;&#x2F; need parser to get tokens</span><br><span class="line">        TokenStream tokens &#x3D; parser.getTokenStream();</span><br><span class="line">        String type &#x3D; &quot;void&quot;;&#x2F;&#x2F;type为方法的返回类型</span><br><span class="line">        if ( ctx.type()!&#x3D;null ) &#123;</span><br><span class="line">            type &#x3D; tokens.getText(ctx.type());</span><br><span class="line">        &#125;</span><br><span class="line">        String args &#x3D; tokens.getText(ctx.formalParameters());&#x2F;&#x2F;args是入参</span><br><span class="line">        System.out.println(&quot;\t&quot;+type+&quot; &quot;+ctx.Identifier()+args+&quot;;&quot;);&#x2F;&#x2F;ctx.Identifier()是方法名</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<p>ExtractInterfaceTool.java<br>将自定义的监听器集成到程序里，并遍历</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br></pre></td><td class="code"><pre><span class="line">public class ExtractInterfaceTool &#123;</span><br><span class="line">    public static void main(String[] args) throws Exception &#123;</span><br><span class="line">        String inputFile &#x3D; null;</span><br><span class="line">        if ( args.length&gt;0 ) inputFile &#x3D; args[0];</span><br><span class="line">        InputStream is &#x3D; System.in;</span><br><span class="line">        if ( inputFile!&#x3D;null ) &#123;</span><br><span class="line">            is &#x3D; new FileInputStream(inputFile);</span><br><span class="line">        &#125;</span><br><span class="line">        ANTLRInputStream input &#x3D; new ANTLRInputStream(is);</span><br><span class="line"></span><br><span class="line">        JavaLexer lexer &#x3D; new JavaLexer(input);</span><br><span class="line">        CommonTokenStream tokens &#x3D; new CommonTokenStream(lexer);</span><br><span class="line">        JavaParser parser &#x3D; new JavaParser(tokens);</span><br><span class="line">        ParseTree tree &#x3D; parser.compilationUnit(); &#x2F;&#x2F; parse。开始语法分析的过程</span><br><span class="line"></span><br><span class="line">        ParseTreeWalker walker &#x3D; new ParseTreeWalker(); &#x2F;&#x2F; create standard walker，新建一个标准的遍历器</span><br><span class="line">        ExtractInterfaceListener extractor &#x3D; new ExtractInterfaceListener(parser);</span><br><span class="line">        walker.walk(extractor, tree); &#x2F;&#x2F; initiate walk of tree with listener，使用监听器初始化对语法分析树的遍历</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
       
     </div>

@@ -23,20 +23,20 @@
     var NexT = window.NexT || {};
     var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
   </script>
-<meta name="description" content="对比 Servlt 和 CGIjava 的 servlet 实现是自己规定了一套协议，与 CGI 和 fastcgi 协议不同。Servlet 与 CGI 的区别对比一：当用户浏览器发出一个 Http&#x2F;CGI 的请求，或者说调用一个 CGI 程序的时候，服务器端就要新启用一个进程(而且是每次都要调用)，调用 CGI 程序越多(特别是访问量高的时候)，就要消耗系统越多的处理时间，只剩下越来越少的系统">
+<meta name="description" content="常用命令 查看 pod：kubectl get pod -n  kubectl describe pod  -n  查看 pod 运行在哪个 node 节点：kubectl get pod -o wide -n  查看 pod 有哪些 label：kubectl get pod –show-labels -n  查看 node 有哪些 label：kubectl get nodes –show-l">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Servlet与CGI">
-<meta property="og:url" content="http://yoursite.com/2020/12/27/Servlet%E5%AF%B9%E6%AF%94CGI/index.html">
+<meta property="og:title" content="K8S">
+<meta property="og:url" content="http://yoursite.com/2021/01/22/K8S/index.html">
 <meta property="og:site_name" content="Hexo">
-<meta property="og:description" content="对比 Servlt 和 CGIjava 的 servlet 实现是自己规定了一套协议，与 CGI 和 fastcgi 协议不同。Servlet 与 CGI 的区别对比一：当用户浏览器发出一个 Http&#x2F;CGI 的请求，或者说调用一个 CGI 程序的时候，服务器端就要新启用一个进程(而且是每次都要调用)，调用 CGI 程序越多(特别是访问量高的时候)，就要消耗系统越多的处理时间，只剩下越来越少的系统">
+<meta property="og:description" content="常用命令 查看 pod：kubectl get pod -n  kubectl describe pod  -n  查看 pod 运行在哪个 node 节点：kubectl get pod -o wide -n  查看 pod 有哪些 label：kubectl get pod –show-labels -n  查看 node 有哪些 label：kubectl get nodes –show-l">
 <meta property="og:locale">
-<meta property="article:published_time" content="2020-12-27T04:01:22.000Z">
-<meta property="article:modified_time" content="2020-12-27T07:32:24.544Z">
+<meta property="article:published_time" content="2021-01-22T01:53:37.000Z">
+<meta property="article:modified_time" content="2021-01-22T05:59:50.966Z">
 <meta property="article:author" content="John Doe">
 <meta name="twitter:card" content="summary">
 
 
-<link rel="canonical" href="http://yoursite.com/2020/12/27/Servlet%E5%AF%B9%E6%AF%94CGI/">
+<link rel="canonical" href="http://yoursite.com/2021/01/22/K8S/">
 
 
 <script class="page-configurations">
@@ -48,7 +48,7 @@
     lang   : 'default'
   };
 </script>
-<title>Servlet与CGI | Hexo</title>
+<title>K8S | Hexo</title>
   
 
 
@@ -146,7 +146,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%AF%B9%E6%AF%94-Servlt-%E5%92%8C-CGI"><span class="nav-number">1.</span> <span class="nav-text">对比 Servlt 和 CGI</span></a></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%B8%B8%E7%94%A8%E5%91%BD%E4%BB%A4"><span class="nav-number">1.</span> <span class="nav-text">常用命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%85%B3%E9%94%AE%E5%91%BD%E4%BB%A4"><span class="nav-number">2.</span> <span class="nav-text">关键命令</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%85%8D%E7%BD%AE"><span class="nav-number">3.</span> <span class="nav-text">配置</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#deployment-yml"><span class="nav-number">3.1.</span> <span class="nav-text">deployment.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#service-yml"><span class="nav-number">3.2.</span> <span class="nav-text">service.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#ingress-yml"><span class="nav-number">3.3.</span> <span class="nav-text">ingress.yml</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#serviceMonitor-yml"><span class="nav-number">3.4.</span> <span class="nav-text">serviceMonitor.yml</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -203,7 +203,7 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2020/12/27/Servlet%E5%AF%B9%E6%AF%94CGI/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/22/K8S/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="image" content="/images/avatar.gif">
@@ -216,7 +216,7 @@
     </span>
       <header class="post-header">
         <h1 class="post-title" itemprop="name headline">
-          Servlet与CGI
+          K8S
         </h1>
 
         <div class="post-meta-container">
@@ -228,7 +228,7 @@
       <span class="post-meta-item-text">Posted on</span>
       
 
-      <time title="Created: 2020-12-27 12:01:22 / Modified: 15:32:24" itemprop="dateCreated datePublished" datetime="2020-12-27T12:01:22+08:00">2020-12-27</time>
+      <time title="Created: 2021-01-22 09:53:37 / Modified: 13:59:50" itemprop="dateCreated datePublished" datetime="2021-01-22T09:53:37+08:00">2021-01-22</time>
     </span>
 
   
@@ -241,17 +241,41 @@
     
     
     <div class="post-body" itemprop="articleBody">
-        <h1 id="对比-Servlt-和-CGI"><a href="#对比-Servlt-和-CGI" class="headerlink" title="对比 Servlt 和 CGI"></a>对比 Servlt 和 CGI</h1><p>java 的 servlet 实现是自己规定了一套协议，与 CGI 和 fastcgi 协议不同。<br>Servlet 与 CGI 的区别<br>对比一：当用户浏览器发出一个 Http/CGI 的请求，或者说调用一个 CGI 程序的时候，服务器端就要新启用一个进程(而且是每次都要调用)，调用 CGI 程序越多(特别是访问量高的时候)，就要消耗系统越多的处理时间，只剩下越来越少的系统资源，对于用户来说，只能是漫长的等待服务器端的返回页面了，这对于电子商务激烈发展的今天来说，不能不说是一种技术上的遗憾。</p>
-<p>而 Servlet 充分发挥了服务器端的资源并高效的利用。每次调用 Servlet 时并不是新启用一个进程，而是在一个 Web 服务器的进程中共享和分离线程，而线程最大的好处在于可以共享一个数据源，使系统资源被有效利用。</p>
-<p>对比二：传统的 CGI 程序，不具备平台无关性特征，系统环境发生变化，CGI 程序就要瘫痪，而 Servlet 具备 Java 的平台无关性，在系统开发过程中保持了系统的可扩展性、高效性。</p>
-<p>对比三：传统技术中，一般大都为二层的系统架构，即 Web 服务器+数据库服务器，导致网站访问量大的时候，无法克服 CGI 程序与数据库建立连接时速度慢的瓶颈，从而死机、数据库死锁现象频繁发生。而 Servlet 有连接池的概念，它可以利用多线程的优点，在系统缓存中事先建立好若干与数据库的连接，到时候若想和数据库打交道可以随时跟系统”要”一个连接即可，反应速度可想而知。</p>
-<p>Java Servlet 为什么不做成 FastCGI 模式？</p>
-<p>1、JVM 多线程架构健壮性非常强</p>
-<p>理论上多进程确实健壮性更强，但实际上，JVM 进程远比普通 C/C++进程坚固。</p>
-<p>用 C/C++写程序，随便一个空指针、内存越界、内存泄漏就可能意外终止进程，更遑论很多 C/C++程序处理严重错误的方式都是很粗暴的 exit 或者 panic。</p>
-<p>而用 Java 写代码，要想不小心终止进程很难。异常机制可以保证几乎没有任何 Java 代码能够直接干掉一个线程或进程，Java 程序的线程几乎跟普通 C/C++的进程一样脆弱／坚固。</p>
-<p>2、Tomcat 静态文件性能并不差<br>别的 Servlet 容器不清楚，但是得益于独立的 connector 设计，较新版本的 Tomcat 有了 NIO、APR 等技术的加持，静态文件性能不会比 apache httpd 差到哪儿去。</p>
-<p>“很多网站直接用 servlet 容器当 web 服务器”，因为这样很简单，而且暂时可能没遇到或不关心性能瓶颈。</p>
+        <h2 id="常用命令"><a href="#常用命令" class="headerlink" title="常用命令"></a>常用命令</h2><ul>
+<li>查看 pod：kubectl get pod -n <namespace> kubectl describe pod <pod> -n <namespace></namespace></pod></namespace></li>
+<li>查看 pod 运行在哪个 node 节点：kubectl get pod -o wide -n <namespace></namespace></li>
+<li>查看 pod 有哪些 label：kubectl get pod –show-labels -n <namespace></namespace></li>
+<li>查看 node 有哪些 label：kubectl get nodes –show-labels</li>
+<li>查看 service：kubectl get svc -n <namespace></namespace></li>
+<li>进入容器的交互式 shell：kubectl exec <pod> -it - /bin/bash -n <namespace></namespace></pod></li>
+<li>查看日志：kubectl logs <pod> -n <namespace></namespace></pod></li>
+<li>查看后十行日志：kubectl logs <pod> –tail=10</pod></li>
+<li>查看上次启动的日志：kubectl logs <pod> -p</pod></li>
+<li>修改 image 版本：kubectl set image deployment nginx(deploy name) nginx(container name)=nginx:1.9.1</li>
+<li>修改副本数：kubectl scale –replicas=3 deployment mysql</li>
+<li>拷贝文件：kubectl cp mysql-478535978-1dnm2:/tmp/message.log message.log</li>
+<li>查看 yaml 文件：cd /etc/kubernetes/apps/</li>
+<li>应用 yaml 文件：kubectl apply -f xxx.yml</li>
+</ul>
+<h2 id="关键命令"><a href="#关键命令" class="headerlink" title="关键命令"></a>关键命令</h2><ul>
+<li>驱逐 node 上所有 pod：kubectl taint node <node_name> key1=value1:NoExecute</node_name></li>
+<li>驱逐 node 上 pod，不驱逐 ds：kubectl drain <node_name> –delete-local-data –force –ignore-daemonsets</node_name></li>
+<li>恢复调度：kubectl uncordon <node_name></node_name></li>
+<li>强制删除 namespace：kubectl delete namespace NAMESPACENAME –force –grace-period=0</li>
+<li>命令行方式重启 Deployment：kubectl patch deployment my-app –patch ‘{“spec”: {“template”: {“metadata”: {“annotations”: {“version/config”: “20180411” }}}}}’</li>
+<li>查看某个资源的字段意义：kubectl explain deployment.spec.template.spec.dnsPolicy</li>
+<li>查看资源类型及版本：kubectl api-resources kubectl api-versions</li>
+<li>创建一个测试的 deployment：kubectl run curl -it –image=pstauffer/curl 或 kubectl run curl -it –image=registry.sensetime.com/viper-test/curl</li>
+<li>创建一个 nginx 的 deployment 并暴露服务：kubectl run nginx –image=nginx –expose –port=80</li>
+<li>清理 docker 镜像：docker system prune -f 命令可以用于清理磁盘，删除关闭的容器、无用的数据卷和网络，以及 dangling 镜像(即无 tag 的镜像)；docker system prune -af 命令清理得更加彻底，可以将没有容器使用 Docker 镜像都删掉。注意，这两个命令会把你暂时关闭的容器，以及暂时没有用到的 Docker 镜像都删掉。</li>
+</ul>
+<h2 id="配置"><a href="#配置" class="headerlink" title="配置"></a>配置</h2><h3 id="deployment-yml"><a href="#deployment-yml" class="headerlink" title="deployment.yml"></a>deployment.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="service-yml"><a href="#service-yml" class="headerlink" title="service.yml"></a>service.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="ingress-yml"><a href="#ingress-yml" class="headerlink" title="ingress.yml"></a>ingress.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="serviceMonitor-yml"><a href="#serviceMonitor-yml" class="headerlink" title="serviceMonitor.yml"></a>serviceMonitor.yml</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line"></span><br></pre></td></tr></table></figure>
 
     </div>
 
@@ -265,14 +289,11 @@
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2020/12/26/Tomcat%E8%BF%B7%E4%BD%A0%E7%89%88%E5%AE%9E%E7%8E%B0/" rel="prev" title="Tomcat迷你版实现">
-                  <i class="fa fa-chevron-left"></i> Tomcat迷你版实现
+                <a href="/2021/01/18/JDBC%E7%9B%B8%E5%85%B3/" rel="prev" title="JDBC相关">
+                  <i class="fa fa-chevron-left"></i> JDBC相关
                 </a>
             </div>
             <div class="post-nav-item">
-                <a href="/2020/12/27/Servlet%E7%9B%B8%E5%85%B3/" rel="next" title="Servlet与SpringMVC">
-                  Servlet与SpringMVC <i class="fa fa-chevron-right"></i>
-                </a>
             </div>
           </div>
     </footer>
