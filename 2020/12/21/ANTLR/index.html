@@ -36,8 +36,9 @@
 <meta property="og:image" content="http://yoursite.com/images/antlr/2-6.png">
 <meta property="og:image" content="http://yoursite.com/images/antlr/4-4.png">
 <meta property="article:published_time" content="2020-12-21T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-01-17T12:32:29.985Z">
+<meta property="article:modified_time" content="2021-01-24T03:37:09.500Z">
 <meta property="article:author" content="John Doe">
+<meta property="article:tag" content="ss">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:image" content="http://yoursite.com/images/antlr/2-2.png">
 
@@ -165,12 +166,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -240,7 +241,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-01-17 20:32:29" itemprop="dateModified" datetime="2021-01-17T20:32:29+08:00">2021-01-17</time>
+        <time title="Modified: 2021-01-24 11:37:09" itemprop="dateModified" datetime="2021-01-24T11:37:09+08:00">2021-01-24</time>
       </span>
 
   
@@ -314,12 +315,14 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">grammar Data;</span><br><span class="line"></span><br><span class="line">file : group+ ;</span><br><span class="line"></span><br><span class="line">group: INT sequence[$INT.int] ;</span><br><span class="line"></span><br><span class="line">sequence[int n]</span><br><span class="line">locals [int i &#x3D; 1;]</span><br><span class="line">     : ( &#123;$i&lt;&#x3D;$n&#125;? INT &#123;$i++;&#125; )* &#x2F;&#x2F; match n integers</span><br><span class="line">     ;</span><br><span class="line"></span><br><span class="line">INT :   [0-9]+ ;             &#x2F;&#x2F; match integers</span><br><span class="line">WS  :   [ \t\n\r]+ -&gt; skip ; &#x2F;&#x2F; toss out all whitespace</span><br></pre></td></tr></table></figure>
 
 <h3 id="定制词法分析"><a href="#定制词法分析" class="headerlink" title="定制词法分析"></a>定制词法分析</h3><ul>
-<li>孤岛语法:处理想吐文件中的不同格式<br>mode INSIDE 定义模式，INSIDE 模式用于识别 XML 标签，默认模式用于识别标签之外的文本。<br>-&gt;定义了动作进入到 INSIDE 模式下<br>-&gt;定义了动作 popMode，从 INSIDE 模式下退出。</li>
+<li>孤岛语法:处理相同文件中的不同格式<br>mode INSIDE 定义模式，INSIDE 模式用于识别 XML 标签，默认模式用于识别标签之外的文本。<br>-&gt;定义了动作进入到 INSIDE 模式下<br>-&gt;定义了动作 popMode，从 INSIDE 模式下退出。</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">lexer grammar XMLLexer;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; Default &quot;mode&quot;: Everything OUTSIDE of a tag</span><br><span class="line">OPEN        :   &#39;&lt;&#39;                 -&gt; pushMode(INSIDE) ;</span><br><span class="line">COMMENT     :   &#39;&lt;!--&#39; .*? &#39;--&gt;&#39;    -&gt; skip ;</span><br><span class="line">EntityRef   :   &#39;&amp;&#39; [a-z]+ &#39;;&#39; ;</span><br><span class="line">TEXT        :   ~(&#39;&lt;&#39;|&#39;&amp;&#39;)+ ;           &#x2F;&#x2F; match any 16 bit char minus &lt; and &amp;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F; ----------------- Everything INSIDE of a tag ---------------------</span><br><span class="line">mode INSIDE;</span><br><span class="line"></span><br><span class="line">CLOSE       :   &#39;&gt;&#39;                 -&gt; popMode ; &#x2F;&#x2F; back to default mode</span><br><span class="line">SLASH_CLOSE :   &#39;&#x2F;&gt;&#39;                -&gt; popMode ;</span><br><span class="line">EQUALS      :   &#39;&#x3D;&#39; ;</span><br><span class="line">STRING      :   &#39;&quot;&#39; .*? &#39;&quot;&#39; ;</span><br><span class="line">SlashName   :   &#39;&#x2F;&#39; Name ;</span><br><span class="line">Name        :   ALPHA (ALPHA|DIGIT)* ;</span><br><span class="line">S           :   [ \t\r\n]           -&gt; skip ;</span><br><span class="line"></span><br><span class="line">fragment</span><br><span class="line">ALPHA       :   [a-zA-Z] ;</span><br><span class="line"></span><br><span class="line">fragment</span><br><span class="line">DIGIT       :   [0-9] ;</span><br></pre></td></tr></table></figure>
 
 <ul>
-<li>重写输入流<br>TokenStreamRewriter 对象可以改写输入的 TokenStream。关键之处，TokenStreamRewriter 对象实际上修改的是词法符号流的“视图”而非词法符号<br>流本身。它认为所有对修改方法的调用都只是一个“指令”，然后将这些修改放入一个队列；在未来词法符号流被重新渲染为文本时，这些修改才会被执行。<br>在每次我们调用 getText()的时候，rewriter 对象都会执行上述队列中的指令。</li>
+<li><p>重写输入流<br>TokenStreamRewriter 对象可以改写输入的 TokenStream。关键之处，TokenStreamRewriter 对象实际上修改的是词法符号流的“视图”而非词法符号流本身。它认为所有对修改方法的调用都只是一个“指令”，然后将这些修改放入一个队列；在未来词法符号流被重新渲染为文本时，这些修改才会被执行。在每次我们调用 getText()的时候，rewriter 对象都会执行上述队列中的指令。</p>
+<p>这样的方法在源代码插桩或者重构等场合下非常有效。</p>
+</li>
 </ul>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public class InsertSerialIDListener extends JavaBaseListener &#123;</span><br><span class="line">    TokenStreamRewriter rewriter;</span><br><span class="line">    public InsertSerialIDListener(TokenStream tokens) &#123;</span><br><span class="line">        rewriter &#x3D; new TokenStreamRewriter(tokens);</span><br><span class="line">    &#125;</span><br><span class="line"></span><br><span class="line">    @Override</span><br><span class="line">    public void enterClassBody(JavaParser.ClassBodyContext ctx) &#123;</span><br><span class="line">        String field &#x3D; &quot;\n\tpublic static final long serialVersionUID &#x3D; 1L;&quot;;</span><br><span class="line">        rewriter.insertAfter(ctx.start, field);</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
@@ -367,6 +370,9 @@
     
 
     <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/ss/" rel="tag"># ss</a>
+          </div>
 
         
 

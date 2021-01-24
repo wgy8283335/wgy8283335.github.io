@@ -154,12 +154,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -188,6 +188,123 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/24/BNF&EBNF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/01/24/BNF&EBNF/" class="post-title-link" itemprop="url">BNF&EBNF</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2021-01-24 08:00:00 / Modified: 11:50:43" itemprop="dateCreated datePublished" datetime="2021-01-24T08:00:00+08:00">2021-01-24</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h2 id="BNF"><a href="#BNF" class="headerlink" title="BNF"></a>BNF</h2><p>巴科斯范式(BNF: Backus-Naur Form 的缩写)是由 John Backus 和 Peter Naur 首先引入的用来描述计算机语言语法的符号集。现在，几乎每一位新编程语言书籍的作者都使用巴科斯范式来定义编程语言的语法规则。</p>
+<p>在 BNF 中，双引号中的字(“word”)代表着这些字符本身。而 double_quote 用来代表双引号。</p>
+<p>在双引号外的字（有可能有下划线）代表着语法部分。</p>
+<p>&lt; &gt; : 内包含的为必选项。<br>　　[ ] : 内包含的为可选项。<br>　　{ } : 内包含的为可重复 0 至无数次的项。<br>　　| : 表示在其左右两边任选一项，相当于”OR”的意思。<br>　　::= : 是“被定义为”的意思<br>　　“…” : 术语符号<br>　　[…] : 选项，最多出现一次<br>　　{…} : 重复项，任意次数，包括 0 次<br>　　(…) : 分组<br>　　| : 并列选项，只能选一个<br>　　斜体字: 参数，在其它地方有解释</p>
+<p>下面是是用 BNF 来定义的 Java 语言中的 For 语句的实例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">FOR_STATEMENT ::&#x3D;</span><br><span class="line">      &quot;for&quot; &quot;(&quot; ( variable_declaration |</span><br><span class="line">  ( expression &quot;;&quot; ) | &quot;;&quot; )</span><br><span class="line">      [ expression ] &quot;;&quot;</span><br><span class="line">      [ expression ] &quot;;&quot;</span><br><span class="line">      &quot;)&quot; statement</span><br></pre></td></tr></table></figure>
+
+<h2 id="EBNF"><a href="#EBNF" class="headerlink" title="EBNF"></a>EBNF</h2><p>扩展巴科斯-瑙尔范式(Extended Backus–Naur Form,EBNF)是一种用于描述计算机编程语言等正式语言的与上下文无关语法的元语法(metasyntax)符号表示法。简而言之，它是一种描述语言的语言。它是基本巴科斯范式(BNF)元语法符号表示法的一种扩展。</p>
+<p>最初由尼克劳斯·维尔特开发，最常用的 EBNF 变体由标准是 ISO-14977 所定义。</p>
+<p>EBNF 的基本语法形式如下，这个形式也被叫做 production：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">左式(LeftHandSide) &#x3D; 右式(RightHandSide).</span><br></pre></td></tr></table></figure>
+
+<p>左式也被叫做 非终端符号(non-terminal symbol)，而右式则描述了其的组成。</p>
+<h4 id="终端符号与非终端符号"><a href="#终端符号与非终端符号" class="headerlink" title="终端符号与非终端符号"></a>终端符号与非终端符号</h4><ul>
+<li>终端符号(Terminal symbols)：形成所描述的语言的最基本符号。所描述语言的标点符号(不是 EBNF 自己的)会被左右加引号(它们也是终端符号)，而其他终端符号会用粗体(这边因不方便加粗，就不加粗了)打印。</li>
+<li>非终端符号：是用于描述语法的变量，它必须被定义在一个 production 中。或说，它们必须出现在某个地方的 production 的左式中。</li>
+</ul>
+<h4 id="符号"><a href="#符号" class="headerlink" title="符号"></a>符号</h4><p><img src="/images/ss/bnf1.png"></p>
+<h4 id="约定"><a href="#约定" class="headerlink" title="约定"></a>约定</h4><p>1 .使用了如下约定:</p>
+<ul>
+<li>EBNF 的每个元标识符(meta-identifier)都被写为用连字符(“-“,hyphens)连接起来的一个或多个单词；</li>
+<li>以 “-symbol” 结束的元标识符是 EBNF 的终端符号。</li>
+</ul>
+<p>2 .用普通字符表示的 EBNF 操作符按照优先级(顶部为最高优先级)排序为:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">*repetition-symbol(重复符)</span><br><span class="line">-except-symbol(除去符)</span><br><span class="line">, concatenate-symbol(连接符)</span><br><span class="line">| definition-separator-symbol</span><br><span class="line">&#x3D; defining-symbol(定义符)</span><br><span class="line">; terminator-symbol(结束符)</span><br><span class="line">. terminator-symbol(结束符)</span><br></pre></td></tr></table></figure>
+
+<p>3 .以下的括号对(bracket pairs)能够改变优先级，括号对间也有优先级(顶部为最高优先级):</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">&#39;  first-quote-symbol            first-quote-symbol  &#39;    (* 引用 *)</span><br><span class="line">&quot;  second-quote-symbol          second-quote-symbol  &quot;    (* 引用 *)</span><br><span class="line">(* start-comment-symbol          end-comment-symbol *)    (* 注释 *)</span><br><span class="line">(  start-group-symbol              end-group-symbol  )    (* 分组 *)</span><br><span class="line">[  start-option-symbol            end-option-symbol  ]    (* 可选 *)</span><br><span class="line">&#123;  start-repeat-symbol            end-repeat-symbol  &#125;    (* 重复 *)</span><br><span class="line">?  special-sequence-symbol   special-sequence-symbol ?    (* 特殊序列 *)</span><br></pre></td></tr></table></figure>
+
+<p>下例示范了怎么表达重复：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">aa &#x3D; &quot;A&quot;;</span><br><span class="line">bb &#x3D; 3 * aa, &quot;B&quot;;</span><br><span class="line">cc &#x3D; 3 * [aa], &quot;C&quot;;</span><br><span class="line">dd &#x3D; &#123;aa&#125;, &quot;D&quot;;</span><br><span class="line">ee &#x3D; aa, &#123;aa&#125;, &quot;E&quot;;</span><br><span class="line">ff &#x3D; 3 * aa, 3 * [aa], &quot;F&quot;;</span><br><span class="line">gg &#x3D; &#123;3 * aa&#125;, &quot;D&quot;;</span><br></pre></td></tr></table></figure>
+
+<p>这些规则定义的终端字符串如下:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">aa: A</span><br><span class="line">bb: AAAB</span><br><span class="line">cc: C AC AAC AAAC</span><br><span class="line">dd: D AD AAD AAAD AAAAD etc.</span><br><span class="line">ee: AE AAE AAAE AAAAE AAAAAE etc.</span><br><span class="line">ff: AAAF AAAAF AAAAAF AAAAAAF</span><br><span class="line">gg: D AAAD AAAAAAD etc.</span><br></pre></td></tr></table></figure>
+
+<h4 id="扩展"><a href="#扩展" class="headerlink" title="扩展"></a>扩展</h4><p>除了标准的定义，在 FREESCALE 文档中还使用了以下约定：</p>
+<ul>
+<li>计数重复：任何由”{“和”}”括起来并后跟一个上标 x 的东西必须准确地重复出现 x 次。x 也可能是一个非终端字符。比如下例中，Stars 相当于四个星号：<br>Stars = {“*”}4.</li>
+<li>字节数：见到任何紧跟着由一对中括号“[”和“]”括起来的数字 n 的标识符，都应该认为它是一个高位字节在前的二进制数，并且字节数为 n，如：<br>Struct=RefNo FilePos[4].</li>
+<li>在一些例子中，我们会使用”&lt;”和”&gt;”括起来一些文本。这些文本是 元文本(meta–literal)，它们的位置应该被它们所描述的东西替代掉，如，对于 &lt; any char &gt;，它的位置可以插入任意字符。</li>
+</ul>
+<h4 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h4><p>以下提供一些示例以直观的理解 EBNF。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">digit excluding zero &#x3D; &quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot; | &quot;6&quot; | &quot;7&quot; | &quot;8&quot; | &quot;9&quot; ;</span><br><span class="line">digit                &#x3D; &quot;0&quot; | digit excluding zero ;</span><br><span class="line">natural number &#x3D; digit excluding zero, &#123; digit &#125; ;</span><br><span class="line">integer &#x3D; &quot;0&quot; | [ &quot;-&quot; ], natural number ;</span><br></pre></td></tr></table></figure>
+
+<p>digit excluding zero 可以是 1 到 9 任意一个字符，digit 则扩展为 0 到 9 任意一个字符。<br>natural number 可以是 1、2、…、10、…、12345、…，因为{}代表重复任意次，包括 0 次。<br>integer 则可以是 0 或者可能带个负号的自然数。</p>
+<p>这是用 EBNF 描述的 EBNF 自身语法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">Production     &#x3D; NonTerminal &quot;&#x3D;&quot; Expression &quot;.&quot;.</span><br><span class="line">Expression     &#x3D; Term &#123;&quot;|&quot; Term&#125;.</span><br><span class="line">Term           &#x3D; Factor &#123;Factor&#125;.</span><br><span class="line">Factor         &#x3D; NonTerminal</span><br><span class="line">                 | Terminal</span><br><span class="line">                 | &quot;(&quot; Expression &quot;)&quot;</span><br><span class="line">                 | &quot;[&quot; Expression &quot;]&quot;</span><br><span class="line">                 | &quot;&#123;&quot; Expression &quot;&#125;&quot;.</span><br><span class="line">Terminal       &#x3D; Identifier | “&quot;“ &lt;any char&gt; “&quot;“.</span><br><span class="line">NonTerminal    &#x3D; Identifier.</span><br></pre></td></tr></table></figure>
+
+<p>非终端符号可以是任意你喜欢的名字，而终端符号则要不然是出现在被描述的语言中的标识符，要不然就是任何被引号括起来的字符序列。<br>然后 Factor(参数)可以是终端字符、非终端字符、三种括号中任意一种括起来的表达式。<br>Term(术语)由起码一个 Factor 组合而成……</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br></pre></td><td class="code"><pre><span class="line">(* a simple program syntax in EBNF − Wikipedia *)</span><br><span class="line">program &#x3D; &#39;PROGRAM&#39;, white space, identifier, white space,</span><br><span class="line">           &#39;BEGIN&#39;, white space,</span><br><span class="line">           &#123; assignment, &quot;;&quot;, white space &#125;,</span><br><span class="line">           &#39;END.&#39; ;</span><br><span class="line">identifier &#x3D; alphabetic character, &#123; alphabetic character | digit &#125; ;</span><br><span class="line">number &#x3D; [ &quot;-&quot; ], digit, &#123; digit &#125; ;</span><br><span class="line">string &#x3D; &#39;&quot;&#39; , &#123; all characters - &#39;&quot;&#39; &#125;, &#39;&quot;&#39; ;</span><br><span class="line">assignment &#x3D; identifier , &quot;:&#x3D;&quot; , ( number | identifier | string ) ;</span><br><span class="line">alphabetic character &#x3D; &quot;A&quot; | &quot;B&quot; | &quot;C&quot; | &quot;D&quot; | &quot;E&quot; | &quot;F&quot; | &quot;G&quot;</span><br><span class="line">                     | &quot;H&quot; | &quot;I&quot; | &quot;J&quot; | &quot;K&quot; | &quot;L&quot; | &quot;M&quot; | &quot;N&quot;</span><br><span class="line">                     | &quot;O&quot; | &quot;P&quot; | &quot;Q&quot; | &quot;R&quot; | &quot;S&quot; | &quot;T&quot; | &quot;U&quot;</span><br><span class="line">                     | &quot;V&quot; | &quot;W&quot; | &quot;X&quot; | &quot;Y&quot; | &quot;Z&quot; ;</span><br><span class="line">digit &#x3D; &quot;0&quot; | &quot;1&quot; | &quot;2&quot; | &quot;3&quot; | &quot;4&quot; | &quot;5&quot; | &quot;6&quot; | &quot;7&quot; | &quot;8&quot; | &quot;9&quot; ;</span><br><span class="line">white space &#x3D; ? white space characters ? ;</span><br><span class="line">all characters &#x3D; ? all visible characters ? ;</span><br></pre></td></tr></table></figure>
+
+<p>对应的语法正确的程序如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">PROGRAM DEMO1</span><br><span class="line">BEGIN</span><br><span class="line">  A:&#x3D;3;</span><br><span class="line">  B:&#x3D;45;</span><br><span class="line">  H:&#x3D;-100023;</span><br><span class="line">  C:&#x3D;A;</span><br><span class="line">  D123:&#x3D;B34A;</span><br><span class="line">  BABOON:&#x3D;GIRAFFE;</span><br><span class="line">  TEXT:&#x3D;&quot;Hello world!&quot;;</span><br><span class="line">END.</span><br></pre></td></tr></table></figure>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -1075,78 +1192,6 @@
 </ol>
 <h2 id="gradle版本问题"><a href="#gradle版本问题" class="headerlink" title="gradle版本问题"></a>gradle版本问题</h2><p>gradle版本对于项目是否能够成功构建影响很大，所以一般都是在gradle文件夹中指定版本，然后gradlew脚本配合完成环境的搭建，以保证项目在任何地点构建时使用的gradle版本保持一致。</p>
 <h2 id="对比maven"><a href="#对比maven" class="headerlink" title="对比maven"></a>对比maven</h2><p>Java世界中主要有三大构建工具：Ant、Maven和Gradle。经过几年的发展，Ant几乎销声匿迹、Maven也日薄西山，而Gradle的发展则如日中天。总的说来Gradle在延续了Maven的优点上，增添了更多的灵活性，如多模块构建，依赖管理等。<br>参考 <a target="_blank" rel="noopener" href="https://www.cnblogs.com/huang0925/p/5209563.html">https://www.cnblogs.com/huang0925/p/5209563.html</a></p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/04/shardingsphere-sql-parser/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/01/04/shardingsphere-sql-parser/" class="post-title-link" itemprop="url">shardingsphere-sql-parser</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-01-04 10:00:00" itemprop="dateCreated datePublished" datetime="2021-01-04T10:00:00+08:00">2021-01-04</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-01-13 10:34:12" itemprop="dateModified" datetime="2021-01-13T10:34:12+08:00">2021-01-13</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>结构图如下：<br><img src="/images/ss/parser%E7%9B%B8%E5%85%B3%E6%A8%A1%E5%9D%97.png"></p>
-<p>SQL 解析引擎的执行流程如下：<br>参考：<a target="_blank" rel="noopener" href="https://www.jianshu.com/p/b22030d1af10">https://www.jianshu.com/p/b22030d1af10</a><br><img src="/images/ss/shardingsphere-sql-parser2.png"></p>
 
       
     </div>

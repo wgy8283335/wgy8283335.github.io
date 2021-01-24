@@ -154,12 +154,12 @@
   <nav class="site-state">
       <div class="site-state-item site-state-posts">
           <a href="/archives">
-          <span class="site-state-item-count">43</span>
+          <span class="site-state-item-count">44</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">6</span>
+        <span class="site-state-item-count">7</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -188,6 +188,93 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/28/sharding-core-merge/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/28/sharding-core-merge/" class="post-title-link" itemprop="url">sharding-core-merge</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-28 12:17:30" itemprop="dateCreated datePublished" datetime="2019-10-28T12:17:30+08:00">2019-10-28</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:28" itemprop="dateModified" datetime="2020-11-22T14:14:28+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-merge的主要功能是利用属性<code>DatabaseType databaseType;</code>，<code>SQLRouteResult routeResult;</code>(route产生)，<code>SelectSQLStatementContext selectSQLStatementContext;</code>(preprocess产生)，<code>List&lt;QueryResult&gt; queryResults;</code>(execute模块产生)，产生MergedResult。按功能分类可以分成三个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.merge.dal。包含若干DAL操作相关的MergedResult实现类和DALMergeEngine是一个合并引擎。此引擎对外提供merge()功能,负责将DAL操作的相关结果合并，返回包内定义的MergedResult实体类。</li>
+<li>org.apache.shardingsphere.core.merge.dql。包含若干DQL操作相关的MergedResult实现类和DQLMergeEngine是一个合并引擎。此引擎对外提供merge()功能,负责将DQL操作的相关结果合并，返回包内定义的MergedResult实体类。</li>
+<li>org.apache.shardingsphere.core.merge。包含MergedResult和MergeEngine接口的定义。MergeEngineFactory，负责创建MergeEngine实例。TransparentMergeEngine是一个合并引擎，实现了MergeEngine接口，此方法不对queryResults进行处理，直接返回迭代流式MergeResult。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-merge.png"></li>
+<li>主要逻辑流程和关键类分析<br>分片执行的主要逻辑是从***MergeEngine实现类开始的。这里以DQLMergeEngine为例子，进行分析。首先判断<code>List&lt;QueryResult&gt; queryResults;</code>是否为1，如果为1则不需要处理，直接创建迭代流式归并MergedResult。否则，判断是否为orderBy或groupby，并创建相关MergedResult。最后，对分页进行处理，也就是在decorate()方法中，根据数据库类型，创建不同MergeResult。<br><img src="/images/sharding-core-merge-flow-graph.png"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>简单工厂方法<br>MergeEngineFactory.newInstance（）方法，根据SQLStatement类型来创建不同的MergeEngine。具体的MergeEngine类型为：DQLMergeEngine，DALMergeEngine，TransparentMergeEngine。MergeEngineFactory的存在方便了不同类型的MergeEngine创建，调用者不再需要关心如何创建MergeEngine，而只需要把这件事交给MergeEngineFactory就行。</li>
+<li>适配器模式<br>LocalMergedResultAdapter类是一个抽象类，它实现了MergedResult接口的部分方法，使得它的子类<code>ShowDatabasesMergedResult</code>和<code>ShowShardingCTLMergedResult</code>无需MergedResult接口的所有方法。当实现类和接口的方法无法完全匹配时，可以考虑使用适配器模式。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 
@@ -973,81 +1060,6 @@
 <li>2<br>proxy-server采用双buffer。当号段消费到某个点时就异步的把下一个号段加载到内存中。而不需要等到号段用尽的时候才去更新号段，不需要在DB取号段的时候阻塞请求线程。这样做就可以很大程度上的降低系统的TP999指标。<br>Leaf服务内部有两个号段缓存区segment。当前号段已下发10%时，如果下一个号段未更新，则另启一个更新线程去更新下一个号段。当前号段全部下发完后，如果下个号段准备好了则切换到下个号段为当前segment接着下发，循环往复。<br>每个biz-tag都有消费速度监控，通常推荐segment长度设置为服务高峰期发号QPS的600倍（10分钟），这样即使DB宕机，Leaf仍能持续发号10-20分钟不受影响。<br>每次请求来临时都会判断下个号段的状态，从而更新此号段，所以偶尔的网络抖动不会影响下个号段的更新。</li>
 </ol>
 <p>1.3这种模式有以下优缺点：<br>优点：<br>Leaf服务可以很方便的线性扩展，性能完全能够支撑大多数业务场景。<br>ID号码是趋势递增的8byte的64位数字，满足上述数据库存储的主键要求。<br>容灾性高：Leaf服务内部有号段缓存，即使DB宕机，短时间内Leaf仍能正常对外提供服务。<br>可以自定义max_id的大小，非常方便业务从原有的ID方式上迁移过来。<br>缺点：<br>ID号码不够随机，能够泄露发号数量的信息，不太安全。<br>DB宕机会造成整个系统不可用。<br>2 leaf-snowflake方案<br>2.1Leaf-snowflake方案完全沿用snowflake方案的bit位设计，即是“1+41+10+12”的方式组装ID号。对于workerID的分配，当服务集群数量较小的情况下，完全可以手动配置。Leaf服务规模较大，动手配置成本太高。所以使用Zookeeper持久顺序节点的特性自动对snowflake节点配置wokerID。Leaf-snowflake是按照下面几个步骤启动的：<br>启动Leaf-snowflake服务，连接Zookeeper，在leaf_forever父节点下检查自己是否已经注册过（是否有该顺序子节点）。<br>如果有注册过直接取回自己的workerID（zk顺序节点生成的int类型ID号），启动服务。<br>如果没有注册过，就在该父节点下面创建一个持久顺序节点，创建成功后取回顺序号当做自己的workerID号，启动服务。<br>2.2对于，时钟回退问题，系统予以了充分的考虑，设计如下逻辑处理。<br>服务启动时首先检查自己是否写过ZooKeeper leaf_forever节点：<br>若写过，则用自身系统时间与leaf_forever/${self}节点记录时间做比较，若小于leaf_forever/${self}时间则认为机器时间发生了大步长回拨，服务启动失败并报警。<br>若未写过，证明是新服务节点，直接创建持久节点leaf_forever/${self}并写入自身系统时间，接下来综合对比其余Leaf节点的系统时间来判断自身系统时间是否准确，具体做法是取leaf_temporary下的所有临时节点(所有运行中的Leaf-snowflake节点)的服务IP：Port，然后通过RPC请求得到所有节点的系统时间，计算sum(time)/nodeSize。<br>若abs( 系统时间-sum(time)/nodeSize ) &lt; 阈值，认为当前系统时间准确，正常启动服务，同时写临时节点leaf_temporary/${self} 维持租约。<br>否则认为本机系统时间发生大步长偏移，启动失败并报警。<br>每隔一段时间(3s)上报自身系统时间写入leaf_forever/${self}。<br>由于强依赖时钟，对时间的要求比较敏感，在机器工作时NTP同步也会造成秒级别的回退，建议可以直接关闭NTP同步。要么在时钟回拨的时候直接不提供服务直接返回ERROR_CODE，等时钟追上即可。或者做一层重试，然后上报报警系统，更或者是发现有时钟回拨之后自动摘除本身节点并报警</p>
-
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/09/spark%E5%92%8Chadoop%E5%85%B1%E6%80%A7/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2019/04/09/spark%E5%92%8Chadoop%E5%85%B1%E6%80%A7/" class="post-title-link" itemprop="url">spark和hadoop共性</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-      
-
-      <time title="Created: 2019-04-09 10:11:00 / Modified: 10:08:32" itemprop="dateCreated datePublished" datetime="2019-04-09T10:11:00+08:00">2019-04-09</time>
-    </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <p>主要对比spark和hadoop的相同点<br>1 任务调度：任务分配给空闲的机器；尽量将Map任务分配给InputSplit所在的机器，移动计算来减少网络I/O。<br>2 不同点<br>直接比较Hadoop和Spark有难度，因为它们处理的许多任务都一样，但是在一些方面又并不相互重叠。<br>比如说，Spark没有文件管理功能，因而必须依赖Hadoop分布式文件系统(HDFS)或另外某种解决方案。<br>Hadoop框架的主要模块包括如下：<br>Hadoop Common<br>Hadoop分布式文件系统(HDFS)<br>Hadoop YARN<br>Hadoop MapReduce<br>虽然上述四个模块构成了Hadoop的核心，不过还有其他几个模块。这些模块包括：Ambari、Avro、Cassandra、Hive、 Pig、Oozie、Flume和Sqoop，它们进一步增强和扩展了Hadoop的功能。<br>Spark确实速度很快(最多比Hadoop MapReduce快100倍)。Spark还可以执行批量处理，然而它真正擅长的是处理流工作负载、交互式查询和机器学习。<br>相比MapReduce基于磁盘的批量处理引擎，Spark赖以成名之处是其数据实时处理功能。Spark与Hadoop及其模块兼容。实际上，在Hadoop的项目页面上，Spark就被列为是一个模块。<br>Spark有自己的页面，因为虽然它可以通过YARN(另一种资源协调者)在Hadoop集群中运行，但是它也有一种独立模式。它可以作为 Hadoop模块来运行，也可以作为独立解决方案来运行。<br>MapReduce和Spark的主要区别在于，MapReduce使用持久存储，而Spark使用弹性分布式数据集(RDDS)。</p>
-<p>2.1性能<br>Spark之所以如此快速，原因在于它在内存中处理一切数据。没错，它还可以使用磁盘来处理未全部装入到内存中的数据。<br>Spark的内存处理为来自多个来源的数据提供了近乎实时分析的功能：营销活动、机器学习、物联网传感器、日志监控、安全分析和社交媒体网站。另 外，MapReduce使用批量处理，其实从来就不是为惊人的速度设计的。它的初衷是不断收集来自网站的信息，不需要这些数据具有实时性或近乎实时性。</p>
-<p>2.2易用性<br>支持Scala(原生语言)、Java、Python和Spark SQL。Spark SQL非常类似于SQL 92，所以几乎不需要经历一番学习，马上可以上手。</p>
-<p>Spark还有一种交互模式，那样开发人员和用户都可以获得查询和其他操作的即时反馈。MapReduce没有交互模式，不过有了Hive和Pig等附加模块，采用者使用MapReduce来得容易一点。</p>
-<p>2.3成本<br>“Spark已证明在数据多达PB的情况下也轻松自如。它被用于在数量只有十分之一的机器上，对100TB数据进行排序的速度比Hadoop MapReduce快3倍。”这一成绩让Spark成为2014年Daytona GraySort基准。</p>
-<p>2.4兼容性<br>MapReduce和Spark相互兼容;MapReduce通过JDBC和ODC兼容诸多数据源、文件格式和商业智能工具，Spark具有与MapReduce同样的兼容性。</p>
-<p>2.5数据处理<br>MapReduce是一种批量处理引擎。MapReduce以顺序步骤来操作，先从集群读取数据，然后对数据执行操作，将结果写回到集群，从集群读 取更新后的数据，执行下一个数据操作，将那些结果写回到结果，依次类推。Spark执行类似的操作，不过是在内存中一步执行。它从集群读取数据后，对数据 执行操作，然后写回到集群。<br>Spark还包括自己的图形计算库GraphX​​。GraphX让用户可以查看与图形和集合同样的数据。用户还可以使用弹性分布式数据集(RDD)，改变和联合图形，容错部分作了讨论。</p>
-<p><strong>2.6容错</strong><br>2.6.1 至于容错，MapReduce和Spark从两个不同的方向来解决问题。MapReduce使用TaskTracker节点，它为 JobTracker节点提供了心跳(heartbeat)。如果没有心跳，那么JobTracker节点重新调度所有将执行的操作和正在进行的操作，交 给另一个TaskTracker节点。这种方法在提供容错性方面很有效，可是会大大延长某些操作(即便只有一个故障)的完成时间。<br>-任务出错是比较常见的，引起错误的原因通常有低质量的代码、数据损坏、节点暂时性故障、一个任务出现下列三种情况的任意一种时被认为出错。<br>（1）抛出一个没有铺货的异常<br>（2）以一个非零值退出程序<br>（3）在一定的事件内没有向Tasktracker报告进度。<br>当TaskTracker检测到一个错误，TaskTracker将在下一次心跳里向JobTracker报告该错误，JobTracker收到报告的错误后，将会判断是否需要进行重试，如果是，则重新调度该任务。默认的尝试次数为4次，可以通过mapred-site.xml的配置项mapreduce.map.maxattempts配置。该任务可能在集群的任意一个节点重试，这取决于集群资源的利用情况。如果同一个作业的多个任务在同一个TaskTracker节点反复失败，那么JobTracker会将该TaskTracker放到作业级别的黑名单，从而避免将该作业的其他任务分配到该TaskTracker上。如果多个作业的多个任务在同一个TaskTracker节点反复失败，那么JobTracker会将该TaskTracker放到一个全局的黑名单24小时，从而避免所有作业的任务呗分配到TaskTracker上。<br>当一个任务经过最大尝试数的尝试运行后仍然失败，那么整个作业将被标记为失败。如果我们不希望这样（因为可能作业的溢写结果还是可用的），那么可以设置允许在不处罚整个作业失败的任务失败的最大百分比。<br>-TaskTracker出错<br>当TaskTracker进程崩溃或者TaskTracker进程所在节点故障时，JobTracker将接收不到TaskTracker发来的心跳，那么JobTracker将会认为该TaskTracker失效并且在该TaskTracker运行过的任务都会被认为失败，这些将会被重新调度到别的TaskTracker执行，而对于用户来说，在执行MapReduce任务时，只会感觉到该作业在执行的一段时间里变慢了。<br>-JobTracker出错<br>在Hadoop中，JobTracker出错是非常严重的额情况，因为在Hadoop中JobTracker存在单节点故障的可能性，所以如果如果JobTracker一旦出错，那么正在运行的所有作业的内部状态信息将会丢失，即使JobTracker马上恢复了，作业的所有任务都会被认为是失败的，即所有作业都需要重新执行。<br>-HDFS出错<br>对于依赖底层存储HDFS的作业，一旦HDFS出错，那么对于整个作业来说，还是会执行失败，当DataNode出错时，MapReduce会从其他DataNode上读取所需数据，除非包含任务所需的数据块的节点都出错，否则都是可以恢复的。如果NameNode出错，任务将在下一次访问NameNode时报错，但是MapReduce计算框架还是会尝试执行4次（默认的最大尝试执行次数为4），在这期间，如果NameNode依然处于故障状态，那么作业会最终执行失败。<br>2.6.2 Spark使用弹性分布式数据集(RDD)，它们是容错集合，里面的数据元素可执行并行操作。RDD可以引用外部存储系统中的数据集，比如共享式文件系统、HDFS、HBase，或者提供Hadoop InputFormat的任何数据源。Spark可以用Hadoop支持的任何存储源创建RDD，包括本地文件系统，或前面所列的其中一种文件系统。<br>RDD拥有五个主要属性：<br>分区列表<br>计算每个分片的函数<br>依赖其他RDD的项目列表<br>面向键值RDD的分区程序(比如说RDD是散列分区)，这是可选属性<br>计算每个分片的首选位置的列表(比如HDFS文件的数据块位置)，这是可选属性<br>RDD可能具有持久性，以便将数据集缓存在内存中。这样一来，以后的操作大大加快，最多达10倍。Spark的缓存具有容错性，原因在于如果RDD的任何分区丢失，就会使用原始转换，自动重新计算。<br>分布式数据集的容错性有两种方式：<strong>数据检查点</strong>和<strong>记录数据的更新</strong>。<br>面向大规模数据分析，数据检查点操作成本很高，需要通过数据中心的网络连接在机器之间复制庞大的数据集，而网络带宽往往比内存带宽低得多，同时还需要消耗更多的存储资源。<br>因此，Spark选择记录更新的方式。但是，如果更新粒度太细太多，那么记录更新成本也不低。因此，RDD只支持粗粒度转换，即只记录单个块上执行的单个操作，然后将创建RDD的一系列变换序列（每个RDD都包含了他是如何由其他RDD变换过来的以及如何重建某一块数据的信息。因此RDD的容错机制又称“血统(Lineage)”容错）记录下来，以便恢复丢失的分区。Lineage本质上很类似于数据库中的重做日志（Redo Log），只不过这个重做日志粒度很大，是对全局数据做同样的重做进而恢复数据。</p>
-<p>2.7可扩展性<br>按照定义，MapReduce和Spark都可以使用HDFS来扩展。那么，Hadoop集群能变得多大呢?<br>据称雅虎有一套42000个节点组成的Hadoop集群，可以说扩展无极限。最大的已知Spark集群是8000个节点，不过随着大数据增多，预计集群规模也会随之变大，以便继续满足吞吐量方面的预期。</p>
-<p><strong>2.8安全</strong><br>Hadoop支持Kerberos身份验证，这管理起来有麻烦。然而，第三方厂商让企业组织能够充分利用活动目录Kerberos和LDAP用于身份验证。同样那些第三方厂商还为传输中数据和静态数据提供数据加密。<br>Hadoop分布式文件系统支持访问控制列表(ACL)和传统的文件权限模式。Hadoop为任务提交中的用户控制提供了服务级授权(Service Level Authorization)，这确保客户拥有正确的权限。<br>Spark的安全性弱一点，目前只支持通过共享密钥(密码验证)的身份验证。Spark在安全方面带来的好处是，如果你在HDFS上运行Spark，它可以使用HDFS ACL和文件级权限。此外，Spark可以在YARN上运行，因而能够使用Kerberos身份验证。</p>
-<p>总结<br>Spark与MapReduce是一种相互共生的关系。Hadoop提供了Spark所没有的功能特性，比如分布式文件系统，而Spark 为需要它的那些数据集提供了实时内存处理。完美的大数据场景正是设计人员当初预想的那样：让Hadoop和Spark在同一个团队里面协同运行。</p>
 
       
     </div>
