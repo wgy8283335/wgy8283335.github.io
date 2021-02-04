@@ -1,0 +1,428 @@
+<!DOCTYPE html>
+<html lang="">
+<head>
+  <meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=2">
+<meta name="theme-color" content="#222">
+<meta name="generator" content="Hexo 5.2.0">
+
+
+  <link rel="apple-touch-icon" sizes="180x180" href="/images/apple-touch-icon-next.png">
+  <link rel="icon" type="image/png" sizes="32x32" href="/images/favicon-32x32-next.png">
+  <link rel="icon" type="image/png" sizes="16x16" href="/images/favicon-16x16-next.png">
+  <link rel="mask-icon" href="/images/logo.svg" color="#222">
+
+<link rel="stylesheet" href="/css/main.css">
+
+
+
+<link rel="stylesheet" href="//cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@5.15.1/css/all.min.css">
+  <link rel="stylesheet" href="//cdn.jsdelivr.net/npm/animate.css@3.1.1/animate.min.css">
+
+<script class="hexo-configurations">
+    var NexT = window.NexT || {};
+    var CONFIG = {"hostname":"yoursite.com","root":"/","images":"/images","scheme":"Muse","version":"8.0.2","exturl":false,"sidebar":{"position":"left","display":"post","padding":18,"offset":12},"copycode":false,"bookmark":{"enable":false,"color":"#222","save":"auto"},"fancybox":false,"mediumzoom":false,"lazyload":false,"pangu":false,"comments":{"style":"tabs","active":null,"storage":true,"lazyload":false,"nav":null},"motion":{"enable":true,"async":false,"transition":{"post_block":"fadeIn","post_header":"fadeInDown","post_body":"fadeInDown","coll_header":"fadeInLeft","sidebar":"fadeInUp"}},"prism":false,"i18n":{"placeholder":"Searching...","empty":"We didn't find any results for the search: ${query}","hits_time":"${hits} results found in ${time} ms","hits":"${hits} results found"}};
+  </script>
+<meta name="description" content="前言在 Java 程序的运行过程中，对 JVM 和系统的监测一直是 Java 开发人员在开发过程所需要的。一直以来，Java 开发人员必须通过一些底层的 JVM API，比如 JVMPI 和 JVMTI 等，才能监测 Java 程序运行过程中的 JVM 和系统的一系列情况，这种方式一直以来被人所诟病，因为这需要大量的 C 程序和 JNI 调用，开发效率十分低下。于是出现了各种不同的专门做资源管理的">
+<meta property="og:type" content="article">
+<meta property="og:title" content="JMX">
+<meta property="og:url" content="http://yoursite.com/2021/01/29/JMX/index.html">
+<meta property="og:site_name" content="Hexo">
+<meta property="og:description" content="前言在 Java 程序的运行过程中，对 JVM 和系统的监测一直是 Java 开发人员在开发过程所需要的。一直以来，Java 开发人员必须通过一些底层的 JVM API，比如 JVMPI 和 JVMTI 等，才能监测 Java 程序运行过程中的 JVM 和系统的一系列情况，这种方式一直以来被人所诟病，因为这需要大量的 C 程序和 JNI 调用，开发效率十分低下。于是出现了各种不同的专门做资源管理的">
+<meta property="og:locale">
+<meta property="og:image" content="http://yoursite.com/images/java/jmx1.jpg">
+<meta property="og:image" content="http://yoursite.com/images/java/jmx2.jpg">
+<meta property="article:published_time" content="2021-01-29T11:11:30.000Z">
+<meta property="article:modified_time" content="2021-01-30T18:51:15.994Z">
+<meta property="article:author" content="John Doe">
+<meta property="article:tag" content="java">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:image" content="http://yoursite.com/images/java/jmx1.jpg">
+
+
+<link rel="canonical" href="http://yoursite.com/2021/01/29/JMX/">
+
+
+<script class="page-configurations">
+  // https://hexo.io/docs/variables.html
+  CONFIG.page = {
+    sidebar: "",
+    isHome : false,
+    isPost : true,
+    lang   : 'default'
+  };
+</script>
+<title>JMX | Hexo</title>
+  
+
+
+
+  <noscript>
+  <style>
+  body { margin-top: 2rem; }
+
+  .use-motion .menu-item,
+  .use-motion .sidebar,
+  .use-motion .post-block,
+  .use-motion .pagination,
+  .use-motion .comments,
+  .use-motion .post-header,
+  .use-motion .post-body,
+  .use-motion .collection-header {
+    visibility: visible;
+  }
+
+  .use-motion .header,
+  .use-motion .site-brand-container .toggle,
+  .use-motion .footer { opacity: initial; }
+
+  .use-motion .site-title,
+  .use-motion .site-subtitle,
+  .use-motion .custom-logo-image {
+    opacity: initial;
+    top: initial;
+  }
+
+  .use-motion .logo-line {
+    transform: scaleX(1);
+  }
+
+  .search-pop-overlay, .sidebar-nav { display: none; }
+  .sidebar-panel { display: block; }
+  </style>
+</noscript>
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" class="use-motion">
+  <div class="headband"></div>
+
+  <main class="main">
+    <header class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-container">
+  <div class="site-nav-toggle">
+    <div class="toggle" aria-label="Toggle navigation bar">
+    </div>
+  </div>
+
+  <div class="site-meta">
+
+    <a href="/" class="brand" rel="start">
+      <i class="logo-line"></i>
+      <h1 class="site-title">Hexo</h1>
+      <i class="logo-line"></i>
+    </a>
+  </div>
+
+  <div class="site-nav-right">
+    <div class="toggle popup-trigger">
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+</div>
+        
+  
+  <div class="toggle sidebar-toggle">
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+    <span class="toggle-line"></span>
+  </div>
+
+  <aside class="sidebar">
+
+    <div class="sidebar-inner sidebar-nav-active sidebar-toc-active">
+      <ul class="sidebar-nav">
+        <li class="sidebar-nav-toc">
+          Table of Contents
+        </li>
+        <li class="sidebar-nav-overview">
+          Overview
+        </li>
+      </ul>
+
+      <div class="sidebar-panel-container">
+        <!--noindex-->
+        <section class="post-toc-wrap sidebar-panel">
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%89%8D%E8%A8%80"><span class="nav-number">1.</span> <span class="nav-text">前言</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMX-%E5%92%8C%E7%B3%BB%E7%BB%9F%E7%AE%A1%E7%90%86"><span class="nav-number">2.</span> <span class="nav-text">JMX 和系统管理</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F%E7%9A%84%E6%9E%84%E6%9E%B6"><span class="nav-number">3.</span> <span class="nav-text">管理系统的构架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMX-%E5%92%8C%E7%AE%A1%E7%90%86%E7%B3%BB%E7%BB%9F"><span class="nav-number">4.</span> <span class="nav-text">JMX 和管理系统</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMX-%E7%9A%84%E5%9F%BA%E6%9C%AC%E6%A1%86%E6%9E%B6"><span class="nav-number">5.</span> <span class="nav-text">JMX 的基本框架</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%A0%87%E5%87%86-MBean"><span class="nav-number">6.</span> <span class="nav-text">标准 MBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E5%8A%A8%E6%80%81-MBean"><span class="nav-number">7.</span> <span class="nav-text">动态 MBean</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A3%80%E6%B5%8B"><span class="nav-number">8.</span> <span class="nav-text">虚拟机检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#JMX-%E6%8F%90%E4%BE%9B%E7%9A%84%E8%99%9A%E6%8B%9F%E6%9C%BA%E6%A3%80%E6%B5%8B-API"><span class="nav-number">9.</span> <span class="nav-text">JMX 提供的虚拟机检测 API</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#java-lang-management-%E5%92%8C%E8%99%9A%E6%8B%9F%E6%9C%BA%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">10.</span> <span class="nav-text">java.lang.management 和虚拟机的关系</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E9%94%81%E6%A3%80%E6%B5%8B"><span class="nav-number">11.</span> <span class="nav-text">锁检测</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#%E6%AD%BB%E9%94%81%E6%A3%80%E6%B5%8B"><span class="nav-number">12.</span> <span class="nav-text">死锁检测</span></a></li></ol></div>
+        </section>
+        <!--/noindex-->
+
+        <section class="site-overview-wrap sidebar-panel">
+          <div class="site-author site-overview-item animated" itemprop="author" itemscope itemtype="http://schema.org/Person">
+  <p class="site-author-name" itemprop="name">John Doe</p>
+  <div class="site-description" itemprop="description"></div>
+</div>
+<div class="site-state-wrap site-overview-item animated">
+  <nav class="site-state">
+      <div class="site-state-item site-state-posts">
+          <a href="/archives">
+          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-name">posts</span>
+        </a>
+      </div>
+      <div class="site-state-item site-state-tags">
+        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-name">tags</span>
+      </div>
+  </nav>
+</div>
+
+
+
+        </section>
+      </div>
+    </div>
+  </aside>
+  <div class="sidebar-dimmer"></div>
+
+
+    </header>
+
+    
+  <div class="back-to-top">
+    <i class="fa fa-arrow-up"></i>
+    <span>0%</span>
+  </div>
+
+<noscript>
+  <div class="noscript-warning">Theme NexT works best with JavaScript enabled</div>
+</noscript>
+
+
+    <div class="main-inner post posts-expand">
+
+
+  
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="default">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/01/29/JMX/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h1 class="post-title" itemprop="name headline">
+          JMX
+        </h1>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-01-29 19:11:30" itemprop="dateCreated datePublished" datetime="2021-01-29T19:11:30+08:00">2021-01-29</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-01-31 02:51:15" itemprop="dateModified" datetime="2021-01-31T02:51:15+08:00">2021-01-31</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+        <h2 id="前言"><a href="#前言" class="headerlink" title="前言"></a>前言</h2><p>在 Java 程序的运行过程中，对 JVM 和系统的监测一直是 Java 开发人员在开发过程所需要的。一直以来，Java 开发人员必须通过一些底层的 JVM API，比如 JVMPI 和 JVMTI 等，才能监测 Java 程序运行过程中的 JVM 和系统的一系列情况，这种方式一直以来被人所诟病，因为这需要大量的 C 程序和 JNI 调用，开发效率十分低下。于是出现了各种不同的专门做资源管理的程序包。为了解决这个问题，Sun 公司也在其 Java SE 5 版本中，正式提出了 Java 管理扩展（Java Management Extensions，JMX）用来管理检测 Java 程序（同时 JMX 也在 J2EE 1.4 中被发布）。</p>
+<p>JMX 的提出，让 JDK 中开发自检测程序成为可能，也提供了大量轻量级的检测 JVM 和运行中对象 / 线程的方式，从而提高了 Java 语言自己的管理监测能力。</p>
+<h2 id="JMX-和系统管理"><a href="#JMX-和系统管理" class="headerlink" title="JMX 和系统管理"></a>JMX 和系统管理</h2><p>管理系统（Management System）<br>要了解 JMX，我们就必须对当前的 IT 管理系统有一个初步的了解。随着企业 IT 规模的不断增长，IT 资源（IT resource）数量不断增加，IT 资源的分布也越来越分散。可以想象，甚至对于一家只有几百台 PC 公司的 IT 管理人员来说，分发一个安全补丁并且保证其在每台 PC 上的安装，如果只依赖人工来完成那简直就是一场噩梦。这样，IT 管理系统就应运而生。</p>
+<p>然而，CPU、网卡、存储阵列是 IT 资源；OS、MS Office、Oracle database、IBM Websphere 也是 IT 资源。IT 管理系统若要对这些 IT 资源进行管理，就必须对这些管理对象有所了解：形形色色的 IT 资源就像是说着不同语言的人：Oralce 数据库表达内存紧张的方式和 Window XP 是绝然不同的， 而 IT 管理系统就像建造通天塔的经理，必须精通所有的语言， 这几乎是一个不可能完成的任务。难道 IT 管理系统是另外一个通天塔吗？当然不是！其实我们只要给每个 IT 资源配个翻译就可以了。</p>
+<h2 id="管理系统的构架"><a href="#管理系统的构架" class="headerlink" title="管理系统的构架"></a>管理系统的构架</h2><p><img src="/images/java/jmx1.jpg"><br>图 1. 管理系统构架</p>
+<p>上图分析了管理系统的基本构架模式。其中 Agent / SubAgent 起到的就是翻译的作用：把 IT 资源报告的消息以管理系统能理解的方式传送出去。</p>
+<p>也许读者有会问，为什么需要 Agent 和 SubAgent 两层体系呢？这里有两个现实的原因：</p>
+<p>管理系统一般是一个中央控制的控制软件，而 SubAgent 直接监控一些资源，往往和这些资源分布在同一物理位置。当这些 SubAgent 把状态信息传输到管理系统或者传达管理系统的控制指令的时候，需要提供一些网络传输的功能。<br>管理系统的消息是有一定规范的，消息的翻译本身是件复杂而枯燥的事情。<br>一般来说，管理系统会将同一物理分布或者功能类似的 SubAgent 分组成一组，由一个共用的 Agent 加以管理。在这个 Agent 里封装了 1 和 2 的功能。</p>
+<h2 id="JMX-和管理系统"><a href="#JMX-和管理系统" class="headerlink" title="JMX 和管理系统"></a>JMX 和管理系统</h2><p>JMX 既是 Java 管理系统的一个标准，一个规范，也是一个接口，一个框架。图 2 展示了 JMX 的基本架构。</p>
+<p><img src="/images/java/jmx2.jpg"><br>图 2. JMX 构架</p>
+<p>和其它的资源系统一样，JMX 是管理系统和资源之间的一个接口，它定义了管理系统和资源之间交互的标准。 javax.management.MBeanServer 实现了 Agent 的功能，以标准的方式给出了管理系统访问 JMX 框架的接口。而 javax.management.MBeans 实现了 SubAgent 的功能，以标准的方式给出了 JMX 框架访问资源的接口。而从类库的层次上看，JMX 包括了核心类库 java.lang.management 和 javax.management 包。 java.lang.management 包提供了基本的 VM 监控功能，而 javax.management 包则向用户提供了扩展功能。</p>
+<h2 id="JMX-的基本框架"><a href="#JMX-的基本框架" class="headerlink" title="JMX 的基本框架"></a>JMX 的基本框架</h2><p>JMX 使用了 Java Bean 模式来传递信息。一般说来，JMX 使用有名的 MBean，其内部包含了数据信息，这些信息可能是：应用程序配置信息、模块信息、系统信息、统计信息等。另外，MBean 也可以设立可读写的属性、直接操作某些函数甚至启动 MBean 可发送的 notification 等。MBean 包括 Standard，MXBean，Dynamic，Model，Open 等几种分类，其中最简单是标准 MBean 和 MXBean，而我们使用得最多的也是这两种。MXBean 主要是 java.lang.management 使用较多，将在下一节中介绍。我们先了解其他一些重要的 MBean 的种类。</p>
+<h2 id="标准-MBean"><a href="#标准-MBean" class="headerlink" title="标准 MBean"></a>标准 MBean</h2><p>标准 MBean 是最简单的一类 MBean，与动态 Bean 不同，它并不实现 javax.management 包中的特殊的接口。说它是标准 MBean， 是因为其向外部公开其接口的方法和普通的 Java Bean 相同，是通过 lexical，或者说 coding convention 进行的。下面我们就用一个例子来展现，如何实现一个标准 MBean 来监控某个服务器 ServerImpl 状态的。ServerImpl 代表了用来演示的某个 Server 的实现：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">package standardbeans;</span><br><span class="line"> public class ServerImpl &#123;</span><br><span class="line">    public final long startTime;</span><br><span class="line">    public ServerImpl() &#123;</span><br><span class="line">        startTime &#x3D; System.currentTimeMillis();</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示更多<br>然后，我们打算使用一个标准 MBean，ServerMonitor 来监控 ServerImpl：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br></pre></td><td class="code"><pre><span class="line">package standardbeans;</span><br><span class="line"> public class ServerMonitor implements ServerMonitorMBean &#123;</span><br><span class="line">    private final ServerImpl target;</span><br><span class="line">    public ServerMonitor(ServerImpl target)&#123;</span><br><span class="line">        this.target &#x3D; target;</span><br><span class="line">    &#125;</span><br><span class="line">    public long getUpTime()&#123;</span><br><span class="line">        return System.currentTimeMillis() - target.startTime;</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示更多<br>这里的 ServerMonitorBean 又是怎么回事呢？ MXBean 规定了标准 MBean 也要实现一个接口，所有向外界公开的方法都要在这个接口中声明。否则，管理系统就不能从中获得相应的信息。此外，该接口的名字也有一定的规范：即在标准 MBean 类名之后加上”MBean”后缀。若 MBean 的类名叫做 MBeansName 的话，对应的接口就要叫做 MBeansNameMBean。</p>
+<p>对于管理系统来说，这些在 MBean 中公开的方法，最终会被 JMX 转化成属性（Attribute）、监听（Listener）和调用（Invoke）的概念。如果读者对 Java Bean 有一些了解的话，不难看出， public long getUpTime() 对应了 Bean 中的一个称为”upTime”的只读属性。</p>
+<p>下面我们就看一个模拟管理系统的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br></pre></td><td class="code"><pre><span class="line">package standardbeans;</span><br><span class="line"> import javax.management.MBeanServer;</span><br><span class="line"> import javax.management.MBeanServerFactory;</span><br><span class="line"> import javax.management.ObjectName;</span><br><span class="line"> public class Main &#123;</span><br><span class="line">    private static ObjectName objectName ;</span><br><span class="line">    private static MBeanServer mBeanServer;</span><br><span class="line">    public static void main(String[] args) throws Exception&#123;</span><br><span class="line">        init();</span><br><span class="line">        manage();</span><br><span class="line">    &#125;</span><br><span class="line">    private static void init() throws Exception&#123;</span><br><span class="line">        ServerImpl serverImpl &#x3D; new ServerImpl();</span><br><span class="line">        ServerMonitor serverMonitor &#x3D; new ServerMonitor(serverImpl);</span><br><span class="line">        mBeanServer &#x3D; MBeanServerFactory.createMBeanServer();</span><br><span class="line">        objectName &#x3D; new ObjectName(&quot;objectName:id&#x3D;ServerMonitor1&quot;);</span><br><span class="line">        mBeanServer.registerMBean(serverMonitor,objectName);</span><br><span class="line">    &#125;</span><br><span class="line">    private static void manage() throws Exception&#123;</span><br><span class="line">        Long upTime &#x3D; (Long) mBeanServer.getAttribute(objectName,</span><br><span class="line">        &quot;upTime&quot;);</span><br><span class="line">        System.out.println(upTime);</span><br><span class="line">    &#125;</span><br><span class="line"> &#125;</span><br></pre></td></tr></table></figure>
+
+<p>显示较少<br>JMX 的核心是 MBServer。Java SE 已经提供了一个默认实现，可以通过 MBServerFactory.createMBeanServer() 获得。每个资源监控者（MBean）一般都会有名称（ObjectName）， 登记在 MBServer 内部的一个 Repository 中。注意，这个 ObjectName 对于每一个 MBServer 必须是唯一的，只能对应于一个 MBean。（读者有兴趣的话，可以试着再给 mBeanServer 注册一个同名的 objectName，看看会怎么样。） 上述例子是在 init() 方法中完成向 MBeanServer 注册工作的。</p>
+<p>在管理过程中，管理系统并不与资源或者 SubAgent 直接打交道，也就是说，这里不会直接引用到 MBean。而是通过 MBeanServer 的 getAttribute 方法取得对应 MBean 的属性的。</p>
+<h2 id="动态-MBean"><a href="#动态-MBean" class="headerlink" title="动态 MBean"></a>动态 MBean</h2><h2 id="虚拟机检测"><a href="#虚拟机检测" class="headerlink" title="虚拟机检测"></a>虚拟机检测</h2><p>JMX 与虚拟机检测<br>JMX 的提出，为 Java 虚拟机提供了 Java 层上的检测机制。J2SE 中，新提出的 java.lang.management 包即是 JMX 在 JDK 的一个应用，它提供了大量的有用的接口，通过 MBean 方式，提供了对 Java 虚拟机和运行时远端的监控和检测方式，来帮助用户来检测本地或者远端的虚拟机的运行情况。有了 JMX 之后，我们可以设计一个客户端，来检测远端一个正在运行的虚拟机中的线程数、线程当前的 Stack、内存管理、GC 所占用的时间、虚拟机中的对象和当前虚拟机参数等重要的参数和运行时信息。JMX 另外的一个重要功能是对配置信息的检测和再配置。比如，我们可以在远端查看和修改当前 JVM 的 verbose 参数，以达到动态管理的目的。甚至，我们可以在远端指挥 JVM 做一次 GC，这在下文中有详细介绍。</p>
+<h2 id="JMX-提供的虚拟机检测-API"><a href="#JMX-提供的虚拟机检测-API" class="headerlink" title="JMX 提供的虚拟机检测 API"></a>JMX 提供的虚拟机检测 API</h2><p>检测虚拟机当前的状态总是 Java 开放人员所关心的，也正是因为如此，出现了大量的 profiler 工具来检测当前的虚拟机状态。从 Java SE 5 之后，在 JDK 中，我们有了一些 Java 的虚拟机检测 API，即 java.lang.management 包。Management 包里面包括了许多 MXBean 的接口类和 LockInfo、MemoryUsage、MonitorInfo 和 ThreadInfo 等类。从名字可以看出，该包提供了虚拟机内存分配、垃圾收集（GC）情况、操作系统层、线程调度和共享锁，甚至编译情况的检测机制。这样一来，Java 的开发人员就可以很简单地为自己做一些轻量级的系统检测，来确定当前程序的各种状态，以便随时调整。</p>
+<p>要获得这些信息，我们首先通过 java.lang.management.ManagementFactory 这个工厂类来获得一系列的 MXBean。包括：</p>
+<ul>
+<li>ClassLoadingMXBean</li>
+</ul>
+<p>ClassLoadMXBean 包括一些类的装载信息，比如有多少类已经装载 / 卸载（unloaded），虚拟机类装载的 verbose 选项（即命令行中的 Java – verbose:class 选项）是否打开，还可以帮助用户打开 / 关闭该选项。</p>
+<ul>
+<li>CompilationMXBean</li>
+</ul>
+<p>CompilationMXBean 帮助用户了解当前的编译器和编译情况，该 mxbean 提供的信息不多。</p>
+<ul>
+<li>GarbageCollectorMXBean</li>
+</ul>
+<p>相对于开放人员对 GC 的关注程度来说，该 mxbean 提供的信息十分有限，仅仅提供了 GC 的次数和 GC 花费总时间的近似值。但是这个包中还提供了三个的内存管理检测类：MemoryManagerMXBean，MemoryMXBean 和 MemoryPoolMXBean。</p>
+<ul>
+<li>MemoryManagerMXBean</li>
+</ul>
+<p>这个类相对简单，提供了内存管理类和内存池（memory pool）的名字信息。</p>
+<ul>
+<li>MemoryMXBean</li>
+</ul>
+<p>这个类提供了整个虚拟机中内存的使用情况，包括 Java 堆（heap）和非 Java 堆所占用的内存，提供当前等待 finalize 的对象数量，它甚至可以做 gc（实际上是调用 System.gc）。</p>
+<ul>
+<li>MemoryPoolMXBean</li>
+</ul>
+<p>该信息提供了大量的信息。在 JVM 中，可能有几个内存池，因此有对应的内存池信息，因此，在工厂类中，getMemoryPoolMXBean() 得到是一个 MemoryPoolMXBean 的 list。每一个 MemoryPoolMXBean 都包含了该内存池的详细信息，如是否可用、当前已使用内存 / 最大使用内存值、以及设置最大内存值等等。</p>
+<ul>
+<li>OperatingSystemMXBean</li>
+</ul>
+<p>该类提供的是操作系统的简单信息，如构架名称、当前 CPU 数、最近系统负载等。</p>
+<ul>
+<li>RuntimeMXBean</li>
+</ul>
+<p>运行时信息包括当前虚拟机的名称、提供商、版本号，以及 classpath、bootclasspath 和系统参数等等。</p>
+<ul>
+<li>ThreadMXBean</li>
+</ul>
+<p>在 Java 这个多线程的系统中，对线程的监控是相当重要的。ThreadMXBean 就是起到这个作用。ThreadMXBean 可以提供的信息包括各个线程的各种状态，CPU 占用情况，以及整个系统中的线程状况。从 ThreadMXBean 可以得到某一个线程的 ThreadInfo 对象。这个对象中则包含了这个线程的所有信息。</p>
+<h2 id="java-lang-management-和虚拟机的关系"><a href="#java-lang-management-和虚拟机的关系" class="headerlink" title="java.lang.management 和虚拟机的关系"></a>java.lang.management 和虚拟机的关系</h2><p>我们知道，management 和底层虚拟机的关系是非常紧密的。其实，有一些的是直接依靠虚拟机提供的公开 API 实现的，比如 JVMTI；而另外一些则不然，很大一块都是由虚拟机底层提供某些不公开的 API / Native Code 提供的。这样的设计方式，保证了 management 包可以提供足够的信息，并且使这些信息的提供又有足够的效率；也使 management 包和底层的联系非常紧密。</p>
+<h2 id="锁检测"><a href="#锁检测" class="headerlink" title="锁检测"></a>锁检测</h2><p>我们知道，同步是 Java 语言很重要的一个特性。在 Java SE 中，最主要的同步机制是依靠 synchronize 关键字对某一个对象加锁实现的；在 Java SE 5 之后的版本中，concurrent 包的加入，大大强化了 Java 语言的同步能力，concurrent 提供了很多不同类型的锁机制可供扩展。因此，要更好地观测当前的虚拟机状况和不同线程的运行态，去观察虚拟机中的各种锁，以及线程与锁的关系是非常必要的。很可惜的是，在过去的 JDK 中，我们并没有非常方便的 API 以供使用。一个比较直接的检测方式是查看线程的 stack trace，更为强大全面（但是也更复杂并且效率低下）的方案是得到一个 VM 所有对象的快照并查找之，这些策略的代价都比较大，而且往往需要编写复杂的 Native 代码。</p>
+<p>JDK 6 里提供了一些相当简单的 API 来提供这个服务。首先了解两个新类，LockInfo 和 MonitorInfo 这两个类承载了锁的信息。LockInfo 可以是任何的 Java 锁，包括简单 Java 锁和 java.util.concurrent 包中所使用的锁（包括 AbstractOwnableSynchronizer 和 Condition 的实现类 / 子类），而 MonitorInfo 是简单的 Java 对象所代表的锁。要检测一个线程所拥有的锁和等待的锁，首先，要得到一个线程的 ThreadInfo，然后可以简单地调用：</p>
+<p>getLockedMonitors()</p>
+<p>返回一个所有当前线程已经掌握的锁对象的列表。</p>
+<p>getLockedSynchronizers()</p>
+<p>对于使用 concurrent 包的线程，返回一个该线程所掌握的”ownable synchronizer”（即 AbstractOwnableSynchronizer 及其子类）所组成的列表。</p>
+<p>getLockInfo()</p>
+<p>当前线程正在等待的那个锁对象的信息就可以知道线程所有的锁信息。通过这些锁信息，我们很方便的可以知道当前虚拟机的所有线程的锁信息。由此，我们还可以推导出更多的信息。</p>
+<h2 id="死锁检测"><a href="#死锁检测" class="headerlink" title="死锁检测"></a>死锁检测</h2><p>死锁检测一直以来是软件工程师所重视的，显然一个死锁的系统永远是工程师最大的梦魇。Java 程序的死锁检测也一直以来是 Java 程序员所头痛的。为了解决线程间死锁问题，一般都有预防（代码实现阶段）和死锁后恢复（运行时）两种方式。以前 Java 程序员都重视前者，因为在运行态再来检测和恢复系统是相当麻烦的，缺少许多必要的信息；但是，对于一些比较复杂的系统，采取后者或者运行时调试死锁信息也是非常重要的。由上面所说，现在我们已经可以知道每一个线程所拥有和等待的锁，因此要计算出当前系统中是否有死锁的线程也是可行的了。当然，Java 6 里面也提供了一个 API 来完成这个功能，即：</p>
+<p>ThreadMXBean.findDeadlockedThreads()</p>
+<p>这个函数的功能就是检测出当前系统中已经死锁的线程。当然，这个功能复杂，因此比较费时。基本上仅仅将之用于调试，以便对复杂系统线程调用的改进。</p>
+
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+          <div class="post-tags">
+              <a href="/tags/java/" rel="tag"># java</a>
+          </div>
+
+        
+
+          <div class="post-nav">
+            <div class="post-nav-item">
+                <a href="/2021/01/24/BNF&EBNF/" rel="prev" title="BNF&EBNF">
+                  <i class="fa fa-chevron-left"></i> BNF&EBNF
+                </a>
+            </div>
+            <div class="post-nav-item">
+                <a href="/2021/02/01/ANTLR/" rel="next" title="Antlr相关">
+                  Antlr相关 <i class="fa fa-chevron-right"></i>
+                </a>
+            </div>
+          </div>
+    </footer>
+  </article>
+</div>
+
+
+
+
+
+
+
+<script>
+  window.addEventListener('tabs:register', () => {
+    let { activeClass } = CONFIG.comments;
+    if (CONFIG.comments.storage) {
+      activeClass = localStorage.getItem('comments_active') || activeClass;
+    }
+    if (activeClass) {
+      const activeTab = document.querySelector(`a[href="#comment-${activeClass}"]`);
+      if (activeTab) {
+        activeTab.click();
+      }
+    }
+  });
+  if (CONFIG.comments.storage) {
+    window.addEventListener('tabs:click', event => {
+      if (!event.target.matches('.tabs-comment .tab-content .tab-pane')) return;
+      const commentClass = event.target.classList[1];
+      localStorage.setItem('comments_active', commentClass);
+    });
+  }
+</script>
+</div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-inner">
+
+
+<div class="copyright">
+  &copy; 
+  <span itemprop="copyrightYear">2021</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">John Doe</span>
+</div>
+  <div class="powered-by">Powered by <a href="https://hexo.io/" class="theme-link" rel="noopener" target="_blank">Hexo</a> & <a href="https://theme-next.js.org/muse/" class="theme-link" rel="noopener" target="_blank">NexT.Muse</a>
+  </div>
+
+    </div>
+  </footer>
+
+  
+  <script src="//cdn.jsdelivr.net/npm/animejs@3.2.1/lib/anime.min.js"></script>
+<script src="/js/utils.js"></script><script src="/js/motion.js"></script><script src="/js/schemes/muse.js"></script><script src="/js/next-boot.js"></script>
+
+  
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+</body>
+</html>
