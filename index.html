@@ -228,7 +228,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-02-12 21:55:54" itemprop="dateModified" datetime="2021-02-12T21:55:54+08:00">2021-02-12</time>
+        <time title="Modified: 2021-02-23 09:29:01" itemprop="dateModified" datetime="2021-02-23T09:29:01+08:00">2021-02-23</time>
       </span>
 
   
@@ -492,7 +492,7 @@
 </ul>
 <p>动作就是使用目标语言编写的、放置在{}中的任意代码块。我们可以在动作中编写任意代码，只要它们是合法的目标语言语句。动作的典型用法是操纵词法符号和规则引用的属性。例如，我们可以读取一个词法符号对应的文本或者整个规则匹配的文本。通过从词法符号和规则引用中获取的数据，我们就可以打印结果或者执行任意计算。规则允许参数和返回值，因此我们可以在规则之间传递数据。</p>
 <h3 id="添加动作"><a href="#添加动作" class="headerlink" title="添加动作"></a>添加动作</h3><ol>
-<li><p>定义 header 和 members<br>header 用于向自动生成的语法分析器和词法分析器中注入 package 或 import 语句。members 用于向自动生成的语法分析器和词法分析器中注入字段(成员变量)和方法(成员函数)。下面显示了注入代码片段的位置。</p>
+<li><p>定义 header 和 members<br>这些动作可以位于规则内，也可以位于规则外。header 用于向自动生成的语法分析器和词法分析器中注入 package 或 import 语句。members 用于向自动生成的语法分析器和词法分析器中注入字段(成员变量)和方法(成员函数)。下面显示了注入代码片段的位置。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">&lt;header&gt;</span><br><span class="line">public class &lt;grammarName&gt;Parser extends Parser &#123;</span><br><span class="line">    &lt;members&gt;</span><br><span class="line">    ...</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <p>我们使用@header{}和@members{}来注入代码。{}内的代码，将出现在语法和词法解析器中。</p>
@@ -509,7 +509,7 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 </ul>
 </li>
 </ol>
-<h3 id="访问词法符号和规则的属性"><a href="#访问词法符号和规则的属性" class="headerlink" title="访问词法符号和规则的属性"></a>访问词法符号和规则的属性</h3><p>原始规则</p>
+<h3 id="访问词法符号和规则的属性"><a href="#访问词法符号和规则的属性" class="headerlink" title="访问词法符号和规则的属性"></a>访问词法符号和规则的属性</h3><p>此节中可以看到如何定义和引用规则的参数和返回值。<br>原始规则</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">grammar CSV;</span><br><span class="line"></span><br><span class="line">file : hdr row+;</span><br><span class="line">hdr : row ;</span><br><span class="line">row : field (&#39;,&#39; field)* &#39;\r&#39;? &#39;\n&#39;;</span><br><span class="line">field</span><br><span class="line">    : TEXT   # text</span><br><span class="line">    | STRING # string</span><br><span class="line">    |        # empty</span><br><span class="line">    ;</span><br><span class="line"></span><br><span class="line">TEXT : ~[,\n\r&quot;]+ ;</span><br><span class="line">STRING: &#39;&quot;&#39; (&#39;&quot;&quot;&#39;|~&#39;&quot;&#39;)* &#39;&quot;&#39; ;</span><br></pre></td></tr></table></figure>
 
 <p>改造后的规则</p>
@@ -521,14 +521,37 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 <p>输出解析结果</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">header: &#39;User, Name, Dept&#39;</span><br><span class="line">values &#x3D; &#123;Name&#x3D;Terence, User&#x3D;parrt, Dept&#x3D;101&#125;</span><br><span class="line">values &#x3D; &#123;Name&#x3D;Tom, User&#x3D;tombu, Dept&#x3D;020&#125;</span><br><span class="line">values &#x3D; &#123;Name&#x3D;Kevin, User&#x3D;bke, Dept&#x3D;008&#125;</span><br><span class="line">3 rows</span><br><span class="line">row token interval:6..11</span><br><span class="line">row token interval:12..17</span><br><span class="line">row token interval:18..23</span><br></pre></td></tr></table></figure>
 
-<h2 id="使用语义判定修改语法分析过程"><a href="#使用语义判定修改语法分析过程" class="headerlink" title="使用语义判定修改语法分析过程"></a>使用语义判定修改语法分析过程</h2><p>在上节中，内嵌动作仅仅是计算一些值或者打印结果。但是，某些情况下使用内嵌动作类修改语法分析过程是正确识别某些编程语言语句的唯一方案。本章我们学习一种特殊的动作{…}?,成为语义判定，它允许我们在运行时选择性地关闭部分语法。判定本身就是布尔表达式，它会减少语法分析器的在语法分析过程中可选项的数量。适当地减少可选项的数量会增强语法分析器的性能。<br>语义判定可以在两种常见情况下发挥作用。<br>第一，我们可能需要语法分析器处理同一门编程语言稍有差异的多个版本。语义判定允许我们通过命令行参数或者其他动态机制，在运行时选择所使用的方言。<br>第二，应用场景包含处理语法的歧义性。在某些编程语言中，相同的语法结构具有不同的含义，此时判定机制提供了一种方法，让我们能够在对相同输入文本的不同解释中做出选择。</p>
-<h2 id="掌握词法分析的“黑魔法”"><a href="#掌握词法分析的“黑魔法”" class="headerlink" title="掌握词法分析的“黑魔法”"></a>掌握词法分析的“黑魔法”</h2><ul>
-<li>将词法符号送入不同通道</li>
-<li>上下文相关的词法问题</li>
-<li>字符流中的鼓捣</li>
-<li>对 XML 进行语法分析和词法分析</li>
+<h3 id="关键字识别"><a href="#关键字识别" class="headerlink" title="关键字识别"></a>关键字识别</h3><p>此节中我们将看到如何使用词法符号属性，text 和 type。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br><span class="line">16</span><br><span class="line">17</span><br><span class="line">18</span><br><span class="line">19</span><br><span class="line">20</span><br><span class="line">21</span><br><span class="line">22</span><br><span class="line">23</span><br><span class="line">24</span><br><span class="line">25</span><br><span class="line">26</span><br><span class="line">27</span><br><span class="line">28</span><br><span class="line">29</span><br></pre></td><td class="code"><pre><span class="line">grammar Keywords;</span><br><span class="line">@lexer::header&#123;</span><br><span class="line">    import java.util.*;</span><br><span class="line">&#125;</span><br><span class="line">@lexer::members&#123;</span><br><span class="line">    Map&lt;String,Integer&gt; keywords &#x3D; new HashMap&lt;String,Integer&gt;() &#123;</span><br><span class="line">        &#123;</span><br><span class="line">            put(&quot;begin&quot;, KeywordsParser.BEGIN);</span><br><span class="line">            put(&quot;end&quot;, KeywordsParser.END);</span><br><span class="line">            put(&quot;if&quot;, KeywordsParser.IF);</span><br><span class="line">            put(&quot;then&quot;, KeywordsParser.THEN);</span><br><span class="line">            put(&quot;while&quot;, KeywordsParser.WHILE);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;;</span><br><span class="line">&#125;</span><br><span class="line">stat: BEGIN stat* END</span><br><span class="line">    | IF expr THEN stat</span><br><span class="line">    | WHILE expr stat</span><br><span class="line">    | ID &#39;&#x3D;&#39; expr &#39;;&#39;</span><br><span class="line">        ;</span><br><span class="line">expr: INT|CHAR;</span><br><span class="line">ID: [a-zA-Z]+&#123;</span><br><span class="line">    if(keywords.containsKey(getText()))&#123;</span><br><span class="line">        setType(keywords.get(getText()));&#x2F;&#x2F;重置词法符号类型</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br><span class="line">CHAR: &#39;\&#39;&#39;.&#39;\&#39;&#39;&#123;setText(String.valueOf(getText().charAt(1)))&#125;;</span><br><span class="line">tokens &#123;BEGIN, END, IF , THEN, WHILE&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h2 id="使用语义判定修改语法分析过程"><a href="#使用语义判定修改语法分析过程" class="headerlink" title="使用语义判定修改语法分析过程"></a>使用语义判定修改语法分析过程</h2><p>在上节中，内嵌动作仅仅是计算一些值或者打印结果。但是，某些情况下使用内嵌动作类修改语法分析过程是正确识别某些编程语言语句的唯一方案。本章我们学习一种特殊的动作{…}?,成为语义判定，它允许我们在运行时选择性地关闭部分语法。判定本身就是布尔表达式，它会减少语法分析器的在语法分析过程中可选项的数量。适当地减少可选项的数量会增强语法分析器的性能。在词法规则中使用判定，一样会拖慢词法分析器。<br>语义判定可以在两种常见情况下发挥作用。<br>第一，我们可能需要语法分析器处理同一门编程语言稍有差异的多个版本。语义判定允许我们通过命令行参数或者其他动态机制，在运行时选择所使用的方言。<br>第二，应用场景包含处理语法的歧义性。在某些编程语言中，相同的语法结构具有不同的含义，此时判定机制提供了一种方法，让我们能够在对相同输入文本的不同解释中做出选择。</p>
+<ul>
+<li><p>在语法规则中加入判定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">grammar Enum;</span><br><span class="line">@parser::members &#123;public static boolean java5;&#125;</span><br><span class="line"></span><br><span class="line">prog: (stat</span><br><span class="line">        | enumDecl</span><br><span class="line">        )+</span><br><span class="line">        ;</span><br><span class="line">stat: id &#39;&#x3D;&#39; expr &#39;;&#39; &#123;System.out.println($id.text+&quot;&#x3D;&quot;+$expr.text);&#125;;</span><br><span class="line">expr: id | INT;</span><br><span class="line">enumDecl: &#123;java5&#125;? &#39;enum&#39; name&#x3D;id &#39;&#123;&#39; id (&#39;,&#39; id)* &#39;&#125;&#39;</span><br><span class="line">        &#123;System.out.println(&quot;enum &quot;+$name.text);&#125;</span><br><span class="line">        ;</span><br><span class="line">ENUM: &#39;enum&#39;;</span><br><span class="line">ID: [a-zA-Z]+;</span><br></pre></td></tr></table></figure>
+
+<p>判定可以开启和关闭任何在通过判定后能被匹配的规则。<br>下面这样写，一样是正确的。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">prog : (&#123;java5&#125;? enumDecl| stat)+;</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>在词法规则中加入判定</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">enumDecl: &#39;enum&#39; name&#x3D;id &#39;&#123;&#39; id (&#39;,&#39; id)* &#39;&#125;&#39;</span><br><span class="line">          &#123;System.out.println(&quot;enum &quot;+$name.text);&#125;</span><br><span class="line">          ;</span><br><span class="line">ENUM: &#39;enum&#39; &#123;java5&#125;? ;&#x2F;&#x2F;必须放置在ID规则之前</span><br><span class="line">ID: [a-zA-Z]+;</span><br></pre></td></tr></table></figure>
+<p>需要注意的是，判定出现在词法规则的右侧，而非像文法规则一样的左侧。这是由于在语法分析中，语法分析器会对之后的内容进行预测，因此需要在匹配备选分支之前进行判定。而词法分析器不进行备选分支的预测。它们仅仅寻找最长的匹配文本，然后在发现整个词法符号后做出决策。当 java5 为假时，该判定关闭了 ENUM 规则。当它为真时，ENUM 和 ID 同时匹配了字符序列 e-n-u-m，此时该输入存在歧义。ANTLR 总是通过选择位置靠前的规则来解决词法歧义问题，也就是这里的 ENUM。</p>
+</li>
+<li><p>识别歧义文本</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** 前两个备选分支中使用了理想化的判定作为区分这两种情况的Demo **&#x2F;</span><br><span class="line">expr: &#123;&lt;&lt;isfunc(ID)&gt;&gt;&#125;? ID &#39;(&#39; expr &#39;)&#39; &#x2F;&#x2F;一个参数的函数调用</span><br><span class="line">    | &#123;&lt;&lt;istype(ID)&gt;&gt;&#125;? ID &#39;(&#39; expr &#39;)&#39; &#x2F;&#x2F;构造器风格的对expr的转换</span><br><span class="line">    | INT           &#x2F;&#x2F;整数常量</span><br><span class="line">    | ID            &#x2F;&#x2F;标识符</span><br><span class="line">    ;</span><br></pre></td></tr></table></figure>
+
+<p>当我们使用这份带判定的语法再次进行测试时，输入”f(i);”被正确地解释成了函数调用表达式，而非声明。输入”T(i);”也被正确解释成了声明。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br></pre></td><td class="code"><pre><span class="line">decl: ID ID</span><br><span class="line">    | &#123;istype()&#125;? ID &#39;(&#39; ID &#39;)&#39;</span><br><span class="line">    ;</span><br><span class="line">expr: INT</span><br><span class="line">    | ID</span><br><span class="line">    | &#123;!istype()&#125;? ID &#39;(&#39; expr &#39;)&#39;</span><br><span class="line">    ;</span><br><span class="line">@parser::members &#123;</span><br><span class="line">    Set&lt;String&gt; types &#x3D; new HashSet&lt;String&gt;() &#123;&#123;add(&quot;T&quot;);&#125;&#125;;</span><br><span class="line">    boolean istype() &#123;return types.contains(getCurrentToken().getText());&#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+</li>
 </ul>
-<h2 id="语法参考"><a href="#语法参考" class="headerlink" title="语法参考"></a>语法参考</h2><h3 id="语法词汇表"><a href="#语法词汇表" class="headerlink" title="语法词汇表"></a>语法词汇表</h3><ol>
+<h2 id="掌握词法分析的“黑魔法”"><a href="#掌握词法分析的“黑魔法”" class="headerlink" title="掌握词法分析的“黑魔法”"></a>掌握词法分析的“黑魔法”</h2><h3 id="将词法符号送入不同通道"><a href="#将词法符号送入不同通道" class="headerlink" title="将词法符号送入不同通道"></a>将词法符号送入不同通道</h3><ul>
+<li><p>将空格和回车送入不同通道，而正常的词法符号仍然位于默认的 0 通道。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">WS ： [\t\n\r]+ -&gt; channel(1);</span><br><span class="line">SL_COMMENT : &#39;&#x2F;&#x2F;&#39; .*? &#39;\n&#39; -&gt; channel(2);</span><br></pre></td></tr></table></figure>
+</li>
+<li><p>访问隐藏通道<br>通过继承监听器，在方法中可以调用 BufferedTokenStream.getHiddenTokensToRight()得到隐藏 channel，进而可以访问 channel 中的 Token 的 text 进行改造。</p>
+</li>
+</ul>
+<h3 id="上下文相关的词法问题"><a href="#上下文相关的词法问题" class="headerlink" title="上下文相关的词法问题"></a>上下文相关的词法问题</h3><h3 id="字符流中的孤岛"><a href="#字符流中的孤岛" class="headerlink" title="字符流中的孤岛"></a>字符流中的孤岛</h3><h3 id="对-XML-进行语法分析和词法分析"><a href="#对-XML-进行语法分析和词法分析" class="headerlink" title="对 XML 进行语法分析和词法分析"></a>对 XML 进行语法分析和词法分析</h3><h2 id="语法参考"><a href="#语法参考" class="headerlink" title="语法参考"></a>语法参考</h2><h3 id="语法词汇表"><a href="#语法词汇表" class="headerlink" title="语法词汇表"></a>语法词汇表</h3><ol>
 <li>注释<br>ANTLR 支持单行、多行注释。</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grammar T;</span><br><span class="line">&#x2F;*多行</span><br><span class="line">  注释</span><br><span class="line"> *&#x2F;</span><br><span class="line">decl: ID; &#x2F;&#x2F;单行注释</span><br></pre></td></tr></table></figure>
@@ -540,9 +563,14 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 
 <pre><code>ANTLR是支持中文等unicode的。同时也支持非unicode，需要在使用ANTLR工具中使用-encoding选项，以便正确读字符。</code></pre>
 <ol start="3">
-<li>文本常量</li>
+<li><p>文本常量</p>
+</li>
+<li><p>动作</p>
+</li>
+<li><p>关键字</p>
+</li>
 </ol>
-
+<h3 id="语法结构"><a href="#语法结构" class="headerlink" title="语法结构"></a>语法结构</h3><h3 id="文法规则"><a href="#文法规则" class="headerlink" title="文法规则"></a>文法规则</h3><h3 id="动作和属性"><a href="#动作和属性" class="headerlink" title="动作和属性"></a>动作和属性</h3><h3 id="词法规则-1"><a href="#词法规则-1" class="headerlink" title="词法规则"></a>词法规则</h3><h3 id="通配符和非贪婪子规则"><a href="#通配符和非贪婪子规则" class="headerlink" title="通配符和非贪婪子规则"></a>通配符和非贪婪子规则</h3><h3 id="语义判定"><a href="#语义判定" class="headerlink" title="语义判定"></a>语义判定</h3>
       
     </div>
 
