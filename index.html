@@ -228,7 +228,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-02-23 09:29:01" itemprop="dateModified" datetime="2021-02-23T09:29:01+08:00">2021-02-23</time>
+        <time title="Modified: 2021-03-06 14:15:56" itemprop="dateModified" datetime="2021-03-06T14:15:56+08:00">2021-03-06</time>
       </span>
 
   
@@ -246,7 +246,7 @@
 
 <p>运行如下命令</p>
 <ul>
-<li><code>antlr Hello.g4</code></li>
+<li><code>antlr4 Hello.g4</code></li>
 <li><code>javac *.java</code></li>
 <li><code>alias grun=‘java org.antlr.v4.runtime.misc.TestRig’</code> TestRig 是一个调试工具，使用 alias 给它起了一个别名。直接执行<code>grun</code>可以得到帮助信息。</li>
 <li><code>grun Hello r -tokens</code></li>
@@ -257,6 +257,19 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">[@0,0:4&#x3D;&#39;hello&#39;,&lt;&#39;hello&#39;&gt;,1:0]</span><br><span class="line">[@1,6:10&#x3D;&#39;parrt&#39;,&lt;ID&gt;,1:6]</span><br><span class="line">[@2,12:11&#x3D;&#39;&lt;EOF&gt;&#39;,&lt;EOF&gt;,2:0]</span><br></pre></td></tr></table></figure>
 
 <p>解析结果：比如 parrt。@1 表明该词法符号在第 2 个位置，parrt 位于第 6 个到第 10 个位置之间，词法符号类型是 ID，位于输入文本的第 1 行，第 6 个位置处。</p>
+<h2 id="调试工具"><a href="#调试工具" class="headerlink" title="调试工具"></a>调试工具</h2><p>TestRig 是一个调试工具。<br><code>alias grun=‘java org.antlr.v4.runtime.misc.TestRig’</code> TestRig 是一个调试工具，使用 alias 给它起了一个别名。直接执行<code>grun</code>可以得到帮助信息。</p>
+<ul>
+<li>对于<code>Hello</code>语法，执行<code>grun Hello r -tokens</code>可以得到解析的各个 token 的信息。</li>
+<li>对于<code>Hello</code>语法，执行<code>grun Hello r -tree</code>可以得到解析的树信息。</li>
+<li>对于<code>Hello</code>语法，执行<code>grun Hello r -gui</code>可以得到解析的树的图形信息。<br>通过执行 grun，可以查看可以使用的选项。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br></pre></td><td class="code"><pre><span class="line">$ grun</span><br><span class="line">java org.antlr.v4.gui.TestRig GrammarName startRuleName</span><br><span class="line">  [-tokens] [-tree] [-gui] [-ps file.ps] [-encoding encodingname]</span><br><span class="line">  [-trace] [-diagnostics] [-SLL]</span><br><span class="line">  [input-filename(s)]</span><br><span class="line">Use startRuleName&#x3D;&#39;tokens&#39; if GrammarName is a lexer grammar.</span><br></pre></td></tr></table></figure>
+
+<p>-ps files.ps 以 PostScript 格式生成可视化语法分析树，然后将其存储于 file.ps。本章中的语法分析树的图片就是使用-ps 选项生成的。<br>-encoding encodingname 若当前的区域设定无法正确读取输入，使用这个选项指定测试组件输入文件的编码。例如，在 12.4 节中我们需要通过这个选项来解析日语 XML 文件。<br>-trace 打印规则的名字以及进入和离开该规则时的词法符号。</p>
+<ul>
+<li>diagnostics 开启解析过程中的调试信息输出。通常仅在一些罕见情况下使用它产生信息，例如输入的文本有歧义。</li>
+<li>SLL 使用另外一种更快但是功能稍弱的解析策略。</li>
+</ul>
 <h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1><p>Antlr 依据我们定义的语法规则，产生一个递归下降的语法分析器。下降过程就是从语法分析树的根节点开始，朝着叶节点进行解析的过程。递归下降的语法分析其实际是若干方法的结合，每个方法对应一条规则。递归下降属于自上而下的语法分析器的一种实现。<br>首先调用的规则，即语义符号的起始点，就会成为语法分析树的根节点。比如：调用上面的 r()方法，作为起始点。<br>语法分析数的构造过程：识别匹配的规则，将对应规则的方法映射到语法分析树中。<br>一般规则分为：单一分支，多分支。例如：多个规则 assign，ifstat<br>单一分支，如：<code>stat: assign;</code><br>多分支，如:<code>stat: assign|ifstat;</code></p>
 <h2 id="顺序解析"><a href="#顺序解析" class="headerlink" title="顺序解析"></a>顺序解析</h2><p>单一分支，只需要顺序匹配词汇符号。</p>
 <h2 id="多分支解析"><a href="#多分支解析" class="headerlink" title="多分支解析"></a>多分支解析</h2><p>多分支，需要检查下一个词法符号或者多个词法符号，来决定选择哪个备选分支。这个过程成为预测或语法分析决策。<br>如果在预测过程中，发现多个分支都匹配的话，则出现了规则的定义出现了歧义，需要解决。</p>
