@@ -228,7 +228,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-06 14:15:56" itemprop="dateModified" datetime="2021-03-06T14:15:56+08:00">2021-03-06</time>
+        <time title="Modified: 2021-03-07 10:36:21" itemprop="dateModified" datetime="2021-03-07T10:36:21+08:00">2021-03-07</time>
       </span>
 
   
@@ -270,6 +270,7 @@
 <li>diagnostics 开启解析过程中的调试信息输出。通常仅在一些罕见情况下使用它产生信息，例如输入的文本有歧义。</li>
 <li>SLL 使用另外一种更快但是功能稍弱的解析策略。</li>
 </ul>
+<h2 id="ANTLR4-的-IntelliJ-插件"><a href="#ANTLR4-的-IntelliJ-插件" class="headerlink" title="ANTLR4 的 IntelliJ 插件"></a>ANTLR4 的 IntelliJ 插件</h2><p>打开 g4 文件，选择特定的规则名字，然后右键选择 Test Rule ****。<br>会在底部弹出框，左侧显示输入的 sql 语句，右侧显示分析的后 tree 以及 Hierarchy，Profiler。</p>
 <h1 id="语法分析器"><a href="#语法分析器" class="headerlink" title="语法分析器"></a>语法分析器</h1><p>Antlr 依据我们定义的语法规则，产生一个递归下降的语法分析器。下降过程就是从语法分析树的根节点开始，朝着叶节点进行解析的过程。递归下降的语法分析其实际是若干方法的结合，每个方法对应一条规则。递归下降属于自上而下的语法分析器的一种实现。<br>首先调用的规则，即语义符号的起始点，就会成为语法分析树的根节点。比如：调用上面的 r()方法，作为起始点。<br>语法分析数的构造过程：识别匹配的规则，将对应规则的方法映射到语法分析树中。<br>一般规则分为：单一分支，多分支。例如：多个规则 assign，ifstat<br>单一分支，如：<code>stat: assign;</code><br>多分支，如:<code>stat: assign|ifstat;</code></p>
 <h2 id="顺序解析"><a href="#顺序解析" class="headerlink" title="顺序解析"></a>顺序解析</h2><p>单一分支，只需要顺序匹配词汇符号。</p>
 <h2 id="多分支解析"><a href="#多分支解析" class="headerlink" title="多分支解析"></a>多分支解析</h2><p>多分支，需要检查下一个词法符号或者多个词法符号，来决定选择哪个备选分支。这个过程成为预测或语法分析决策。<br>如果在预测过程中，发现多个分支都匹配的话，则出现了规则的定义出现了歧义，需要解决。</p>
