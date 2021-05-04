@@ -172,12 +172,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -206,6 +206,363 @@
 
 
     <div class="main-inner index posts-expand">
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/18/sharding-core-preprocess/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/18/sharding-core-preprocess/" class="post-title-link" itemprop="url">sharding-core-preprocess</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-18 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-18T19:11:30+08:00">2019-10-18</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:25" itemprop="dateModified" datetime="2020-11-22T14:14:25+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-preprocess的主要功能是对SQLStatment对象进行预处理生成SQLStatementContext对象，为路由提供必要信息。按功能分类可以分成三个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.optimize。SQLStatementContextFactory类，主要作用根据传入的SQLStatement类型创建相应的SQLStatementContext对象。创建SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种。</li>
+<li>org.apache.shardingsphere.core.optimize.statement。包含SQLStatementContext接口和SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext三种实现类。存储：TablesContext、SQLStatement和其他类型Context。</li>
+<li>org.apache.shardingsphere.core.optimize.segment。内部分insert、select、table三种类型，包含segment对应的context。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-preprocessor.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-preprocess的主要逻辑是从SQLStatementContextFactory.newInstance()方法开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-preprocessor-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>简单工厂模式<br>SQLStatementContextFactory.newInstance()方法根据sqlStatement的类型来决定要创建SQLStatmentContext实例。SQLStatementContext是一个接口，它拥有SelectSQLStatementContext、InsertSQLStatementContext、CommonSQLStatementContext这三个实现类。</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/10/15/sharding-core-route/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/10/15/sharding-core-route/" class="post-title-link" itemprop="url">sharding-core-route</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-10-15 19:11:30" itemprop="dateCreated datePublished" datetime="2019-10-15T19:11:30+08:00">2019-10-15</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:22" itemprop="dateModified" datetime="2020-11-22T14:14:22+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-route的主要功能是将解析生成的SQLStatement对象，进行预处理和路由生成SQLRouteResult对象。这里只讲解路由部分，预处理部分单独一片文章讲解。按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>org.apache.shardingsphere.core.route.hook。hook相关的类，用于跟踪和分析。</li>
+<li>org.apache.shardingsphere.core.route.router。包含分片路由和主备路由两个逻辑的实现，分别位于ShardingRouter和ShardingMasterSlaveRouter，生成SQLRouteResult对象</li>
+<li>org.apache.shardingsphere.core.route.type。主要包含RoutingEngine的接口和具体类的实现，实现了route()方法，完成了在具体SQLstatementContext、ShardingRule、ShardingCondition中完成分片操作，生成RoutingResult。支持ShardingRouter和ShardingMasterSlaveRouter的方法实现。</li>
+<li>org.apache.shardingsphere.core.route。主要的类为：StatementRoutingEngine和PreparedStatementRoutingEngine。这两个类是核心，路由逻辑的入口在它的route()方法中。前者提供 public SQLRouteResult route(final String logicSQL)，后者提供public SQLRouteResult route(final List<Object> parameters)。</Object></li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-route.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-route的主要逻辑是从StatementRoutingEngine.route(final String logicSQL)开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-route-flow-graph.jpg"><br>上图中的logicSQL的位置和语句对应有偏差，下方图使用EXCEL更准确描述。<br><img src="/images/sharding-core-route-flow-graph-1.png"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li><p>简单工厂模式+依赖倒转原则<br>RoutingEngine抽象出来route()方法，具体的实现类来实现具体的方法，每个实现类实现自己的路由算法。产生的实现类依据RoutingEngineFactory.newInstance(final ShardingRule shardingRule, final ShardingSphereMetaData metaData, final SQLStatementContext sqlStatementContext, final ShardingConditions shardingConditions)方法中的传入参数。具体代码位于ShardingRouter.route(final String logicSQL, final List<Object> parameters, final SQLStatement sqlStatement)方法中。</Object></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">RoutingEngine routingEngine &#x3D; RoutingEngineFactory.newInstance(shardingRule, metaData, sqlStatementContext, shardingConditions);</span><br><span class="line">RoutingResult routingResult &#x3D; routingEngine.route();</span><br></pre></td></tr></table></figure></li>
+<li><p>简单工厂模式<br>简单工厂模式在模块中若干处有出现，例如：org.apache.shardingsphere.core.route.router.sharding.validator包内和org.apache.shardingsphere.core.route.router.sharding.condition.generator包内。</p>
+</li>
+<li><p>依赖倒转<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。org.apache.shardingsphere.core.route.type包内的RoutingEngine接口和若干实现类。方便以后新增路由引擎和修改路由引擎。</p>
+</li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/09/30/sharding-core-parse/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/09/30/sharding-core-parse/" class="post-title-link" itemprop="url">sharding-core-parse</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2019-09-30 17:01:22" itemprop="dateCreated datePublished" datetime="2019-09-30T17:01:22+08:00">2019-09-30</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2020-11-22 14:14:27" itemprop="dateModified" datetime="2020-11-22T14:14:27+08:00">2020-11-22</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <ul>
+<li>模块结构<br>sharding-core-parse的主要功能是将sql语句执行分片或加密操作生成最后的SQLStatement对象，供后面的模块调用。内部有7个子模块，按功能分类可以分成四个部分：</li>
+</ul>
+<ol>
+<li>sharding-core-parse-common，实现了SQL解析的主要功能。</li>
+<li>sharding-core-parse-mysql,sharding-core-parse-oracle,sharding-core-parse-postgresql,sharding-core-parse-sqlserver。这四个模块分别对应四个不同的数据库类型，里面包含该类型数据库特有的一些实现类。</li>
+<li>sharding-core-parse-spi，主要定义了两个接口。SQLParser，抽象了antlr4生成的语法解析器的解析方法execute()。SQLParserEntry,抽象了获取antlr4生成的词法解析器和语法解析器的方法。</li>
+<li>sharding-core-parse-test，主要包含了对sharding-core-parse模块内部主要功能的测试，使用jaxb技术来定义测试用例和测试结果。</li>
+</ol>
+<ul>
+<li>模块结构图<br><img src="/images/sharding-core-parse.jpg"></li>
+<li>主要逻辑流程和关键类分析<br>sharding-core-parse的主要逻辑是从SQLParseEngine.parse()开始的，主逻辑流程图如下。其中，虚线箭头表示从属关系，实线表示执行顺序。<br><img src="/images/sharding-core-parse-flow-graph.jpg"></li>
+<li>设计模式和设计原则</li>
+</ul>
+<ol>
+<li>享元模式<br>SQLParseEngineFactory的功能是创建SQLParseEngine。它使用了享元模式，避免大量实例化相同类的开销，通过共享大幅度地减少单个实例的数目。SQLParseEngineFactory的<code>getSQLParseEngine()</code>方法显示了享元模式的主要逻辑，首先判断ENGINES（Map类型）里面是否含有<code>databaseType.getName()</code>相应的元素，如果有则直接返回，否则根据databaseType来创建SQLParseEngine对象，缓存在ENGINES中，并返回此对象。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParseEngine getSQLParseEngine(final DatabaseType databaseType) &#123;</span><br><span class="line">    if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">        return ENGINES.get(databaseType.getName());</span><br><span class="line">    &#125;</span><br><span class="line">    synchronized (ENGINES) &#123;</span><br><span class="line">        if (ENGINES.containsKey(databaseType.getName())) &#123;</span><br><span class="line">            return ENGINES.get(databaseType.getName());</span><br><span class="line">        &#125;</span><br><span class="line">        SQLParseEngine result &#x3D; new SQLParseEngine(databaseType);</span><br><span class="line">        ENGINES.put(databaseType.getName(), result);</span><br><span class="line">        return result;</span><br><span class="line">    &#125;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+<li>依赖倒转原则<br>依赖倒转强调面向接口编程而不是面向实现编程，这样使得模块之间耦合度降低，方便以后扩展。<code>org.apache.shardingsphere.core.parse.core.filler</code>，<code>org.apache.shardingsphere.core.parse.core.extractor</code>，<code>org.apache.shardingsphere.core.parse.sql.segment</code>，<code>org.apache.shardingsphere.core.parse.sql.statement</code>等。这些包的内部结构体现了这一原则。比如SQLStatementFillerEngine类的fill()方法内部调用SQLSegmentFiller接口，SQLSegmentFiller接口的实现类定义在<code>impl</code>包中。<br>依赖倒转还体现在不同的数据库模块的实现。<code>sharding-core-parse-common</code>定义了SQLSegmentExtractor和SQLSegmentFiller接口,<code>sharding-core-parse-spi</code>定义了SQLParser接口和SQLParserEntry接口。，<code>sharding-core-parse-mysql</code>,<code>sharding-core-parse-oracle</code>,<code>sharding-core-parse-postgresql</code>,<code>sharding-core-parse-sqlserver</code>这四个模块会不同程度地实现上面的接口，不同的数据库都有各自特点，需要实现自身独有的实现类。依赖倒转为此提供了便捷，使得不同数据库只关注自身的实现。</li>
+<li>工厂模式<br>SQLParserFactory类的<code>newInstance()</code>体现了简单工厂的设计思想。它将对象的创建和使用分离开，对使用者屏蔽了复杂的创建过程。相关代码和注释如下：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">public static SQLParser newInstance(final DatabaseType databaseType, final String sql) &#123;</span><br><span class="line">    &#x2F;&#x2F;NewInstanceServiceLoader.newServiceInstances()返回一个装满SQLParserEntry类型对象的List</span><br><span class="line">    &#x2F;&#x2F;for循环遍历这个List</span><br><span class="line">    for (SQLParserEntry each : NewInstanceServiceLoader.newServiceInstances(SQLParserEntry.class)) &#123;</span><br><span class="line">        &#x2F;&#x2F;DatabaseTypes.getActualDatabaseType()根据名字返回对应databaseType，如果each的databaseType能够与传入的参数databaseType匹配则进行下面的计算</span><br><span class="line">        if (DatabaseTypes.getActualDatabaseType(each.getDatabaseType()) &#x3D;&#x3D; databaseType) &#123;</span><br><span class="line">            &#x2F;&#x2F;创建SQLParser对象</span><br><span class="line">            return createSQLParser(sql, each);</span><br><span class="line">        &#125;</span><br><span class="line">    &#125;</span><br><span class="line">    throw new UnsupportedOperationException(String.format(&quot;Cannot support database type &#39;%s&#39;&quot;, databaseType));</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure></li>
+</ol>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2019/04/18/Linux%E4%BC%9A%E8%AF%9D%E3%80%81%E8%BF%9B%E7%A8%8B%E7%BB%84%E3%80%81%E6%8E%A7%E5%88%B6%E7%BB%88%E7%AB%AF/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2019/04/18/Linux%E4%BC%9A%E8%AF%9D%E3%80%81%E8%BF%9B%E7%A8%8B%E7%BB%84%E3%80%81%E6%8E%A7%E5%88%B6%E7%BB%88%E7%AB%AF/" class="post-title-link" itemprop="url">Linux会话、进程组、控制终端</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+      
+
+      <time title="Created: 2019-04-18 20:03:38 / Modified: 20:04:24" itemprop="dateCreated datePublished" datetime="2019-04-18T20:03:38+08:00">2019-04-18</time>
+    </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <p>一、进程</p>
+<p>　　传统上，Unix操作系统下运行的应用程序、 服务器以及其他程序都被称为进程，而Linux也继承了来自unix进程的概念。必须要理解下，程序是指的存储在存储设备上（如磁盘）包含了可执行机器指 令（二进制代码）和数据的静态实体；而进程可以认为是已经被OS从磁盘加载到内存上的、动态的、可运行的指令与数据的集合，是在运行的动态实体。这里指的 指令和数据的集合可以理解为Linux上ELF文件格式中的.text .data数据段。</p>
+<p>二、进程组</p>
+<p>　　每个进程除了有一个进程ID之外，还属于一个进程组，那什么是进程组呢？</p>
+<p>　　顾名思义，进程组就是一个或多个进程的集合。这些进程并不是孤立的，他们彼此之间或者存在父子、兄弟关系，或者在功能上有相近的联系。每个进程都有父进程，而所有的进程以init进程为根，形成一个树状结构。</p>
+<p>　　那为啥Linux里要有进程组呢？其实，提供进程组就是为了方便对进程进行管理。假设要完成一个任务，需要同时并发100个进程。当用户处于某种原因要终止 这个任务时，要是没有进程组，就需要手动的一个个去杀死这100个进程，并且必须要严格按照进程间父子兄弟关系顺序，否则会扰乱进程树。有了进程组，就可以将这100个进程设置为一个进程组，它们共有1个组号（pgrp），并且有选取一个进程作为组长（通常是“辈分”最高的那个，通常该进程的ID也就作为进程组的ID）。现在就可以通过杀死整个进程组，来关闭这100个进程，并且是严格有序的。组长进程可以创建一个进程组，创建该组中的进程，然后终止。只要在某个进程组中一个进程存在，则该进程组就存在，这与其组长进程是否终止无关。</p>
+<p>　　 进程必定属于一个进程组，也只能属于一个进程组。 一个进程组中可以包含多个进程。 进程组的生命周期从被创建开始，到其内所有进程终止或离开该组。</p>
+<p>　　内核中，sys_getpgrp()系统调用用来获取当前进程所在进程组号；sys_setpgid(int pid, int pgid)调用用来设置置顶进程pid的进程组号为pgid。</p>
+<p>三、作业</p>
+<p>　　Shell分前后台来控制的不是进程而是作业（Job）或者进程组（Process Group）。一个前台作业可以由多个进程组成，一个后台也可以由多个进程组成，Shell可以运行一个前台作业和任意多个后台作业，这称为作业控制。</p>
+<p>　　作业与进程组的区别：如果作业中的某个进程又创建了子进程，则子进程不属于作业。一旦作业运行结束，Shell就把自己提到前台，如果原来的前台进程还存在（如果这个子进程还没终止），它自动变为后台进程组。</p>
+<p>四、会话</p>
+<p>　　再看下会话。由于Linux是多用户多任务的分时系统，所以必须要支持多个用户同时使用一个操作系统。当一个用户登录一次系统就形成一次会话 。一个会话可包含多个进程组，但只能有一个前台进程组。每个会话都有一个会话首领（leader），即创建会话的进程。 sys_setsid()调用能创建一个会话。必须注意的是，只有当前进程不是进程组的组长时，才能创建一个新的会话。调用setsid 之后，该进程成为新会话的leader。</p>
+<p>　　一个会话可以有一个控制终端。这通常是登陆到其上的终端设备（在终端登陆情况下）或伪终端设备（在网络登陆情况下）。建立与控制终端连接的会话首进程被称为控制进程。一个会话中的几个进程组可被分为一个前台进程组以及一个或多个后台进程组。所以一个会话中，应该包括控制进程（会话首进程），一个前台进程组和任意后台进程组。 </p>
+<p>　　一次登录形成一个会话</p>
+<p>　　一个会话可包含多个进程组，但只能有一个前台进程组</p>
+<p>五、控制终端</p>
+<p>　　会话的领头进程打开一个终端之后, 该终端就成为该会话的控制终端 (SVR4/Linux)  </p>
+<p>　　与控制终端建立连接的会话领头进程称为控制进程 (session leader) </p>
+<p>　　一个会话只能有一个控制终端 </p>
+<p>　　产生在控制终端上的输入和信号将发送给会话的前台进程组中的所有进程 </p>
+<p>　　终端上的连接断开时 (比如网络断开或 Modem 断开), 挂起信号将发送到控制进程(session leader)</p>
+<p>　　进程属于一个进程组，进程组属于一个会话，会话可能有也可能没有控制终端。一般而言，当用户在某个终端上登录时，一个新的会话就开始了。进程组由组中的领头进程标识，领头进程的进程标识符就是进程组的组标识符。类似地，每个会话也对应有一个领头进程。</p>
+<p>　　同一会话中的进程通过该会话的领头进程和一个终端相连，该终端作为这个会话的控制终端。一个会话只能有一个控制终端，而一个控制终端只能控制一个会话。用户通过控制终端，可以向该控制终端所控制的会话中的进程发送键盘信号。</p>
+<p>　　 同一会话中只能有一个前台进程组，属于前台进程组的进程可从控制终端获得输入，而其他进程均是后台进程，可能分属于不同的后台进程组。</p>
+<p> 　　当我们打开多个终端窗口时，实际上就创建了多个终端会话。每个会话都会有自己的前台工作和后台工作。</p>
+
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
 
     
 

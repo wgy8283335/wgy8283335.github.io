@@ -38,7 +38,7 @@
 <meta property="og:image" content="http://yoursite.com/images/antlr/9-6.png">
 <meta property="og:image" content="http://yoursite.com/images/antlr/9-11.png">
 <meta property="article:published_time" content="2021-02-01T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-03-07T02:36:21.177Z">
+<meta property="article:modified_time" content="2021-03-20T04:07:05.859Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="ss">
 <meta name="twitter:card" content="summary">
@@ -186,12 +186,12 @@
       <div class="site-state-item site-state-posts">
           <a href="/archives/">
         
-          <span class="site-state-item-count">45</span>
+          <span class="site-state-item-count">49</span>
           <span class="site-state-item-name">posts</span>
         </a>
       </div>
       <div class="site-state-item site-state-tags">
-        <span class="site-state-item-count">7</span>
+        <span class="site-state-item-count">8</span>
         <span class="site-state-item-name">tags</span>
       </div>
   </nav>
@@ -261,7 +261,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-03-07 10:36:21" itemprop="dateModified" datetime="2021-03-07T10:36:21+08:00">2021-03-07</time>
+        <time title="Modified: 2021-03-20 12:07:05" itemprop="dateModified" datetime="2021-03-20T12:07:05+08:00">2021-03-20</time>
       </span>
 
   
@@ -355,7 +355,7 @@
 <h2 id="语法规则"><a href="#语法规则" class="headerlink" title="语法规则"></a>语法规则</h2><h3 id="例子-1"><a href="#例子-1" class="headerlink" title="例子 1"></a>例子 1</h3><p>文件 ArrayInit.g4</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br><span class="line">15</span><br></pre></td><td class="code"><pre><span class="line">&#x2F;** 语法文件通常以grammar关键字开头</span><br><span class="line"> *  这是一个名为ArrayInit的语法，它必须和文件名ArrayInit.g4相匹配</span><br><span class="line"> *&#x2F;</span><br><span class="line">grammar ArrayInit;</span><br><span class="line"></span><br><span class="line">&#x2F;&#x2F;一条名为init的规则，它匹配一对花括号中的、逗号分隔的value</span><br><span class="line">init: &#39;&#123;&#39; value (&#39;,&#39; value)* &#39;)&#39;; &#x2F;&#x2F;必须匹配至少一个value。其中*号用来修饰小括号里的内容，表示任意个。</span><br><span class="line">&#x2F;&#x2F; 一个value可以是嵌套的花括号结构，也可以是一个简单的整数，即INT词法符号</span><br><span class="line">value: init</span><br><span class="line">     | INIT</span><br><span class="line">     ;</span><br><span class="line">&#x2F;&#x2F;语法分析器的规则必须以小写字母开头，词法分析器的规则必须用大写字母开头</span><br><span class="line">INT： [0-9]+;  &#x2F;&#x2F;定义词法符号INT, 它由一个或多个数字组成</span><br><span class="line">WS: [\t\r\n]+ -&gt; skip;     &#x2F;&#x2F;定义词法规则“空白符号”，丢弃之。-&gt; skip表示跳过丢弃的意思。</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
-<p>ANTLR 对 g4 文件解析后，会生成如下文件:ArrayInitParser.java, ArrayInitLexer.java,ArrayInit.tokens,ArrayInitLexer.tokens,ArrayInitListener.java:ArrayBaseListener.java.<br>1 ArrayInitParser.java:对应语法 ArrayInit，每条规则对应里面一个方法。<br>2 ArrayInitLexer.java:用于识别词法规则和文法规则。它是通过 ANTLR 分析词法规则 INT 和 WS，以及语法中的字面值‘{’ ‘}‘ ‘,’生成的。<br>3 ArrrayInit.tokens: ANTLR 会给每个我们定义的词法付豪指定一个数字形式的类型，然后将他们的对应关系存储于该文件中。<br>4 ArrayInitListener.java 和 ArrayBaseListener.java: 在遍历 AST 时,遍历器能够触发一系列事件，并通知我们提供的监听器对象。ArrayInitListener 接口给出了这些回调方法的定义，ArrayBaseListener 是该接口的默认实现类，为其中的每个方法提供了一个空实现。</p>
+<p>ANTLR 对 g4 文件解析后，会生成如下文件:ArrayInitParser.java, ArrayInitLexer.java,ArrayInit.tokens,ArrayInitLexer.tokens,ArrayInitListener.java:ArrayBaseListener.java.<br>1 ArrayInitParser.java:对应语法 ArrayInit，每条规则对应里面一个方法。<br>2 ArrayInitLexer.java:用于识别词法规则和文法规则。它是通过 ANTLR 分析词法规则 INT 和 WS，以及语法中的字面值‘{’ ‘}‘ ‘,’生成的。<br>3 ArrrayInit.tokens: ANTLR 会给每个我们定义的词法符号指定一个数字形式的类型，然后将他们的对应关系存储于该文件中。<br>4 ArrayInitListener.java 和 ArrayBaseListener.java: 在遍历 AST 时,遍历器能够触发一系列事件，并通知我们提供的监听器对象。ArrayInitListener 接口给出了这些回调方法的定义，ArrayBaseListener 是该接口的默认实现类，为其中的每个方法提供了一个空实现。</p>
 <h3 id="ANTLR-语法基本标记"><a href="#ANTLR-语法基本标记" class="headerlink" title="ANTLR 语法基本标记"></a>ANTLR 语法基本标记</h3><ul>
 <li>语法包含一系列描述语言结构的规则。这些规则既包括类似 stat 和 expr 的描述语法结构的规则，也包括描述标识符和整数之类的词汇符号的规则</li>
 <li>语法分析器的规则以小写字母开头</li>
@@ -604,20 +604,30 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br></pre></td><td class="code"><pre><span class="line">grammar T;</span><br><span class="line">&#x2F;*多行</span><br><span class="line">  注释</span><br><span class="line"> *&#x2F;</span><br><span class="line">decl: ID; &#x2F;&#x2F;单行注释</span><br></pre></td></tr></table></figure>
 
 <ol start="2">
-<li>标识符<br>词法符号名和词法规则名总是以大写字母开头。文法规则总是以小写字母开头。首字母之后的字符可以是大小写字符、数字和下划线。</li>
+<li>标识符<br>词法符号名和词法规则名总是以大写字母开头。文法规则总是以小写字母开头。首字母之后的字符可以是大小写字符、数字和下划线。<br>tokens{LEXSYMBOL,ASYMBOL,BSYMBOL} //词法符号名<br>LEXSYMBOL: [0-9a-z]* //词法规则</li>
 </ol>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br></pre></td><td class="code"><pre><span class="line">ID,LPAREN,RIGHT_CURLY &#x2F;&#x2F;词法符号和词法规则名</span><br><span class="line">expr,d2,header_file &#x2F;&#x2F;文法规则名</span><br></pre></td></tr></table></figure>
 
 <pre><code>ANTLR是支持中文等unicode的。同时也支持非unicode，需要在使用ANTLR工具中使用-encoding选项，以便正确读字符。</code></pre>
 <ol start="3">
-<li><p>文本常量</p>
+<li><p>文本常量<br>ANTLR 不区分字符常量和字符串常量，所有的文本常量都是由单引号括起来的字符串，如’;’、’if’、‘&lt;’。文本常量不支持正则表达式。文本常量也可以是 Unicode 转义序列’\u00E8’，或者常见转义序列’\n’、’\r’等。<br>ANTLR 生成的识别器假定语法中的字符都是 Unicode 字符，ANTLR 运行库根据目标语言对输入文件的编码做出假设，例如对于 Java 运行库假定输入文件为 UTF-8 编码。（Unicode 是字符集每个字符一个码，UTF-8 定义了如何使用二进制存储这个码，比如变长或定长，使用 1 个字节还是多个字节）</p>
 </li>
-<li><p>动作</p>
+<li><p>动作<br>动作是使用目标语言编写代码块，由花括号包围的任意文本。内嵌代码可以出现在以@header 和@members 命名的动作、词法和文法规则、指定异常捕获区、文法规则的属性区域，以及一些规则元素的选项。</p>
 </li>
 <li><p>关键字</p>
+<ul>
+<li>不要使用 ANTLR 保留字，ANTLR 语法中的保留字列表:import、tokens、options 等。</li>
+<li>不要使用 rule 这个关键字。rule 虽然不是关键字也要避免将它作为规则或者备选分支，因为这样会使得自动生成的 RuleContext 上下文对象与内之类冲突。</li>
+<li>不要使用目标语言中的关键字作为词法符号、标签或者规则名。例如，if 规则会生成 if()函数。</li>
+</ul>
 </li>
 </ol>
-<h3 id="语法结构"><a href="#语法结构" class="headerlink" title="语法结构"></a>语法结构</h3><h3 id="文法规则"><a href="#文法规则" class="headerlink" title="文法规则"></a>文法规则</h3><h3 id="动作和属性"><a href="#动作和属性" class="headerlink" title="动作和属性"></a>动作和属性</h3><h3 id="词法规则-1"><a href="#词法规则-1" class="headerlink" title="词法规则"></a>词法规则</h3><h3 id="通配符和非贪婪子规则"><a href="#通配符和非贪婪子规则" class="headerlink" title="通配符和非贪婪子规则"></a>通配符和非贪婪子规则</h3><h3 id="语义判定"><a href="#语义判定" class="headerlink" title="语义判定"></a>语义判定</h3>
+<h3 id="语法结构"><a href="#语法结构" class="headerlink" title="语法结构"></a>语法结构</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br></pre></td><td class="code"><pre><span class="line">grammar Name</span><br><span class="line">options&#123;&#125;    &#x2F;&#x2F;可选，options</span><br><span class="line">import...;   &#x2F;&#x2F;可选，import，用来导入词法规则或语法规则</span><br><span class="line">tokens &#123;...&#125; &#x2F;&#x2F;可选，词法符号名，用于定义未在本语法中定义词法规则的词法符号</span><br><span class="line">@actionName&#123;...&#125; &#x2F;&#x2F;可选,动作名。 @actionName可以是@header:在生成的代码头部插入&#123;&#125;中的内容; @member在生成的代码中插入变量，变量内容在&#123;&#125;中定义; @after在进行词法或语法分析后，执行&#123;&#125;中定义的动作。</span><br><span class="line"></span><br><span class="line">&lt;&lt;rule 1&gt;&gt; &#x2F;&#x2F;可能混杂一些词法和文法规则</span><br><span class="line">...</span><br><span class="line">&lt;&lt;rule N&gt;&gt;</span><br></pre></td></tr></table></figure>
+
+<h3 id="文法规则"><a href="#文法规则" class="headerlink" title="文法规则"></a>文法规则</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br></pre></td><td class="code"><pre><span class="line">grammar Name</span><br><span class="line">e : e &#39;*&#39; e # Mult</span><br><span class="line">  | e &#39;+&#39; e # Add</span><br><span class="line">  | INT # Int</span><br><span class="line">  | &#39;return&#39; value &#x3D; a &#39;;&#39; #Return &#x2F;&#x2F;为规则a增加标签value</span><br><span class="line">  | &#39;&#123;&#39; el+&#x3D;INT (, el+&#x3D;INT)* &#39;&#125;&#39; &#x2F;&#x2F;通过+&#x3D;来实现列表标签，就是使用el可以访问一组INT数据</span><br><span class="line">  ;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<p>1.#标签的作用是为每个备选分支都生成一个监听器。不然的话，就只为规则生成监听器。所以标签的名要求不能与已有标签名或者规则名冲突。<br>2.ANTLR 为每个规则生成规则上下文对象，并附带访问方法。NameContext 对象里面包含访问 Econtext 的方法。<br>3.为规则 a 增加标签 value<br> 4.规则元素</p>
+<h3 id="动作和属性"><a href="#动作和属性" class="headerlink" title="动作和属性"></a>动作和属性</h3><h3 id="词法规则-1"><a href="#词法规则-1" class="headerlink" title="词法规则"></a>词法规则</h3><h3 id="通配符和非贪婪子规则"><a href="#通配符和非贪婪子规则" class="headerlink" title="通配符和非贪婪子规则"></a>通配符和非贪婪子规则</h3><h3 id="语义判定"><a href="#语义判定" class="headerlink" title="语义判定"></a>语义判定</h3>
     </div>
 
     
@@ -633,11 +643,14 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 
           <div class="post-nav">
             <div class="post-nav-item">
-                <a href="/2021/01/29/JMX/" rel="prev" title="JMX">
-                  <i class="fa fa-chevron-left"></i> JMX
+                <a href="/2021/02/01/SQLite/" rel="prev" title="SQLite相关">
+                  <i class="fa fa-chevron-left"></i> SQLite相关
                 </a>
             </div>
             <div class="post-nav-item">
+                <a href="/2021/03/26/%E4%BA%8B%E5%8A%A1%E5%B9%B6%E5%8F%91%E7%AE%A1%E7%90%86/" rel="next" title="事务并发管理">
+                  事务并发管理 <i class="fa fa-chevron-right"></i>
+                </a>
             </div>
           </div>
     </footer>
