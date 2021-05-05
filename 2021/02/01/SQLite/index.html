@@ -44,8 +44,15 @@
 <meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-4.4.png">
 <meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-4.5.png">
 <meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-4.6.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.1.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.2.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.3.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.4.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.5.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.7.png">
+<meta property="og:image" content="http://yoursite.com/images/sqlite/sqlite-5.8.png">
 <meta property="article:published_time" content="2021-02-01T13:00:00.000Z">
-<meta property="article:modified_time" content="2021-05-04T02:34:17.247Z">
+<meta property="article:modified_time" content="2021-05-05T02:32:07.970Z">
 <meta property="article:author" content="John Doe">
 <meta property="article:tag" content="数据库">
 <meta name="twitter:card" content="summary">
@@ -179,7 +186,7 @@
       <div class="sidebar-panel-container">
         <!--noindex-->
         <section class="post-toc-wrap sidebar-panel">
-            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text">后端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OS-%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">OS 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pager-%E5%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">Pager 层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage"><span class="nav-number">1.2.1.</span> <span class="nav-text">Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Database-File-Structure"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Database File Structure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Journal-File-Structure"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">Journal File Structure</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">日志管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.3.</span> <span class="nav-text">事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">事务类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lock"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Lock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">锁的兼容性和转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">锁的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unixLock-%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">unixLock 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E5%AF%B9%E9%94%81%E6%97%B6%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E4%BA%8B%E5%8A%A1%EF%BC%8CunixFile%EF%BC%8CunixInodInfo-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.3.6.</span> <span class="nav-text">面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tree-%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">Tree 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-Machine-%E5%B1%82"><span class="nav-number">1.4.</span> <span class="nav-text">Virtual-Machine 层</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">前端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-Machine-%E5%B1%82-1"><span class="nav-number">2.1.</span> <span class="nav-text">Virtual-Machine 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parser-%E5%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">Parser 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokenizer-%E5%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">Tokenizer 层</span></a></li></ol></li></ol></div>
+            <div class="post-toc animated"><ol class="nav"><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%90%8E%E7%AB%AF"><span class="nav-number">1.</span> <span class="nav-text">后端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#OS-%E5%B1%82"><span class="nav-number">1.1.</span> <span class="nav-text">OS 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Pager-%E5%B1%82"><span class="nav-number">1.2.</span> <span class="nav-text">Pager 层</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Storage"><span class="nav-number">1.2.1.</span> <span class="nav-text">Storage</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Database-File-Structure"><span class="nav-number">1.2.1.1.</span> <span class="nav-text">Database File Structure</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Journal-File-Structure"><span class="nav-number">1.2.1.2.</span> <span class="nav-text">Journal File Structure</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E6%97%A5%E5%BF%97%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.2.</span> <span class="nav-text">日志管理</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86"><span class="nav-number">1.2.3.</span> <span class="nav-text">事务管理</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%B1%BB%E5%9E%8B"><span class="nav-number">1.2.3.1.</span> <span class="nav-text">事务类型</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Lock"><span class="nav-number">1.2.3.2.</span> <span class="nav-text">Lock</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%85%BC%E5%AE%B9%E6%80%A7%E5%92%8C%E8%BD%AC%E6%8D%A2"><span class="nav-number">1.2.3.3.</span> <span class="nav-text">锁的兼容性和转换</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%94%81%E7%9A%84%E5%AE%9E%E7%8E%B0"><span class="nav-number">1.2.3.4.</span> <span class="nav-text">锁的实现</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#unixLock-%E6%96%B9%E6%B3%95"><span class="nav-number">1.2.3.5.</span> <span class="nav-text">unixLock 方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E9%9D%A2%E5%AF%B9%E9%94%81%E6%97%B6%E8%BF%9B%E7%A8%8B%EF%BC%8C%E7%BA%BF%E7%A8%8B%EF%BC%8C%E4%BA%8B%E5%8A%A1%EF%BC%8CunixFile%EF%BC%8CunixInodInfo-%E4%B9%8B%E9%97%B4%E7%9A%84%E5%85%B3%E7%B3%BB"><span class="nav-number">1.2.3.6.</span> <span class="nav-text">面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Page-%E6%A8%A1%E5%9D%97"><span class="nav-number">1.2.4.</span> <span class="nav-text">Page 模块</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#Page-%E6%A8%A1%E5%9D%97%E7%AE%80%E4%BB%8B"><span class="nav-number">1.2.4.1.</span> <span class="nav-text">Page 模块简介</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Page-%E6%8E%A5%E5%8F%A3"><span class="nav-number">1.2.4.2.</span> <span class="nav-text">Page 接口</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#Page-Cache"><span class="nav-number">1.2.4.3.</span> <span class="nav-text">Page Cache</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#%E4%BA%8B%E5%8A%A1%E7%AE%A1%E7%90%86-1"><span class="nav-number">1.2.4.4.</span> <span class="nav-text">事务管理</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tree-%E5%B1%82"><span class="nav-number">1.3.</span> <span class="nav-text">Tree 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-Machine-%E5%B1%82"><span class="nav-number">1.4.</span> <span class="nav-text">Virtual-Machine 层</span></a></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#%E5%89%8D%E7%AB%AF"><span class="nav-number">2.</span> <span class="nav-text">前端</span></a><ol class="nav-child"><li class="nav-item nav-level-2"><a class="nav-link" href="#Virtual-Machine-%E5%B1%82-1"><span class="nav-number">2.1.</span> <span class="nav-text">Virtual-Machine 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Parser-%E5%B1%82"><span class="nav-number">2.2.</span> <span class="nav-text">Parser 层</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Tokenizer-%E5%B1%82"><span class="nav-number">2.3.</span> <span class="nav-text">Tokenizer 层</span></a></li></ol></li></ol></div>
         </section>
         <!--/noindex-->
 
@@ -268,7 +275,7 @@
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-04 10:34:17" itemprop="dateModified" datetime="2021-05-04T10:34:17+08:00">2021-05-04</time>
+        <time title="Modified: 2021-05-05 10:32:07" itemprop="dateModified" datetime="2021-05-05T10:32:07+08:00">2021-05-05</time>
       </span>
 
   
@@ -380,6 +387,71 @@
 <p>解开低等级锁，eFileLock 只能是 SHARED_LOCK 或 NO_LOCK。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static int unixUnlock(sqlite3_file *id, int eFileLock)&#123;</span><br><span class="line">  return posixUnlock(id, eFileLock, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
 
+<h3 id="Page-模块"><a href="#Page-模块" class="headerlink" title="Page 模块"></a>Page 模块</h3><h4 id="Page-模块简介"><a href="#Page-模块简介" class="headerlink" title="Page 模块简介"></a>Page 模块简介</h4><p>Page 模块的作用是提供了更高层次访问数据库文件的接口，它将原本面向字节的文件操作转换成了面向 page 的文件操作。Tree 模块完全依赖于 page 来访问数据。Page cache 通过将数据放在内存，加快数据的访问，并负责内存和磁盘间的数据同步。同时 Page 模块对事务，日志，锁管理负责。其中锁管理和日志管理在 SQLite 的事务原子提交特性中起着关键作用。<br>它为每个打开的 database file 维护一个单独的 page cache。如果同一个进程打开 database file 多次，会创建多个 cache 出来。<br>源码阅读参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pfysw/article/details/79121815">https://blog.csdn.net/pfysw/article/details/79121815</a><br><img src="/images/sqlite/sqlite-5.1.png"></p>
+<h4 id="Page-接口"><a href="#Page-接口" class="headerlink" title="Page 接口"></a>Page 接口</h4><p>模块提供了 Pager 对象，它跟 database file 一一对应。tree moudle 使用 pager 来调用读写功能。<br><img src="/images/sqlite/sqlite-5.2.png"></p>
+<p>Pager 的结构中存储，日志文件描述符，数据库文件描述符，日志名，数据库文件名，页缓存，savepoint 数组等信息。<br><img src="/images/sqlite/sqlite-5.3.png"><br>当在用户事务中执行更新操作时是需要 savepoint 的用以失败时的回滚<br><img src="/images/sqlite/sqlite-5.4.png"></p>
+<p>所有接口函数的定义都在<code>pager.c</code>，函数名都是以 sqlite3Pager 开头</p>
+<h4 id="Page-Cache"><a href="#Page-Cache" class="headerlink" title="Page Cache"></a>Page Cache</h4><p>Page caches 位于应用进程的空间中，与操作系统的 cache 无关。每个进程中都保持独立的 Page Object，多个进程打开同一个 database file 的同一个区域，保存多份 page object。一个进程中的多个线程，他们既可以分别独立使用 cache 也可以共享 cache。<br><img src="/images/sqlite/sqlite-5.5.png"></p>
+<ul>
+<li>Cache State<br>Pager 结构体中 eState 和 eLock 两个控制 pager 的行为。<br>eState 有 7 个状态：PAGE_OPEN(pager 刚刚创建),PAGER_READER(位于读事务中，pager 可以读), PAGER_WRITER_LOCKED（位于写事务中，pager 可以写）,PAGER_WRITER_CACHEMOD（位于写事务中且 cache 已被修改）,PAGER_WRITER_DBMOD（位于写事务中且开始向 db file 中写）,PAGER_WRITER_FINISHED（位于写事务中且已写完 db file，准备提交）,PAGER_ERROR（发生读写错误，则进入到 ERROR）。<br>eLock 可以使 Pager 位于如下 4 种状态中：NO_LOCK(pager 没有访问数据),SHARED_LOCK(在多个读事务中，对应的多个 pager 正在读),RESERVED_LOCK(pager 已经预定了 database file 但是还没有开始写),EXCLUSIVE_LOCK（在写事务中，pager 已经在写） 中。<ul>
+<li>一次 pager 的状态转换过程：<ol>
+<li>一个 pager 刚开始是 NO_LOCK 状态；</li>
+<li>tree 模块调用 sqlite3PagerGet()获取 page，pager 进入到 SHARED_LOCK 状态中；</li>
+<li>tree 模块调用 sqlite3PagerUnref()释放所有 page，pager 进入到 NO_LOCK 状态；</li>
+<li>tree 模块调用 sqlite3PagerWrite()，pager 进入到 RESERVED_LOCK 状态；</li>
+<li>pager 进入到 EXCLUSIVE_LOCK，在真正将 page 修改写入到 database file 前；</li>
+<li>在 sqlite3PagerRollback 或 sqlite3PagerCommit 执行过程中，pager 进入到 NO_LOCK 状态。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Cache 组织<br>每个 page cache 都通过一个 PCache handler 对象管理，pager 拥有 PCache handler 对象引用。如下是 PCache 对象的一些成员变量。<br><img src="/images/sqlite/sqlite-5.7.png"><br><code>为了理解Page的重点内容，这里解释下方的图</code>Pager 对象作为整个 Page 模块的主要对象,Pager 定义了成员<code>PCache *pPCache</code>。PCache 定义了成员<code>sqlite3_pcache *pCache</code>，这里 sqlite3_pcache 是一个可插拔模块，PCache1 实现了这个模块。PCache1 结构体中定义了<code>PgHdr1 *apHash</code>PgHdr1 是对 PgHdr 的具体实现。虚线框带包 page cache 的部分，这部分是可插拔的，接口在 sqlite3_pcache_methods2 中定义，PCache1 实现了这些接口。<br><img src="/images/sqlite/sqlite-5.8.png"></li>
+<li>Cache 读<br>对 cache 进行读，使用 page number 作为 key 在 hash 表中搜索，如果搜到则返回。如果没有搜到从 disk 中加载到 cache，然后返回。如果加载时 hash table 没有空间了，则需要删除不用的 page 来加载新的 page，或者将脏页刷进 disk 来回收 page。<br>返回 page 后，改 page 标记为 pinned，使用后 unpinned。这个标记用于回收 page 时使用。</li>
+<li>Cache 写<br>写时需要先刷 journal log，然后再写。同时写的过程中为 dirty，等待内容被刷入 disk。</li>
+<li>Cache Fetch<br>SQlite 遵循 on command fetch，有些数据库能做到 prefetch。</li>
+<li>Cache 管理<br>基本原则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(1) Whenever there is a page in the cache, there is also a master copy of the   page in the database file. Whenever the cache copy is updated, the master copy may need to be updated too.</span><br><span class="line">(2) For a requested page that is not in the cache the master copy is referenced and a new cache copy is made from the  master.</span><br><span class="line">(3) If the cache is full and a new page is to be placed in the cache, a replacement algorithm is invoked to remove some old page from the cache to make room for the new one.</span><br></pre></td></tr></table></figure>
+关键：cache 的管理是否合理的标准就是 cache 的命中率高不高。</li>
+<li>Cache 回收机制<br>SQLite 使用了类似于 LRU 的机制。</li>
+<li>源码阅读<br>testpcache 实现了 sqlite3_pcache_methods2 的接口可以认为是 sqlite3_pcache 的具体实现。可以通过阅读此部分源码，来理解 page cache 管理机制。<code>https://blog.csdn.net/pfysw/article/details/79186613</code>，最重要的函数 testpcacheFetch()。pgno 就是作为 hash 表中的 key。</li>
+</ul>
+<h4 id="事务管理-1"><a href="#事务管理-1" class="headerlink" title="事务管理"></a>事务管理</h4><p>pager 通过管理锁和日志来达到管理事务的目的。它负责决定锁类型，锁获取释放的时机。负责决定日志的内容。它通过两阶段协议来管理并发事务的顺序执行。事务管理分为两个方面：正常流程和恢复流程。</p>
+<ul>
+<li><p>正常流程<br>包括：读写 page，提交事务和 Statement 子事务，创建和保存 savepoints，回收 page cache 和刷新 page-cache 到 risk。</p>
+<ol>
+<li>读操作<br>sqlite3PagerGet()获取或创建 page 在 cache 中。在这个函数中，先获取 shared lock。读取成功后返回指向这个 page cache 的指针。如果是第一次读，这里可以参考 5.8figure，它将 private data 初始化为 0，然后供 tree moudle 调用初始化并存储数据。如何第一次获取锁，在获取 shared lock 时，会判断 hot journal file，如果存在则会先回滚。<br>最后，在 hashtable 中为 page 找到一个位置，然后将 disk 内容载入。</li>
+<li>写操作<br>sqlite3PagerWrite()，负责 pinned the page。pager 需要获得 reserved lock，然后再升级为 exclusive lock。同时要在日志中写入旧数据并刷入 risk。再写入数据到 cache，最后刷到 risk。如果磁盘扇区大于 page 尺寸，则 SQLite 记录整个扇区而不是 page 到日志中。如果已经将 page 信息 copy 到 journal 文件中，则这个 page 不会有新的记录在 journal 文件中，因为这个 journal file 只负责回滚到事务最初状态。</li>
+<li>Cache 刷盘<br>在两种情况下刷盘：1.cache 满了；2.事务提交。刷盘时先刷日志再刷数据。<br>具体过程参考：<a target="_blank" rel="noopener" href="https://www.sqlite.org/atomiccommit.html">https://www.sqlite.org/atomiccommit.html</a></li>
+<li>Commit 操作<br>tree moudle 先调用 sqlite3PagerCommitPhaseOne(),获取 exclusive 锁然后调用系统 IO 接口写入数据并通过 fsync 强制刷盘。后调用 sqlite3PagerCommitPhaseTwo()，关闭 journal file，释放锁并降级锁至 NO_LOCK。<br>commit 的时间点发生在 journal file 被删除，这样才能保证宕机后不会让旧值覆盖了新值。<br>Multidatabase 的情况，需要 VM moudle 来协调，因为 pager 只负责单个数据。这时有个 master journal file 负责记录 single journal file 保证所有单数据的事务能够同步提交或在宕机后回滚。多个数据库的事务之间有可能因为要获取相同的锁，而造成死锁。SQLite 通过 retry 机制来解决。</li>
+<li>Statement 操作<br>Statement 子事务按照匿名 savepoint 来实现，并且在结束时释放。分为 Read，Write,Commit 三种。Write 的操作有些复杂参看 SQLite Database System:5.4.1.5。</li>
+<li>Savepoints<br>创建 Savepoints，当一个用户事务创建一个 savepoint 后，SQLite 就进入了 Savepoint 模式。这个模式下 SQLite 不再删除 statment journal 当 Statement 提交时。而是等到释放所有 Savepoint 才释放。<br>这里 page 存储的方式不同(没有 Savepoint 时，一个 trasaction 只在 journal 中存储一份 page)。当一个 page 被前一个 Statement 加入了 Statement journal，那么这个 page 可以被当前 Statement 加入同一个 Statement journal。这样同一个 stat journal 拥有一个 page 的多个 log。<br>释放 savepoints。当执行 release sp 命令时，PagerSavePoint 对象将被销毁。</li>
+</ol>
+</li>
+<li><p>恢复过程<br>SQLite 需要能够将数据库从错误中恢复，保证数据库的一致性。分为四种情况。</p>
+<ol>
+<li>Transaction abort<br>当事务持有 RESERVED 或 PENDING lock 时，意味着数据文件没有被改变，所以 pager 删除缓存和 journal 文件即可。当事务持有 EXCLUSIVE lock 时，意味数据文件已经被改变。则需要扫描 journal 文件，恢复数据文件中原本的内容和大小，删除缓存，最后释放 EXCLUSIVE lock。</li>
+<li>Statement subtransaction abort<br>SQLite 回滚所有日志从 statement journal 和 rollback journal。</li>
+<li>Reverting to savepoints<br>SQLite 从 Statement journal file 中重放 Savepoint 之后的日志。其中 PagerSavepoint 对象的三个成员很关键：iOffset,iHdrOffset,iSubRec。如果是回滚整个事务，那么只需要回滚 rollback journal 并删除所有 PagerSavepoint 对象。</li>
+<li>Recovery from failure<br>当系统发生宕机后，如果系统中有残留的 journal file 则意味着写事务在执行时失败了，需要使用 journal file 来回滚。<br>整体流程如下：<ol>
+<li>获取 SHARED LOCK 在 database file</li>
+<li>检查是否存在 hot journal file，如果没有则不需要恢复，如果有则继续按照如下步骤执行。</li>
+<li>获取 EXCLUSIVE LOCK 在 database file。如果获取失败，则意味着另一个 pager 正在执行恢复。这是他返回 SQLITE_BUSY</li>
+<li>它读取所有日志记录从 rollback journal file 并且回滚。</li>
+<li>回滚后刷新磁盘，让记录存入 disk file。</li>
+<li>删除 journal file</li>
+<li>删除 master journal file 如果需要的话</li>
+<li>将 lock 等级从 EXCLUSIVE 降低到 SHARED</li>
+</ol>
+</li>
+</ol>
+<p>检测 master journal 过期。如果 mj 中所有 rollback journal 都已经不存在，那么就删除 mj。</p>
+</li>
+<li><p>其他管理问题</p>
+<ol>
+<li>检查点<br>有时为减少故障恢复的时间，一些 database 会定期执行检查点，使得系统出错时可以直接从检查点恢复。SQLite 在 3.7.0 之前的版本并没有检查点。之后才引入检查点。</li>
+<li>空间约束<br>一些 database 在回滚事务时产生了新的日志，此时可能会遇到问题，当系统没有更多空间来存储 journal file 时。SQLite 不会有这个问题，因为在回滚事务时，它不产生新的日志。但是空间不够在某种情况下，也会对 SQLite 造成影响。例如一种极端情况：事务执行时删除了一些数据导致 database file 缩小，当要恢复时文件系统的空间被操作系统其他进程占用了，导致无法在回滚时申请到所需要的空间。</li>
+</ol>
+</li>
+</ul>
 <h2 id="Tree-层"><a href="#Tree-层" class="headerlink" title="Tree 层"></a>Tree 层</h2><h2 id="Virtual-Machine-层"><a href="#Virtual-Machine-层" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><h2 id="Virtual-Machine-层-1"><a href="#Virtual-Machine-层-1" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h2 id="Parser-层"><a href="#Parser-层" class="headerlink" title="Parser 层"></a>Parser 层</h2><h2 id="Tokenizer-层"><a href="#Tokenizer-层" class="headerlink" title="Tokenizer 层"></a>Tokenizer 层</h2>
     </div>
 
