@@ -215,6 +215,245 @@
   
 
   <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/05/01/SQLite/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="image" content="/images/avatar.gif">
+      <meta itemprop="name" content="John Doe">
+      <meta itemprop="description" content="">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Hexo">
+    </span>
+      <header class="post-header">
+        <h2 class="post-title" itemprop="name headline">
+          <a href="/2021/05/01/SQLite/" class="post-title-link" itemprop="url">SQLite相关</a>
+        </h2>
+
+        <div class="post-meta-container">
+          <div class="post-meta">
+    <span class="post-meta-item">
+      <span class="post-meta-item-icon">
+        <i class="far fa-calendar"></i>
+      </span>
+      <span class="post-meta-item-text">Posted on</span>
+
+      <time title="Created: 2021-05-01 21:00:00" itemprop="dateCreated datePublished" datetime="2021-05-01T21:00:00+08:00">2021-05-01</time>
+    </span>
+      <span class="post-meta-item">
+        <span class="post-meta-item-icon">
+          <i class="far fa-calendar-check"></i>
+        </span>
+        <span class="post-meta-item-text">Edited on</span>
+        <time title="Modified: 2021-05-09 16:51:51" itemprop="dateModified" datetime="2021-05-09T16:51:51+08:00">2021-05-09</time>
+      </span>
+
+  
+</div>
+
+        </div>
+      </header>
+
+    
+    
+    
+    <div class="post-body" itemprop="articleBody">
+          <h1 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h1><h2 id="源代码编译和调试"><a href="#源代码编译和调试" class="headerlink" title="源代码编译和调试"></a>源代码编译和调试</h2><p>通过修改 3.7 版本的 makefile 中<code>sqlite3$(TEXE)</code> 可以使用 gdb 断点调试在 sqlite3.c 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlite3$(TEXE):	$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c</span><br><span class="line">	$(LTLINK) $(READLINE_FLAGS) $(SHELL_OPT) -o $@ \</span><br><span class="line">		$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c \</span><br><span class="line">		$(LIBREADLINE) $(TLIBS) -rpath &quot;$(libdir)&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE DEPARTMENT(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br><span class="line">INSERT INTO DEPARTMENT VALUES (1,asd,1);</span><br><span class="line">CREATE TABLE DEPARTMENT2(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br></pre></td></tr></table></figure>
+
+<h2 id="OS-层"><a href="#OS-层" class="headerlink" title="OS 层"></a>OS 层</h2><p><code>sqlite3.h</code>定义了主要的数据结构<br>sqlite3_vfs: 定义了 vps 的名字，核心方法：比如创建文件，删除文件等。<br>sqlite3_io_methods: 定义了操作文件的方法，比如读文件，写文件等。<br>sqlite3_file：代表一个打开了的文件，由 sqlite3_vfs 中的 XOpen 方法返回。sqlite3_file 内部存储一个指向 sqlite3_io_methods 的指针。<br><code>test_demovfs.c</code>是一个 sqlite3_vfs 实现类的样例。C 语言中通过给结构体的函数指针赋值，来完成接口和实现类的连接。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static int demoDelete(sqlite3_vfs *pVfs, const char *zPath, int dirSync)&#123;</span><br><span class="line">    &#x2F;&#x2F;这方法在删除的时候，使用unlink删除文件后。还从zPath中提取目录，然后将删除的工作同步更改到目录中。也就是需要在文件系统中删除对应文件的元数据。这里值得研究！！！linux如何彻底删除一个文件。参考unix高级环境编程。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<h2 id="Pager-层"><a href="#Pager-层" class="headerlink" title="Pager 层"></a>Pager 层</h2><h3 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h3><h4 id="Database-File-Structure"><a href="#Database-File-Structure" class="headerlink" title="Database File Structure"></a>Database File Structure</h4><ol>
+<li>SQLite 将每个 database file 分成了若干个固定大小的区域叫 page。这样 database file 就变成了数组，如下：<br><img src="/images/sqlite/sqlite-3.2.png"></li>
+<li>page size 默认为 1024 bytes。这个值可以在编译时指定或者在创建第一个 table 之前使用命令<code>page_size pragma</code></li>
+<li>page type.包含四中类型：free,tree,pointer-map,lock-byte.</li>
+<li>数据库的元数据存储在第一个 page，其他 page 可以存储任意 page type 的数据。第一个 page 的结构如下<br><img src="/images/sqlite/sqlite-3.3.png"><br>file header 中 1 前 100 字节存储 database file 结构信息，中间部分存储(master catalog table) B+树用于跟踪文件中的其他 page。header 部分的内容如下：<br><img src="/images/sqlite/sqlite-3.4.png"></li>
+<li>freelist 数据结构。它按照如下结构组织数据。trunk pointer 用于指向下一个节点，number of leaves 用于存储叶子指针的数量，leaf page numbers 用于存储 leaf pages 的数量。当 page 不被使用时，SQLite 将它存储进 Freelist 并不换给文件系统。后面有信息 page 需求时，先从 freelist 中找到可用 page。如果想把 page 归还，可以使用 vacuum 命令(手动或自动)清空 page。<br><img src="/images/sqlite/sqlite-3.5.png"></li>
+</ol>
+<h4 id="Journal-File-Structure"><a href="#Journal-File-Structure" class="headerlink" title="Journal File Structure"></a>Journal File Structure</h4><p>SQLite 使用三种日志文件：rollback journal, statement journal, master journal.</p>
+<ul>
+<li>Rollback journal.这个文件是临时文件，与 database file 位于同目录下。每次写事务时创建日志，每次结束时删除日志。<br><img src="/images/sqlite/sqlite-3.6.png"><ul>
+<li>segment header structure.<ul>
+<li>存储记录数，数据库初始 page 数量，sector size， page size，魔数(确认文件类型)等<br><img src="/images/sqlite/sqlite-3.7.png"></li>
+<li>日志文件可以被保留，日志文件需要包含有效的 segment header。</li>
+<li>SQLite 支持异步事务，也就是不强制刷新日志和 database file。这样性能好，但是不具备失败恢复性。</li>
+</ul>
+</li>
+<li>log record structure<ul>
+<li>数据结构如下：checksum 十分重要，因为在新建的文件中，log record 中的数据有可能是早先被删除的文件的内容，如果没有 checksum 做检查，那么脏数据就会被读取。这种将 page number 放在头部，checksum 放在尾部的方式，可以很好地在宕机后发现有问题的数据区域。因为一个区域的写往往是顺序的，如果头部和尾部是正确的，那么中间应该也是正确的。<br><img src="/images/sqlite/sqlite-3.8.png"></li>
+</ul>
+</li>
+</ul>
+</li>
+<li>Statement journal<br>这个 Statement journal 被用来从 statement 失败中恢复数据库。当 Statement 执行成功后，这个文件被删除。<br>通过设置项，可以保留 Statement Journal。</li>
+<li>多数据库事务日志和主日志<br>通常一个数据库只有一个 database file，一个 database file 对应一个事务。但是通过 attach 命令，可以将多个 database file 绑定在一个 sqlite 中。这样在一次事务执行过程中，可以操作多个 database file，每个 database file 都有自己单独的 rollback journal file。如果让多个子 journal file 保持全局原子性，需要使用 master journal。它位于 database file 同级目录，以-mj 结尾。<br>每个子 journal file，拥有 master journal 的名字。如下是子 journal file 的结构<br><img src="/images/sqlite/sqlite-3.9.png"></li>
+</ul>
+<h3 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h3><p>Journal 用于恢复，当事务失败或系统宕机时。每个数据库一个 Journal 文件，与数据库文件位于同目录，‘-journal’结尾命名。每当写事务开启时创建 journal，完成后关闭 journal。<br>SQLite 的使用的日志方式是最简单的且不是很高效。它在 page 级别粒度上记录旧值，使用 undo 方式恢复。SQLite 把将要被改变的数据所在的页的完整内容 copy 进 journal 中。journal 记录 database file 的尺寸在 journal segment header 中，当 journal 文件被创建是。如果 database file 被事务扩大了，那么 journal file 可以让 database file 回滚到原来大小。</p>
+<ul>
+<li>Journaled Page 跟踪：SQLite 使用内存 bit map 数据结构来跟踪哪个 page 被当前事务记录了日志。</li>
+<li>不要给 database file 和 journal file 命名别名。</li>
+<li>WAL。在修改 database file 在 disk 生效之前，一定保证先把日志刷盘，以保证可以在宕机后修复。</li>
+<li>异步事务模式。也就是在提交时不将 journal 文件刷盘，这样速度很快，但是没有恢复能力。临时数据库默认是异步事务，因为宕机时我们不需要恢复临时数据库。</li>
+<li>子事务管理。每个 Statement 子事务通过用户事务获取锁，它并不 刷盘，因为它不承担恢复的责任。一个 log record 写入 Statement journal 仅当在 Statement 执行前相应 page 已经写在了用户事务中。</li>
+</ul>
+<h3 id="事务管理"><a href="#事务管理" class="headerlink" title="事务管理"></a>事务管理</h3><h4 id="事务类型"><a href="#事务类型" class="headerlink" title="事务类型"></a>事务类型</h4><p>几乎所有数据库系统都是用锁来控制并发，使用日志来恢复。一开始 DBMS 首先将修改写入日志的磁盘中，然后再修改数据。当宕机发生时，撤销未完成的事务，重做已完成的事务。</p>
+<ul>
+<li>系统事务<br>SQLite 中读写数据都必须在事务中进行，但是不需要显示指明事务类型，SQLite 根据操作自行分辨。对于 SELECT 语句 SQLite 开始读事务，对于非 SELECT 语句 SQLite 开始读事务，再将读事务升级为写事务。一个 connection 可以同时执行多个 SELECT 语句，但是非 SELECT 在 connection 只能单个执行。也就是多个读事务+单个写事务可以并发执行在一个 connection 上，但多个写事务不行。<br>非 SELECT 语句被原子地执行，执行前 SQLite 获取锁，执行完成释放锁。</li>
+<li>用户事务<br>默认的系统事务，在执行多个写操作时效率很低，因为每执行一个写操作都要操作日志和锁。这时可以使用用户事务<code>BEGIN TRANSACTION</code>和<code>COMMIT</code>来包含多个写操作，减少日志和锁操作。用户定义的事务只包含写操作，读操作仍然是独立的原来的自动提交。如果事务 abort，那么读到那些被事务更改的数据的读操作也将 abort。<br>SQLite 不支持嵌套事务。</li>
+<li>Savepoint<br>在用户事务中可以设置 savepoint，savepoint 是数据库那个时刻的所有数据，可用于回滚当事务失败时。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE t1(a PRIMARY KEY, b);</span><br><span class="line">BEGIN;</span><br><span class="line">INSERT INTO t1 VALUES(1, &#39;one&#39;);</span><br><span class="line">INSERT INTO t1 VALUES(2, &#39;two&#39;);</span><br><span class="line">UPDATE t1 SET a &#x3D; a + 10 &#x2F;&#x2F;UPDATE操作违反了主键唯一性的约束，那么将产生一个冲突，UPDATE前默认创建了一个savepoint，可以用于回滚。当然也可以显示指定。使用&#96;SAVEPOINT&#96;</span><br><span class="line">INSERT INTO t1 VALUES(3,null);</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
+
+</li>
+</ul>
+<h4 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h4><p>数据库的锁是为了保证事务执行的隔离性，通过锁来实现事务访问的顺序性，进而实现了事务的隔离性。<br>SQLite 的锁是数据库级别的锁，将整个数据库锁住(也就是锁住那个数据库文件，SQLite 将一个库的所有内容存储在一个文件中)。SQLite 为了简化锁的复杂度，采取了严格要求并发程度的方式。它允许同一时间任意数量的读事务。但是同一时间只有一个写事务，没有其他读写事务。<br>为了实现事务访问的顺序性，需要使用两阶段锁。<br>Statement 子事务通过所在的父事务获取锁，所有锁持续被事务持有直到事务执行成功或者失败。<br>SQLite 在 unix 平台上的使用来自于 <code>os_unix.c</code> 文件的实现，但要实现对数据库的操作，其核心在于 SQLite 的锁机制。SQLite 采用粗放型的锁。当一个连接要写数据库时，所有其他的连接被锁住，直到写连接结束了它的事务。SQLite 有一个加锁表，来帮助不同的写数据库者能够在最后一刻再加锁，以保证最大的并发性。SQLite 使用锁逐步上升机制，为了写数据库，连接需要逐步地获得排它锁。对于 5 个不同的锁状态：未加锁(UNLOCKED)、共享(SHARED)、保留(RESERVED)、未决(PENDING)和排它(EXCLUSIVE)。每个数据库连接在同一时刻只能处于其中一个状态。每种状态(未加锁状态除外)都有一种锁与之对应。</p>
+<ul>
+<li><p>锁类型：在 SQLite 中为了写数据库，连接需要逐步地获得排它锁。SQLite 有 5 个不同的锁：未加锁(NO_LOCK)、共享锁(SHARED_LOCK)、保留锁(RESERVED_LOCK)、未决锁(PENDING_LOCK)和排它锁(EXCLUSIVE_LOCK)。</p>
+</li>
+<li><p>NO_LOCK：最初的状态是未加锁状态，在此状态下，连接还没有存取数据库。当连接到了一个数据库，甚至已经用 BEGIN 开始了一个事务时，连接都还处于未加锁状态。</p>
+</li>
+<li><p>SHARED 锁：SHARED 锁意味着进程要读（不写）数据库。一个数据库上可以同时有多个进程获得 SHARED 锁，哪个进程能够在 SHARED_FIRST 区域加共享锁(使用 LockFileEx()LockFileEx()函数)，即获得了 SHARED 锁。</p>
+</li>
+<li><p>RESERVED 锁： RESERVED 锁意味着进程将要对数据库进行写操作。一个数据库上同时只能有一个进程拥有 RESERVED 锁。RESERVED 锁可以与 SHARED 锁共存，并可以继续对数据库加新的 SHARED 锁。</p>
+</li>
+<li><p>PENDING 锁：PENDING LOCK 意味着进程已经完成缓存中的数据修改，并想立即将更新写入磁盘。它将等待此时已经存在的读锁事务完成，但是不允许对数据库加新的 SHARED LOCK(这与 RESERVED LOCK 相区别)。</p>
+</li>
+<li><p>EXCLUSIVE 锁：在此锁状态下，进程此时就可以自由地对数据库进行修改了，所有以前对缓冲区所做的修改都会被写到数据库文件。</p>
+</li>
+</ul>
+<h4 id="锁的兼容性和转换"><a href="#锁的兼容性和转换" class="headerlink" title="锁的兼容性和转换"></a>锁的兼容性和转换</h4><p>下表中，每一行行首是指当前锁的类型，每一个列首是指申请的锁类型。Y 代表可以，N 代表不行。</p>
+<p><img src="/images/sqlite/sqlite-4.1.png"></p>
+<p>每一个事务都需要在执行读写操作前获取合适的锁。这是 Pager 的责任从文件上获取锁。<br>5 种锁中，pending 是一种内部类型锁。pager 不能直接跟 lock management 申请 pending。pager 只能申请 exclusive，然后 lock management 根据情况，可能返回拒绝或 pending lock 或 exclusive lock。<br><img src="/images/sqlite/sqlite-4.2.png"><br>一次读事务，nolock-shared lock-no lock.<br>一次写事务，nolock-shared lock-reserved lock- pending lock - Exclusive lock<br>一次事务回滚，nolock-shared lock-pending lock-exclusive lock</p>
+<h4 id="锁的实现"><a href="#锁的实现" class="headerlink" title="锁的实现"></a>锁的实现</h4><p>SQLite 依赖 Linux 的的锁原语，fcnt()它可以提供读锁和写锁，并且指定锁定的文件中范围。<br>文件中的 512 字节用于锁。其中 510 字节用于 shared 锁和 exclusive 锁。fcntl 的读锁这 510 字节，则获取 shared 锁。写锁锁住 510，则获取 exclusive 锁。<br>reserved 锁，是第 511 字节。使用 fcntl()添加写锁。peding 锁在 512 字节，使用 fcntl()添加写锁。<br>这里的读锁为什么范围是 510 的原因是，windows 不支持读锁。那么使用一个大的范围，每个 bytes 单独设置一个写锁，可以支持 510 的写锁。那么这些写锁可以作为 sqlite 并发的读锁。<br><img src="/images/sqlite/sqlite-4.3.png"><br><img src="/images/sqlite/sqlite-4.4.png"></p>
+<h4 id="unixLock-方法"><a href="#unixLock-方法" class="headerlink" title="unixLock 方法"></a>unixLock 方法</h4><p><code>os_unix.c</code> 文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixLock(sqlite3_file *id, int eFileLock) &#x2F;&#x2F;加锁逻辑</span><br></pre></td></tr></table></figure>
+
+<h4 id="面对锁时进程，线程，事务，unixFile，unixInodInfo-之间的关系"><a href="#面对锁时进程，线程，事务，unixFile，unixInodInfo-之间的关系" class="headerlink" title="面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系"></a>面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系</h4><p>Linux 操作系统中。 1.将锁与文件的 inode 联系在一起，而不是使用文件名，因为通过文件可以指向同一个 inode(因为符号链接，硬链接)。 2.锁的获取是通过文件描述符得到的，但是如果文件描述符指向相同的 inode，那么实际的效果还是在操作同一个锁。<br>因此，Linux 的这种机制，使得在同一个 process 下多个线程或 connection(transction)打开相同的文件时会出现问题，比因为对于系统来说它只按照 process+文件来区分锁的粒度。此时多个线程或 transaction 都在操作同一个锁.<br>所以，我们需要 unixInodeInfo 结构体在 process 存储文件锁的整体情况。一个 unixInodeInfo 对象代表一个位于 database file 的 SQLite 锁。一个 process 不能拥有多个指向相同文件的 unixInodeInfo 对象。因为一个 process 可以打开多个文件，所以使用 inodeList 来存储所有 unixInodeInfo 对象。<br><img src="/images/sqlite/sqlite-4.5.png"><br><img src="/images/sqlite/sqlite-4.6.png"></p>
+<ul>
+<li>unixInodeInfo</li>
+</ul>
+<p><code>os_unix.c</code> 文件<br><code>unixInodeInfo</code>结构体，存储了一个进程打开某个文件 iNode 的对应的锁的信息。当进程持有一个文件的 RESERVED 锁，线程如果申请 SHARED 锁，则该进程在 unixInodeInfo 中的 nShared 加 1。如果一个线程申请排它锁，进程则调用 fcntl 获取文件中的排它锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">struct unixInodeInfo &#123;</span><br><span class="line">  struct unixFileId fileId;       &#x2F;* unixInodeInfo 存储在list中，fileId作为key *&#x2F;</span><br><span class="line">  int nShared;                    &#x2F;* 持有SHARED锁的数量 *&#x2F;</span><br><span class="line">  unsigned char eFileLock;        &#x2F;* 进程持有的最高级的锁：SHARED_LOCK, RESERVED_LOCK, NOLOCK, PEDING, EXCLUSIVE. *&#x2F;</span><br><span class="line">  unsigned char bProcessLock;     &#x2F;* An exclusive process lock is held *&#x2F;</span><br><span class="line">  int nRef;                       &#x2F;* 打开的文件数量，因为多个文件可以指向同一个iNode *&#x2F;</span><br><span class="line">  unixShmNode *pShmNode;          &#x2F;* Shared memory associated with this inode *&#x2F;</span><br><span class="line">  int nLock;                      &#x2F;* Number of outstanding file locks *&#x2F;</span><br><span class="line">  UnixUnusedFd *pUnused;          &#x2F;* Unused file descriptors to close *&#x2F;</span><br><span class="line">  unixInodeInfo *pNext;           &#x2F;* List of all unixInodeInfo objects *&#x2F;</span><br><span class="line">  unixInodeInfo *pPrev;           &#x2F;*    .... doubly linked *&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li>unixFile</li>
+</ul>
+<p>位于<code>os_unix.c</code> 文件，SQLite 使用 unixFile 来跟踪一个文件的打开实例。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">struct unixFile &#123;</span><br><span class="line">  sqlite3_io_methods const *pMethod;  &#x2F;* Always the first entry *&#x2F;</span><br><span class="line">  sqlite3_vfs *pVfs;                  &#x2F;* The VFS that created this unixFile *&#x2F;</span><br><span class="line">  unixInodeInfo *pInode;              &#x2F;* Info about locks on this inode *&#x2F;</span><br><span class="line">  int h;                              &#x2F;* The file descriptor *&#x2F;</span><br><span class="line">  unsigned char eFileLock;            &#x2F;* The type of lock held on this fd *&#x2F;</span><br><span class="line">  unsigned short int ctrlFlags;       &#x2F;* Behavioral bits.  UNIXFILE_* flags *&#x2F;</span><br><span class="line">  int lastErrno;                      &#x2F;* The unix errno from last I&#x2F;O error *&#x2F;</span><br><span class="line">  void *lockingContext;               &#x2F;* Locking style specific state *&#x2F;</span><br><span class="line">  UnixUnusedFd *pUnused;              &#x2F;* Pre-allocated UnixUnusedFd *&#x2F;</span><br><span class="line">  const char *zPath;                  &#x2F;* Name of the file *&#x2F;</span><br><span class="line">  unixShm *pShm;                      &#x2F;* Shared memory segment information *&#x2F;</span><br><span class="line">  int szChunk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
+
+<ul>
+<li><p>多线程问题</p>
+<ol>
+<li>LinuxThreads 是按照线程区分 lock，不同线程之间不能覆盖 lock。NPTL(Native Posix Thread Library)从 3.7.0 开始支持的，同 Process 的线程之间可以相互覆盖 lock。</li>
+<li>当一个线程关闭文件时，Linux 将删除 inode 上所有的锁，而不管具体是哪个线程的锁。SQLite 对此进行了优化，单个线程关闭文件时不会立刻删除所有的 lock，而是跟踪，等到 inode 上最后一个文件描述符被关闭时，才将所有文件描述符关闭并将 lock 释放掉。</li>
+</ol>
+</li>
+<li><p>API</p>
+</li>
+</ul>
+<p><code>unixLock</code>包含了完整的锁状态转换和加锁。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixLock(sqlite3_file *id, int eFileLock) &#x2F;&#x2F;加锁逻辑</span><br></pre></td></tr></table></figure>
+
+<p><code>unixFileLock</code>是对 fcntl 和 sqlilte 区域锁实现的封装</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixFileLock(unixFile *pFile, struct flock *pLock)</span><br></pre></td></tr></table></figure>
+
+<p><code>unixUnlock</code>是解锁</p>
+<p>解开低等级锁，eFileLock 只能是 SHARED_LOCK 或 NO_LOCK。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static int unixUnlock(sqlite3_file *id, int eFileLock)&#123;</span><br><span class="line">  return posixUnlock(id, eFileLock, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
+
+<h3 id="Page-模块"><a href="#Page-模块" class="headerlink" title="Page 模块"></a>Page 模块</h3><h4 id="Page-模块简介"><a href="#Page-模块简介" class="headerlink" title="Page 模块简介"></a>Page 模块简介</h4><p>Page 模块的作用是提供了更高层次访问数据库文件的接口，它将原本面向字节的文件操作转换成了面向 page 的文件操作。Tree 模块完全依赖于 page 来访问数据。Page cache 通过将数据放在内存，加快数据的访问，并负责内存和磁盘间的数据同步。同时 Page 模块对事务，日志，锁管理负责。其中锁管理和日志管理在 SQLite 的事务原子提交特性中起着关键作用。<br>它为每个打开的 database file 维护一个单独的 page cache。如果同一个进程打开 database file 多次，会创建多个 cache 出来。<br>源码阅读参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pfysw/article/details/79121815">https://blog.csdn.net/pfysw/article/details/79121815</a><br><img src="/images/sqlite/sqlite-5.1.png"></p>
+<h4 id="Page-接口"><a href="#Page-接口" class="headerlink" title="Page 接口"></a>Page 接口</h4><p>模块提供了 Pager 对象，它跟 database file 一一对应。tree moudle 使用 pager 来调用读写功能。<br><img src="/images/sqlite/sqlite-5.2.png"></p>
+<p>Pager 的结构中存储，日志文件描述符，数据库文件描述符，日志名，数据库文件名，页缓存，savepoint 数组等信息。<br><img src="/images/sqlite/sqlite-5.3.png"><br>当在用户事务中执行更新操作时是需要 savepoint 的用以失败时的回滚<br><img src="/images/sqlite/sqlite-5.4.png"></p>
+<p>所有接口函数的定义都在<code>pager.c</code>，函数名都是以 sqlite3Pager 开头</p>
+<h4 id="Page-Cache"><a href="#Page-Cache" class="headerlink" title="Page Cache"></a>Page Cache</h4><p>Page caches 位于应用进程的空间中，与操作系统的 cache 无关。每个进程中都保持独立的 Page Object，多个进程打开同一个 database file 的同一个区域，保存多份 page object。一个进程中的多个线程，他们既可以分别独立使用 cache 也可以共享 cache。<br><img src="/images/sqlite/sqlite-5.5.png"></p>
+<ul>
+<li>Cache State<br>Pager 结构体中 eState 和 eLock 两个控制 pager 的行为。<br>eState 有 7 个状态：PAGE_OPEN(pager 刚刚创建),PAGER_READER(位于读事务中，pager 可以读), PAGER_WRITER_LOCKED（位于写事务中，pager 可以写）,PAGER_WRITER_CACHEMOD（位于写事务中且 cache 已被修改）,PAGER_WRITER_DBMOD（位于写事务中且开始向 db file 中写）,PAGER_WRITER_FINISHED（位于写事务中且已写完 db file，准备提交）,PAGER_ERROR（发生读写错误，则进入到 ERROR）。<br>eLock 可以使 Pager 位于如下 4 种状态中：NO_LOCK(pager 没有访问数据),SHARED_LOCK(在多个读事务中，对应的多个 pager 正在读),RESERVED_LOCK(pager 已经预定了 database file 但是还没有开始写),EXCLUSIVE_LOCK（在写事务中，pager 已经在写） 中。<ul>
+<li>一次 pager 的状态转换过程：<ol>
+<li>一个 pager 刚开始是 NO_LOCK 状态；</li>
+<li>tree 模块调用 sqlite3PagerGet()获取 page，pager 进入到 SHARED_LOCK 状态中；</li>
+<li>tree 模块调用 sqlite3PagerUnref()释放所有 page，pager 进入到 NO_LOCK 状态；</li>
+<li>tree 模块调用 sqlite3PagerWrite()，pager 进入到 RESERVED_LOCK 状态；</li>
+<li>pager 进入到 EXCLUSIVE_LOCK，在真正将 page 修改写入到 database file 前；</li>
+<li>在 sqlite3PagerRollback 或 sqlite3PagerCommit 执行过程中，pager 进入到 NO_LOCK 状态。</li>
+</ol>
+</li>
+</ul>
+</li>
+<li>Cache 组织<br>每个 page cache 都通过一个 PCache handler 对象管理，pager 拥有 PCache handler 对象引用。如下是 PCache 对象的一些成员变量。<br><img src="/images/sqlite/sqlite-5.7.png"><br><code>为了理解Page的重点内容，这里解释下方的图</code>Pager 对象作为整个 Page 模块的主要对象,Pager 定义了成员<code>PCache *pPCache</code>。PCache 定义了成员<code>sqlite3_pcache *pCache</code>，这里 sqlite3_pcache 是一个可插拔模块，PCache1 实现了这个模块。PCache1 结构体中定义了<code>PgHdr1 *apHash</code>PgHdr1 是对 PgHdr 的具体实现。虚线框带包 page cache 的部分，这部分是可插拔的，接口在 sqlite3_pcache_methods2 中定义，PCache1 实现了这些接口。在 hash 桶的 slot 中分为 PgHdr1 和 slot image 两部分。slot image 持有:PgHdr, a database page image, 一个 private data 用于 btree 保存 page 相关的控制信息。<br><img src="/images/sqlite/sqlite-5.8.png"></li>
+<li>Cache 读<br>对 cache 进行读，使用 page number 作为 key 在 hash 表中搜索，如果搜到则返回。如果没有搜到从 disk 中加载到 cache，然后返回。如果加载时 hash table 没有空间了，则需要删除不用的 page 来加载新的 page，或者将脏页刷进 disk 来回收 page。<br>返回 page 后，改 page 标记为 pinned，使用后 unpinned。这个标记用于回收 page 时使用。</li>
+<li>Cache 写<br>写时需要先刷 journal log，然后再写。同时写的过程中为 dirty，等待内容被刷入 disk。</li>
+<li>Cache Fetch<br>SQlite 遵循 on command fetch，有些数据库能做到 prefetch。</li>
+<li>Cache 管理<br>基本原则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(1) Whenever there is a page in the cache, there is also a master copy of the   page in the database file. Whenever the cache copy is updated, the master copy may need to be updated too.</span><br><span class="line">(2) For a requested page that is not in the cache the master copy is referenced and a new cache copy is made from the  master.</span><br><span class="line">(3) If the cache is full and a new page is to be placed in the cache, a replacement algorithm is invoked to remove some old page from the cache to make room for the new one.</span><br></pre></td></tr></table></figure>
+关键：cache 的管理是否合理的标准就是 cache 的命中率高不高。</li>
+<li>Cache 回收机制<br>SQLite 使用了类似于 LRU 的机制。</li>
+<li>源码阅读<br>testpcache 实现了 sqlite3_pcache_methods2 的接口可以认为是 sqlite3_pcache 的具体实现。可以通过阅读此部分源码，来理解 page cache 管理机制。<code>https://blog.csdn.net/pfysw/article/details/79186613</code>，最重要的函数 testpcacheFetch()。pgno 就是作为 hash 表中的 key。</li>
+</ul>
+<h4 id="事务管理-1"><a href="#事务管理-1" class="headerlink" title="事务管理"></a>事务管理</h4><p>pager 通过管理锁和日志来达到管理事务的目的。它负责决定锁类型，锁获取释放的时机。负责决定日志的内容。它通过两阶段协议来管理并发事务的顺序执行。事务管理分为两个方面：正常流程和恢复流程。</p>
+<ul>
+<li><p>正常流程<br>包括：读写 page，提交事务和 Statement 子事务，创建和保存 savepoints，回收 page cache 和刷新 page-cache 到 risk。</p>
+<ol>
+<li>读操作<br>sqlite3PagerGet()获取或创建 page 在 cache 中。在这个函数中，先获取 shared lock。读取成功后返回指向这个 page cache 的指针。如果是第一次读，这里可以参考 5.8figure，它将 private data 初始化为 0，然后供 tree moudle 调用初始化并存储数据。如何第一次获取锁，在获取 shared lock 时，会判断 hot journal file，如果存在则会先回滚。<br>最后，在 hashtable 中为 page 找到一个位置，然后将 disk 内容载入。</li>
+<li>写操作<br>sqlite3PagerWrite()，负责 pinned the page。pager 需要获得 reserved lock，然后再升级为 exclusive lock。同时要在日志中写入旧数据并刷入 risk。再写入数据到 cache，最后刷到 risk。如果磁盘扇区大于 page 尺寸，则 SQLite 记录整个扇区而不是 page 到日志中。如果已经将 page 信息 copy 到 journal 文件中，则这个 page 不会有新的记录在 journal 文件中，因为这个 journal file 只负责回滚到事务最初状态。</li>
+<li>Cache 刷盘<br>在两种情况下刷盘：1.cache 满了；2.事务提交。刷盘时先刷日志再刷数据。<br>具体过程参考：<a target="_blank" rel="noopener" href="https://www.sqlite.org/atomiccommit.html">https://www.sqlite.org/atomiccommit.html</a></li>
+<li>Commit 操作<br>tree moudle 先调用 sqlite3PagerCommitPhaseOne(),获取 exclusive 锁然后调用系统 IO 接口写入数据并通过 fsync 强制刷盘。后调用 sqlite3PagerCommitPhaseTwo()，关闭 journal file，释放锁并降级锁至 NO_LOCK。<br>commit 的时间点发生在 journal file 被删除，这样才能保证宕机后不会让旧值覆盖了新值。<br>Multidatabase 的情况，需要 VM moudle 来协调，因为 pager 只负责单个数据。这时有个 master journal file 负责记录 single journal file 保证所有单数据的事务能够同步提交或在宕机后回滚。多个数据库的事务之间有可能因为要获取相同的锁，而造成死锁。SQLite 通过 retry 机制来解决。</li>
+<li>Statement 操作<br>Statement 子事务按照匿名 savepoint 来实现，并且在结束时释放。分为 Read，Write,Commit 三种。Write 的操作有些复杂参看 SQLite Database System:5.4.1.5。</li>
+<li>Savepoints<br>创建 Savepoints，当一个用户事务创建一个 savepoint 后，SQLite 就进入了 Savepoint 模式。这个模式下 SQLite 不再删除 statment journal 当 Statement 提交时。而是等到释放所有 Savepoint 才释放。<br>这里 page 存储的方式不同(没有 Savepoint 时，一个 trasaction 只在 journal 中存储一份 page)。当一个 page 被前一个 Statement 加入了 Statement journal，那么这个 page 可以被当前 Statement 加入同一个 Statement journal。这样同一个 stat journal 拥有一个 page 的多个 log。<br>释放 savepoints。当执行 release sp 命令时，PagerSavePoint 对象将被销毁。</li>
+</ol>
+</li>
+<li><p>恢复过程<br>SQLite 需要能够将数据库从错误中恢复，保证数据库的一致性。分为四种情况。</p>
+<ol>
+<li>Transaction abort<br>当事务持有 RESERVED 或 PENDING lock 时，意味着数据文件没有被改变，所以 pager 删除缓存和 journal 文件即可。当事务持有 EXCLUSIVE lock 时，意味数据文件已经被改变。则需要扫描 journal 文件，恢复数据文件中原本的内容和大小，删除缓存，最后释放 EXCLUSIVE lock。</li>
+<li>Statement subtransaction abort<br>SQLite 回滚所有日志从 statement journal 和 rollback journal。</li>
+<li>Reverting to savepoints<br>SQLite 从 Statement journal file 中重放 Savepoint 之后的日志。其中 PagerSavepoint 对象的三个成员很关键：iOffset,iHdrOffset,iSubRec。如果是回滚整个事务，那么只需要回滚 rollback journal 并删除所有 PagerSavepoint 对象。</li>
+<li>Recovery from failure<br>当系统发生宕机后，如果系统中有残留的 journal file 则意味着写事务在执行时失败了，需要使用 journal file 来回滚。<br>整体流程如下：<ol>
+<li>获取 SHARED LOCK 在 database file</li>
+<li>检查是否存在 hot journal file，如果没有则不需要恢复，如果有则继续按照如下步骤执行。</li>
+<li>获取 EXCLUSIVE LOCK 在 database file。如果获取失败，则意味着另一个 pager 正在执行恢复。这是他返回 SQLITE_BUSY</li>
+<li>它读取所有日志记录从 rollback journal file 并且回滚。</li>
+<li>回滚后刷新磁盘，让记录存入 disk file。</li>
+<li>删除 journal file</li>
+<li>删除 master journal file 如果需要的话</li>
+<li>将 lock 等级从 EXCLUSIVE 降低到 SHARED</li>
+</ol>
+</li>
+</ol>
+<p>检测 master journal 过期。如果 mj 中所有 rollback journal 都已经不存在，那么就删除 mj。</p>
+</li>
+<li><p>其他管理问题</p>
+<ol>
+<li>检查点<br>有时为减少故障恢复的时间，一些 database 会定期执行检查点，使得系统出错时可以直接从检查点恢复。SQLite 在 3.7.0 之前的版本并没有检查点。之后才引入检查点。</li>
+<li>空间约束<br>一些 database 在回滚事务时产生了新的日志，此时可能会遇到问题，当系统没有更多空间来存储 journal file 时。SQLite 不会有这个问题，因为在回滚事务时，它不产生新的日志。但是空间不够在某种情况下，也会对 SQLite 造成影响。例如一种极端情况：事务执行时删除了一些数据导致 database file 缩小，当要恢复时文件系统的空间被操作系统其他进程占用了，导致无法在回滚时申请到所需要的空间。</li>
+</ol>
+</li>
+</ul>
+<h2 id="Tree-层"><a href="#Tree-层" class="headerlink" title="Tree 层"></a>Tree 层</h2><h2 id="Virtual-Machine-层"><a href="#Virtual-Machine-层" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><h2 id="Virtual-Machine-层-1"><a href="#Virtual-Machine-层-1" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h2 id="Parser-层"><a href="#Parser-层" class="headerlink" title="Parser 层"></a>Parser 层</h2><h2 id="Tokenizer-层"><a href="#Tokenizer-层" class="headerlink" title="Tokenizer 层"></a>Tokenizer 层</h2>
+      
+    </div>
+
+    
+    
+    
+
+    <footer class="post-footer">
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+</div>
+
+
+
+
+    
+
+
+<div class="post-block">
+  
+  
+
+  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/03/31/wrk/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -824,245 +1063,6 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 
 <p>1.#标签的作用是为每个备选分支都生成一个监听器。不然的话，就只为规则生成监听器。所以标签的名要求不能与已有标签名或者规则名冲突。<br>2.ANTLR 为每个规则生成规则上下文对象，并附带访问方法。NameContext 对象里面包含访问 Econtext 的方法。<br>3.为规则 a 增加标签 value<br> 4.规则元素</p>
 <h3 id="动作和属性"><a href="#动作和属性" class="headerlink" title="动作和属性"></a>动作和属性</h3><h3 id="词法规则-1"><a href="#词法规则-1" class="headerlink" title="词法规则"></a>词法规则</h3><h3 id="通配符和非贪婪子规则"><a href="#通配符和非贪婪子规则" class="headerlink" title="通配符和非贪婪子规则"></a>通配符和非贪婪子规则</h3><h3 id="语义判定"><a href="#语义判定" class="headerlink" title="语义判定"></a>语义判定</h3>
-      
-    </div>
-
-    
-    
-    
-
-    <footer class="post-footer">
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-</div>
-
-
-
-
-    
-
-
-<div class="post-block">
-  
-  
-
-  <article itemscope itemtype="http://schema.org/Article" class="post-content" lang="">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2021/02/01/SQLite/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="image" content="/images/avatar.gif">
-      <meta itemprop="name" content="John Doe">
-      <meta itemprop="description" content="">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Hexo">
-    </span>
-      <header class="post-header">
-        <h2 class="post-title" itemprop="name headline">
-          <a href="/2021/02/01/SQLite/" class="post-title-link" itemprop="url">SQLite相关</a>
-        </h2>
-
-        <div class="post-meta-container">
-          <div class="post-meta">
-    <span class="post-meta-item">
-      <span class="post-meta-item-icon">
-        <i class="far fa-calendar"></i>
-      </span>
-      <span class="post-meta-item-text">Posted on</span>
-
-      <time title="Created: 2021-02-01 21:00:00" itemprop="dateCreated datePublished" datetime="2021-02-01T21:00:00+08:00">2021-02-01</time>
-    </span>
-      <span class="post-meta-item">
-        <span class="post-meta-item-icon">
-          <i class="far fa-calendar-check"></i>
-        </span>
-        <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-09 16:45:34" itemprop="dateModified" datetime="2021-05-09T16:45:34+08:00">2021-05-09</time>
-      </span>
-
-  
-</div>
-
-        </div>
-      </header>
-
-    
-    
-    
-    <div class="post-body" itemprop="articleBody">
-          <h1 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h1><h2 id="源代码编译和调试"><a href="#源代码编译和调试" class="headerlink" title="源代码编译和调试"></a>源代码编译和调试</h2><p>通过修改 3.7 版本的 makefile 中<code>sqlite3$(TEXE)</code> 可以使用 gdb 断点调试在 sqlite3.c 中</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlite3$(TEXE):	$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c</span><br><span class="line">	$(LTLINK) $(READLINE_FLAGS) $(SHELL_OPT) -o $@ \</span><br><span class="line">		$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c \</span><br><span class="line">		$(LIBREADLINE) $(TLIBS) -rpath &quot;$(libdir)&quot;</span><br></pre></td></tr></table></figure>
-
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE DEPARTMENT(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br><span class="line">INSERT INTO DEPARTMENT VALUES (1,asd,1);</span><br><span class="line">CREATE TABLE DEPARTMENT2(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br></pre></td></tr></table></figure>
-
-<h2 id="OS-层"><a href="#OS-层" class="headerlink" title="OS 层"></a>OS 层</h2><p><code>sqlite3.h</code>定义了主要的数据结构<br>sqlite3_vfs: 定义了 vps 的名字，核心方法：比如创建文件，删除文件等。<br>sqlite3_io_methods: 定义了操作文件的方法，比如读文件，写文件等。<br>sqlite3_file：代表一个打开了的文件，由 sqlite3_vfs 中的 XOpen 方法返回。sqlite3_file 内部存储一个指向 sqlite3_io_methods 的指针。<br><code>test_demovfs.c</code>是一个 sqlite3_vfs 实现类的样例。C 语言中通过给结构体的函数指针赋值，来完成接口和实现类的连接。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static int demoDelete(sqlite3_vfs *pVfs, const char *zPath, int dirSync)&#123;</span><br><span class="line">    &#x2F;&#x2F;这方法在删除的时候，使用unlink删除文件后。还从zPath中提取目录，然后将删除的工作同步更改到目录中。也就是需要在文件系统中删除对应文件的元数据。这里值得研究！！！linux如何彻底删除一个文件。参考unix高级环境编程。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<h2 id="Pager-层"><a href="#Pager-层" class="headerlink" title="Pager 层"></a>Pager 层</h2><h3 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h3><h4 id="Database-File-Structure"><a href="#Database-File-Structure" class="headerlink" title="Database File Structure"></a>Database File Structure</h4><ol>
-<li>SQLite 将每个 database file 分成了若干个固定大小的区域叫 page。这样 database file 就变成了数组，如下：<br><img src="/images/sqlite/sqlite-3.2.png"></li>
-<li>page size 默认为 1024 bytes。这个值可以在编译时指定或者在创建第一个 table 之前使用命令<code>page_size pragma</code></li>
-<li>page type.包含四中类型：free,tree,pointer-map,lock-byte.</li>
-<li>数据库的元数据存储在第一个 page，其他 page 可以存储任意 page type 的数据。第一个 page 的结构如下<br><img src="/images/sqlite/sqlite-3.3.png"><br>file header 中 1 前 100 字节存储 database file 结构信息，中间部分存储(master catalog table) B+树用于跟踪文件中的其他 page。header 部分的内容如下：<br><img src="/images/sqlite/sqlite-3.4.png"></li>
-<li>freelist 数据结构。它按照如下结构组织数据。trunk pointer 用于指向下一个节点，number of leaves 用于存储叶子指针的数量，leaf page numbers 用于存储 leaf pages 的数量。当 page 不被使用时，SQLite 将它存储进 Freelist 并不换给文件系统。后面有信息 page 需求时，先从 freelist 中找到可用 page。如果想把 page 归还，可以使用 vacuum 命令(手动或自动)清空 page。<br><img src="/images/sqlite/sqlite-3.5.png"></li>
-</ol>
-<h4 id="Journal-File-Structure"><a href="#Journal-File-Structure" class="headerlink" title="Journal File Structure"></a>Journal File Structure</h4><p>SQLite 使用三种日志文件：rollback journal, statement journal, master journal.</p>
-<ul>
-<li>Rollback journal.这个文件是临时文件，与 database file 位于同目录下。每次写事务时创建日志，每次结束时删除日志。<br><img src="/images/sqlite/sqlite-3.6.png"><ul>
-<li>segment header structure.<ul>
-<li>存储记录数，数据库初始 page 数量，sector size， page size，魔数(确认文件类型)等<br><img src="/images/sqlite/sqlite-3.7.png"></li>
-<li>日志文件可以被保留，日志文件需要包含有效的 segment header。</li>
-<li>SQLite 支持异步事务，也就是不强制刷新日志和 database file。这样性能好，但是不具备失败恢复性。</li>
-</ul>
-</li>
-<li>log record structure<ul>
-<li>数据结构如下：checksum 十分重要，因为在新建的文件中，log record 中的数据有可能是早先被删除的文件的内容，如果没有 checksum 做检查，那么脏数据就会被读取。这种将 page number 放在头部，checksum 放在尾部的方式，可以很好地在宕机后发现有问题的数据区域。因为一个区域的写往往是顺序的，如果头部和尾部是正确的，那么中间应该也是正确的。<br><img src="/images/sqlite/sqlite-3.8.png"></li>
-</ul>
-</li>
-</ul>
-</li>
-<li>Statement journal<br>这个 Statement journal 被用来从 statement 失败中恢复数据库。当 Statement 执行成功后，这个文件被删除。<br>通过设置项，可以保留 Statement Journal。</li>
-<li>多数据库事务日志和主日志<br>通常一个数据库只有一个 database file，一个 database file 对应一个事务。但是通过 attach 命令，可以将多个 database file 绑定在一个 sqlite 中。这样在一次事务执行过程中，可以操作多个 database file，每个 database file 都有自己单独的 rollback journal file。如果让多个子 journal file 保持全局原子性，需要使用 master journal。它位于 database file 同级目录，以-mj 结尾。<br>每个子 journal file，拥有 master journal 的名字。如下是子 journal file 的结构<br><img src="/images/sqlite/sqlite-3.9.png"></li>
-</ul>
-<h3 id="日志管理"><a href="#日志管理" class="headerlink" title="日志管理"></a>日志管理</h3><p>Journal 用于恢复，当事务失败或系统宕机时。每个数据库一个 Journal 文件，与数据库文件位于同目录，‘-journal’结尾命名。每当写事务开启时创建 journal，完成后关闭 journal。<br>SQLite 的使用的日志方式是最简单的且不是很高效。它在 page 级别粒度上记录旧值，使用 undo 方式恢复。SQLite 把将要被改变的数据所在的页的完整内容 copy 进 journal 中。journal 记录 database file 的尺寸在 journal segment header 中，当 journal 文件被创建是。如果 database file 被事务扩大了，那么 journal file 可以让 database file 回滚到原来大小。</p>
-<ul>
-<li>Journaled Page 跟踪：SQLite 使用内存 bit map 数据结构来跟踪哪个 page 被当前事务记录了日志。</li>
-<li>不要给 database file 和 journal file 命名别名。</li>
-<li>WAL。在修改 database file 在 disk 生效之前，一定保证先把日志刷盘，以保证可以在宕机后修复。</li>
-<li>异步事务模式。也就是在提交时不将 journal 文件刷盘，这样速度很快，但是没有恢复能力。临时数据库默认是异步事务，因为宕机时我们不需要恢复临时数据库。</li>
-<li>子事务管理。每个 Statement 子事务通过用户事务获取锁，它并不 刷盘，因为它不承担恢复的责任。一个 log record 写入 Statement journal 仅当在 Statement 执行前相应 page 已经写在了用户事务中。</li>
-</ul>
-<h3 id="事务管理"><a href="#事务管理" class="headerlink" title="事务管理"></a>事务管理</h3><h4 id="事务类型"><a href="#事务类型" class="headerlink" title="事务类型"></a>事务类型</h4><p>几乎所有数据库系统都是用锁来控制并发，使用日志来恢复。一开始 DBMS 首先将修改写入日志的磁盘中，然后再修改数据。当宕机发生时，撤销未完成的事务，重做已完成的事务。</p>
-<ul>
-<li>系统事务<br>SQLite 中读写数据都必须在事务中进行，但是不需要显示指明事务类型，SQLite 根据操作自行分辨。对于 SELECT 语句 SQLite 开始读事务，对于非 SELECT 语句 SQLite 开始读事务，再将读事务升级为写事务。一个 connection 可以同时执行多个 SELECT 语句，但是非 SELECT 在 connection 只能单个执行。也就是多个读事务+单个写事务可以并发执行在一个 connection 上，但多个写事务不行。<br>非 SELECT 语句被原子地执行，执行前 SQLite 获取锁，执行完成释放锁。</li>
-<li>用户事务<br>默认的系统事务，在执行多个写操作时效率很低，因为每执行一个写操作都要操作日志和锁。这时可以使用用户事务<code>BEGIN TRANSACTION</code>和<code>COMMIT</code>来包含多个写操作，减少日志和锁操作。用户定义的事务只包含写操作，读操作仍然是独立的原来的自动提交。如果事务 abort，那么读到那些被事务更改的数据的读操作也将 abort。<br>SQLite 不支持嵌套事务。</li>
-<li>Savepoint<br>在用户事务中可以设置 savepoint，savepoint 是数据库那个时刻的所有数据，可用于回滚当事务失败时。<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE t1(a PRIMARY KEY, b);</span><br><span class="line">BEGIN;</span><br><span class="line">INSERT INTO t1 VALUES(1, &#39;one&#39;);</span><br><span class="line">INSERT INTO t1 VALUES(2, &#39;two&#39;);</span><br><span class="line">UPDATE t1 SET a &#x3D; a + 10 &#x2F;&#x2F;UPDATE操作违反了主键唯一性的约束，那么将产生一个冲突，UPDATE前默认创建了一个savepoint，可以用于回滚。当然也可以显示指定。使用&#96;SAVEPOINT&#96;</span><br><span class="line">INSERT INTO t1 VALUES(3,null);</span><br><span class="line">COMMIT;</span><br></pre></td></tr></table></figure>
-
-</li>
-</ul>
-<h4 id="Lock"><a href="#Lock" class="headerlink" title="Lock"></a>Lock</h4><p>数据库的锁是为了保证事务执行的隔离性，通过锁来实现事务访问的顺序性，进而实现了事务的隔离性。<br>SQLite 的锁是数据库级别的锁，将整个数据库锁住(也就是锁住那个数据库文件，SQLite 将一个库的所有内容存储在一个文件中)。SQLite 为了简化锁的复杂度，采取了严格要求并发程度的方式。它允许同一时间任意数量的读事务。但是同一时间只有一个写事务，没有其他读写事务。<br>为了实现事务访问的顺序性，需要使用两阶段锁。<br>Statement 子事务通过所在的父事务获取锁，所有锁持续被事务持有直到事务执行成功或者失败。<br>SQLite 在 unix 平台上的使用来自于 <code>os_unix.c</code> 文件的实现，但要实现对数据库的操作，其核心在于 SQLite 的锁机制。SQLite 采用粗放型的锁。当一个连接要写数据库时，所有其他的连接被锁住，直到写连接结束了它的事务。SQLite 有一个加锁表，来帮助不同的写数据库者能够在最后一刻再加锁，以保证最大的并发性。SQLite 使用锁逐步上升机制，为了写数据库，连接需要逐步地获得排它锁。对于 5 个不同的锁状态：未加锁(UNLOCKED)、共享(SHARED)、保留(RESERVED)、未决(PENDING)和排它(EXCLUSIVE)。每个数据库连接在同一时刻只能处于其中一个状态。每种状态(未加锁状态除外)都有一种锁与之对应。</p>
-<ul>
-<li><p>锁类型：在 SQLite 中为了写数据库，连接需要逐步地获得排它锁。SQLite 有 5 个不同的锁：未加锁(NO_LOCK)、共享锁(SHARED_LOCK)、保留锁(RESERVED_LOCK)、未决锁(PENDING_LOCK)和排它锁(EXCLUSIVE_LOCK)。</p>
-</li>
-<li><p>NO_LOCK：最初的状态是未加锁状态，在此状态下，连接还没有存取数据库。当连接到了一个数据库，甚至已经用 BEGIN 开始了一个事务时，连接都还处于未加锁状态。</p>
-</li>
-<li><p>SHARED 锁：SHARED 锁意味着进程要读（不写）数据库。一个数据库上可以同时有多个进程获得 SHARED 锁，哪个进程能够在 SHARED_FIRST 区域加共享锁(使用 LockFileEx()LockFileEx()函数)，即获得了 SHARED 锁。</p>
-</li>
-<li><p>RESERVED 锁： RESERVED 锁意味着进程将要对数据库进行写操作。一个数据库上同时只能有一个进程拥有 RESERVED 锁。RESERVED 锁可以与 SHARED 锁共存，并可以继续对数据库加新的 SHARED 锁。</p>
-</li>
-<li><p>PENDING 锁：PENDING LOCK 意味着进程已经完成缓存中的数据修改，并想立即将更新写入磁盘。它将等待此时已经存在的读锁事务完成，但是不允许对数据库加新的 SHARED LOCK(这与 RESERVED LOCK 相区别)。</p>
-</li>
-<li><p>EXCLUSIVE 锁：在此锁状态下，进程此时就可以自由地对数据库进行修改了，所有以前对缓冲区所做的修改都会被写到数据库文件。</p>
-</li>
-</ul>
-<h4 id="锁的兼容性和转换"><a href="#锁的兼容性和转换" class="headerlink" title="锁的兼容性和转换"></a>锁的兼容性和转换</h4><p>下表中，每一行行首是指当前锁的类型，每一个列首是指申请的锁类型。Y 代表可以，N 代表不行。</p>
-<p><img src="/images/sqlite/sqlite-4.1.png"></p>
-<p>每一个事务都需要在执行读写操作前获取合适的锁。这是 Pager 的责任从文件上获取锁。<br>5 种锁中，pending 是一种内部类型锁。pager 不能直接跟 lock management 申请 pending。pager 只能申请 exclusive，然后 lock management 根据情况，可能返回拒绝或 pending lock 或 exclusive lock。<br><img src="/images/sqlite/sqlite-4.2.png"><br>一次读事务，nolock-shared lock-no lock.<br>一次写事务，nolock-shared lock-reserved lock- pending lock - Exclusive lock<br>一次事务回滚，nolock-shared lock-pending lock-exclusive lock</p>
-<h4 id="锁的实现"><a href="#锁的实现" class="headerlink" title="锁的实现"></a>锁的实现</h4><p>SQLite 依赖 Linux 的的锁原语，fcnt()它可以提供读锁和写锁，并且指定锁定的文件中范围。<br>文件中的 512 字节用于锁。其中 510 字节用于 shared 锁和 exclusive 锁。fcntl 的读锁这 510 字节，则获取 shared 锁。写锁锁住 510，则获取 exclusive 锁。<br>reserved 锁，是第 511 字节。使用 fcntl()添加写锁。peding 锁在 512 字节，使用 fcntl()添加写锁。<br>这里的读锁为什么范围是 510 的原因是，windows 不支持读锁。那么使用一个大的范围，每个 bytes 单独设置一个写锁，可以支持 510 的写锁。那么这些写锁可以作为 sqlite 并发的读锁。<br><img src="/images/sqlite/sqlite-4.3.png"><br><img src="/images/sqlite/sqlite-4.4.png"></p>
-<h4 id="unixLock-方法"><a href="#unixLock-方法" class="headerlink" title="unixLock 方法"></a>unixLock 方法</h4><p><code>os_unix.c</code> 文件</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixLock(sqlite3_file *id, int eFileLock) &#x2F;&#x2F;加锁逻辑</span><br></pre></td></tr></table></figure>
-
-<h4 id="面对锁时进程，线程，事务，unixFile，unixInodInfo-之间的关系"><a href="#面对锁时进程，线程，事务，unixFile，unixInodInfo-之间的关系" class="headerlink" title="面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系"></a>面对锁时进程，线程，事务，unixFile，unixInodInfo 之间的关系</h4><p>Linux 操作系统中。 1.将锁与文件的 inode 联系在一起，而不是使用文件名，因为通过文件可以指向同一个 inode(因为符号链接，硬链接)。 2.锁的获取是通过文件描述符得到的，但是如果文件描述符指向相同的 inode，那么实际的效果还是在操作同一个锁。<br>因此，Linux 的这种机制，使得在同一个 process 下多个线程或 connection(transction)打开相同的文件时会出现问题，比因为对于系统来说它只按照 process+文件来区分锁的粒度。此时多个线程或 transaction 都在操作同一个锁.<br>所以，我们需要 unixInodeInfo 结构体在 process 存储文件锁的整体情况。一个 unixInodeInfo 对象代表一个位于 database file 的 SQLite 锁。一个 process 不能拥有多个指向相同文件的 unixInodeInfo 对象。因为一个 process 可以打开多个文件，所以使用 inodeList 来存储所有 unixInodeInfo 对象。<br><img src="/images/sqlite/sqlite-4.5.png"><br><img src="/images/sqlite/sqlite-4.6.png"></p>
-<ul>
-<li>unixInodeInfo</li>
-</ul>
-<p><code>os_unix.c</code> 文件<br><code>unixInodeInfo</code>结构体，存储了一个进程打开某个文件 iNode 的对应的锁的信息。当进程持有一个文件的 RESERVED 锁，线程如果申请 SHARED 锁，则该进程在 unixInodeInfo 中的 nShared 加 1。如果一个线程申请排它锁，进程则调用 fcntl 获取文件中的排它锁。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br></pre></td><td class="code"><pre><span class="line">struct unixInodeInfo &#123;</span><br><span class="line">  struct unixFileId fileId;       &#x2F;* unixInodeInfo 存储在list中，fileId作为key *&#x2F;</span><br><span class="line">  int nShared;                    &#x2F;* 持有SHARED锁的数量 *&#x2F;</span><br><span class="line">  unsigned char eFileLock;        &#x2F;* 进程持有的最高级的锁：SHARED_LOCK, RESERVED_LOCK, NOLOCK, PEDING, EXCLUSIVE. *&#x2F;</span><br><span class="line">  unsigned char bProcessLock;     &#x2F;* An exclusive process lock is held *&#x2F;</span><br><span class="line">  int nRef;                       &#x2F;* 打开的文件数量，因为多个文件可以指向同一个iNode *&#x2F;</span><br><span class="line">  unixShmNode *pShmNode;          &#x2F;* Shared memory associated with this inode *&#x2F;</span><br><span class="line">  int nLock;                      &#x2F;* Number of outstanding file locks *&#x2F;</span><br><span class="line">  UnixUnusedFd *pUnused;          &#x2F;* Unused file descriptors to close *&#x2F;</span><br><span class="line">  unixInodeInfo *pNext;           &#x2F;* List of all unixInodeInfo objects *&#x2F;</span><br><span class="line">  unixInodeInfo *pPrev;           &#x2F;*    .... doubly linked *&#x2F;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li>unixFile</li>
-</ul>
-<p>位于<code>os_unix.c</code> 文件，SQLite 使用 unixFile 来跟踪一个文件的打开实例。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br><span class="line">5</span><br><span class="line">6</span><br><span class="line">7</span><br><span class="line">8</span><br><span class="line">9</span><br><span class="line">10</span><br><span class="line">11</span><br><span class="line">12</span><br><span class="line">13</span><br><span class="line">14</span><br></pre></td><td class="code"><pre><span class="line">struct unixFile &#123;</span><br><span class="line">  sqlite3_io_methods const *pMethod;  &#x2F;* Always the first entry *&#x2F;</span><br><span class="line">  sqlite3_vfs *pVfs;                  &#x2F;* The VFS that created this unixFile *&#x2F;</span><br><span class="line">  unixInodeInfo *pInode;              &#x2F;* Info about locks on this inode *&#x2F;</span><br><span class="line">  int h;                              &#x2F;* The file descriptor *&#x2F;</span><br><span class="line">  unsigned char eFileLock;            &#x2F;* The type of lock held on this fd *&#x2F;</span><br><span class="line">  unsigned short int ctrlFlags;       &#x2F;* Behavioral bits.  UNIXFILE_* flags *&#x2F;</span><br><span class="line">  int lastErrno;                      &#x2F;* The unix errno from last I&#x2F;O error *&#x2F;</span><br><span class="line">  void *lockingContext;               &#x2F;* Locking style specific state *&#x2F;</span><br><span class="line">  UnixUnusedFd *pUnused;              &#x2F;* Pre-allocated UnixUnusedFd *&#x2F;</span><br><span class="line">  const char *zPath;                  &#x2F;* Name of the file *&#x2F;</span><br><span class="line">  unixShm *pShm;                      &#x2F;* Shared memory segment information *&#x2F;</span><br><span class="line">  int szChunk;</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
-
-<ul>
-<li><p>多线程问题</p>
-<ol>
-<li>LinuxThreads 是按照线程区分 lock，不同线程之间不能覆盖 lock。NPTL(Native Posix Thread Library)从 3.7.0 开始支持的，同 Process 的线程之间可以相互覆盖 lock。</li>
-<li>当一个线程关闭文件时，Linux 将删除 inode 上所有的锁，而不管具体是哪个线程的锁。SQLite 对此进行了优化，单个线程关闭文件时不会立刻删除所有的 lock，而是跟踪，等到 inode 上最后一个文件描述符被关闭时，才将所有文件描述符关闭并将 lock 释放掉。</li>
-</ol>
-</li>
-<li><p>API</p>
-</li>
-</ul>
-<p><code>unixLock</code>包含了完整的锁状态转换和加锁。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixLock(sqlite3_file *id, int eFileLock) &#x2F;&#x2F;加锁逻辑</span><br></pre></td></tr></table></figure>
-
-<p><code>unixFileLock</code>是对 fcntl 和 sqlilte 区域锁实现的封装</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br></pre></td><td class="code"><pre><span class="line">static int unixFileLock(unixFile *pFile, struct flock *pLock)</span><br></pre></td></tr></table></figure>
-
-<p><code>unixUnlock</code>是解锁</p>
-<p>解开低等级锁，eFileLock 只能是 SHARED_LOCK 或 NO_LOCK。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">static int unixUnlock(sqlite3_file *id, int eFileLock)&#123;</span><br><span class="line">  return posixUnlock(id, eFileLock, 0);</span><br><span class="line">&#125;</span><br><span class="line"></span><br></pre></td></tr></table></figure>
-
-<h3 id="Page-模块"><a href="#Page-模块" class="headerlink" title="Page 模块"></a>Page 模块</h3><h4 id="Page-模块简介"><a href="#Page-模块简介" class="headerlink" title="Page 模块简介"></a>Page 模块简介</h4><p>Page 模块的作用是提供了更高层次访问数据库文件的接口，它将原本面向字节的文件操作转换成了面向 page 的文件操作。Tree 模块完全依赖于 page 来访问数据。Page cache 通过将数据放在内存，加快数据的访问，并负责内存和磁盘间的数据同步。同时 Page 模块对事务，日志，锁管理负责。其中锁管理和日志管理在 SQLite 的事务原子提交特性中起着关键作用。<br>它为每个打开的 database file 维护一个单独的 page cache。如果同一个进程打开 database file 多次，会创建多个 cache 出来。<br>源码阅读参考：<a target="_blank" rel="noopener" href="https://blog.csdn.net/pfysw/article/details/79121815">https://blog.csdn.net/pfysw/article/details/79121815</a><br><img src="/images/sqlite/sqlite-5.1.png"></p>
-<h4 id="Page-接口"><a href="#Page-接口" class="headerlink" title="Page 接口"></a>Page 接口</h4><p>模块提供了 Pager 对象，它跟 database file 一一对应。tree moudle 使用 pager 来调用读写功能。<br><img src="/images/sqlite/sqlite-5.2.png"></p>
-<p>Pager 的结构中存储，日志文件描述符，数据库文件描述符，日志名，数据库文件名，页缓存，savepoint 数组等信息。<br><img src="/images/sqlite/sqlite-5.3.png"><br>当在用户事务中执行更新操作时是需要 savepoint 的用以失败时的回滚<br><img src="/images/sqlite/sqlite-5.4.png"></p>
-<p>所有接口函数的定义都在<code>pager.c</code>，函数名都是以 sqlite3Pager 开头</p>
-<h4 id="Page-Cache"><a href="#Page-Cache" class="headerlink" title="Page Cache"></a>Page Cache</h4><p>Page caches 位于应用进程的空间中，与操作系统的 cache 无关。每个进程中都保持独立的 Page Object，多个进程打开同一个 database file 的同一个区域，保存多份 page object。一个进程中的多个线程，他们既可以分别独立使用 cache 也可以共享 cache。<br><img src="/images/sqlite/sqlite-5.5.png"></p>
-<ul>
-<li>Cache State<br>Pager 结构体中 eState 和 eLock 两个控制 pager 的行为。<br>eState 有 7 个状态：PAGE_OPEN(pager 刚刚创建),PAGER_READER(位于读事务中，pager 可以读), PAGER_WRITER_LOCKED（位于写事务中，pager 可以写）,PAGER_WRITER_CACHEMOD（位于写事务中且 cache 已被修改）,PAGER_WRITER_DBMOD（位于写事务中且开始向 db file 中写）,PAGER_WRITER_FINISHED（位于写事务中且已写完 db file，准备提交）,PAGER_ERROR（发生读写错误，则进入到 ERROR）。<br>eLock 可以使 Pager 位于如下 4 种状态中：NO_LOCK(pager 没有访问数据),SHARED_LOCK(在多个读事务中，对应的多个 pager 正在读),RESERVED_LOCK(pager 已经预定了 database file 但是还没有开始写),EXCLUSIVE_LOCK（在写事务中，pager 已经在写） 中。<ul>
-<li>一次 pager 的状态转换过程：<ol>
-<li>一个 pager 刚开始是 NO_LOCK 状态；</li>
-<li>tree 模块调用 sqlite3PagerGet()获取 page，pager 进入到 SHARED_LOCK 状态中；</li>
-<li>tree 模块调用 sqlite3PagerUnref()释放所有 page，pager 进入到 NO_LOCK 状态；</li>
-<li>tree 模块调用 sqlite3PagerWrite()，pager 进入到 RESERVED_LOCK 状态；</li>
-<li>pager 进入到 EXCLUSIVE_LOCK，在真正将 page 修改写入到 database file 前；</li>
-<li>在 sqlite3PagerRollback 或 sqlite3PagerCommit 执行过程中，pager 进入到 NO_LOCK 状态。</li>
-</ol>
-</li>
-</ul>
-</li>
-<li>Cache 组织<br>每个 page cache 都通过一个 PCache handler 对象管理，pager 拥有 PCache handler 对象引用。如下是 PCache 对象的一些成员变量。<br><img src="/images/sqlite/sqlite-5.7.png"><br><code>为了理解Page的重点内容，这里解释下方的图</code>Pager 对象作为整个 Page 模块的主要对象,Pager 定义了成员<code>PCache *pPCache</code>。PCache 定义了成员<code>sqlite3_pcache *pCache</code>，这里 sqlite3_pcache 是一个可插拔模块，PCache1 实现了这个模块。PCache1 结构体中定义了<code>PgHdr1 *apHash</code>PgHdr1 是对 PgHdr 的具体实现。虚线框带包 page cache 的部分，这部分是可插拔的，接口在 sqlite3_pcache_methods2 中定义，PCache1 实现了这些接口。在 hash 桶的 slot 中分为 PgHdr1 和 slot image 两部分。slot image 持有:PgHdr, a database page image, 一个 private data 用于 btree 保存 page 相关的控制信息。<br><img src="/images/sqlite/sqlite-5.8.png"></li>
-<li>Cache 读<br>对 cache 进行读，使用 page number 作为 key 在 hash 表中搜索，如果搜到则返回。如果没有搜到从 disk 中加载到 cache，然后返回。如果加载时 hash table 没有空间了，则需要删除不用的 page 来加载新的 page，或者将脏页刷进 disk 来回收 page。<br>返回 page 后，改 page 标记为 pinned，使用后 unpinned。这个标记用于回收 page 时使用。</li>
-<li>Cache 写<br>写时需要先刷 journal log，然后再写。同时写的过程中为 dirty，等待内容被刷入 disk。</li>
-<li>Cache Fetch<br>SQlite 遵循 on command fetch，有些数据库能做到 prefetch。</li>
-<li>Cache 管理<br>基本原则：<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">(1) Whenever there is a page in the cache, there is also a master copy of the   page in the database file. Whenever the cache copy is updated, the master copy may need to be updated too.</span><br><span class="line">(2) For a requested page that is not in the cache the master copy is referenced and a new cache copy is made from the  master.</span><br><span class="line">(3) If the cache is full and a new page is to be placed in the cache, a replacement algorithm is invoked to remove some old page from the cache to make room for the new one.</span><br></pre></td></tr></table></figure>
-关键：cache 的管理是否合理的标准就是 cache 的命中率高不高。</li>
-<li>Cache 回收机制<br>SQLite 使用了类似于 LRU 的机制。</li>
-<li>源码阅读<br>testpcache 实现了 sqlite3_pcache_methods2 的接口可以认为是 sqlite3_pcache 的具体实现。可以通过阅读此部分源码，来理解 page cache 管理机制。<code>https://blog.csdn.net/pfysw/article/details/79186613</code>，最重要的函数 testpcacheFetch()。pgno 就是作为 hash 表中的 key。</li>
-</ul>
-<h4 id="事务管理-1"><a href="#事务管理-1" class="headerlink" title="事务管理"></a>事务管理</h4><p>pager 通过管理锁和日志来达到管理事务的目的。它负责决定锁类型，锁获取释放的时机。负责决定日志的内容。它通过两阶段协议来管理并发事务的顺序执行。事务管理分为两个方面：正常流程和恢复流程。</p>
-<ul>
-<li><p>正常流程<br>包括：读写 page，提交事务和 Statement 子事务，创建和保存 savepoints，回收 page cache 和刷新 page-cache 到 risk。</p>
-<ol>
-<li>读操作<br>sqlite3PagerGet()获取或创建 page 在 cache 中。在这个函数中，先获取 shared lock。读取成功后返回指向这个 page cache 的指针。如果是第一次读，这里可以参考 5.8figure，它将 private data 初始化为 0，然后供 tree moudle 调用初始化并存储数据。如何第一次获取锁，在获取 shared lock 时，会判断 hot journal file，如果存在则会先回滚。<br>最后，在 hashtable 中为 page 找到一个位置，然后将 disk 内容载入。</li>
-<li>写操作<br>sqlite3PagerWrite()，负责 pinned the page。pager 需要获得 reserved lock，然后再升级为 exclusive lock。同时要在日志中写入旧数据并刷入 risk。再写入数据到 cache，最后刷到 risk。如果磁盘扇区大于 page 尺寸，则 SQLite 记录整个扇区而不是 page 到日志中。如果已经将 page 信息 copy 到 journal 文件中，则这个 page 不会有新的记录在 journal 文件中，因为这个 journal file 只负责回滚到事务最初状态。</li>
-<li>Cache 刷盘<br>在两种情况下刷盘：1.cache 满了；2.事务提交。刷盘时先刷日志再刷数据。<br>具体过程参考：<a target="_blank" rel="noopener" href="https://www.sqlite.org/atomiccommit.html">https://www.sqlite.org/atomiccommit.html</a></li>
-<li>Commit 操作<br>tree moudle 先调用 sqlite3PagerCommitPhaseOne(),获取 exclusive 锁然后调用系统 IO 接口写入数据并通过 fsync 强制刷盘。后调用 sqlite3PagerCommitPhaseTwo()，关闭 journal file，释放锁并降级锁至 NO_LOCK。<br>commit 的时间点发生在 journal file 被删除，这样才能保证宕机后不会让旧值覆盖了新值。<br>Multidatabase 的情况，需要 VM moudle 来协调，因为 pager 只负责单个数据。这时有个 master journal file 负责记录 single journal file 保证所有单数据的事务能够同步提交或在宕机后回滚。多个数据库的事务之间有可能因为要获取相同的锁，而造成死锁。SQLite 通过 retry 机制来解决。</li>
-<li>Statement 操作<br>Statement 子事务按照匿名 savepoint 来实现，并且在结束时释放。分为 Read，Write,Commit 三种。Write 的操作有些复杂参看 SQLite Database System:5.4.1.5。</li>
-<li>Savepoints<br>创建 Savepoints，当一个用户事务创建一个 savepoint 后，SQLite 就进入了 Savepoint 模式。这个模式下 SQLite 不再删除 statment journal 当 Statement 提交时。而是等到释放所有 Savepoint 才释放。<br>这里 page 存储的方式不同(没有 Savepoint 时，一个 trasaction 只在 journal 中存储一份 page)。当一个 page 被前一个 Statement 加入了 Statement journal，那么这个 page 可以被当前 Statement 加入同一个 Statement journal。这样同一个 stat journal 拥有一个 page 的多个 log。<br>释放 savepoints。当执行 release sp 命令时，PagerSavePoint 对象将被销毁。</li>
-</ol>
-</li>
-<li><p>恢复过程<br>SQLite 需要能够将数据库从错误中恢复，保证数据库的一致性。分为四种情况。</p>
-<ol>
-<li>Transaction abort<br>当事务持有 RESERVED 或 PENDING lock 时，意味着数据文件没有被改变，所以 pager 删除缓存和 journal 文件即可。当事务持有 EXCLUSIVE lock 时，意味数据文件已经被改变。则需要扫描 journal 文件，恢复数据文件中原本的内容和大小，删除缓存，最后释放 EXCLUSIVE lock。</li>
-<li>Statement subtransaction abort<br>SQLite 回滚所有日志从 statement journal 和 rollback journal。</li>
-<li>Reverting to savepoints<br>SQLite 从 Statement journal file 中重放 Savepoint 之后的日志。其中 PagerSavepoint 对象的三个成员很关键：iOffset,iHdrOffset,iSubRec。如果是回滚整个事务，那么只需要回滚 rollback journal 并删除所有 PagerSavepoint 对象。</li>
-<li>Recovery from failure<br>当系统发生宕机后，如果系统中有残留的 journal file 则意味着写事务在执行时失败了，需要使用 journal file 来回滚。<br>整体流程如下：<ol>
-<li>获取 SHARED LOCK 在 database file</li>
-<li>检查是否存在 hot journal file，如果没有则不需要恢复，如果有则继续按照如下步骤执行。</li>
-<li>获取 EXCLUSIVE LOCK 在 database file。如果获取失败，则意味着另一个 pager 正在执行恢复。这是他返回 SQLITE_BUSY</li>
-<li>它读取所有日志记录从 rollback journal file 并且回滚。</li>
-<li>回滚后刷新磁盘，让记录存入 disk file。</li>
-<li>删除 journal file</li>
-<li>删除 master journal file 如果需要的话</li>
-<li>将 lock 等级从 EXCLUSIVE 降低到 SHARED</li>
-</ol>
-</li>
-</ol>
-<p>检测 master journal 过期。如果 mj 中所有 rollback journal 都已经不存在，那么就删除 mj。</p>
-</li>
-<li><p>其他管理问题</p>
-<ol>
-<li>检查点<br>有时为减少故障恢复的时间，一些 database 会定期执行检查点，使得系统出错时可以直接从检查点恢复。SQLite 在 3.7.0 之前的版本并没有检查点。之后才引入检查点。</li>
-<li>空间约束<br>一些 database 在回滚事务时产生了新的日志，此时可能会遇到问题，当系统没有更多空间来存储 journal file 时。SQLite 不会有这个问题，因为在回滚事务时，它不产生新的日志。但是空间不够在某种情况下，也会对 SQLite 造成影响。例如一种极端情况：事务执行时删除了一些数据导致 database file 缩小，当要恢复时文件系统的空间被操作系统其他进程占用了，导致无法在回滚时申请到所需要的空间。</li>
-</ol>
-</li>
-</ul>
-<h2 id="Tree-层"><a href="#Tree-层" class="headerlink" title="Tree 层"></a>Tree 层</h2><h2 id="Virtual-Machine-层"><a href="#Virtual-Machine-层" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h1 id="前端"><a href="#前端" class="headerlink" title="前端"></a>前端</h1><h2 id="Virtual-Machine-层-1"><a href="#Virtual-Machine-层-1" class="headerlink" title="Virtual-Machine 层"></a>Virtual-Machine 层</h2><h2 id="Parser-层"><a href="#Parser-层" class="headerlink" title="Parser 层"></a>Parser 层</h2><h2 id="Tokenizer-层"><a href="#Tokenizer-层" class="headerlink" title="Tokenizer 层"></a>Tokenizer 层</h2>
       
     </div>
 
