@@ -880,7 +880,7 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
           <i class="far fa-calendar-check"></i>
         </span>
         <span class="post-meta-item-text">Edited on</span>
-        <time title="Modified: 2021-05-05 10:32:07" itemprop="dateModified" datetime="2021-05-05T10:32:07+08:00">2021-05-05</time>
+        <time title="Modified: 2021-05-09 16:45:34" itemprop="dateModified" datetime="2021-05-09T16:45:34+08:00">2021-05-09</time>
       </span>
 
   
@@ -893,7 +893,12 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
     
     
     <div class="post-body" itemprop="articleBody">
-          <h1 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h1><h2 id="OS-层"><a href="#OS-层" class="headerlink" title="OS 层"></a>OS 层</h2><p><code>sqlite3.h</code>定义了主要的数据结构<br>sqlite3_vfs: 定义了 vps 的名字，核心方法：比如创建文件，删除文件等。<br>sqlite3_io_methods: 定义了操作文件的方法，比如读文件，写文件等。<br>sqlite3_file：代表一个打开了的文件，由 sqlite3_vfs 中的 XOpen 方法返回。sqlite3_file 内部存储一个指向 sqlite3_io_methods 的指针。<br><code>test_demovfs.c</code>是一个 sqlite3_vfs 实现类的样例。C 语言中通过给结构体的函数指针赋值，来完成接口和实现类的连接。</p>
+          <h1 id="后端"><a href="#后端" class="headerlink" title="后端"></a>后端</h1><h2 id="源代码编译和调试"><a href="#源代码编译和调试" class="headerlink" title="源代码编译和调试"></a>源代码编译和调试</h2><p>通过修改 3.7 版本的 makefile 中<code>sqlite3$(TEXE)</code> 可以使用 gdb 断点调试在 sqlite3.c 中</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br><span class="line">4</span><br></pre></td><td class="code"><pre><span class="line">sqlite3$(TEXE):	$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c</span><br><span class="line">	$(LTLINK) $(READLINE_FLAGS) $(SHELL_OPT) -o $@ \</span><br><span class="line">		$(TOP)&#x2F;src&#x2F;shell.c sqlite3.c \</span><br><span class="line">		$(LIBREADLINE) $(TLIBS) -rpath &quot;$(libdir)&quot;</span><br></pre></td></tr></table></figure>
+
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">CREATE TABLE DEPARTMENT(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br><span class="line">INSERT INTO DEPARTMENT VALUES (1,asd,1);</span><br><span class="line">CREATE TABLE DEPARTMENT2(ID INT PRIMARY KEY NOT NULL,DEPT CHAR(50) NOT NULL,EMP_ID INT NOT NULL);</span><br></pre></td></tr></table></figure>
+
+<h2 id="OS-层"><a href="#OS-层" class="headerlink" title="OS 层"></a>OS 层</h2><p><code>sqlite3.h</code>定义了主要的数据结构<br>sqlite3_vfs: 定义了 vps 的名字，核心方法：比如创建文件，删除文件等。<br>sqlite3_io_methods: 定义了操作文件的方法，比如读文件，写文件等。<br>sqlite3_file：代表一个打开了的文件，由 sqlite3_vfs 中的 XOpen 方法返回。sqlite3_file 内部存储一个指向 sqlite3_io_methods 的指针。<br><code>test_demovfs.c</code>是一个 sqlite3_vfs 实现类的样例。C 语言中通过给结构体的函数指针赋值，来完成接口和实现类的连接。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><span class="line">1</span><br><span class="line">2</span><br><span class="line">3</span><br></pre></td><td class="code"><pre><span class="line">static int demoDelete(sqlite3_vfs *pVfs, const char *zPath, int dirSync)&#123;</span><br><span class="line">    &#x2F;&#x2F;这方法在删除的时候，使用unlink删除文件后。还从zPath中提取目录，然后将删除的工作同步更改到目录中。也就是需要在文件系统中删除对应文件的元数据。这里值得研究！！！linux如何彻底删除一个文件。参考unix高级环境编程。</span><br><span class="line">&#125;</span><br></pre></td></tr></table></figure>
 
 <h2 id="Pager-层"><a href="#Pager-层" class="headerlink" title="Pager 层"></a>Pager 层</h2><h3 id="Storage"><a href="#Storage" class="headerlink" title="Storage"></a>Storage</h3><h4 id="Database-File-Structure"><a href="#Database-File-Structure" class="headerlink" title="Database File Structure"></a>Database File Structure</h4><ol>
@@ -1010,7 +1015,7 @@ ANTLR 通过规则上下文对象来实现语法分析树的节点，每次规�
 </li>
 </ul>
 </li>
-<li>Cache 组织<br>每个 page cache 都通过一个 PCache handler 对象管理，pager 拥有 PCache handler 对象引用。如下是 PCache 对象的一些成员变量。<br><img src="/images/sqlite/sqlite-5.7.png"><br><code>为了理解Page的重点内容，这里解释下方的图</code>Pager 对象作为整个 Page 模块的主要对象,Pager 定义了成员<code>PCache *pPCache</code>。PCache 定义了成员<code>sqlite3_pcache *pCache</code>，这里 sqlite3_pcache 是一个可插拔模块，PCache1 实现了这个模块。PCache1 结构体中定义了<code>PgHdr1 *apHash</code>PgHdr1 是对 PgHdr 的具体实现。虚线框带包 page cache 的部分，这部分是可插拔的，接口在 sqlite3_pcache_methods2 中定义，PCache1 实现了这些接口。<br><img src="/images/sqlite/sqlite-5.8.png"></li>
+<li>Cache 组织<br>每个 page cache 都通过一个 PCache handler 对象管理，pager 拥有 PCache handler 对象引用。如下是 PCache 对象的一些成员变量。<br><img src="/images/sqlite/sqlite-5.7.png"><br><code>为了理解Page的重点内容，这里解释下方的图</code>Pager 对象作为整个 Page 模块的主要对象,Pager 定义了成员<code>PCache *pPCache</code>。PCache 定义了成员<code>sqlite3_pcache *pCache</code>，这里 sqlite3_pcache 是一个可插拔模块，PCache1 实现了这个模块。PCache1 结构体中定义了<code>PgHdr1 *apHash</code>PgHdr1 是对 PgHdr 的具体实现。虚线框带包 page cache 的部分，这部分是可插拔的，接口在 sqlite3_pcache_methods2 中定义，PCache1 实现了这些接口。在 hash 桶的 slot 中分为 PgHdr1 和 slot image 两部分。slot image 持有:PgHdr, a database page image, 一个 private data 用于 btree 保存 page 相关的控制信息。<br><img src="/images/sqlite/sqlite-5.8.png"></li>
 <li>Cache 读<br>对 cache 进行读，使用 page number 作为 key 在 hash 表中搜索，如果搜到则返回。如果没有搜到从 disk 中加载到 cache，然后返回。如果加载时 hash table 没有空间了，则需要删除不用的 page 来加载新的 page，或者将脏页刷进 disk 来回收 page。<br>返回 page 后，改 page 标记为 pinned，使用后 unpinned。这个标记用于回收 page 时使用。</li>
 <li>Cache 写<br>写时需要先刷 journal log，然后再写。同时写的过程中为 dirty，等待内容被刷入 disk。</li>
 <li>Cache Fetch<br>SQlite 遵循 on command fetch，有些数据库能做到 prefetch。</li>
